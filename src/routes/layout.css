@@ -1,0 +1,249 @@
+@import "tailwindcss";
+
+/*
+ * The reef palette. Every colour in the Scene comes from here, including the
+ * artwork — see docs/svg-art-brief.md, which uses the same values.
+ */
+@theme {
+  --color-water-deep: #0b3d5c;
+  --color-water-mid: #124f73;
+  --color-water-shallow: #1a6f96;
+  --color-water-highlight: #3fa9c9;
+  --color-sand: #e6d3a3;
+  --color-coral-pink: #ff7a8a;
+  --color-coral-orange: #ff9f5a;
+  --color-coral-purple: #a06cd5;
+  --color-weed-dark: #2e8b57;
+  --color-weed-light: #3fae6d;
+  --color-accent-yellow: #ffd166;
+  --color-accent-red: #ef476f;
+  --color-accent-teal: #4ecdc4;
+  --color-cream: #f4f1de;
+  --color-shadow: #2b2b3a;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: var(--color-water-deep);
+  overflow: hidden;
+}
+
+/*
+ * Too Loud. The whole Scene clouds over — no badge, no icon, nothing aimed at
+ * an individual animal, and slow enough that it cannot be played with as a
+ * party trick. See docs/adr/0001-nothing-is-taken-away.md.
+ */
+.scene-water {
+  /* Always its own stacking context, so the veil below can sit above every
+     Creature without ever climbing over the teacher's controls. */
+  isolation: isolate;
+  transition:
+    filter 1200ms ease,
+    opacity 1200ms ease;
+}
+
+.scene-water[data-murky="true"] {
+  /* Noticeable from the back of a room, but the animals the class earned must
+     stay clearly visible: hiding them would make this a punishment. */
+  filter: saturate(0.55) brightness(0.84) blur(1px);
+}
+
+.murk-veil {
+  /* Above the Creatures, which carry inline z-indexes up to 40. */
+  z-index: 50;
+  opacity: 0;
+  transition: opacity 1200ms ease;
+}
+
+.scene-water[data-murky="true"] .murk-veil {
+  opacity: 0.28;
+}
+
+/* --- Creature motion ---------------------------------------------------- */
+
+@keyframes swim-across {
+  from {
+    transform: translateX(-30vw);
+  }
+  to {
+    transform: translateX(130vw);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(-0.6vh);
+  }
+  50% {
+    transform: translateY(0.6vh);
+  }
+}
+
+@keyframes arrive {
+  0% {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes arrival-ring {
+  0% {
+    opacity: 0.85;
+    transform: scale(0.3);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+
+.swimmer {
+  /* The duration comes in as a custom property rather than an inline
+     animation-duration, so the reduced-motion rule below can actually
+     override it. An inline declaration would win over any author rule. */
+  animation: swim-across var(--swim-duration, 60s) linear infinite;
+}
+
+.bobber {
+  animation: bob ease-in-out infinite alternate;
+}
+
+.arriving {
+  animation: arrive 1400ms ease-out both;
+}
+
+.arrival-ring {
+  animation: arrival-ring 1800ms ease-out forwards;
+}
+
+/* Part groups inside the artwork. A Creature whose SVG declares none of
+   these simply drifts as a whole, which is the intended fallback. */
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-7deg);
+  }
+  50% {
+    transform: rotate(7deg);
+  }
+}
+
+.creature :global(.part-tail) {
+  transform-origin: left center;
+  animation: sway 900ms ease-in-out infinite;
+}
+
+.creature :global(.part-fin) {
+  transform-origin: top center;
+  animation: sway 1300ms ease-in-out infinite;
+}
+
+.creature :global(.part-body) {
+  transform-origin: center;
+  animation: sway 2600ms ease-in-out infinite;
+}
+
+.creature :global(.part-tentacles),
+.creature :global(.part-arms) {
+  transform-origin: top center;
+  animation: sway 2000ms ease-in-out infinite;
+}
+
+/* --- Ambient Life ------------------------------------------------------- */
+
+@keyframes weed-sway {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes drift-up {
+  from {
+    transform: translateY(6vh);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 0.55;
+  }
+  to {
+    transform: translateY(-105vh);
+    opacity: 0;
+  }
+}
+
+@keyframes shaft-drift {
+  0%,
+  100% {
+    transform: translateX(-4vw) skewX(-6deg);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translateX(4vw) skewX(-10deg);
+    opacity: 0.22;
+  }
+}
+
+@keyframes shoal-drift {
+  from {
+    transform: translateX(-12vw);
+  }
+  to {
+    transform: translateX(112vw);
+  }
+}
+
+.weed {
+  transform-origin: bottom center;
+  animation: weed-sway ease-in-out infinite alternate;
+}
+
+.plankton {
+  animation: drift-up linear infinite;
+}
+
+.shaft {
+  animation: shaft-drift ease-in-out infinite alternate;
+}
+
+.shoal {
+  animation: shoal-drift linear infinite;
+}
+
+/*
+ * Reduced motion quiets the drifting, but arrivals keep their entrance: an
+ * arrival is the meaning of the whole app, not decoration.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .swimmer {
+    animation-duration: 600s;
+  }
+
+  .bobber,
+  .weed,
+  .plankton,
+  .shaft,
+  .shoal,
+  .creature :global(.part-tail),
+  .creature :global(.part-fin),
+  .creature :global(.part-body),
+  .creature :global(.part-tentacles),
+  .creature :global(.part-arms) {
+    animation: none;
+  }
+}
