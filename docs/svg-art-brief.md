@@ -230,3 +230,36 @@ Build a contact sheet — a throwaway HTML file rendering every Creature against
 - [ ] `parts` in the manifest matches the classes actually in each file.
 - [ ] Standing back from the contact sheet, it reads as one set. If any single
       Creature draws the eye as "different," redraw it rather than shipping it.
+
+---
+
+## 8. Notes from the art task
+
+Recorded after drawing the set, for whoever integrates it (ticket 10) or adds
+to it later. Everything below is a decision the brief did not settle.
+
+- **Darker tones are an overlay, not a new colour.** "Darken the fill toward
+  `#2b2b3a`" (§1) and "no colour outside the palette table" (§7) pull against
+  each other, so separation is always the _same shape drawn twice_: once in its
+  palette fill, once in `#2b2b3a` at `opacity` 0.13–0.3. Every `fill=` in the
+  set greps clean, and the technique is uniform across all eighteen.
+- **Part groups carry their own `transform-origin`.** Convention §7 asks for the
+  joint at the group's left edge, which a rear-mounted tail cannot satisfy — its
+  leftmost point is the tail tip. Each part group therefore sets
+  `style="transform-origin: <x>px <y>px"` at the true joint, overriding the
+  `left center` / `top center` defaults in `routes/layout.css` (the same
+  technique `CreaturePlaceholder.svelte` already used). Because those values are
+  measured from the viewBox origin, they must be re-based if a viewBox is ever
+  re-cropped.
+- **The dark species are countershaded.** `stingray` (`#124f73`), the two sharks
+  (`#124f73`) and `manta-ray` (`#0b3d5c`) were specified in the exact tones of
+  the water they swim in, which made them invisible against the backdrop — worst
+  of all for the Rare tier, whose whole job is to be seen from across a room.
+  Each keeps its specified colour but gains a lighter palette tone over the
+  dorsal surface (`#3fa9c9`, or `#1a6f96` on the manta) and the specified
+  `#f4f1de` belly. They read at every depth and the palette is unchanged.
+- **`#0e4668` in `distant-shoal.svg`** is the one fill outside the palette
+  table; §4 names it explicitly.
+- **The cuttlefish has the signature eye**, not the W-shaped pupil of §3. The
+  eye rule in §1 is called non-negotiable and does more for set coherence than
+  any single species' accuracy.
