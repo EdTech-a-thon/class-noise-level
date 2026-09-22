@@ -8,8 +8,8 @@
    * flat sheet of stickers.
    */
 
+  import { CREATURE_ART } from "$lib/scenes/reef/artwork";
   import type { CreatureInstance } from "$lib/session/session.svelte";
-  import CreaturePlaceholder from "./CreaturePlaceholder.svelte";
 
   let {
     creature,
@@ -58,7 +58,8 @@
             class="arrival-ring absolute inset-0 rounded-full border-2 border-white/70"
           ></span>
         {/if}
-        <CreaturePlaceholder def={creature.def} />
+        <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+        {@html CREATURE_ART[creature.def.slug]}
       </div>
     </div>
   </div>

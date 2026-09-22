@@ -61,6 +61,35 @@ body {
   opacity: 0.28;
 }
 
+/* --- Inlined artwork ---------------------------------------------------- */
+
+/*
+ * Every SVG in the Scene is inlined (see scenes/reef/artwork.ts) and, by the
+ * art brief, carries no width or height of its own. Each one therefore takes
+ * its size from the element the scatter positions.
+ */
+.backdrop > svg,
+.shaft > svg,
+.plankton-field > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.creature > svg,
+.coral > svg,
+.shoal > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.weed > svg {
+  display: block;
+  height: 100%;
+  width: auto;
+}
+
 /* --- Creature motion ---------------------------------------------------- */
 
 @keyframes swim-across {
@@ -139,23 +168,23 @@ body {
   }
 }
 
-.creature :global(.part-tail) {
+.creature .part-tail {
   transform-origin: left center;
   animation: sway 900ms ease-in-out infinite;
 }
 
-.creature :global(.part-fin) {
+.creature .part-fin {
   transform-origin: top center;
   animation: sway 1300ms ease-in-out infinite;
 }
 
-.creature :global(.part-body) {
+.creature .part-body {
   transform-origin: center;
   animation: sway 2600ms ease-in-out infinite;
 }
 
-.creature :global(.part-tentacles),
-.creature :global(.part-arms) {
+.creature .part-tentacles,
+.creature .part-arms {
   transform-origin: top center;
   animation: sway 2000ms ease-in-out infinite;
 }
@@ -172,17 +201,17 @@ body {
   }
 }
 
-@keyframes drift-up {
+@keyframes plankton-drift {
   from {
-    transform: translateY(6vh);
+    transform: translateY(60%);
     opacity: 0;
   }
-  15%,
-  85% {
-    opacity: 0.55;
+  18%,
+  82% {
+    opacity: var(--plankton-peak, 0.5);
   }
   to {
-    transform: translateY(-105vh);
+    transform: translateY(-110%);
     opacity: 0;
   }
 }
@@ -209,12 +238,19 @@ body {
 }
 
 .weed {
+  /* Ambient Life stays subordinate to anything the class actually earned. */
+  opacity: 0.82;
   transform-origin: bottom center;
   animation: weed-sway ease-in-out infinite alternate;
 }
 
-.plankton {
-  animation: drift-up linear infinite;
+.plankton-field {
+  opacity: 0;
+  animation: plankton-drift linear infinite;
+}
+
+.coral {
+  opacity: 0.88;
 }
 
 .shaft {
@@ -222,6 +258,7 @@ body {
 }
 
 .shoal {
+  opacity: 0.8;
   animation: shoal-drift linear infinite;
 }
 
@@ -236,14 +273,14 @@ body {
 
   .bobber,
   .weed,
-  .plankton,
+  .plankton-field,
   .shaft,
   .shoal,
-  .creature :global(.part-tail),
-  .creature :global(.part-fin),
-  .creature :global(.part-body),
-  .creature :global(.part-tentacles),
-  .creature :global(.part-arms) {
+  .creature .part-tail,
+  .creature .part-fin,
+  .creature .part-body,
+  .creature .part-tentacles,
+  .creature .part-arms {
     animation: none;
   }
 }
