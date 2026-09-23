@@ -39,25 +39,39 @@ interface Window {
   covered: boolean;
 }
 
-function windowOf(samples: LevelSample[], now: number, spanMs: number): Window {
-  const inWindow = samples.filter((sample) => sample.time >= now - spanMs);
+function windowOf(
+  samples: LevelSample[],
+  now: number,
+  spanMs: number,
+  since: number,
+): Window {
+  const eligible = samples.filter((sample) => sample.time >= since);
+  const inWindow = eligible.filter((sample) => sample.time >= now - spanMs);
   if (inWindow.length === 0) return { mean: 0, covered: false };
   const total = inWindow.reduce((sum, sample) => sum + sample.level, 0);
-  const oldest = samples[0]?.time ?? now;
+  const oldest = eligible[0]?.time ?? now;
   return { mean: total / inWindow.length, covered: oldest <= now - spanMs };
 }
 
+/**
+ * `since` is when the state last changed. Only samples from then on count:
+ * the noise that got us into Too Loud must not be allowed to vote us straight
+ * back in the moment the fast three-second exit fires. Without it, a room that
+ * goes quiet after a loud stretch flips between the two states every frame
+ * until the loud samples age out of the ten-second window.
+ */
 export function nextNoiseState(
   current: NoiseState,
   samples: LevelSample[],
   goal: number,
   now: number,
+  since = -Infinity,
 ): NoiseState {
   if (current === "quiet") {
-    const window = windowOf(samples, now, ENTER_TOO_LOUD_MS);
+    const window = windowOf(samples, now, ENTER_TOO_LOUD_MS, since);
     return window.covered && window.mean > goal ? "too-loud" : "quiet";
   }
 
-  const window = windowOf(samples, now, LEAVE_TOO_LOUD_MS);
+  const window = windowOf(samples, now, LEAVE_TOO_LOUD_MS, since);
   return window.covered && window.mean <= goal ? "quiet" : "too-loud";
 }

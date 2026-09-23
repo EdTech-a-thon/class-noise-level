@@ -19,16 +19,29 @@ export class RoomMonitor {
   state = $state<NoiseState>("quiet");
 
   #samples: LevelSample[] = [];
+  /** When `state` last changed; earlier samples no longer get a vote. */
+  #since = -Infinity;
 
   observe(level: number, goal: number, now: number) {
     this.level = level;
     this.#samples = pruneSamples([...this.#samples, { time: now, level }], now);
-    this.state = nextNoiseState(this.state, this.#samples, goal, now);
+    const next = nextNoiseState(
+      this.state,
+      this.#samples,
+      goal,
+      now,
+      this.#since,
+    );
+    if (next !== this.state) {
+      this.state = next;
+      this.#since = now;
+    }
   }
 
   /** Start listening afresh — on a new Session, or a new microphone. */
   reset() {
     this.#samples = [];
+    this.#since = -Infinity;
     this.level = 0;
     this.state = "quiet";
   }

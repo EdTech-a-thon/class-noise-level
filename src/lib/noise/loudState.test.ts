@@ -82,6 +82,33 @@ describe("nextNoiseState", () => {
     expect(LEAVE_TOO_LOUD_MS).toBeLessThan(ENTER_TOO_LOUD_MS);
   });
 
+  it("does not flip straight back to Too Loud after recovering", () => {
+    // Loud for a long stretch, then three quiet seconds: the exit fires. The
+    // ten-second window is still mostly loud, but that noise predates the
+    // recovery and must not count.
+    const recoveredAt = 60_000;
+    const samples = concat(
+      series(recoveredAt - 3_200, 20_000, 70),
+      series(recoveredAt + 100, 3_300, 6),
+    );
+    expect(
+      nextNoiseState("quiet", samples, GOAL, recoveredAt + 100, recoveredAt),
+    ).toBe("quiet");
+  });
+
+  it("does not flip straight back to quiet after entering Too Loud", () => {
+    // Very loud, then a quiet tail short of ten seconds: the ten-second mean
+    // is over the goal but the last three seconds are not.
+    const enteredAt = 60_000;
+    const samples = concat(
+      series(enteredAt - 3_200, 20_000, 95),
+      series(enteredAt + 100, 3_300, 5),
+    );
+    expect(
+      nextNoiseState("too-loud", samples, GOAL, enteredAt + 100, enteredAt),
+    ).toBe("too-loud");
+  });
+
   it("judges by the mean, so a brief dip does not end Too Loud", () => {
     const now = 60_000;
     const samples = concat(series(now - 600, 20_000, 80), series(now, 600, 5));
