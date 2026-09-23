@@ -11,6 +11,8 @@
   import type { App } from "$lib/app.svelte";
   import {
     ARRIVAL_RATE_PRESETS,
+    MAX_ARRIVAL_MINUTES,
+    MIN_ARRIVAL_MINUTES,
     VOLUME_GOAL_PRESETS,
     settings,
     type ArrivalRatePreset,
@@ -26,7 +28,7 @@
     (typeof VOLUME_GOAL_PRESETS)["silent"],
   ][];
   const ratePresets = Object.entries(ARRIVAL_RATE_PRESETS) as [
-    ArrivalRatePreset,
+    Exclude<ArrivalRatePreset, "custom">,
     (typeof ARRIVAL_RATE_PRESETS)["normal"],
   ][];
 </script>
@@ -118,13 +120,42 @@
             key
               ? 'border-slate-900 bg-slate-900 text-white'
               : 'border-slate-300 hover:bg-slate-50'}"
-            onclick={() => (settings.arrivalRatePreset = key)}
+            onclick={() => settings.useArrivalRatePreset(key)}
           >
             <span class="block font-semibold">{preset.label}</span>
             <span class="block text-xs opacity-80">{preset.hint}</span>
           </button>
         {/each}
       </div>
+      <label class="flex items-center gap-2 text-sm text-slate-600">
+        About one animal every
+        <input
+          type="number"
+          min={MIN_ARRIVAL_MINUTES}
+          max={MAX_ARRIVAL_MINUTES}
+          step="1"
+          value={settings.arrivalMinutes}
+          class="w-20 rounded-md border px-2 py-1 text-slate-900 {settings.arrivalRatePreset ===
+          'custom'
+            ? 'border-slate-900'
+            : 'border-slate-300'}"
+          oninput={(event) => {
+            // Apply as the teacher types, but leave a half-typed or
+            // out-of-range value alone until they finish.
+            const minutes = event.currentTarget.valueAsNumber;
+            if (
+              minutes >= MIN_ARRIVAL_MINUTES &&
+              minutes <= MAX_ARRIVAL_MINUTES
+            )
+              settings.setArrivalMinutes(minutes);
+          }}
+          onchange={(event) => {
+            settings.setArrivalMinutes(event.currentTarget.valueAsNumber);
+            event.currentTarget.value = String(settings.arrivalMinutes);
+          }}
+        />
+        minutes
+      </label>
     </section>
 
     <p class="mt-6 text-xs text-slate-500">

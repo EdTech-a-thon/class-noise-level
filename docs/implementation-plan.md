@@ -23,7 +23,7 @@ Everything tunable, collected so it is not scattered through the code.
 | Enter Too Loud                | 10 s rolling mean above the Volume Goal   | A knock at the door cannot survive a 10 s mean                                    |
 | Leave Too Loud                | 3 s below the Volume Goal                 | Slow in, fast out — recovery must feel immediate or it reads as punishment        |
 | Volume Goal presets           | Silent 15, Independent 30, Partner 50     | On the calibrated 0-100 scale                                                     |
-| Arrival Rate presets          | Relaxed 8 min, Normal 5 min, Lively 2 min | Default Normal                                                                    |
+| Arrival Rate presets          | Relaxed 8 min, Normal 5 min, Lively 2 min | Default Normal; or type 1-60 whole minutes                                        |
 | Arrival jitter                | ±20% of the interval                      | So arrivals do not feel metronomic. My call, not yours — say if you want it exact |
 | Rarity weights                | Common 70%, Uncommon 25%, Rare 5%         | Split evenly within a tier; re-rolls are allowed, so common species repeat        |
 | Murk transition               | 1200 ms ease                              | Slow enough to read as weather, not as a reaction                                 |

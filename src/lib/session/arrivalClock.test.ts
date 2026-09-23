@@ -74,6 +74,34 @@ describe("advanceArrivalClock", () => {
     expect(arrivals).toBe(3);
   });
 
+  it("applies a changed rate to the very next arrival", () => {
+    // A Session started on five minutes, switched to one minute after ten
+    // quiet seconds. The first animal is due at one minute, not five.
+    const ONE_MINUTE = 60_000;
+    let clock = createArrivalClock(FIVE_MINUTES, noJitter);
+    let arrivedAt: number | null = null;
+    for (let elapsed = 100; elapsed <= 2 * ONE_MINUTE; elapsed += 100) {
+      const interval = elapsed <= 10_000 ? FIVE_MINUTES : ONE_MINUTE;
+      const step = advanceArrivalClock(clock, 100, true, interval, noJitter);
+      clock = step.clock;
+      if (step.arrived && arrivedAt === null) arrivedAt = elapsed;
+    }
+    expect(arrivedAt).toBe(ONE_MINUTE);
+  });
+
+  it("keeps banked quiet time when the rate slows down", () => {
+    // Four quiet minutes on five, then switched to eight: three more to go.
+    const clock = {
+      bankedMs: 4 * 60_000,
+      targetMs: FIVE_MINUTES,
+      intervalMs: FIVE_MINUTES,
+    };
+    const step = advanceArrivalClock(clock, 100, true, 8 * 60_000, noJitter);
+    expect(step.arrived).toBe(false);
+    expect(step.clock.bankedMs).toBe(4 * 60_000 + 100);
+    expect(step.clock.targetMs).toBe(8 * 60_000);
+  });
+
   it("delivers roughly the configured rate over a quiet hour", () => {
     const random = () => Math.random();
     const { arrivals } = simulate(

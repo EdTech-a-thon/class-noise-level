@@ -10,7 +10,7 @@ import { browser } from "$app/environment";
 import type { Calibration } from "$lib/audio/calibration";
 
 export type VolumeGoalPreset = "silent" | "independent" | "partner" | "custom";
-export type ArrivalRatePreset = "relaxed" | "normal" | "lively";
+export type ArrivalRatePreset = "relaxed" | "normal" | "lively" | "custom";
 
 export const VOLUME_GOAL_PRESETS: Record<
   Exclude<VolumeGoalPreset, "custom">,
@@ -22,25 +22,29 @@ export const VOLUME_GOAL_PRESETS: Record<
 };
 
 export const ARRIVAL_RATE_PRESETS: Record<
-  ArrivalRatePreset,
-  { label: string; hint: string; intervalMs: number }
+  Exclude<ArrivalRatePreset, "custom">,
+  { label: string; hint: string; minutes: number }
 > = {
   relaxed: {
     label: "Relaxed",
     hint: "about one animal every 8 minutes",
-    intervalMs: 8 * 60_000,
+    minutes: 8,
   },
   normal: {
     label: "Normal",
     hint: "about one animal every 5 minutes",
-    intervalMs: 5 * 60_000,
+    minutes: 5,
   },
   lively: {
     label: "Lively",
     hint: "about one animal every 2 minutes",
-    intervalMs: 2 * 60_000,
+    minutes: 2,
   },
 };
+
+/** Bounds on a typed-in Arrival Rate, in whole minutes. */
+export const MIN_ARRIVAL_MINUTES = 1;
+export const MAX_ARRIVAL_MINUTES = 60;
 
 const STORAGE_KEY = "class-noise-level:settings";
 
@@ -50,6 +54,7 @@ interface StoredSettings {
   volumeGoalPreset: VolumeGoalPreset;
   volumeGoal: number;
   arrivalRatePreset: ArrivalRatePreset;
+  arrivalMinutes: number;
 }
 
 const DEFAULTS: StoredSettings = {
@@ -58,15 +63,24 @@ const DEFAULTS: StoredSettings = {
   volumeGoalPreset: "independent",
   volumeGoal: VOLUME_GOAL_PRESETS.independent.goal,
   arrivalRatePreset: "normal",
+  arrivalMinutes: ARRIVAL_RATE_PRESETS.normal.minutes,
 };
 
 function read(): StoredSettings {
   if (!browser) return { ...DEFAULTS };
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw
-      ? { ...DEFAULTS, ...(JSON.parse(raw) as Partial<StoredSettings>) }
-      : { ...DEFAULTS };
+    if (!raw) return { ...DEFAULTS };
+    const stored = JSON.parse(raw) as Partial<StoredSettings>;
+    // Settings saved before the rate could be typed in only have the preset;
+    // carry its minutes over rather than resetting the teacher to Normal.
+    if (stored.arrivalMinutes === undefined && stored.arrivalRatePreset) {
+      stored.arrivalMinutes =
+        stored.arrivalRatePreset === "custom"
+          ? DEFAULTS.arrivalMinutes
+          : ARRIVAL_RATE_PRESETS[stored.arrivalRatePreset]?.minutes;
+    }
+    return { ...DEFAULTS, ...stored };
   } catch {
     return { ...DEFAULTS };
   }
@@ -140,13 +154,41 @@ class Settings {
     return this.#stored.arrivalRatePreset;
   }
 
-  set arrivalRatePreset(preset: ArrivalRatePreset) {
-    this.#stored = { ...this.#stored, arrivalRatePreset: preset };
+  get arrivalMinutes() {
+    return this.#stored.arrivalMinutes;
+  }
+
+  useArrivalRatePreset(preset: Exclude<ArrivalRatePreset, "custom">) {
+    this.#stored = {
+      ...this.#stored,
+      arrivalRatePreset: preset,
+      arrivalMinutes: ARRIVAL_RATE_PRESETS[preset].minutes,
+    };
+    this.#save();
+  }
+
+  setArrivalMinutes(minutes: number) {
+    if (!Number.isFinite(minutes)) return;
+    const clamped = Math.max(
+      MIN_ARRIVAL_MINUTES,
+      Math.min(MAX_ARRIVAL_MINUTES, Math.round(minutes)),
+    );
+    const matching = (
+      Object.keys(ARRIVAL_RATE_PRESETS) as Exclude<
+        ArrivalRatePreset,
+        "custom"
+      >[]
+    ).find((preset) => ARRIVAL_RATE_PRESETS[preset].minutes === clamped);
+    this.#stored = {
+      ...this.#stored,
+      arrivalMinutes: clamped,
+      arrivalRatePreset: matching ?? "custom",
+    };
     this.#save();
   }
 
   get arrivalIntervalMs() {
-    return ARRIVAL_RATE_PRESETS[this.#stored.arrivalRatePreset].intervalMs;
+    return this.#stored.arrivalMinutes * 60_000;
   }
 }
 

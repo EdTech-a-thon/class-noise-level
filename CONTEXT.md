@@ -37,7 +37,7 @@ unpopulated Scene still reads as a living place.
 ## Arrival Rate
 
 How much Quiet time buys one Creature. The teacher chooses it from named
-presets. It is the only dial that changes how fast the Scene fills.
+presets or types a number of minutes. It is the only dial that changes how fast the Scene fills.
 
 ## Session
 

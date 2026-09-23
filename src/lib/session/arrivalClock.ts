@@ -17,6 +17,8 @@ export interface ArrivalClock {
   bankedMs: number;
   /** How much is needed this time round, interval plus jitter. */
   targetMs: number;
+  /** The interval `targetMs` was drawn for. */
+  intervalMs: number;
 }
 
 export function nextTargetMs(intervalMs: number, random: () => number): number {
@@ -27,7 +29,25 @@ export function createArrivalClock(
   intervalMs: number,
   random: () => number,
 ): ArrivalClock {
-  return { bankedMs: 0, targetMs: nextTargetMs(intervalMs, random) };
+  return {
+    bankedMs: 0,
+    targetMs: nextTargetMs(intervalMs, random),
+    intervalMs,
+  };
+}
+
+/**
+ * The teacher changed the Arrival Rate mid-wait. Stretch or shrink the current
+ * target to match, keeping its jitter, so the new rate applies to the very next
+ * arrival rather than the one after it. Banked Quiet time is kept as it is.
+ */
+function retarget(clock: ArrivalClock, intervalMs: number): ArrivalClock {
+  if (clock.intervalMs === intervalMs) return clock;
+  return {
+    ...clock,
+    targetMs: clock.targetMs * (intervalMs / clock.intervalMs),
+    intervalMs,
+  };
 }
 
 export function advanceArrivalClock(
@@ -37,6 +57,7 @@ export function advanceArrivalClock(
   intervalMs: number,
   random: () => number,
 ): { clock: ArrivalClock; arrived: boolean } {
+  clock = retarget(clock, intervalMs);
   if (!isQuiet) return { clock, arrived: false };
 
   const bankedMs = clock.bankedMs + deltaMs;
@@ -48,6 +69,7 @@ export function advanceArrivalClock(
     clock: {
       bankedMs: bankedMs - clock.targetMs,
       targetMs: nextTargetMs(intervalMs, random),
+      intervalMs,
     },
     arrived: true,
   };
