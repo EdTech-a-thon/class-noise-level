@@ -4,7 +4,8 @@
  * Nothing here ever removes a Creature. Too Loud pauses the arrival clock and
  * that is the entire consequence of a noisy room — see
  * docs/adr/0001-nothing-is-taken-away.md. The only thing that empties the reef
- * is the teacher pressing Reset.
+ * is the teacher pressing Reset — not starting again, and not a refresh
+ * (`savedReef.ts`).
  */
 
 import type { CreatureDef } from "$lib/scenes/reef/roster";
@@ -14,19 +15,20 @@ import {
   type ArrivalClock,
 } from "./arrivalClock";
 import { rollCreature } from "./roll";
+import { loadReef, saveReef } from "./savedReef";
 
-/** One Creature actually in the water, with the placement it swims on. */
+/** One Creature actually in the water, and where it first appears. */
 export interface CreatureInstance {
   id: number;
   def: CreatureDef;
   /** 0 = far background, 1 = right at the glass. Drives size and layering. */
   depth: number;
-  /** Fraction of the Scene height its path sits at. */
-  track: number;
-  /** Seconds for one crossing. */
-  crossingSeconds: number;
-  /** -1 swims left, 1 swims right. */
-  direction: -1 | 1;
+  /**
+   * Where it arrives, as fractions across its own swimming region. It stays
+   * on screen from then on; see `scenes/reef/motion.ts`.
+   */
+  spawnX: number;
+  spawnY: number;
 }
 
 export class Session {
@@ -50,9 +52,19 @@ export class Session {
     this.#clock = createArrivalClock(intervalMs, random);
   }
 
-  start(intervalMs: number) {
-    this.creatures = [];
+  /**
+   * Bring back the reef from before a refresh. Called once the page has
+   * mounted rather than in the constructor, because the page is prerendered
+   * with an empty reef and hydration expects to find exactly that.
+   */
+  restore() {
+    this.creatures = loadReef(this.#roster);
     this.newestId = null;
+    this.#nextId = Math.max(0, ...this.creatures.map(({ id }) => id)) + 1;
+  }
+
+  /** Starting keeps whoever is already here; only `reset` empties the reef. */
+  start(intervalMs: number) {
     this.#clock = createArrivalClock(intervalMs, this.#random);
     this.running = true;
   }
@@ -62,6 +74,7 @@ export class Session {
     this.creatures = [];
     this.newestId = null;
     this.#clock = createArrivalClock(intervalMs, this.#random);
+    saveReef(this.creatures);
   }
 
   /** Fraction of the way to the next arrival — teacher-facing only. */
@@ -92,14 +105,11 @@ export class Session {
       id: this.#nextId++,
       def,
       depth,
-      // Keep them off the very top and the sand, and spread by depth so the
-      // reef does not stack everything in one band.
-      track: 0.12 + this.#random() * 0.72,
-      // Nearer Creatures cross faster: cheap parallax, and it reads as depth.
-      crossingSeconds: 90 - depth * 45 + this.#random() * 30,
-      direction: this.#random() < 0.5 ? -1 : 1,
+      spawnX: this.#random(),
+      spawnY: this.#random(),
     };
     this.creatures = [...this.creatures, instance];
     this.newestId = instance.id;
+    saveReef(this.creatures);
   }
 }

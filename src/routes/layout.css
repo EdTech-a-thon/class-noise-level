@@ -92,15 +92,6 @@ body {
 
 /* --- Creature motion ---------------------------------------------------- */
 
-@keyframes swim-across {
-  from {
-    transform: translateX(-30vw);
-  }
-  to {
-    transform: translateX(130vw);
-  }
-}
-
 @keyframes bob {
   0%,
   100% {
@@ -137,11 +128,14 @@ body {
   }
 }
 
+/* Position comes from script every frame (Creature.svelte). */
 .swimmer {
-  /* The duration comes in as a custom property rather than an inline
-     animation-duration, so the reduced-motion rule below can actually
-     override it. An inline declaration would win over any author rule. */
-  animation: swim-across var(--swim-duration, 60s) linear infinite;
+  will-change: transform;
+}
+
+/* Turning round is a quick squash through the middle, not a snap. */
+.flipper {
+  transition: transform 450ms ease-in-out;
 }
 
 .bobber {
@@ -154,6 +148,74 @@ body {
 
 .arrival-ring {
   animation: arrival-ring 1800ms ease-out forwards;
+}
+
+/* The artwork's viewBox is cropped tight to the resting pose, and an inline
+   SVG clips to its viewBox by default, so a swaying tentacle or tail would be
+   cut off at the edge of the box. */
+.creature svg {
+  overflow: visible;
+}
+
+/*
+ * Rarity Tier, visible from across the room. Uncommon Creatures carry a pale silvery
+ * glow round their outline that breathes; Rare ones a warmer, stronger gold
+ * glow plus twinkling sparkles.
+ */
+@keyframes glow-uncommon {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0.35vw rgb(210 250 245 / 0.55));
+  }
+  50% {
+    filter: drop-shadow(0 0 0.9vw rgb(210 250 245 / 0.95));
+  }
+}
+
+@keyframes glow-rare {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0.4vw rgb(255 209 102 / 0.6));
+  }
+  50% {
+    filter: drop-shadow(0 0 1.1vw rgb(255 209 102 / 1));
+  }
+}
+
+@keyframes sparkle-twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+  }
+  15%,
+  25% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotate(45deg);
+  }
+  45% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2) rotate(90deg);
+  }
+}
+
+.creature[data-tier="uncommon"] > svg {
+  animation: glow-uncommon 3.2s ease-in-out infinite;
+}
+
+.creature[data-tier="rare"] > svg {
+  animation: glow-rare 2.4s ease-in-out infinite;
+}
+
+.sparkle {
+  position: absolute;
+  height: auto;
+  overflow: visible;
+  fill: #fffbe6;
+  filter: drop-shadow(0 0 0.4vw var(--color-accent-yellow));
+  opacity: 0;
+  pointer-events: none;
+  animation: sparkle-twinkle 3s ease-in-out infinite;
 }
 
 /* Part groups inside the artwork. A Creature whose SVG declares none of
@@ -238,8 +300,8 @@ body {
 }
 
 .weed {
-  /* Ambient Life stays subordinate to anything the class actually earned. */
-  opacity: 0.82;
+  /* Solid, not faded, so one piece of scenery never shows through another.
+     It stays subordinate through its muted colours instead. */
   transform-origin: bottom center;
   animation: weed-sway ease-in-out infinite alternate;
 }
@@ -247,10 +309,6 @@ body {
 .plankton-field {
   opacity: 0;
   animation: plankton-drift linear infinite;
-}
-
-.coral {
-  opacity: 0.88;
 }
 
 .shaft {
@@ -267,10 +325,6 @@ body {
  * arrival is the meaning of the whole app, not decoration.
  */
 @media (prefers-reduced-motion: reduce) {
-  .swimmer {
-    animation-duration: 600s;
-  }
-
   .bobber,
   .weed,
   .plankton-field,
@@ -282,5 +336,23 @@ body {
   .creature .part-tentacles,
   .creature .part-arms {
     animation: none;
+  }
+
+  /* A steady glow rather than a breathing one. */
+  .creature[data-tier="uncommon"] > svg {
+    animation: none;
+    filter: drop-shadow(0 0 0.6vw rgb(210 250 245 / 0.8));
+  }
+
+  .creature[data-tier="rare"] > svg {
+    animation: none;
+    filter: drop-shadow(0 0 0.8vw rgb(255 209 102 / 0.9));
+  }
+
+  /* Still marked as Rare, just without the flashing. */
+  .sparkle {
+    animation: none;
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(0.7);
   }
 }

@@ -17,30 +17,48 @@
 
   import { AMBIENT_ART } from "$lib/scenes/reef/artwork";
 
-  /** The sand in `backdrop.svg` starts around 18% up, so roots sit in it. */
-  const weeds = [
-    { x: 3, height: 27, base: 13, sway: 5.5, art: "seaweed-tall" },
-    { x: 9, height: 15, base: 10, sway: 7.1, art: "seaweed-short" },
-    { x: 17, height: 22, base: 12, sway: 6.2, art: "seaweed-tall" },
-    { x: 24, height: 13, base: 9, sway: 8.0, art: "seaweed-short" },
-    { x: 34, height: 24, base: 14, sway: 6.8, art: "seaweed-tall" },
-    { x: 46, height: 16, base: 11, sway: 7.6, art: "seaweed-short" },
-    { x: 58, height: 21, base: 13, sway: 5.9, art: "seaweed-tall" },
-    { x: 68, height: 14, base: 10, sway: 7.3, art: "seaweed-short" },
-    { x: 79, height: 28, base: 14, sway: 6.4, art: "seaweed-tall" },
-    { x: 88, height: 17, base: 11, sway: 6.9, art: "seaweed-short" },
-    { x: 95, height: 23, base: 13, sway: 5.7, art: "seaweed-tall" },
-  ];
-
-  const corals = [
-    { x: 13, width: 5.5, base: 11, art: "coral-branch" },
-    { x: 28, width: 6.5, base: 10, art: "coral-fan" },
-    { x: 40, width: 5, base: 12, art: "coral-brain" },
-    { x: 52, width: 6, base: 10, art: "coral-branch" },
-    { x: 63, width: 7, base: 12, art: "coral-fan" },
-    { x: 74, width: 4.5, base: 10, art: "coral-brain" },
-    { x: 91, width: 6, base: 12, art: "coral-branch" },
-  ];
+  /**
+   * Everything rooted in the sand, spread through its whole depth rather than
+   * lined up along the back edge. `base` is the distance from the bottom of
+   * the Scene: the sand runs from about 16% (far) down to the glass (near).
+   * Nearer pieces are drawn bigger, and each is layered by that depth so a
+   * crab walking the sand passes in front of some coral and behind the rest —
+   * the same depth scale Creatures use (`scenes/reef/motion.ts`).
+   */
+  const floor = [
+    // Back row, along the far edge of the sand.
+    { x: 10, base: 14, size: 13, art: "seaweed-short" },
+    { x: 14, base: 15, size: 4.5, art: "coral-brain" },
+    { x: 27, base: 14, size: 18, art: "seaweed-tall" },
+    { x: 42, base: 15, size: 4, art: "coral-branch" },
+    { x: 46, base: 13, size: 13, art: "seaweed-short" },
+    { x: 66, base: 14, size: 19, art: "seaweed-tall" },
+    { x: 78, base: 15, size: 5, art: "coral-fan" },
+    { x: 85, base: 13, size: 21, art: "seaweed-tall" },
+    // Middle of the sand.
+    { x: 6, base: 9, size: 6, art: "coral-branch" },
+    { x: 18, base: 8, size: 22, art: "seaweed-tall" },
+    { x: 37, base: 9, size: 6, art: "coral-fan" },
+    { x: 60, base: 10, size: 5.5, art: "coral-branch" },
+    { x: 73, base: 8, size: 15, art: "seaweed-short" },
+    { x: 88, base: 7, size: 6, art: "coral-brain" },
+    // Front row, right at the glass.
+    { x: 1, base: 2, size: 32, art: "seaweed-tall" },
+    { x: 23, base: 2, size: 8, art: "coral-fan" },
+    { x: 33, base: 1, size: 17, art: "seaweed-short" },
+    { x: 50, base: 1, size: 7, art: "coral-brain" },
+    { x: 55, base: 3, size: 25, art: "seaweed-tall" },
+    { x: 70, base: 2, size: 8.5, art: "coral-branch" },
+    { x: 94, base: 2, size: 30, art: "seaweed-tall" },
+  ]
+    .map((piece) => ({
+      ...piece,
+      weed: piece.art.startsWith("seaweed"),
+      // Same 0–40 range as Creature z-indexes, far to near.
+      layer: Math.round(((16 - piece.base) / 15) * 40),
+      sway: 5.5 + ((piece.x * 7) % 25) / 10,
+    }))
+    .sort((a, b) => a.layer - b.layer);
 
   /** Full-height sheets, each fading in and out so no seam is ever visible. */
   const planktonSheets = [
@@ -95,24 +113,23 @@
   </div>
 {/each}
 
-<!-- Coral on the floor. -->
-{#each corals as coral (coral.x)}
-  <div
-    class="coral pointer-events-none absolute"
-    style="left:{coral.x}%; bottom:{coral.base}%; width:{coral.width}vw;"
-  >
-    <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-    {@html AMBIENT_ART[coral.art]}
-  </div>
-{/each}
-
-<!-- Seaweed, rooted in the sand. -->
-{#each weeds as weed (weed.x)}
-  <div
-    class="weed pointer-events-none absolute"
-    style="left:{weed.x}%; bottom:{weed.base}%; height:{weed.height}%; animation-duration:{weed.sway}s;"
-  >
-    <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-    {@html AMBIENT_ART[weed.art]}
-  </div>
+<!-- Coral and seaweed, rooted in the sand. -->
+{#each floor as piece (piece.x)}
+  {#if piece.weed}
+    <div
+      class="weed pointer-events-none absolute"
+      style="left:{piece.x}%; bottom:{piece.base}%; height:{piece.size}%; z-index:{piece.layer}; animation-duration:{piece.sway}s;"
+    >
+      <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+      {@html AMBIENT_ART[piece.art]}
+    </div>
+  {:else}
+    <div
+      class="coral pointer-events-none absolute"
+      style="left:{piece.x}%; bottom:{piece.base}%; width:{piece.size}vw; z-index:{piece.layer};"
+    >
+      <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+      {@html AMBIENT_ART[piece.art]}
+    </div>
+  {/if}
 {/each}

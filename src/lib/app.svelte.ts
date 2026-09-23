@@ -60,6 +60,7 @@ export class App {
 
   /** Drive the loop. Returns a teardown for $effect. */
   run() {
+    this.session.restore();
     this.#lastTick = performance.now();
     const step = () => {
       const now = performance.now();

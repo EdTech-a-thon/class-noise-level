@@ -43,7 +43,8 @@ presets or types a number of minutes. It is the only dial that changes how fast 
 
 One stretch of classroom work, from the teacher pressing start to the teacher
 resetting. A Session begins with an empty Scene and fills as the room stays
-quiet. Nothing about a Session outlives it.
+quiet. Refreshing the page does not end a Session; nothing about a Session
+outlives Reset.
 
 ## Quiet
 

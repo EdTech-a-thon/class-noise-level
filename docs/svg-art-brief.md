@@ -156,8 +156,9 @@ At `src/lib/scenes/reef/ambient/`:
   gradient running _light at the top to dark at the bottom_ — `#1a6f96` at the
   surface through `#124f73` to `#0b3d5c` at depth — because the light shafts
   come down from above and a reef lit from below reads as wrong. A sand floor
-  in `#e6d3a3` across the bottom fifth, and rock silhouettes in `#2b2b3a` at
-  low opacity. Nothing that moves.
+  in `#e6d3a3` across the bottom fifth, and solid rock silhouettes in
+  `#2b2b3a` tones mixed into the water, nearer rocks darker and drawn last.
+  Nothing that moves.
 - `seaweed-tall.svg`, `seaweed-short.svg` — single strands rooted at the bottom
   edge of their viewBox, so the app can rotate them about the root to sway.
   Greens only.
@@ -243,6 +244,14 @@ to it later. Everything below is a decision the brief did not settle.
   each other, so separation is always the _same shape drawn twice_: once in its
   palette fill, once in `#2b2b3a` at `opacity` 0.13–0.3. Every `fill=` in the
   set greps clean, and the technique is uniform across all eighteen.
+- **Scenery is solid.** Seaweed, coral and the backdrop rocks are opaque, so one
+  piece never shows through another where they overlap. Their soft, low
+  contrast look is baked into the fill instead: each coral shape is its palette
+  colour already mixed with the sand (at the opacity it used to be drawn at,
+  times the 0.88 fade the CSS once applied), and each rock is `#2b2b3a` mixed
+  with the water behind it. These are the one exception to "every fill greps
+  clean". Shading overlays in `#2b2b3a` still use `opacity`, because they sit
+  on an opaque shape of the same piece.
 - **Part groups carry their own `transform-origin`.** Convention §7 asks for the
   joint at the group's left edge, which a rear-mounted tail cannot satisfy — its
   leftmost point is the tail tip. Each part group therefore sets

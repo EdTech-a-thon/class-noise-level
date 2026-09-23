@@ -2,8 +2,8 @@
  * Everything the teacher chooses, remembered on this computer.
  *
  * Per the workspace AGENTS.md data hierarchy this is localStorage and nothing
- * more: no accounts, no backend, nothing leaves the device. Only settings are
- * kept — what a class saw in a Session dies with the Session.
+ * more: no accounts, no backend, nothing leaves the device. The reef itself is
+ * kept separately (`session/savedReef.ts`) and only until Reset.
  */
 
 import { browser } from "$app/environment";

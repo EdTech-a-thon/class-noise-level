@@ -8,6 +8,8 @@
  * animation layer reads it to decide what to sway.
  */
 
+import type { MotionStyle } from "./motion";
+
 export type RarityTier = "common" | "uncommon" | "rare";
 
 /** The part group classes the animation layer knows how to move. */
@@ -29,6 +31,8 @@ export interface CreatureDef {
   tier: RarityTier;
   /** Intended px width against a 1920px-wide Scene. */
   width: number;
+  /** How it moves around the Scene once it has arrived. */
+  motion: MotionStyle;
   /** The part-* classes actually present in the artwork. */
   parts: AnimatablePart[];
 }
@@ -40,6 +44,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Clownfish",
     tier: "common",
     width: 70,
+    motion: "cruise",
     parts: ["part-tail", "part-fin"],
   },
   {
@@ -47,6 +52,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Blue tang",
     tier: "common",
     width: 80,
+    motion: "cruise",
     parts: ["part-tail", "part-fin"],
   },
   {
@@ -54,6 +60,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Angelfish",
     tier: "common",
     width: 75,
+    motion: "cruise",
     parts: ["part-tail", "part-fin"],
   },
   {
@@ -61,14 +68,23 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Seahorse",
     tier: "common",
     width: 45,
+    motion: "hover",
     parts: ["part-fin"],
   },
-  { slug: "starfish", name: "Starfish", tier: "common", width: 55, parts: [] },
+  {
+    slug: "starfish",
+    name: "Starfish",
+    tier: "common",
+    width: 55,
+    motion: "creep",
+    parts: [],
+  },
   {
     slug: "crab",
     name: "Crab",
     tier: "common",
     width: 60,
+    motion: "scuttle",
     parts: ["part-arms"],
   },
   {
@@ -76,6 +92,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Shrimp",
     tier: "common",
     width: 40,
+    motion: "dart",
     parts: ["part-tail"],
   },
   {
@@ -83,6 +100,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Parrotfish",
     tier: "common",
     width: 90,
+    motion: "cruise",
     parts: ["part-tail", "part-fin"],
   },
   {
@@ -90,6 +108,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Pufferfish",
     tier: "common",
     width: 65,
+    motion: "hover",
     parts: ["part-tail", "part-fin"],
   },
 
@@ -99,6 +118,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Octopus",
     tier: "uncommon",
     width: 110,
+    motion: "jet",
     parts: ["part-tentacles"],
   },
   {
@@ -106,6 +126,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Sea turtle",
     tier: "uncommon",
     width: 130,
+    motion: "glide",
     parts: ["part-fin"],
   },
   {
@@ -113,6 +134,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Moray eel",
     tier: "uncommon",
     width: 140,
+    motion: "prowl",
     parts: ["part-body"],
   },
   {
@@ -120,6 +142,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Stingray",
     tier: "uncommon",
     width: 120,
+    motion: "prowl",
     parts: ["part-tail"],
   },
   {
@@ -127,6 +150,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Jellyfish bloom",
     tier: "uncommon",
     width: 100,
+    motion: "drift",
     parts: ["part-tentacles"],
   },
   {
@@ -134,6 +158,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Cuttlefish",
     tier: "uncommon",
     width: 85,
+    motion: "jet",
     parts: ["part-fin"],
   },
 
@@ -143,6 +168,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Hammerhead shark",
     tier: "rare",
     width: 220,
+    motion: "glide",
     parts: ["part-tail", "part-fin"],
   },
   {
@@ -150,6 +176,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Manta ray",
     tier: "rare",
     width: 280,
+    motion: "glide",
     parts: ["part-tail"],
   },
   {
@@ -157,6 +184,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     name: "Whale shark",
     tier: "rare",
     width: 340,
+    motion: "glide",
     parts: ["part-tail", "part-fin"],
   },
 ];
