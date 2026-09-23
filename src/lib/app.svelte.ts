@@ -10,6 +10,7 @@ import { RoomMonitor } from "$lib/noise/roomMonitor.svelte";
 import { REEF_ROSTER } from "$lib/scenes/reef/roster";
 import { Session } from "$lib/session/session.svelte";
 import { settings } from "$lib/settings/settings.svelte";
+import { untrack } from "svelte";
 
 export class App {
   microphone = new Microphone();
@@ -60,7 +61,9 @@ export class App {
 
   /** Drive the loop. Returns a teardown for $effect. */
   run() {
-    this.session.restore();
+    // Untracked so the page's $effect never re-runs (and tears down the
+    // microphone) because of anything restoring touched.
+    untrack(() => this.session.restore());
     this.#lastTick = performance.now();
     const step = () => {
       const now = performance.now();

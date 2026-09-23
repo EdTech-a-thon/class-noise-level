@@ -58,9 +58,12 @@ export class Session {
    * with an empty reef and hydration expects to find exactly that.
    */
   restore() {
-    this.creatures = loadReef(this.#roster);
+    // Work from the local, not `this.creatures`: this runs inside the page's
+    // $effect, and reading state it has just written would re-run it forever.
+    const restored = loadReef(this.#roster);
+    this.creatures = restored;
     this.newestId = null;
-    this.#nextId = Math.max(0, ...this.creatures.map(({ id }) => id)) + 1;
+    this.#nextId = Math.max(0, ...restored.map(({ id }) => id)) + 1;
   }
 
   /** Starting keeps whoever is already here; only `reset` empties the reef. */
