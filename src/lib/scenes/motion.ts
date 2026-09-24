@@ -446,6 +446,53 @@ export function stepMotion(
   return state;
 }
 
+/** How fast a frightened Creature bolts, in Scene widths per second. */
+export const FLEE_SPEED = 0.3;
+/** How quickly it gets up to that speed, per second. */
+const FLEE_ACCELERATION = 3;
+
+/**
+ * Which way a frightened Creature runs: out the nearer side, so nobody
+ * crosses the whole Scene on the way out.
+ */
+export function fleeDirection(state: MotionState): -1 | 1 {
+  return state.x < 0.5 ? -1 : 1;
+}
+
+/**
+ * Advance a Creature that is running away. It bolts sideways, speeding up,
+ * and is allowed past the edge of the Scene. Ground Creatures keep their feet
+ * on the ground; swimmers and fliers level out. Mutates `state` and returns
+ * true once the Creature is entirely out of sight.
+ */
+export function stepFlee(
+  state: MotionState,
+  style: MotionStyle,
+  depth: number,
+  footprint: Footprint,
+  direction: -1 | 1,
+  dt: number,
+): boolean {
+  const profile = MOTION_PROFILES[style];
+  const box = bounds(profile, footprint, depth);
+  state.age += dt;
+  state.resting = 0;
+
+  const turn = Math.min(1, dt * FLEE_ACCELERATION);
+  state.vx += (direction * FLEE_SPEED - state.vx) * turn;
+  state.vy -= state.vy * turn;
+  state.x += state.vx * dt;
+  state.y = clamp(
+    state.y + (state.vy * dt) / footprint.aspect,
+    box.yMin,
+    box.yMax,
+  );
+  if (profile.flips) state.facing = direction;
+
+  const halfW = footprint.width / 2;
+  return state.x < -halfW || state.x > 1 + halfW;
+}
+
 /** Degrees to bank the body, nose following the direction of travel. */
 export function bankAngle(state: MotionState, style: MotionStyle): number {
   if (!MOTION_PROFILES[style].tilts) return 0;

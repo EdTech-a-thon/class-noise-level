@@ -18,11 +18,26 @@
     creatures,
     newestId,
     murky,
+    frozen,
+    scares,
+    fleeing,
+    ondepart,
   }: {
     scene: SceneDef;
     creatures: CreatureInstance[];
     newestId: number | null;
     murky: boolean;
+    /** Too Loud: everyone holds still, except any Creature running away. */
+    frozen: boolean;
+    /**
+     * The teacher chose "animals run away". The haze is then only a hint:
+     * everyone freezing and bolting is the signal, and must stay sharp.
+     */
+    scares: boolean;
+    /** Ids of the Creatures running away. */
+    fleeing: number[];
+    /** A fleeing Creature has run out of sight. */
+    ondepart: (id: number) => void;
   } = $props();
 </script>
 
@@ -30,6 +45,8 @@
   class="scene-stage absolute inset-0 overflow-hidden"
   data-scene={scene.id}
   data-murky={murky}
+  data-frozen={frozen}
+  data-scares={scares}
 >
   <!--
     The whole landscape in one piece of artwork. It sits inside the container
@@ -41,13 +58,20 @@
 
   <scene.Ambient />
 
-  {#each creatures as creature (creature.id)}
+  <!--
+    Keyed by Scene as well: each Scene numbers its animals from 1, so an id
+    alone would hand the reef's fish #3 component to the savanna's giraffe #3,
+    and the giraffe would carry on with the fish's swimming motion.
+  -->
+  {#each creatures as creature (`${scene.id}:${creature.id}`)}
     <Creature
       {creature}
       art={scene.creatureArt[creature.def.slug]}
       depthFade={scene.depthFade}
       isNewest={creature.id === newestId}
-      frozen={murky}
+      {frozen}
+      fleeing={fleeing.includes(creature.id)}
+      ongone={() => ondepart(creature.id)}
     />
   {/each}
 

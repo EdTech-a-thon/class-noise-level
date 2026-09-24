@@ -13,35 +13,28 @@ import { DEFAULT_SCENE, SCENE_IDS, type SceneId } from "$lib/scenes/types";
 
 export type VolumeGoalPreset = "silent" | "independent" | "partner" | "custom";
 export type ArrivalRatePreset = "relaxed" | "normal" | "lively" | "custom";
+/**
+ * What Too Loud does to the Creatures already out: hold still until the room
+ * settles, or start running away. See docs/adr/0003-animals-can-run-away.md.
+ */
+export type LoudResponse = "flee" | "pause";
 
 export const VOLUME_GOAL_PRESETS: Record<
   Exclude<VolumeGoalPreset, "custom">,
-  { label: string; hint: string; goal: number }
+  { goal: number }
 > = {
-  silent: { label: "Silent", hint: "No talking at all", goal: 15 },
-  independent: { label: "Independent", hint: "Quiet whispers only", goal: 30 },
-  partner: { label: "Partner work", hint: "Conversation voices", goal: 50 },
+  silent: { goal: 15 },
+  independent: { goal: 30 },
+  partner: { goal: 50 },
 };
 
 export const ARRIVAL_RATE_PRESETS: Record<
   Exclude<ArrivalRatePreset, "custom">,
-  { label: string; hint: string; minutes: number }
+  { minutes: number }
 > = {
-  relaxed: {
-    label: "Relaxed",
-    hint: "about one animal every 8 minutes",
-    minutes: 8,
-  },
-  normal: {
-    label: "Normal",
-    hint: "about one animal every 5 minutes",
-    minutes: 5,
-  },
-  lively: {
-    label: "Lively",
-    hint: "about one animal every 2 minutes",
-    minutes: 2,
-  },
+  relaxed: { minutes: 8 },
+  normal: { minutes: 5 },
+  lively: { minutes: 2 },
 };
 
 /** Bounds on a typed-in Arrival Rate, in whole minutes. */
@@ -58,6 +51,7 @@ interface StoredSettings {
   volumeGoal: number;
   arrivalRatePreset: ArrivalRatePreset;
   arrivalMinutes: number;
+  loudResponse: LoudResponse;
 }
 
 const DEFAULTS: StoredSettings = {
@@ -68,6 +62,7 @@ const DEFAULTS: StoredSettings = {
   volumeGoal: VOLUME_GOAL_PRESETS.independent.goal,
   arrivalRatePreset: "normal",
   arrivalMinutes: ARRIVAL_RATE_PRESETS.normal.minutes,
+  loudResponse: "flee",
 };
 
 function read(): StoredSettings {
@@ -199,6 +194,15 @@ class Settings {
       arrivalMinutes: clamped,
       arrivalRatePreset: matching ?? "custom",
     };
+    this.#save();
+  }
+
+  get loudResponse() {
+    return this.#stored.loudResponse;
+  }
+
+  set loudResponse(value: LoudResponse) {
+    this.#stored = { ...this.#stored, loudResponse: value };
     this.#save();
   }
 

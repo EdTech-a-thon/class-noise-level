@@ -16,7 +16,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   // Common
   {
     slug: "meerkat",
-    name: "Meerkat",
     tier: "common",
     width: 36,
     motion: "trot",
@@ -24,7 +23,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   },
   {
     slug: "warthog",
-    name: "Warthog",
     tier: "common",
     width: 88,
     motion: "graze",
@@ -32,7 +30,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   },
   {
     slug: "zebra",
-    name: "Zebra",
     tier: "common",
     width: 120,
     motion: "graze",
@@ -40,7 +37,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   },
   {
     slug: "gazelle",
-    name: "Thomson's gazelle",
     tier: "common",
     width: 76,
     motion: "graze",
@@ -48,7 +44,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   },
   {
     slug: "ostrich",
-    name: "Ostrich",
     tier: "common",
     width: 100,
     motion: "trot",
@@ -56,7 +51,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   },
   {
     slug: "guinea-fowl",
-    name: "Guinea fowl",
     tier: "common",
     width: 52,
     motion: "trot",
@@ -64,7 +58,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   },
   {
     slug: "tortoise",
-    name: "Tortoise",
     tier: "common",
     width: 56,
     motion: "creep",
@@ -72,7 +65,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   },
   {
     slug: "hornbill",
-    name: "Hornbill",
     tier: "common",
     width: 60,
     motion: "soar",
@@ -82,7 +74,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   // Uncommon
   {
     slug: "giraffe",
-    name: "Giraffe",
     tier: "uncommon",
     width: 120,
     motion: "graze",
@@ -90,7 +81,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   },
   {
     slug: "hippo",
-    name: "Hippo",
     tier: "uncommon",
     width: 160,
     motion: "graze",
@@ -98,7 +88,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   },
   {
     slug: "rhino",
-    name: "Rhino",
     tier: "uncommon",
     width: 168,
     motion: "graze",
@@ -106,7 +95,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   },
   {
     slug: "cheetah",
-    name: "Cheetah",
     tier: "uncommon",
     width: 136,
     motion: "trot",
@@ -114,7 +102,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   },
   {
     slug: "flamingo",
-    name: "Flamingo",
     tier: "uncommon",
     width: 60,
     motion: "graze",
@@ -122,7 +109,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   },
   {
     slug: "vulture",
-    name: "Vulture",
     tier: "uncommon",
     width: 120,
     motion: "soar",
@@ -132,7 +118,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   // Rare — the jackpot. One each per Session, at most.
   {
     slug: "lion",
-    name: "Lion",
     tier: "rare",
     width: 176,
     motion: "trot",
@@ -140,7 +125,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   },
   {
     slug: "leopard",
-    name: "Leopard",
     tier: "rare",
     width: 160,
     motion: "trot",
@@ -148,7 +132,6 @@ export const SAVANNA_ROSTER: CreatureDef[] = [
   },
   {
     slug: "elephant",
-    name: "Elephant",
     tier: "rare",
     width: 240,
     motion: "graze",

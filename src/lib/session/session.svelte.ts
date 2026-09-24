@@ -1,11 +1,12 @@
 /**
  * One Session: an empty reef that fills as the class stays Quiet.
  *
- * Nothing here ever removes a Creature. Too Loud pauses the arrival clock and
- * that is the entire consequence of a noisy room — see
- * docs/adr/0001-nothing-is-taken-away.md. The only thing that empties the reef
- * is the teacher pressing Reset — not starting again, and not a refresh
- * (`savedReef.ts`).
+ * By default Creatures run away while the room stays Too Loud
+ * (docs/adr/0003-animals-can-run-away.md). A teacher can instead choose to
+ * pause the Scene, and then nothing here ever removes a Creature: Too Loud
+ * pauses the arrival clock and that is the entire consequence of a noisy room
+ * (docs/adr/0001-nothing-is-taken-away.md). Either way, a refresh or starting
+ * again never empties the reef — only Reset does (`savedReef.ts`).
  */
 
 import type { CreatureDef } from "$lib/scenes/types";
@@ -15,6 +16,12 @@ import {
   type ArrivalClock,
 } from "./arrivalClock";
 import { rollCreature } from "./roll";
+import {
+  advanceScareClock,
+  createScareClock,
+  fleeCount,
+  type ScareClock,
+} from "./scareClock";
 import { loadReef, saveReef } from "./savedReef";
 import { sightings } from "./sightings.svelte";
 
@@ -37,8 +44,14 @@ export class Session {
   creatures = $state<CreatureInstance[]>([]);
   /** The most recent arrival, for the entrance animation. */
   newestId = $state<number | null>(null);
+  /**
+   * Creatures running for the edge. Still in `creatures` until they are out
+   * of sight (`depart`), but already gone as far as a refresh is concerned.
+   */
+  fleeing = $state<number[]>([]);
 
   #clock: ArrivalClock;
+  #scare: ScareClock = createScareClock();
   #nextId = 1;
   #random: () => number;
   #roster: CreatureDef[];
@@ -67,6 +80,7 @@ export class Session {
     const restored = loadReef(this.#sceneId, this.#roster);
     this.creatures = restored;
     this.newestId = null;
+    this.fleeing = [];
     this.#nextId = Math.max(0, ...restored.map(({ id }) => id)) + 1;
   }
 
@@ -96,8 +110,10 @@ export class Session {
     this.running = false;
     this.creatures = [];
     this.newestId = null;
+    this.fleeing = [];
     this.#clock = createArrivalClock(intervalMs, this.#random);
-    saveReef(this.#sceneId, this.creatures);
+    this.#scare = createScareClock();
+    this.#save();
   }
 
   /** Fraction of the way to the next arrival — teacher-facing only. */
@@ -105,7 +121,11 @@ export class Session {
     return Math.min(1, this.#clock.bankedMs / this.#clock.targetMs);
   }
 
-  tick(deltaMs: number, isQuiet: boolean, intervalMs: number) {
+  /**
+   * `scares` is the teacher's choice that Too Loud makes Creatures run away
+   * rather than only pausing arrivals.
+   */
+  tick(deltaMs: number, isQuiet: boolean, intervalMs: number, scares = false) {
     if (!this.running) return;
     const step = advanceArrivalClock(
       this.#clock,
@@ -116,6 +136,17 @@ export class Session {
     );
     this.#clock = step.clock;
     if (step.arrived) this.#arrive();
+
+    const scare = advanceScareClock(this.#scare, deltaMs, scares && !isQuiet);
+    this.#scare = scare.clock;
+    if (scare.wave) this.#scareSome(scare.wave === "first");
+  }
+
+  /** A fleeing Creature has run out of sight: now it is really gone. */
+  depart(id: number) {
+    this.creatures = this.creatures.filter((creature) => creature.id !== id);
+    this.fleeing = this.fleeing.filter((fleeing) => fleeing !== id);
+    if (this.newestId === id) this.newestId = null;
   }
 
   /**
@@ -130,7 +161,32 @@ export class Session {
     const added = defs.map((def) => this.#place(def));
     this.creatures = [...this.creatures, ...added];
     this.newestId = null;
-    saveReef(this.#sceneId, this.creatures);
+    this.#save();
+  }
+
+  #scareSome(firstWave: boolean) {
+    const staying = this.creatures.filter(
+      (creature) => !this.fleeing.includes(creature.id),
+    );
+    const scared: number[] = [];
+    for (let n = fleeCount(staying.length, firstWave); n > 0; n--) {
+      const [pick] = staying.splice(
+        Math.floor(this.#random() * staying.length),
+        1,
+      );
+      scared.push(pick.id);
+    }
+    if (scared.length === 0) return;
+    this.fleeing = [...this.fleeing, ...scared];
+    this.#save();
+  }
+
+  /** Saves who is staying: a refresh never brings back a Creature that ran. */
+  #save() {
+    saveReef(
+      this.#sceneId,
+      this.creatures.filter((creature) => !this.fleeing.includes(creature.id)),
+    );
   }
 
   #arrive() {
@@ -141,7 +197,7 @@ export class Session {
     const instance = this.#place(def);
     this.creatures = [...this.creatures, instance];
     this.newestId = instance.id;
-    saveReef(this.#sceneId, this.creatures);
+    this.#save();
     sightings.record(this.#sceneId, def.slug);
   }
 

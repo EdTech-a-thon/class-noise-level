@@ -8,6 +8,7 @@
    * itself never changes shape; it is the only irreversible action on screen.
    */
 
+  import { t } from "$lib/i18n/index.svelte";
   import type { App } from "$lib/app.svelte";
 
   let {
@@ -52,22 +53,22 @@
       <div
         class="absolute bottom-full left-1/2 mb-3 flex w-max -translate-x-1/2 items-center gap-2 rounded-2xl bg-white/95 px-4 py-3 shadow-lg"
         role="alertdialog"
-        aria-label="Confirm reset"
+        aria-label={t("controls.confirmReset")}
       >
         <span class="px-1 text-sm text-slate-700"
-          >Empty this scene and start over?</span
+          >{t("controls.resetQuestion")}</span
         >
         <button
           class="rounded-full bg-rose-600 px-4 py-2 text-sm font-medium text-white"
           onclick={reset}
         >
-          Yes, reset
+          {t("controls.resetYes")}
         </button>
         <button
           class="rounded-full border border-slate-300 px-4 py-2 text-sm hover:bg-slate-50"
           onclick={() => (confirmingReset = false)}
         >
-          Keep going
+          {t("controls.keepGoing")}
         </button>
       </div>
     {/if}
@@ -80,7 +81,7 @@
           class="rounded-full bg-slate-900 px-5 py-2 font-medium text-white"
           onclick={() => app.startSession()}
         >
-          Start
+          {t("start.button")}
         </button>
       {:else}
         <button
@@ -89,7 +90,7 @@
           aria-expanded={confirmingReset}
           onclick={() => (confirmingReset = !confirmingReset)}
         >
-          Reset
+          {t("controls.reset")}
         </button>
       {/if}
 
@@ -97,13 +98,13 @@
         class="rounded-full border border-slate-300 px-4 py-2 text-sm hover:bg-slate-50"
         onclick={onopensettings}
       >
-        Settings
+        {t("controls.settings")}
       </button>
       <button
         class="rounded-full border border-slate-300 px-4 py-2 text-sm hover:bg-slate-50"
         onclick={onopencollection}
       >
-        Animals
+        {t("controls.animals")}
       </button>
     </div>
   </div>

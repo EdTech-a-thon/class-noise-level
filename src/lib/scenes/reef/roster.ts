@@ -14,7 +14,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   // Common
   {
     slug: "clownfish",
-    name: "Clownfish",
     tier: "common",
     width: 70,
     motion: "cruise",
@@ -22,7 +21,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   },
   {
     slug: "blue-tang",
-    name: "Blue tang",
     tier: "common",
     width: 80,
     motion: "cruise",
@@ -30,7 +28,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   },
   {
     slug: "angelfish",
-    name: "Angelfish",
     tier: "common",
     width: 75,
     motion: "cruise",
@@ -38,7 +35,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   },
   {
     slug: "seahorse",
-    name: "Seahorse",
     tier: "common",
     width: 45,
     motion: "hover",
@@ -46,7 +42,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   },
   {
     slug: "starfish",
-    name: "Starfish",
     tier: "common",
     width: 55,
     motion: "creep",
@@ -54,7 +49,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   },
   {
     slug: "crab",
-    name: "Crab",
     tier: "common",
     width: 60,
     motion: "scuttle",
@@ -62,7 +56,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   },
   {
     slug: "shrimp",
-    name: "Shrimp",
     tier: "common",
     width: 40,
     motion: "dart",
@@ -70,7 +63,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   },
   {
     slug: "parrotfish",
-    name: "Parrotfish",
     tier: "common",
     width: 90,
     motion: "cruise",
@@ -78,7 +70,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   },
   {
     slug: "pufferfish",
-    name: "Pufferfish",
     tier: "common",
     width: 65,
     motion: "hover",
@@ -88,7 +79,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   // Uncommon
   {
     slug: "octopus",
-    name: "Octopus",
     tier: "uncommon",
     width: 110,
     motion: "jet",
@@ -96,7 +86,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   },
   {
     slug: "sea-turtle",
-    name: "Sea turtle",
     tier: "uncommon",
     width: 130,
     motion: "glide",
@@ -104,7 +93,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   },
   {
     slug: "moray-eel",
-    name: "Moray eel",
     tier: "uncommon",
     width: 140,
     motion: "prowl",
@@ -112,7 +100,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   },
   {
     slug: "stingray",
-    name: "Stingray",
     tier: "uncommon",
     width: 120,
     motion: "prowl",
@@ -120,7 +107,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   },
   {
     slug: "jellyfish-bloom",
-    name: "Jellyfish bloom",
     tier: "uncommon",
     width: 100,
     motion: "drift",
@@ -128,7 +114,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   },
   {
     slug: "cuttlefish",
-    name: "Cuttlefish",
     tier: "uncommon",
     width: 85,
     motion: "jet",
@@ -138,7 +123,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   // Rare — the jackpot. One each per Session, at most.
   {
     slug: "hammerhead-shark",
-    name: "Hammerhead shark",
     tier: "rare",
     width: 220,
     motion: "glide",
@@ -146,7 +130,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   },
   {
     slug: "manta-ray",
-    name: "Manta ray",
     tier: "rare",
     width: 280,
     motion: "glide",
@@ -154,7 +137,6 @@ export const REEF_ROSTER: CreatureDef[] = [
   },
   {
     slug: "whale-shark",
-    name: "Whale shark",
     tier: "rare",
     width: 340,
     motion: "glide",

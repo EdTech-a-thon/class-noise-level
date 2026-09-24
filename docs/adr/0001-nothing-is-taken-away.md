@@ -34,3 +34,6 @@ rather than punitive.
 The Shy Safari framing ("the animals are shy, so they won't come out while it
 is too loud") is this decision told to children: loudness delays the next
 arrival, it never scares away an animal that is already out.
+
+Superseded as the default by ADR 0003: animals now run away when it is too
+loud, and this behaviour remains as the "Pause the scene" setting.
