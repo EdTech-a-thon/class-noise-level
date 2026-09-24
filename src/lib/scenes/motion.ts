@@ -70,7 +70,8 @@ export interface MotionProfile {
   ground: boolean;
   /**
    * Where a ground Creature's feet may rest, as fractions of Scene height,
-   * far to near. Defaults to the reef's sand.
+   * far to near. Defaults to the reef's sand. For swimmers and fliers it is
+   * only the ground their depth is layered against (`creatureLayer`).
    */
   band?: { top: number; bottom: number };
 }
@@ -80,7 +81,7 @@ export const SAND_TOP = 0.84;
 export const SAND_BOTTOM = 0.98;
 
 /** The open plain in the savanna backdrop, as fractions of Scene height. */
-const PLAIN = { top: 0.72, bottom: 0.97 };
+const PLAIN = { top: 0.62, bottom: 0.97 };
 
 const WATER: Region = { xMin: 0.06, xMax: 0.94, yMin: 0.1, yMax: 0.78 };
 
@@ -218,8 +219,8 @@ export const MOTION_PROFILES: Record<MotionStyle, MotionProfile> = {
   },
   trot: {
     region: { xMin: 0.04, xMax: 0.96, yMin: 0, yMax: 1 },
-    speed: 0.035,
-    agility: 4,
+    speed: 0.025,
+    agility: 3,
     reachX: 0.6,
     reachY: 0,
     restChance: 0.5,
@@ -242,6 +243,7 @@ export const MOTION_PROFILES: Record<MotionStyle, MotionProfile> = {
     flips: true,
     tilts: true,
     ground: false,
+    band: PLAIN,
   },
 };
 
@@ -279,6 +281,26 @@ export function groundLine(
   band = { top: SAND_TOP, bottom: SAND_BOTTOM },
 ): number {
   return band.top + depth * (band.bottom - band.top);
+}
+
+/**
+ * Stacking order for anything in the Scene, from where it meets the ground as
+ * a fraction of Scene height. Scenery and Creatures share it, so whichever
+ * touches the ground lower on screen is always drawn in front: a zebra whose
+ * feet are below a rock's base stands in front of the rock, never behind it
+ * with its hooves showing underneath. Fine-grained so that things a hair
+ * apart still sort the right way round.
+ */
+export function groundLayer(y: number): number {
+  return Math.round(y * 1000);
+}
+
+/**
+ * A Creature's layer. Ground Creatures by their feet; swimmers and fliers by
+ * where their depth would put them on the ground below.
+ */
+export function creatureLayer(profile: MotionProfile, depth: number): number {
+  return groundLayer(groundLine(depth, profile.band));
 }
 
 /** The box a Creature's centre is allowed in, so no part of it is cut off. */

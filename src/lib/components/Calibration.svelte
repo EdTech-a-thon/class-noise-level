@@ -85,7 +85,7 @@
 <div class="rounded-lg bg-slate-100 p-4" aria-live="polite">
   {#if stage === "idle"}
     <p class="text-sm text-slate-700">
-      <b>Calibrate this room.</b> Optional — the app works without it. Calibrating
+      <b>Calibrate this room.</b> Calibrating
       makes the meter match what quiet and talking actually sound like on this computer.
     </p>
     <button

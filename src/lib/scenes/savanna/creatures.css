@@ -35,6 +35,18 @@
   }
 }
 
+/* The far wing of a bird drawn with both wings spread points the other way
+   from its shoulder, so it turns the opposite way to beat in step. */
+@keyframes wing-beat-far {
+  0%,
+  100% {
+    transform: rotate(9deg);
+  }
+  50% {
+    transform: rotate(-11deg);
+  }
+}
+
 /* Head: a long look about, then a small shy dip. */
 @keyframes head-nod {
   0%,
@@ -58,6 +70,10 @@
   transform-box: fill-box;
   transform-origin: bottom center;
   animation: wing-beat 1800ms ease-in-out infinite;
+}
+
+.creature .part-wings-far {
+  animation-name: wing-beat-far;
 }
 
 .creature .part-head {

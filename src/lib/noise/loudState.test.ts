@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 import {
-  ENTER_TOO_LOUD_MS,
-  LEAVE_TOO_LOUD_MS,
+  FASTEST_TOO_LOUD_MS,
+  loudPressure,
   nextNoiseState,
   pruneSamples,
   type LevelSample,
@@ -34,29 +34,69 @@ describe("nextNoiseState", () => {
     );
   });
 
-  it("ignores a two-second spike — a knock at the door is not Too Loud", () => {
+  it("ignores a knock at the door", () => {
     const now = 60_000;
     const samples = concat(
-      series(now - 2_000, 20_000, 8),
-      series(now, 2_000, 95),
+      series(now - 500, 20_000, 8),
+      series(now, 500, 95),
     );
     expect(nextNoiseState("quiet", samples, GOAL, now)).toBe("quiet");
   });
 
-  it("enters Too Loud once the room has been loud for the full window", () => {
+  it("does not enter Too Loud after three seconds slightly over", () => {
     const now = 60_000;
     const samples = concat(
-      series(now - 15_000, 20_000, 8),
-      series(now, 15_000, 70),
+      series(now - 3_000, 20_000, 8),
+      series(now, 3_000, GOAL + 5),
+    );
+    expect(nextNoiseState("quiet", samples, GOAL, now)).toBe("quiet");
+  });
+
+  it("enters Too Loud after six seconds slightly over", () => {
+    const now = 60_000;
+    const samples = concat(
+      series(now - 6_000, 20_000, 8),
+      series(now, 6_000, GOAL + 5),
     );
     expect(nextNoiseState("quiet", samples, GOAL, now)).toBe("too-loud");
   });
 
-  it("does not enter Too Loud before the window is covered", () => {
-    // Loud from the very first sample, but the app has only been listening
-    // for eight seconds: not yet enough evidence.
-    const now = 8_000;
-    const samples = series(now, 8_000, 70);
+  it("enters Too Loud after just over a second far over", () => {
+    const now = 60_000;
+    const samples = concat(
+      series(now - 1_100, 20_000, 8),
+      series(now, 1_100, 90),
+    );
+    expect(nextNoiseState("quiet", samples, GOAL, now)).toBe("too-loud");
+  });
+
+  it("never enters Too Loud faster than the fastest window", () => {
+    const now = 60_000;
+    const samples = concat(
+      series(now - 800, 20_000, 8),
+      series(now, 800, 100),
+    );
+    expect(nextNoiseState("quiet", samples, GOAL, now)).toBe("quiet");
+    expect(FASTEST_TOO_LOUD_MS).toBeGreaterThan(800);
+  });
+
+  it("gets there faster the louder the room is", () => {
+    const now = 60_000;
+    const pressureAt = (level: number) =>
+      loudPressure(series(now, 2_000, level), GOAL, now);
+    expect(pressureAt(GOAL + 20)).toBeGreaterThan(pressureAt(GOAL + 5));
+  });
+
+  it("lets quiet moments drain the noise away", () => {
+    // Four seconds slightly over, a quiet stretch, then four more: never six
+    // in a row, and the quiet in between forgives most of the first burst.
+    const now = 60_000;
+    const samples = concat(
+      series(now - 12_000, 20_000, 8),
+      series(now - 8_000, 4_000, GOAL + 5),
+      series(now - 4_000, 4_000, 8),
+      series(now, 4_000, GOAL + 5),
+    );
     expect(nextNoiseState("quiet", samples, GOAL, now)).toBe("quiet");
   });
 
@@ -78,14 +118,10 @@ describe("nextNoiseState", () => {
     expect(nextNoiseState("too-loud", samples, GOAL, now)).toBe("too-loud");
   });
 
-  it("recovers faster than it commits — slow in, fast out", () => {
-    expect(LEAVE_TOO_LOUD_MS).toBeLessThan(ENTER_TOO_LOUD_MS);
-  });
-
   it("does not flip straight back to Too Loud after recovering", () => {
     // Loud for a long stretch, then three quiet seconds: the exit fires. The
-    // ten-second window is still mostly loud, but that noise predates the
-    // recovery and must not count.
+    // bucket would still be full of that noise, but it predates the recovery
+    // and must not count.
     const recoveredAt = 60_000;
     const samples = concat(
       series(recoveredAt - 3_200, 20_000, 70),
@@ -97,8 +133,8 @@ describe("nextNoiseState", () => {
   });
 
   it("does not flip straight back to quiet after entering Too Loud", () => {
-    // Very loud, then a quiet tail short of ten seconds: the ten-second mean
-    // is over the goal but the last three seconds are not.
+    // Very loud, then a quiet tail: the loud stretch predates entering Too
+    // Loud, so the last three seconds are judged on their own.
     const enteredAt = 60_000;
     const samples = concat(
       series(enteredAt - 3_200, 20_000, 95),
@@ -117,12 +153,10 @@ describe("nextNoiseState", () => {
 });
 
 describe("pruneSamples", () => {
-  it("keeps only what the longest window can still need", () => {
+  it("keeps only what the bucket can still need", () => {
     const now = 60_000;
     const kept = pruneSamples(series(now, 30_000, 20), now);
-    expect(kept[0].time).toBeGreaterThanOrEqual(
-      now - ENTER_TOO_LOUD_MS - 1_000,
-    );
+    expect(kept[0].time).toBeGreaterThanOrEqual(now - 15_000);
     expect(kept.at(-1)?.time).toBe(now);
   });
 });

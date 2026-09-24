@@ -1,12 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="none">
   <defs>
-    <linearGradient id="backdrop-sky" x1="0" y1="0" x2="0" y2="640" gradientUnits="userSpaceOnUse">
+    <linearGradient id="backdrop-sky" x1="0" y1="0" x2="0" y2="520" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#8cc7d9"/>
       <stop offset="0.55" stop-color="#e2e3c6"/>
       <stop offset="1" stop-color="#fbd9a2"/>
     </linearGradient>
   </defs>
   <rect x="0" y="0" width="1920" height="1080" fill="url(#backdrop-sky)"/>
+  <g transform="translate(0 -120)">
   <!-- Far mountain, flat-topped, with a cap of old snow. Hazy, close to the sky. -->
   <path d="M1040 610 C 1180 560, 1290 470, 1380 432 C 1420 416, 1470 412, 1520 414
            C 1570 416, 1610 426, 1650 448 C 1730 492, 1820 560, 1960 612 Z" fill="#e2c7b7"/>
@@ -32,7 +33,7 @@
   </g>
   <!-- Far plain. -->
   <path d="M-10 612 C 200 600, 420 616, 700 606 C 980 596, 1200 614, 1500 604
-           C 1680 598, 1820 608, 1930 604 L1930 1090 L-10 1090 Z" fill="#efd79a"/>
+           C 1680 598, 1820 608, 1930 604 L1930 1400 L-10 1400 Z" fill="#efd79a"/>
   <!-- Kopje: a pile of rounded granite boulders out on the plain. -->
   <g>
     <path d="M150 700 C 150 660, 176 632, 214 630 C 240 610, 290 600, 326 618
@@ -42,9 +43,11 @@
              C 350 680, 346 644, 326 618 Z" fill="#2b2b3a" opacity="0.1"/>
     <path d="M214 630 C 236 650, 250 680, 246 704 L236 704 C 238 680, 228 652, 214 630 Z" fill="#2b2b3a" opacity="0.1"/>
   </g>
+  </g>
+  <g transform="translate(0 -150)">
   <!-- Middle plain: golden grass. -->
   <path d="M-10 694 C 180 676, 380 704, 640 690 C 900 676, 1120 702, 1400 688
-           C 1620 678, 1800 694, 1930 686 L1930 1090 L-10 1090 Z" fill="#e7c273"/>
+           C 1620 678, 1800 694, 1930 686 L1930 1400 L-10 1400 Z" fill="#e7c273"/>
   <path d="M-10 694 C 180 676, 380 704, 640 690 C 900 676, 1120 702, 1400 688
            C 1620 678, 1800 694, 1930 686 L1930 712 C 1800 720, 1620 704, 1400 714
            C 1120 728, 900 702, 640 716 C 380 730, 180 702, -10 720 Z" fill="#2b2b3a" opacity="0.04"/>
@@ -55,14 +58,17 @@
            C 1464 788, 1368 800, 1238 800 C 1110 800, 1004 790, 1010 772 Z" fill="#8cc3c6"/>
   <path d="M1060 764 C 1120 752, 1220 748, 1310 752 C 1250 758, 1150 762, 1060 764 Z" fill="#ffffff" opacity="0.35"/>
   <path d="M1060 784 C 1160 796, 1330 796, 1440 780 C 1400 792, 1330 800, 1238 800 C 1160 800, 1100 794, 1060 784 Z" fill="#2b2b3a" opacity="0.1"/>
-  <!-- Near ground, where the animals stand. -->
+  </g>
+  <!-- Near ground, where the animals stand. Takes up the bottom ~40%. -->
+  <g transform="translate(0 -208)">
   <path d="M-10 864 C 200 842, 360 888, 560 868 C 760 848, 900 884, 1100 870
-           C 1300 856, 1440 890, 1640 872 C 1780 860, 1860 874, 1930 868 L1930 1090 L-10 1090 Z" fill="#deb05e"/>
+           C 1300 856, 1440 890, 1640 872 C 1780 860, 1860 874, 1930 868 L1930 1400 L-10 1400 Z" fill="#deb05e"/>
   <path d="M-10 864 C 200 842, 360 888, 560 868 C 760 848, 900 884, 1100 870
            C 1300 856, 1440 890, 1640 872 C 1780 860, 1860 874, 1930 868 L1930 900
            C 1840 910, 1760 896, 1620 906 C 1440 922, 1300 890, 1100 904
            C 900 918, 760 882, 560 902 C 360 922, 200 878, -10 898 Z" fill="#2b2b3a" opacity="0.05"/>
+  </g>
   <!-- A pale dirt track winding in from the foreground towards the water. -->
-  <path d="M520 1090 C 600 1010, 760 956, 930 918 C 990 904, 1034 888, 1058 871
+  <path transform="matrix(1 0 0 1.9498 0 -1035.3)" d="M520 1090 C 600 1010, 760 956, 930 918 C 990 904, 1034 888, 1058 871
            C 1052 892, 1024 912, 980 930 C 840 988, 780 1040, 820 1090 Z" fill="#e9c585"/>
 </svg>

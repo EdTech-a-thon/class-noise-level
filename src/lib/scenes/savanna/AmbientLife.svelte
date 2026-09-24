@@ -1,8 +1,8 @@
 <script lang="ts">
   /**
    * Scenery that is alive but is not a Creature: swaying grass, acacias,
-   * bushes and rocks on the plain, the sun, drifting clouds, dust on the
-   * breeze and a far-off flock of birds in silhouette. Present from the first
+   * bushes and rocks on the plain, the sun, drifting clouds and a
+   * far-off flock of birds in silhouette. Present from the first
    * second of every Session, never earned, never counted.
    *
    * It exists because an unpopulated safari otherwise reads as "this app is
@@ -17,11 +17,12 @@
    */
 
   import { AMBIENT_ART } from "$lib/scenes/savanna/artwork";
+  import { groundLayer } from "$lib/scenes/motion";
 
   /**
    * Everything rooted in the ground, spread through its whole depth rather
    * than lined up along the back edge. `base` is the distance from the bottom
-   * of the Scene: the near ground runs from about 16% (far) down to the
+   * of the Scene: the near ground runs from about 39% (far) down to the
    * bottom edge (near). Nearer pieces are drawn bigger, and each is layered by
    * that depth so an animal walking the ground passes in front of some
    * scenery and behind the rest — the same depth scale Creatures use
@@ -32,21 +33,21 @@
    */
   const ground = [
     // Back row, along the far edge of the near ground.
-    { x: 29, base: 15, size: 9, art: "acacia" },
-    { x: 17, base: 14, size: 5, art: "grass-short" },
-    { x: 24, base: 15, size: 3, art: "termite-mound" },
-    { x: 40, base: 14, size: 7, art: "grass-tall" },
-    { x: 47, base: 15, size: 5, art: "bush" },
-    { x: 63, base: 14, size: 6, art: "grass-short" },
-    { x: 79, base: 15, size: 11, art: "acacia" },
-    { x: 70, base: 14, size: 4.5, art: "rock" },
+    { x: 29, base: 37, size: 9, art: "acacia" },
+    { x: 17, base: 36, size: 5, art: "grass-short" },
+    { x: 24, base: 37, size: 3, art: "termite-mound" },
+    { x: 40, base: 36, size: 7, art: "grass-tall" },
+    { x: 47, base: 37, size: 5, art: "bush" },
+    { x: 63, base: 36, size: 6, art: "grass-short" },
+    { x: 79, base: 37, size: 11, art: "acacia" },
+    { x: 70, base: 36, size: 4.5, art: "rock" },
     // Middle of the ground.
-    { x: 9, base: 9, size: 6, art: "bush" },
-    { x: 22, base: 8, size: 10, art: "grass-tall" },
-    { x: 34, base: 9, size: 5.5, art: "rock" },
-    { x: 58, base: 10, size: 9, art: "grass-tall" },
-    { x: 66, base: 8, size: 7, art: "grass-short" },
-    { x: 90, base: 7, size: 4, art: "termite-mound" },
+    { x: 9, base: 23, size: 6, art: "bush" },
+    { x: 22, base: 20, size: 10, art: "grass-tall" },
+    { x: 34, base: 23, size: 5.5, art: "rock" },
+    { x: 58, base: 26, size: 9, art: "grass-tall" },
+    { x: 66, base: 20, size: 7, art: "grass-short" },
+    { x: 90, base: 17, size: 4, art: "termite-mound" },
     // Front row, right at the bottom edge.
     { x: -8, base: 1, size: 30, art: "acacia" },
     { x: 26, base: 2, size: 9, art: "grass-short" },
@@ -59,18 +60,11 @@
     .map((piece) => ({
       ...piece,
       grass: piece.art.startsWith("grass"),
-      // Same 0–40 range as Creature z-indexes, far to near.
-      layer: Math.round(((16 - piece.base) / 15) * 40),
+      // On the same scale as Creatures, by where the piece meets the ground.
+      layer: groundLayer(1 - piece.base / 100),
       sway: 4.5 + ((Math.abs(piece.x) * 7) % 25) / 10,
     }))
     .sort((a, b) => a.layer - b.layer);
-
-  /** Full-height sheets of dust motes, each fading in and out so no seam is ever visible. */
-  const dustSheets = [
-    { duration: 58, delay: 0, opacity: 0.5 },
-    { duration: 72, delay: -26, opacity: 0.35 },
-    { duration: 50, delay: -42, opacity: 0.4 },
-  ];
 
   /** Clouds crossing the sky, slow enough that nobody sees them move. */
   const clouds = [
@@ -112,17 +106,6 @@
   >
     <!-- eslint-disable-next-line svelte/no-at-html-tags -->
     {@html AMBIENT_ART.birds}
-  </div>
-{/each}
-
-<!-- Dust and seed fluff drifting on the breeze. -->
-{#each dustSheets as sheet (sheet.duration)}
-  <div
-    class="dust-field pointer-events-none absolute inset-x-0 top-0 bottom-0"
-    style="animation-duration:{sheet.duration}s; animation-delay:{sheet.delay}s; --dust-peak:{sheet.opacity};"
-  >
-    <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-    {@html AMBIENT_ART.dust}
   </div>
 {/each}
 

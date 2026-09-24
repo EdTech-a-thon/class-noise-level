@@ -22,6 +22,11 @@ export class App {
    * `run` switches to the saved choice once the page has mounted.
    */
   #sceneId = $state<SceneId>(DEFAULT_SCENE);
+  /**
+   * False until `run` has switched to the saved Scene. The page holds the
+   * Scene back until then, so a reload never flashes the default first.
+   */
+  restored = $state(false);
   session = new Session(
     DEFAULT_SCENE,
     SCENES[DEFAULT_SCENE].roster,
@@ -87,6 +92,7 @@ export class App {
     // microphone) because of anything restoring touched. Switching to the
     // saved Scene also brings back the animals it had.
     untrack(() => this.useScene(settings.scene));
+    this.restored = true;
     this.#lastTick = performance.now();
     const step = () => {
       const now = performance.now();

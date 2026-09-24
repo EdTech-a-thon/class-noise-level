@@ -80,9 +80,14 @@ export class Session {
     this.restore();
   }
 
-  /** Starting keeps whoever is already here; only `reset` empties the reef. */
+  /**
+   * Starting keeps whoever is already here; only `reset` empties the reef.
+   * An empty scene gets its first Creature quickly, as a teaser.
+   */
   start(intervalMs: number) {
-    this.#clock = createArrivalClock(intervalMs, this.#random);
+    this.#clock = createArrivalClock(intervalMs, this.#random, {
+      teaser: this.creatures.length === 0,
+    });
     this.running = true;
   }
 
@@ -112,21 +117,39 @@ export class Session {
     if (step.arrived) this.#arrive();
   }
 
+  /**
+   * One of every species in the Scene at once, for trying the app out.
+   * Rares already here are skipped so they still appear at most once.
+   */
+  summonAll() {
+    const present = this.creatures.map((creature) => creature.def.slug);
+    const defs = this.#roster.filter(
+      (def) => def.tier !== "rare" || !present.includes(def.slug),
+    );
+    const added = defs.map((def) => this.#place(def));
+    this.creatures = [...this.creatures, ...added];
+    this.newestId = null;
+    saveReef(this.#sceneId, this.creatures);
+  }
+
   #arrive() {
     const present = this.creatures.map((creature) => creature.def.slug);
     const def = rollCreature(this.#roster, present, this.#random);
     if (!def) return;
 
-    const depth = this.#random();
-    const instance: CreatureInstance = {
-      id: this.#nextId++,
-      def,
-      depth,
-      spawnX: this.#random(),
-      spawnY: this.#random(),
-    };
+    const instance = this.#place(def);
     this.creatures = [...this.creatures, instance];
     this.newestId = instance.id;
     saveReef(this.#sceneId, this.creatures);
+  }
+
+  #place(def: CreatureDef): CreatureInstance {
+    return {
+      id: this.#nextId++,
+      def,
+      depth: this.#random(),
+      spawnX: this.#random(),
+      spawnY: this.#random(),
+    };
   }
 }

@@ -18,6 +18,17 @@
       rel="apple-touch-icon"
       href="%sveltekit.assets%/apple-touch-icon.png"
     />
+    <script>
+      // The page is prerendered without a Scene, which appears only once the
+      // saved one is known. Until then, paint the saved Scene's colours so a
+      // reload doesn't flash. Keep in step with settings.svelte.ts.
+      try {
+        var saved = JSON.parse(
+          localStorage.getItem("class-noise-level:settings") || "{}",
+        ).scene;
+        if (saved) document.documentElement.dataset.scene = saved;
+      } catch (e) {}
+    </script>
     %sveltekit.head%
   </head>
   <body data-sveltekit-preload-data="hover">

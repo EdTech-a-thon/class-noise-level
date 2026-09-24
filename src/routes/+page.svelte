@@ -61,12 +61,14 @@
 />
 
 <main class="relative h-screen w-screen overflow-hidden">
-  <Scene
-    scene={app.scene}
-    creatures={app.session.creatures}
-    newestId={app.session.newestId}
-    murky={app.monitor.state === "too-loud"}
-  />
+  {#if app.restored}
+    <Scene
+      scene={app.scene}
+      creatures={app.session.creatures}
+      newestId={app.session.newestId}
+      murky={app.monitor.state === "too-loud"}
+    />
+  {/if}
 
   {#if !app.listening && !app.blocked}
     <!-- Browsers only hand over a microphone after a real gesture, so the
@@ -77,10 +79,6 @@
       <div class="max-w-lg rounded-xl bg-white p-6 text-center shadow-xl">
         <img src={logoUrl} alt="" class="mx-auto mb-3 size-24" />
         <h1 class="text-2xl font-semibold text-slate-900">Shy Safari</h1>
-        <p class="mt-3 text-slate-700">
-          Every scene starts empty. The longer the class stays quiet, the more
-          animals come out — and some of them are very rare.
-        </p>
         <p class="mt-3 rounded-lg bg-amber-50 px-4 py-3 text-slate-800">
           Shh… these animals are shy! If it gets too loud, they stay hidden.
           When the room is calm again, they'll start coming out.
@@ -91,11 +89,14 @@
           aria-label="Scene"
         >
           {#each Object.values(SCENES) as scene (scene.id)}
+            <!-- Neither is picked until the saved Scene is known, so a reload
+                 doesn't flash the default as chosen. -->
+            {@const chosen = app.restored && app.scene.id === scene.id}
             <button
-              class="rounded-full px-4 py-1.5 {app.scene.id === scene.id
+              class="rounded-full px-4 py-1.5 {chosen
                 ? 'bg-slate-900 text-white'
                 : 'text-slate-700 hover:bg-slate-100'}"
-              aria-pressed={app.scene.id === scene.id}
+              aria-pressed={chosen}
               onclick={() => app.useScene(scene.id)}>{scene.name}</button
             >
           {/each}
@@ -107,7 +108,7 @@
             if (await app.connect()) app.startSession();
           }}
         >
-          Start listening
+          Start
         </button>
         <p class="mt-3 text-xs text-slate-500">
           Your browser will ask to use the microphone. Audio is measured on this

@@ -16,6 +16,7 @@
     MOTION_PROFILES,
     bankAngle,
     createMotion,
+    creatureLayer,
     stepMotion,
     type Footprint,
   } from "$lib/scenes/motion";
@@ -109,9 +110,13 @@
 
       let angle = bankAngle(state, style);
       if (profile.ground) {
-        // A walking gait: a little rock from side to side while moving.
+        // A walking gait: a little rock from side to side while moving. Crabs
+        // skitter; the savanna animals (the ones with a `band`) only sway
+        // slightly, so a plain full of walkers never reads as a stampede.
         const pace = Math.min(1, Math.abs(state.vx) / profile.speed);
-        angle = Math.sin(state.age * 18) * 3 * pace;
+        angle = profile.band
+          ? Math.sin(state.age * 6) * 1 * pace
+          : Math.sin(state.age * 18) * 3 * pace;
       }
       banker.style.transform = `rotate(${angle}deg)`;
 
@@ -135,7 +140,7 @@
   class="swimmer pointer-events-none absolute top-0 left-0"
   style="
     width:{width}vw;
-    z-index:{Math.round(creature.depth * 40)};
+    z-index:{creatureLayer(profile, creature.depth)};
     opacity:{depthFade ? 0.62 + creature.depth * 0.38 : 1};
   "
 >

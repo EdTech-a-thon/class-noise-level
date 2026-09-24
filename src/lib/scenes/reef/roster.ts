@@ -132,7 +132,7 @@ export const REEF_ROSTER: CreatureDef[] = [
     tier: "uncommon",
     width: 85,
     motion: "jet",
-    parts: ["part-fin"],
+    parts: ["part-tentacles"],
   },
 
   // Rare — the jackpot. One each per Session, at most.

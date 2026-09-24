@@ -61,6 +61,29 @@ html:has(.scene-stage[data-scene="reef"]) body {
 }
 
 /*
+ * Before the Scene mounts, a rough copy of the saved Scene's backdrop, so a
+ * reload doesn't flash. app.html sets data-scene; with none saved it's the
+ * savanna, the default.
+ */
+html:not(:has(.scene-stage)) body {
+  background: linear-gradient(
+    var(--color-sky-high) 0%,
+    var(--color-sky-mid) 26%,
+    var(--color-sky-horizon) 44%,
+    var(--color-plain) 50%,
+    var(--color-ground) 100%
+  );
+}
+
+html[data-scene="reef"]:not(:has(.scene-stage)) body {
+  background: linear-gradient(
+    var(--color-water-shallow),
+    var(--color-water-mid) 52%,
+    var(--color-water-deep)
+  );
+}
+
+/*
  * Too Loud. The whole Scene clouds over — murky water on the reef, a dusty
  * haze rolling over the savanna — with no badge, no icon, nothing aimed at an
  * individual animal, and slow enough that it cannot be played with as a party
@@ -74,8 +97,9 @@ html:has(.scene-stage[data-scene="reef"]) body {
 }
 
 .too-loud-veil {
-  /* Above the Creatures, which carry inline z-indexes up to 40. */
-  z-index: 50;
+  /* Above the Creatures and scenery, whose z-indexes run up to 1000
+     (`groundLayer` in scenes/motion.ts). */
+  z-index: 2000;
   opacity: 0;
   transition: opacity 1400ms ease;
 }
@@ -121,8 +145,7 @@ html:has(.scene-stage[data-scene="reef"]) body {
  */
 .backdrop > svg,
 .shaft > svg,
-.plankton-field > svg,
-.dust-field > svg {
+.plankton-field > svg {
   display: block;
   width: 100%;
   height: 100%;
@@ -389,21 +412,6 @@ html:has(.scene-stage[data-scene="reef"]) body {
   }
 }
 
-@keyframes dust-drift {
-  from {
-    transform: translate(-6%, 30%);
-    opacity: 0;
-  }
-  18%,
-  82% {
-    opacity: var(--dust-peak, 0.5);
-  }
-  to {
-    transform: translate(6%, -60%);
-    opacity: 0;
-  }
-}
-
 @keyframes sky-drift {
   from {
     transform: translateX(-20vw);
@@ -428,11 +436,6 @@ html:has(.scene-stage[data-scene="reef"]) body {
      It stays subordinate through its muted colours instead. */
   transform-origin: bottom center;
   animation: grass-sway ease-in-out infinite alternate;
-}
-
-.dust-field {
-  opacity: 0;
-  animation: dust-drift linear infinite;
 }
 
 .sun {
@@ -461,7 +464,6 @@ html:has(.scene-stage[data-scene="reef"]) body {
   .shaft,
   .shoal,
   .grass,
-  .dust-field,
   .sun,
   .cloud,
   .flock,

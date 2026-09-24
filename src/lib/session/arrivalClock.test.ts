@@ -4,6 +4,8 @@ import {
   advanceArrivalClock,
   createArrivalClock,
   nextTargetMs,
+  TEASER_MAX_MS,
+  TEASER_MIN_MS,
 } from "./arrivalClock";
 
 const FIVE_MINUTES = 5 * 60_000;
@@ -113,6 +115,49 @@ describe("advanceArrivalClock", () => {
     // Twelve at the nominal rate; jitter can move it by a little.
     expect(arrivals).toBeGreaterThanOrEqual(10);
     expect(arrivals).toBeLessThanOrEqual(14);
+  });
+});
+
+describe("teaser", () => {
+  /** Quiet from the start: when do the first two Creatures arrive? */
+  function firstTwo(intervalMs: number, random: () => number) {
+    let clock = createArrivalClock(intervalMs, random, { teaser: true });
+    const arrivals: number[] = [];
+    for (let elapsed = 100; arrivals.length < 2; elapsed += 100) {
+      const step = advanceArrivalClock(clock, 100, true, intervalMs, random);
+      clock = step.clock;
+      if (step.arrived) arrivals.push(elapsed);
+    }
+    return arrivals;
+  }
+
+  it("brings the first Creature within 10-20 seconds at any rate", () => {
+    for (const minutes of [2, 5, 8, 60]) {
+      for (const r of [0, 0.5, 0.999]) {
+        const [first] = firstTwo(minutes * 60_000, () => r);
+        expect(first).toBeGreaterThanOrEqual(TEASER_MIN_MS);
+        expect(first).toBeLessThanOrEqual(TEASER_MAX_MS + 100);
+      }
+    }
+  });
+
+  it("then waits the normal interval for the next one", () => {
+    const [first, second] = firstTwo(FIVE_MINUTES, noJitter);
+    expect(first).toBe(15_000);
+    expect(second - first).toBe(FIVE_MINUTES);
+  });
+
+  it("is not stretched when the rate changes mid-teaser", () => {
+    const clock = createArrivalClock(FIVE_MINUTES, noJitter, { teaser: true });
+    const step = advanceArrivalClock(clock, 100, true, 8 * 60_000, noJitter);
+    expect(step.clock.targetMs).toBe(15_000);
+  });
+
+  it("still only counts quiet time", () => {
+    const clock = createArrivalClock(FIVE_MINUTES, noJitter, { teaser: true });
+    const step = advanceArrivalClock(clock, 30_000, false, FIVE_MINUTES, noJitter);
+    expect(step.arrived).toBe(false);
+    expect(step.clock.bankedMs).toBe(0);
   });
 });
 

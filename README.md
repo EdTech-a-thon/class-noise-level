@@ -6,8 +6,9 @@ they stay hidden until it is calm again.
 
 It is the opposite of a noise meter. There is no bouncing, no score, no red
 warning light — nothing that makes being loud more interesting than being
-quiet. The class starts with an empty scene, and every few minutes of quiet
-working brings another animal out. Some of them are rare.
+quiet. The class starts with an empty scene. The first animal comes out
+after 10–20 quiet seconds, as a taste of what is coming; after that, every few
+minutes of quiet working brings another one. Some of them are rare.
 
 ## What a teacher does
 
@@ -29,11 +30,13 @@ The teacher sets a **Volume Goal** — Silent, Independent or Partner work, or
 anywhere in between by dragging the line on the meter. While the room stays
 under it, animals arrive.
 
-Going over the line does not instantly stop anything. It takes **ten seconds**
-of sustained noise before arrivals pause, so a knock at the door or a dropped
-book costs the class nothing. Recovery takes only **three seconds**, because a
-class that settles down should be rewarded immediately rather than serve a
-sentence.
+Going over the line does not instantly stop anything. Noise over the goal
+fills up a bucket, and the further over, the faster it fills: just over the
+line takes about **six seconds** to pause arrivals, far over takes about
+**one second**. Quiet moments drain the bucket again, so a knock at the door or
+a dropped book costs the class nothing. Recovery takes only **three seconds**,
+because a class that settles down should be rewarded immediately rather than
+serve a sentence.
 
 When the room is too loud, the whole scene slowly clouds over — a dusty haze
 on the savanna, murky water on the reef. That is

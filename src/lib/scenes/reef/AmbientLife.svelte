@@ -16,6 +16,7 @@
    */
 
   import { AMBIENT_ART } from "$lib/scenes/reef/artwork";
+  import { groundLayer } from "$lib/scenes/motion";
 
   /**
    * Everything rooted in the sand, spread through its whole depth rather than
@@ -54,8 +55,8 @@
     .map((piece) => ({
       ...piece,
       weed: piece.art.startsWith("seaweed"),
-      // Same 0–40 range as Creature z-indexes, far to near.
-      layer: Math.round(((16 - piece.base) / 15) * 40),
+      // On the same scale as Creatures, by where the piece meets the ground.
+      layer: groundLayer(1 - piece.base / 100),
       sway: 5.5 + ((piece.x * 7) % 25) / 10,
     }))
     .sort((a, b) => a.layer - b.layer);

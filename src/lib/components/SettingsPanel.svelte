@@ -182,6 +182,18 @@
       </label>
     </section>
 
+    <section class="mt-6 space-y-3">
+      <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">
+        Try it out
+      </h2>
+      <button
+        class="rounded-md border border-slate-400 px-3 py-1.5 text-sm font-medium hover:bg-slate-50"
+        onclick={() => app.session.summonAll()}
+      >
+        Bring out every animal
+      </button>
+    </section>
+
     <p class="mt-6 text-xs text-slate-500">
       Settings are saved on this computer only. No account, no server, and the
       microphone audio never leaves the device.
