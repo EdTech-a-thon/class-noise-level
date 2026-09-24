@@ -47,6 +47,7 @@
       art={scene.creatureArt[creature.def.slug]}
       depthFade={scene.depthFade}
       isNewest={creature.id === newestId}
+      frozen={murky}
     />
   {/each}
 

@@ -136,6 +136,16 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   opacity: 0.38;
 }
 
+/* Too Loud freezes the Scene: the shy animals hold still, and the scenery
+   with them, until the room settles. Creatures' wandering runs in script and
+   stops there too (Creature.svelte); this catches every CSS sway, bob and
+   drift. The veil's fade is a transition, so it is unaffected. */
+.scene-stage[data-murky="true"] *,
+.scene-stage[data-murky="true"] *::before,
+.scene-stage[data-murky="true"] *::after {
+  animation-play-state: paused !important;
+}
+
 /* --- Inlined artwork ---------------------------------------------------- */
 
 /*

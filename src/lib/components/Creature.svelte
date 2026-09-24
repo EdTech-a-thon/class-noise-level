@@ -27,11 +27,14 @@
     art,
     depthFade,
     isNewest,
+    frozen,
   }: {
     creature: CreatureInstance;
     art: string;
     depthFade: boolean;
     isNewest: boolean;
+    /** Too Loud: hold perfectly still until the room settles. */
+    frozen: boolean;
   } = $props();
 
   /** Nearer Creatures are bigger; the roster width sets the species scale. */
@@ -101,6 +104,9 @@
       last = now;
       // Reduced motion keeps everyone moving, just very gently.
       if (reducedMotion.matches) dt *= 0.2;
+      // Frozen stops time rather than skipping the frame, so the gait rock
+      // holds its pose instead of snapping upright.
+      if (frozen) dt = 0;
 
       stepMotion(state, style, creature.depth, footprint(), dt, Math.random);
 
