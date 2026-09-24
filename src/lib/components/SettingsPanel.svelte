@@ -8,6 +8,7 @@
    * to it.
    */
 
+  import { t, type UiKey } from "$lib/i18n/index.svelte";
   import type { App } from "$lib/app.svelte";
   import { SCENES } from "$lib/scenes";
   import {
@@ -34,18 +35,8 @@
     (typeof ARRIVAL_RATE_PRESETS)["normal"],
   ][];
 
-  const LOUD_RESPONSES: { key: LoudResponse; label: string; hint: string }[] = [
-    {
-      key: "flee",
-      label: "Animals run away",
-      hint: "One animal runs off every few seconds until it's calm",
-    },
-    {
-      key: "pause",
-      label: "Pause the scene",
-      hint: "Animals hold still and no new ones come out",
-    },
-  ];
+  /** Run away first: it is the default. */
+  const LOUD_RESPONSES: LoudResponse[] = ["flee", "pause"];
 </script>
 
 <div
@@ -55,19 +46,21 @@
 >
   <aside
     class="h-full w-full max-w-md overflow-y-auto bg-white p-6 shadow-xl"
-    aria-label="Settings"
+    aria-label={t("settings.title")}
   >
     <div class="flex items-start justify-between">
-      <h1 class="text-xl font-semibold text-slate-900">Settings</h1>
+      <h1 class="text-xl font-semibold text-slate-900">
+        {t("settings.title")}
+      </h1>
       <button
         class="rounded-md border border-slate-300 px-3 py-1 text-sm hover:bg-slate-50"
-        onclick={onclose}>Close</button
+        onclick={onclose}>{t("common.close")}</button
       >
     </div>
 
     <section class="mt-6 space-y-3">
       <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">
-        Scene
+        {t("scene.label")}
       </h2>
       <div class="grid grid-cols-2 gap-2">
         {#each Object.values(SCENES) as scene (scene.id)}
@@ -78,8 +71,12 @@
               : 'border-slate-300 hover:bg-slate-50'}"
             onclick={() => app.useScene(scene.id)}
           >
-            <span class="block font-semibold">{scene.name}</span>
-            <span class="block text-xs opacity-80">{scene.hint}</span>
+            <span class="block font-semibold"
+              >{t(`scene.${scene.id}.name` as UiKey)}</span
+            >
+            <span class="block text-xs opacity-80"
+              >{t(`scene.${scene.id}.hint` as UiKey)}</span
+            >
           </button>
         {/each}
       </div>
@@ -87,17 +84,17 @@
 
     <section class="mt-6 space-y-3">
       <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">
-        Microphone
+        {t("settings.microphone")}
       </h2>
       <select
         class="w-full rounded-md border border-slate-300 px-3 py-2"
         value={settings.deviceId}
         onchange={(event) => app.selectDevice(event.currentTarget.value)}
       >
-        <option value="">Default microphone</option>
+        <option value="">{t("mic.default")}</option>
         {#each app.microphone.devices.filter((device) => device.deviceId) as device, index (device.deviceId)}
           <option value={device.deviceId}>
-            {device.label || `Microphone ${index + 1}`}
+            {device.label || t("mic.numbered", { number: index + 1 })}
           </option>
         {/each}
       </select>
@@ -107,15 +104,15 @@
           onclick={() => app.connect()}
         >
           {app.microphone.status === "starting"
-            ? "Connecting…"
-            : "Connect microphone"}
+            ? t("mic.connecting")
+            : t("mic.connect")}
         </button>
       {/if}
     </section>
 
     <section class="mt-6 space-y-3">
       <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">
-        Noise Meter
+        {t("settings.meter")}
       </h2>
       <LevelMeter
         level={app.monitor.level}
@@ -124,7 +121,7 @@
         onGoalChange={(goal) => settings.setVolumeGoal(goal)}
       />
       <div class="grid grid-cols-3 gap-2">
-        {#each goalPresets as [key, preset] (key)}
+        {#each goalPresets as [key] (key)}
           <button
             class="rounded-md border px-2 py-2 text-left text-sm {settings.volumeGoalPreset ===
             key
@@ -132,8 +129,12 @@
               : 'border-slate-300 hover:bg-slate-50'}"
             onclick={() => settings.useVolumeGoalPreset(key)}
           >
-            <span class="block font-semibold">{preset.label}</span>
-            <span class="block text-xs opacity-80">{preset.hint}</span>
+            <span class="block font-semibold"
+              >{t(`goal.${key}.label` as UiKey)}</span
+            >
+            <span class="block text-xs opacity-80"
+              >{t(`goal.${key}.hint` as UiKey)}</span
+            >
           </button>
         {/each}
       </div>
@@ -147,19 +148,20 @@
 
     <section class="mt-6 space-y-3">
       <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">
-        When it's too loud
+        {t("settings.tooLoud")}
       </h2>
       <div class="grid grid-cols-2 gap-2">
-        {#each LOUD_RESPONSES as option (option.key)}
+        {#each LOUD_RESPONSES as key (key)}
           <button
             class="rounded-md border px-2 py-2 text-left text-sm {settings.loudResponse ===
-            option.key
+            key
               ? 'border-slate-900 bg-slate-900 text-white'
               : 'border-slate-300 hover:bg-slate-50'}"
-            onclick={() => (settings.loudResponse = option.key)}
+            onclick={() => (settings.loudResponse = key)}
           >
-            <span class="block font-semibold">{option.label}</span>
-            <span class="block text-xs opacity-80">{option.hint}</span>
+            <span class="block font-semibold">{t(`loud.${key}.label`)}</span>
+            <span class="block text-xs opacity-80">{t(`loud.${key}.hint`)}</span
+            >
           </button>
         {/each}
       </div>
@@ -167,7 +169,7 @@
 
     <section class="mt-6 space-y-3">
       <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">
-        How often animals arrive
+        {t("settings.arrival")}
       </h2>
       <div class="grid grid-cols-3 gap-2">
         {#each ratePresets as [key, preset] (key)}
@@ -178,13 +180,15 @@
               : 'border-slate-300 hover:bg-slate-50'}"
             onclick={() => settings.useArrivalRatePreset(key)}
           >
-            <span class="block font-semibold">{preset.label}</span>
-            <span class="block text-xs opacity-80">{preset.hint}</span>
+            <span class="block font-semibold">{t(`rate.${key}`)}</span>
+            <span class="block text-xs opacity-80"
+              >{t("rate.hint", { minutes: preset.minutes })}</span
+            >
           </button>
         {/each}
       </div>
       <label class="flex items-center gap-2 text-sm text-slate-600">
-        About one animal every
+        {t("settings.aboutEvery")}
         <input
           type="number"
           min={MIN_ARRIVAL_MINUTES}
@@ -210,25 +214,24 @@
             event.currentTarget.value = String(settings.arrivalMinutes);
           }}
         />
-        minutes
+        {t("settings.minutes")}
       </label>
     </section>
 
     <section class="mt-6 space-y-3">
       <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">
-        Try it out
+        {t("settings.tryIt")}
       </h2>
       <button
         class="rounded-md border border-slate-400 px-3 py-1.5 text-sm font-medium hover:bg-slate-50"
         onclick={() => app.session.summonAll()}
       >
-        Bring out every animal
+        {t("settings.summon")}
       </button>
     </section>
 
     <p class="mt-6 text-xs text-slate-500">
-      Settings are saved on this computer only. Microphone audio never leaves
-      the device.
+      {t("settings.savedNote")}
     </p>
   </aside>
 </div>

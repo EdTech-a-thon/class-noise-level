@@ -503,3 +503,9 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
     transform: translate(-50%, -50%) scale(0.7);
   }
 }
+
+/* The EdTech-a-thon photo's caption on the about page. */
+.handwriting {
+  font-family:
+    "Segoe Script", "Bradley Hand", "Snell Roundhand", "Comic Sans MS", cursive;
+}

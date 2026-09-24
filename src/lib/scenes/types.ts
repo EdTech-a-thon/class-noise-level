@@ -33,8 +33,6 @@ export type AnimatablePart = (typeof ANIMATABLE_PARTS)[number];
 export interface CreatureDef {
   /** Matches the SVG filename, kebab-case. */
   slug: string;
-  /** Teacher-facing, sentence case. */
-  name: string;
   tier: RarityTier;
   /** Intended px width against a 1920px-wide Scene. */
   width: number;

@@ -1,7 +1,15 @@
 <script lang="ts">
   import "./layout.css";
+  import { current, initializeLanguage } from "$lib/i18n/index.svelte";
+  import { onMount } from "svelte";
 
   let { children } = $props();
+
+  onMount(initializeLanguage);
+
+  $effect(() => {
+    document.documentElement.lang = current().locale;
+  });
 
   // Cloudflare Web Analytics beacon. The token is set only in Vercel's
   // production environment, so dev servers and local builds don't count visits.
@@ -9,11 +17,6 @@
 </script>
 
 <svelte:head>
-  <title>Shy Safari — classroom noise level</title>
-  <meta
-    name="description"
-    content="A calm safari where shy animals come out the longer a classroom stays quiet."
-  />
   {#if beacon}
     <script
       defer

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { t } from "$lib/i18n/index.svelte";
+
   /**
    * The teacher's meter. Never shown to the class.
    *
@@ -32,14 +34,14 @@
 
 <div class="space-y-2">
   <div class="flex items-center justify-between gap-3">
-    <span class="text-sm font-medium text-slate-600">Current volume</span>
+    <span class="text-sm font-medium text-slate-600">{t("meter.current")}</span>
     <span
       class="rounded-full px-3 py-1 text-sm font-semibold {tooLoud
         ? 'bg-rose-100 text-rose-800'
         : 'bg-emerald-100 text-emerald-800'}"
       aria-live="polite"
     >
-      {tooLoud ? "Paused — too loud" : "Animals are arriving"}
+      {tooLoud ? t("meter.paused") : t("meter.arriving")}
     </span>
   </div>
 
@@ -60,7 +62,7 @@
 
   <label class="block">
     <span class="text-sm text-slate-600">
-      Animals arrive while the room stays left of the line ({goal}%)
+      {t("meter.goal", { goal })}
     </span>
     <input
       type="range"

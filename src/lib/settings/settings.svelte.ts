@@ -21,32 +21,20 @@ export type LoudResponse = "flee" | "pause";
 
 export const VOLUME_GOAL_PRESETS: Record<
   Exclude<VolumeGoalPreset, "custom">,
-  { label: string; hint: string; goal: number }
+  { goal: number }
 > = {
-  silent: { label: "Silent", hint: "No talking at all", goal: 15 },
-  independent: { label: "Independent", hint: "Quiet whispers only", goal: 30 },
-  partner: { label: "Partner work", hint: "Conversation voices", goal: 50 },
+  silent: { goal: 15 },
+  independent: { goal: 30 },
+  partner: { goal: 50 },
 };
 
 export const ARRIVAL_RATE_PRESETS: Record<
   Exclude<ArrivalRatePreset, "custom">,
-  { label: string; hint: string; minutes: number }
+  { minutes: number }
 > = {
-  relaxed: {
-    label: "Relaxed",
-    hint: "about one animal every 8 minutes",
-    minutes: 8,
-  },
-  normal: {
-    label: "Normal",
-    hint: "about one animal every 5 minutes",
-    minutes: 5,
-  },
-  lively: {
-    label: "Lively",
-    hint: "about one animal every 2 minutes",
-    minutes: 2,
-  },
+  relaxed: { minutes: 8 },
+  normal: { minutes: 5 },
+  lively: { minutes: 2 },
 };
 
 /** Bounds on a typed-in Arrival Rate, in whole minutes. */

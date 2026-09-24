@@ -10,6 +10,7 @@
   import type { RarityTier, SceneId } from "$lib/scenes/types";
   import { TIER_WEIGHTS } from "$lib/session/roll";
   import { sightings } from "$lib/session/sightings.svelte";
+  import { creatureName, t } from "$lib/i18n/index.svelte";
 
   let { app, onclose }: { app: App; onclose: () => void } = $props();
 
@@ -18,11 +19,7 @@
   let sceneId = $state<SceneId>(app.scene.id);
   const scene = $derived(SCENES[sceneId]);
 
-  const TIERS: { tier: RarityTier; label: string }[] = [
-    { tier: "common", label: "Common" },
-    { tier: "uncommon", label: "Uncommon" },
-    { tier: "rare", label: "Rare" },
-  ];
+  const TIERS: RarityTier[] = ["common", "uncommon", "rare"];
 
   const totalWeight = Object.values(TIER_WEIGHTS).reduce((a, b) => a + b, 0);
 
@@ -42,7 +39,7 @@
 />
 
 <div
-  class="absolute inset-0 z-50 grid place-items-center bg-slate-900/40 p-4"
+  class="absolute inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4"
   role="presentation"
   onclick={(event) => event.target === event.currentTarget && onclose()}
 >
@@ -50,20 +47,22 @@
     class="flex max-h-full w-full max-w-3xl flex-col rounded-xl bg-white shadow-xl"
     role="dialog"
     aria-modal="true"
-    aria-label="Animals"
+    aria-label={t("collection.title")}
   >
     <div class="flex items-start justify-between gap-4 p-6 pb-4">
       <div>
-        <h1 class="text-xl font-semibold text-slate-900">Animals</h1>
+        <h1 class="text-xl font-semibold text-slate-900">
+          {t("collection.title")}
+        </h1>
         <p class="mt-1 text-sm text-slate-500">
-          {seen} of {scene.roster.length} spotted on this computer
+          {t("collection.spotted", { seen, total: scene.roster.length })}
         </p>
       </div>
       <div class="flex items-center gap-3">
         <div
           class="inline-flex rounded-full border border-slate-300 p-1 text-sm"
           role="group"
-          aria-label="Scene"
+          aria-label={t("scene.label")}
         >
           {#each Object.values(SCENES) as option (option.id)}
             <button
@@ -71,30 +70,31 @@
                 ? 'bg-slate-900 text-white'
                 : 'text-slate-700 hover:bg-slate-100'}"
               aria-pressed={sceneId === option.id}
-              onclick={() => (sceneId = option.id)}>{option.name}</button
+              onclick={() => (sceneId = option.id)}
+              >{t(`scene.${option.id}.name`)}</button
             >
           {/each}
         </div>
         <button
           class="rounded-md border border-slate-300 px-3 py-1 text-sm hover:bg-slate-50"
-          onclick={onclose}>Close</button
+          onclick={onclose}>{t("common.close")}</button
         >
       </div>
     </div>
 
-    <div class="overflow-y-auto px-6 pb-6">
-      {#each TIERS as { tier, label } (tier)}
+    <div class="min-h-0 flex-1 overflow-y-auto px-6 pb-6">
+      {#each TIERS as tier (tier)}
         {@const defs = scene.roster.filter((def) => def.tier === tier)}
         {#if defs.length > 0}
           <section class="mt-4 first:mt-0">
             <h2
               class="flex items-center gap-1.5 text-sm font-semibold tracking-wide text-slate-500 uppercase"
             >
-              {label}
+              {t(`tier.${tier}`)}
               <span class="group relative normal-case">
                 <button
                   class="grid size-4 place-items-center rounded-full text-slate-400 hover:text-slate-600 focus:text-slate-600 focus:outline-none"
-                  aria-label="Chance of {label.toLowerCase()} animals"
+                  aria-label={t(`chance.${tier}.label`)}
                 >
                   <svg
                     viewBox="0 0 16 16"
@@ -111,7 +111,7 @@
                   class="pointer-events-none absolute top-1/2 left-full z-10 ml-2 w-max max-w-60 -translate-y-1/2 rounded-md bg-slate-900 px-2.5 py-1.5 text-xs font-normal tracking-normal text-white opacity-0 shadow transition-opacity group-focus-within:opacity-100 group-hover:opacity-100"
                   role="tooltip"
                 >
-                  {chance(tier)}% of arrivals are {label.toLowerCase()}
+                  {t(`chance.${tier}`, { percent: chance(tier) })}
                 </span>
               </span>
             </h2>
@@ -134,10 +134,12 @@
                     {@html scene.creatureArt[def.slug]}
                   </div>
                   <span class="mt-1 text-sm font-medium text-slate-800"
-                    >{def.name}</span
+                    >{creatureName(def.slug)}</span
                   >
                   <span class="text-xs text-slate-500">
-                    {count === 0 ? "Not seen yet" : `Seen ${count}×`}
+                    {count === 0
+                      ? t("collection.notSeen")
+                      : t("collection.seen", { count })}
                   </span>
                 </li>
               {/each}

@@ -13,6 +13,7 @@
    * wired to cancel.
    */
 
+  import { t } from "$lib/i18n/index.svelte";
   import {
     makeCalibration,
     sampleLevel,
@@ -123,13 +124,15 @@
   class="flex items-center justify-between gap-3 rounded-lg bg-slate-100 p-3"
 >
   <div class="min-w-0">
-    <p class="text-sm font-semibold text-slate-900">Calibration</p>
+    <p class="text-sm font-semibold text-slate-900">{t("calibration.title")}</p>
     {#if !ready}
-      <p class="text-xs text-slate-500">Connect a microphone first</p>
+      <p class="text-xs text-slate-500">{t("calibration.needMic")}</p>
     {:else if calibration}
-      <p class="text-xs font-medium text-emerald-700">✓ Calibrated</p>
+      <p class="text-xs font-medium text-emerald-700">
+        {t("calibration.calibrated")}
+      </p>
     {:else}
-      <p class="text-xs text-slate-500">Fit the meter to your microphone</p>
+      <p class="text-xs text-slate-500">{t("calibration.fit")}</p>
     {/if}
   </div>
   <button
@@ -137,7 +140,7 @@
     disabled={!ready}
     onclick={open}
   >
-    {calibration ? "Recalibrate" : "Calibrate"}
+    {calibration ? t("calibration.recalibrate") : t("calibration.calibrate")}
   </button>
 </div>
 
@@ -155,18 +158,18 @@
 >
   <div class="flex items-start justify-between gap-4">
     <h2 id="calibration-title" class="text-lg font-semibold text-slate-900">
-      Calibrate this room
+      {t("calibration.dialogTitle")}
     </h2>
     {#if stage !== "done"}
       <button
         class="rounded-md border border-slate-300 px-3 py-1 text-sm hover:bg-slate-50"
-        onclick={close}>Cancel</button
+        onclick={close}>{t("common.cancel")}</button
       >
     {/if}
   </div>
 
-  <ol class="mt-4 flex gap-2" aria-label="Progress">
-    {#each ["Quiet room", "Normal talking", "Done"] as label, index (label)}
+  <ol class="mt-4 flex gap-2" aria-label={t("calibration.progress")}>
+    {#each [t("calibration.stepQuiet"), t("calibration.stepTalking"), t("calibration.stepDone")] as label, index (index)}
       <li
         class="flex-1 border-t-4 pt-1.5 text-xs font-medium {index + 1 <= step
           ? 'border-slate-900 text-slate-900'
@@ -181,55 +184,57 @@
   <div class="mt-6" aria-live="polite">
     {#if stage === "intro"}
       <p class="text-slate-700">
-        <b>Step 1:</b> ask the class to be completely silent. When ready, we
-        will sample for {SAMPLE_SECONDS} seconds.
+        <b>{t("calibration.introLead")}</b>
+        {t("calibration.intro", { seconds: SAMPLE_SECONDS })}
       </p>
       <button
         class="mt-4 rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white"
         onclick={() => (stage = "quiet")}
       >
-        The room is quiet!
+        {t("calibration.quietButton")}
       </button>
     {:else if stage === "quiet"}
       <p class="text-slate-700">
-        <b>Listening:</b> keep the room silent for {secondsLeft} more seconds…
+        <b>{t("calibration.listening")}</b>
+        {t("calibration.quietLeft", { seconds: secondsLeft })}
       </p>
     {:else if stage === "ready"}
       <p class="text-slate-700">
-        <b>Step 2:</b> ask the class to talk at a normal working volume.
+        <b>{t("calibration.readyLead")}</b>
+        {t("calibration.ready")}
       </p>
       <button
         class="mt-4 rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white"
         onclick={() => (stage = "talking")}
       >
-        The class is talking!
+        {t("calibration.talkingButton")}
       </button>
     {:else if stage === "talking"}
       <p class="text-slate-700">
-        <b>Listening:</b> keep talking normally for {secondsLeft} more seconds…
+        <b>{t("calibration.listening")}</b>
+        {t("calibration.talkingLeft", { seconds: secondsLeft })}
       </p>
     {:else if stage === "done"}
       <p class="text-slate-700">
-        <b>Calibrated.</b> The meter now reads on this room's scale — check that the
-        goal line still sits where you want it.
+        <b>{t("calibration.doneLead")}</b>
+        {t("calibration.done")}
       </p>
       <button
         class="mt-4 rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white"
         onclick={close}
       >
-        Done
+        {t("common.done")}
       </button>
     {:else}
       <p class="text-slate-700">
-        <b>Let's try that again.</b> Those two samples were too close together to
-        tell apart — the room may not have been quiet, or the microphone may not be
-        picking up the class.
+        <b>{t("calibration.retryLead")}</b>
+        {t("calibration.retry")}
       </p>
       <button
         class="mt-4 rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white"
         onclick={() => (stage = "intro")}
       >
-        Start again
+        {t("calibration.startAgain")}
       </button>
     {/if}
 
@@ -240,7 +245,7 @@
           style="width: {Math.min(100, microphone.rawLevel)}%"
         ></div>
       </div>
-      <p class="mt-1 text-xs text-slate-500">What the microphone hears</p>
+      <p class="mt-1 text-xs text-slate-500">{t("calibration.hears")}</p>
     {/if}
   </div>
 </dialog>

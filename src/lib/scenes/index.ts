@@ -17,9 +17,6 @@ export type { SceneId };
 
 export interface SceneDef {
   id: SceneId;
-  /** Teacher-facing, in the Settings picker. */
-  name: string;
-  hint: string;
   roster: CreatureDef[];
   creatureArt: Record<string, string>;
   ambientArt: Record<string, string>;
@@ -34,8 +31,6 @@ export interface SceneDef {
 export const SCENES: Record<SceneId, SceneDef> = {
   savanna: {
     id: "savanna",
-    name: "Savanna",
-    hint: "Zebras, giraffes and lions",
     roster: SAVANNA_ROSTER,
     creatureArt: savannaArt.CREATURE_ART,
     ambientArt: savannaArt.AMBIENT_ART,
@@ -44,8 +39,6 @@ export const SCENES: Record<SceneId, SceneDef> = {
   },
   reef: {
     id: "reef",
-    name: "Coral reef",
-    hint: "Fish, turtles and sharks",
     roster: REEF_ROSTER,
     creatureArt: reefArt.CREATURE_ART,
     ambientArt: reefArt.AMBIENT_ART,
