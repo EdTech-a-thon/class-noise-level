@@ -8,7 +8,7 @@
  * (`savedReef.ts`).
  */
 
-import type { CreatureDef } from "$lib/scenes/reef/roster";
+import type { CreatureDef } from "$lib/scenes/types";
 import {
   advanceArrivalClock,
   createArrivalClock,
@@ -41,12 +41,15 @@ export class Session {
   #nextId = 1;
   #random: () => number;
   #roster: CreatureDef[];
+  #sceneId: string;
 
   constructor(
+    sceneId: string,
     roster: CreatureDef[],
     intervalMs: number,
     random: () => number = Math.random,
   ) {
+    this.#sceneId = sceneId;
     this.#roster = roster;
     this.#random = random;
     this.#clock = createArrivalClock(intervalMs, random);
@@ -60,10 +63,21 @@ export class Session {
   restore() {
     // Work from the local, not `this.creatures`: this runs inside the page's
     // $effect, and reading state it has just written would re-run it forever.
-    const restored = loadReef(this.#roster);
+    const restored = loadReef(this.#sceneId, this.#roster);
     this.creatures = restored;
     this.newestId = null;
     this.#nextId = Math.max(0, ...restored.map(({ id }) => id)) + 1;
+  }
+
+  /**
+   * Swap to another Scene's Roster, bringing back whatever that Scene had
+   * earned. The arrival clock carries on: progress towards the next Creature
+   * was earned by the room, not by the Scene.
+   */
+  useScene(sceneId: string, roster: CreatureDef[]) {
+    this.#sceneId = sceneId;
+    this.#roster = roster;
+    this.restore();
   }
 
   /** Starting keeps whoever is already here; only `reset` empties the reef. */
@@ -77,7 +91,7 @@ export class Session {
     this.creatures = [];
     this.newestId = null;
     this.#clock = createArrivalClock(intervalMs, this.#random);
-    saveReef(this.creatures);
+    saveReef(this.#sceneId, this.creatures);
   }
 
   /** Fraction of the way to the next arrival — teacher-facing only. */
@@ -113,6 +127,6 @@ export class Session {
     };
     this.creatures = [...this.creatures, instance];
     this.newestId = instance.id;
-    saveReef(this.creatures);
+    saveReef(this.#sceneId, this.creatures);
   }
 }

@@ -2,7 +2,7 @@
   /**
    * The teacher's controls, hidden until wanted.
    *
-   * It auto-hides so the class sees a reef rather than a toolbar, and so
+   * It auto-hides so the class sees the Scene rather than a toolbar, and so
    * there is no Reset button sitting on the wall all lesson next to the thing
    * it would destroy. Reset confirms; it is the only irreversible action on
    * screen.
@@ -52,7 +52,7 @@
       </button>
     {:else if confirmingReset}
       <span class="px-2 text-sm text-slate-700"
-        >Empty the reef and start over?</span
+        >Empty this scene and start over?</span
       >
       <button
         class="rounded-full bg-rose-600 px-4 py-2 text-sm font-medium text-white"

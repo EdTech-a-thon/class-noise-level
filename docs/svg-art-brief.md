@@ -1,5 +1,10 @@
 # SVG art brief — coral reef Scene
 
+> **Reef Scene.** This brief describes the coral reef artwork, one of the two
+> Scenes in Shy Safari. The savanna (`src/lib/scenes/savanna/`) follows the
+> same style rules and SVG constraints with its own palette and Roster. The
+> palette, backdrop and Roster specifics below are reef-only.
+
 A standalone task brief. Everything needed to produce the reef artwork is in
 this file; the app code does not need to exist yet. Read `CONTEXT.md` for
 vocabulary (Scene, Creature, Roster, Rarity Tier, Ambient Life).

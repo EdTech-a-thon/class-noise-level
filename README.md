@@ -1,11 +1,12 @@
-# Quiet Reef
+# Shy Safari
 
-A calm coral reef on the classroom projector that fills with sea life the
-longer the room stays quiet.
+A calm scene on the classroom projector — a savanna or a coral reef — where
+animals come out the longer the room stays quiet. The animals are shy: if the room is too loud,
+they stay hidden until it is calm again.
 
 It is the opposite of a noise meter. There is no bouncing, no score, no red
 warning light — nothing that makes being loud more interesting than being
-quiet. The class starts with an empty reef, and every few minutes of quiet
+quiet. The class starts with an empty scene, and every few minutes of quiet
 working brings another animal out. Some of them are rare.
 
 ## What a teacher does
@@ -13,9 +14,12 @@ working brings another animal out. Some of them are rare.
 1. Open the page and press **Start listening**. The browser asks for the
    microphone; audio is measured on the computer and never recorded or sent
    anywhere.
-2. Press **Start**. The reef empties and the class begins earning animals.
+   Pick **Savanna** (zebras, giraffes, lions) or **Coral reef** (fish,
+   turtles, sharks) first if you like.
+2. Press **Start**. The class begins earning animals.
 3. Move the mouse to bring up the controls. **Settings** has everything:
-   which microphone, how loud is too loud, and how often animals arrive.
+   which scene, which microphone, how loud is too loud, and how often animals
+   arrive. Each scene keeps its own animals, so switching never loses any.
 
 That is the whole app. No account, no sign-in, nothing to install.
 
@@ -31,8 +35,10 @@ book costs the class nothing. Recovery takes only **three seconds**, because a
 class that settles down should be rewarded immediately rather than serve a
 sentence.
 
-When the room is too loud, the water slowly clouds over. That is the only
-signal the class sees. Nothing swims away, nothing gets startled, and progress
+When the room is too loud, the whole scene slowly clouds over — a dusty haze
+on the savanna, murky water on the reef. That is
+the only signal the class sees. The shy animals simply wait to come out:
+nothing already out runs away, nothing gets startled, and progress
 toward the next animal pauses rather than resetting — a loud spell costs
 exactly the time it lasted. This is deliberate; see
 [docs/adr/0001](docs/adr/0001-nothing-is-taken-away.md).
@@ -66,7 +72,7 @@ Svelte 5 and SvelteKit, prerendered to static files with Tailwind for styling.
 There is no backend: settings live in `localStorage` and nothing leaves the
 device.
 
-The reef is SVG in the DOM rather than video or canvas
+Each scene is SVG in the DOM rather than video or canvas
 ([docs/adr/0002](docs/adr/0002-svg-dom-scene.md)), so each animal is an
 ordinary element that CSS animates.
 
@@ -80,4 +86,4 @@ they can be checked without a microphone or a ten-second wait:
 
 `CONTEXT.md` defines the vocabulary the code uses. `docs/` holds the two
 architecture decisions, the implementation plan, and the brief for drawing the
-reef artwork.
+reef artwork, whose style rules the savanna follows too.

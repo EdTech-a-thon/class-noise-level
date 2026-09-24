@@ -3,8 +3,8 @@
    * One Creature living in the Scene.
    *
    * Creatures never leave, so none of them crosses and wraps: each one
-   * wanders inside the Scene in its species' own way (`scenes/reef/motion.ts`)
-   * — crabs walk the sand, the octopus jets about, the big animals make slow
+   * wanders inside the Scene in its species' own way (`scenes/motion.ts`) —
+   * crabs walk the sand, zebras graze the plain, the big animals make slow
    * wide loops. The motion runs per frame in script because it steers towards
    * waypoints, which CSS keyframes cannot do. Depth still drives size,
    * layering and speed, which is what stops twenty Creatures reading as one
@@ -12,20 +12,26 @@
    */
 
   import { onMount } from "svelte";
-  import { CREATURE_ART } from "$lib/scenes/reef/artwork";
   import {
     MOTION_PROFILES,
     bankAngle,
     createMotion,
     stepMotion,
     type Footprint,
-  } from "$lib/scenes/reef/motion";
+  } from "$lib/scenes/motion";
   import type { CreatureInstance } from "$lib/session/session.svelte";
 
   let {
     creature,
+    art,
+    depthFade,
     isNewest,
-  }: { creature: CreatureInstance; isNewest: boolean } = $props();
+  }: {
+    creature: CreatureInstance;
+    art: string;
+    depthFade: boolean;
+    isNewest: boolean;
+  } = $props();
 
   /** Nearer Creatures are bigger; the roster width sets the species scale. */
   const width = $derived(
@@ -130,7 +136,7 @@
   style="
     width:{width}vw;
     z-index:{Math.round(creature.depth * 40)};
-    opacity:{0.62 + creature.depth * 0.38};
+    opacity:{depthFade ? 0.62 + creature.depth * 0.38 : 1};
   "
 >
   <div
@@ -158,7 +164,7 @@
             ></span>
           {/if}
           <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-          {@html CREATURE_ART[creature.def.slug]}
+          {@html art}
         </div>
       </div>
       {#if creature.def.tier === "rare"}

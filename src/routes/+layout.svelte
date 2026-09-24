@@ -5,10 +5,10 @@
 </script>
 
 <svelte:head>
-  <title>Quiet Reef — classroom noise level</title>
+  <title>Shy Safari — classroom noise level</title>
   <meta
     name="description"
-    content="A calm coral reef that fills with sea life the longer a classroom stays quiet."
+    content="A calm safari where shy animals come out the longer a classroom stays quiet."
   />
 </svelte:head>
 

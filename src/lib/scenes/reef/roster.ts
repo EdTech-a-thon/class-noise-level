@@ -8,34 +8,7 @@
  * animation layer reads it to decide what to sway.
  */
 
-import type { MotionStyle } from "./motion";
-
-export type RarityTier = "common" | "uncommon" | "rare";
-
-/** The part group classes the animation layer knows how to move. */
-export const ANIMATABLE_PARTS = [
-  "part-tail",
-  "part-fin",
-  "part-body",
-  "part-tentacles",
-  "part-arms",
-] as const;
-
-export type AnimatablePart = (typeof ANIMATABLE_PARTS)[number];
-
-export interface CreatureDef {
-  /** Matches the SVG filename, kebab-case. */
-  slug: string;
-  /** Teacher-facing, sentence case. */
-  name: string;
-  tier: RarityTier;
-  /** Intended px width against a 1920px-wide Scene. */
-  width: number;
-  /** How it moves around the Scene once it has arrived. */
-  motion: MotionStyle;
-  /** The part-* classes actually present in the artwork. */
-  parts: AnimatablePart[];
-}
+import type { CreatureDef } from "$lib/scenes/types";
 
 export const REEF_ROSTER: CreatureDef[] = [
   // Common

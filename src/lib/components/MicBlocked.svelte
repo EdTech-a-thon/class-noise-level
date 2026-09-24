@@ -1,7 +1,7 @@
 <script lang="ts">
   /**
    * The microphone is the tool. When it is unavailable the app says so and
-   * stops — it never quietly runs on a timer instead, because a reef filling
+   * stops — it never quietly runs on a timer instead, because a Scene filling
    * up beautifully while the room is in chaos would cost the teacher all
    * confidence in it.
    */
@@ -26,7 +26,7 @@
 <div class="absolute inset-0 z-50 grid place-items-center bg-slate-900/70 p-6">
   <div class="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
     <h1 class="text-xl font-semibold text-slate-900">
-      The reef needs to hear the room
+      The animals need to hear the room
     </h1>
     <p class="mt-3 text-slate-700">{message}</p>
 

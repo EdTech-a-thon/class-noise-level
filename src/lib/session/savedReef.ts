@@ -8,13 +8,19 @@
  *
  * Stored by slug rather than as the whole definition, so a change to the
  * Roster (a new width, a new motion style) applies to Creatures already saved.
+ *
+ * Each Scene keeps its own, so switching to the savanna and back never costs
+ * the class the reef they earned. The reef's key predates the savanna and is
+ * kept as it was so reefs saved before then still come back.
  */
 
 import { browser } from "$app/environment";
-import type { CreatureDef } from "$lib/scenes/reef/roster";
+import type { CreatureDef } from "$lib/scenes/types";
 import type { CreatureInstance } from "./session.svelte";
 
-const STORAGE_KEY = "class-noise-level:reef";
+function storageKey(sceneId: string) {
+  return `class-noise-level:${sceneId}`;
+}
 
 interface SavedCreature {
   id: number;
@@ -24,10 +30,13 @@ interface SavedCreature {
   spawnY: number;
 }
 
-export function loadReef(roster: CreatureDef[]): CreatureInstance[] {
+export function loadReef(
+  sceneId: string,
+  roster: CreatureDef[],
+): CreatureInstance[] {
   if (!browser) return [];
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(storageKey(sceneId));
     if (!raw) return [];
     const saved = JSON.parse(raw) as SavedCreature[];
     if (!Array.isArray(saved)) return [];
@@ -41,11 +50,11 @@ export function loadReef(roster: CreatureDef[]): CreatureInstance[] {
   }
 }
 
-export function saveReef(creatures: CreatureInstance[]) {
+export function saveReef(sceneId: string, creatures: CreatureInstance[]) {
   if (!browser) return;
   try {
     if (creatures.length === 0) {
-      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(storageKey(sceneId));
       return;
     }
     const saved: SavedCreature[] = creatures.map(
@@ -57,7 +66,7 @@ export function saveReef(creatures: CreatureInstance[]) {
         spawnY,
       }),
     );
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+    localStorage.setItem(storageKey(sceneId), JSON.stringify(saved));
   } catch {
     // Browsing privately: the reef still fills, it just forgets on refresh.
   }

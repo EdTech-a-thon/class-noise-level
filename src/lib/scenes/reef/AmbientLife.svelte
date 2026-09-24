@@ -23,7 +23,7 @@
    * the Scene: the sand runs from about 16% (far) down to the glass (near).
    * Nearer pieces are drawn bigger, and each is layered by that depth so a
    * crab walking the sand passes in front of some coral and behind the rest —
-   * the same depth scale Creatures use (`scenes/reef/motion.ts`).
+   * the same depth scale Creatures use (`scenes/motion.ts`).
    */
   const floor = [
     // Back row, along the far edge of the sand.

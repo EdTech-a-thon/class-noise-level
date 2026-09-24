@@ -98,7 +98,7 @@ animations.
 
 - **Sparse early Scene.** One arrival per 5 minutes means three Creatures in
   the first quarter hour. Ambient Life is the whole mitigation, so phase 4
-  should be judged against "does an empty reef look alive at 30 feet?" — if
+  should be judged against "does an empty Scene look alive at 30 feet?" — if
   not, the honest fixes are a faster first arrival or richer Ambient Life, not
   free Creatures (ADR-0001).
 - **Uncalibrated default.** A teacher who never calibrates gets raw RMS against

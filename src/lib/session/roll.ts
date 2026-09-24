@@ -10,7 +10,7 @@
  * Pure: the caller supplies the random source, so the distribution is testable.
  */
 
-import type { CreatureDef, RarityTier } from "$lib/scenes/reef/roster";
+import type { CreatureDef, RarityTier } from "$lib/scenes/types";
 
 export const TIER_WEIGHTS: Record<RarityTier, number> = {
   common: 70,

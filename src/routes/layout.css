@@ -1,8 +1,12 @@
 @import "tailwindcss";
+@import "../lib/scenes/savanna/creatures.css";
 
 /*
- * The reef palette. Every colour in the Scene comes from here, including the
- * artwork — see docs/svg-art-brief.md, which uses the same values.
+ * The Scene palettes. The reef group is the water, sand and coral used by
+ * scenes/reef/ambient/ (docs/svg-art-brief.md uses the same values). The
+ * savanna group is the sky, hills, grass, earth and watering hole used by
+ * scenes/savanna/ambient/. The last group is the Creature palette from
+ * docs/svg-art-brief.md.
  */
 @theme {
   --color-water-deep: #0b3d5c;
@@ -15,6 +19,26 @@
   --color-coral-purple: #a06cd5;
   --color-weed-dark: #2e8b57;
   --color-weed-light: #3fae6d;
+
+  --color-sky-high: #8cc7d9;
+  --color-sky-mid: #e2e3c6;
+  --color-sky-horizon: #fbd9a2;
+  --color-sun: #fff1c4;
+  --color-cloud: #fdf6e6;
+  --color-hill: #d6b5a4;
+  --color-plain-far: #efd79a;
+  --color-plain: #e7c273;
+  --color-ground: #deb05e;
+  --color-track: #e9c585;
+  --color-grass-dark: #a87a34;
+  --color-grass: #c99440;
+  --color-grass-light: #efcc7c;
+  --color-acacia: #8f9d52;
+  --color-bark: #7a5a44;
+  --color-rock: #c9a58d;
+  --color-watering-hole: #8cc3c6;
+  --color-dust-haze: #d8b88c;
+
   --color-accent-yellow: #ffd166;
   --color-accent-red: #ef476f;
   --color-accent-teal: #4ecdc4;
@@ -26,51 +50,79 @@ html,
 body {
   height: 100%;
   margin: 0;
-  background: var(--color-water-deep);
+  /* The Scene's own colour, so the edge of the Too Loud blur fades into it. */
+  background: var(--color-dust-haze);
   overflow: hidden;
 }
 
+html:has(.scene-stage[data-scene="reef"]),
+html:has(.scene-stage[data-scene="reef"]) body {
+  background: var(--color-water-deep);
+}
+
 /*
- * Too Loud. The whole Scene clouds over — no badge, no icon, nothing aimed at
- * an individual animal, and slow enough that it cannot be played with as a
- * party trick. See docs/adr/0001-nothing-is-taken-away.md.
+ * Too Loud. The whole Scene clouds over — murky water on the reef, a dusty
+ * haze rolling over the savanna — with no badge, no icon, nothing aimed at an
+ * individual animal, and slow enough that it cannot be played with as a party
+ * trick. See docs/adr/0001-nothing-is-taken-away.md.
  */
-.scene-water {
+.scene-stage {
   /* Always its own stacking context, so the veil below can sit above every
      Creature without ever climbing over the teacher's controls. */
   isolation: isolate;
-  transition:
-    filter 1200ms ease,
-    opacity 1200ms ease;
+  transition: filter 1400ms ease;
 }
 
-.scene-water[data-murky="true"] {
-  /* Noticeable from the back of a room, but the animals the class earned must
-     stay clearly visible: hiding them would make this a punishment. */
-  filter: saturate(0.55) brightness(0.84) blur(1px);
-}
-
-.murk-veil {
+.too-loud-veil {
   /* Above the Creatures, which carry inline z-indexes up to 40. */
   z-index: 50;
   opacity: 0;
-  transition: opacity 1200ms ease;
+  transition: opacity 1400ms ease;
 }
 
-.scene-water[data-murky="true"] .murk-veil {
+/* Noticeable from the back of a room, but the animals the class earned must
+   stay clearly visible: hiding them would make this a punishment. */
+.scene-stage[data-scene="reef"][data-murky="true"] {
+  filter: saturate(0.55) brightness(0.84) blur(1px);
+}
+
+.scene-stage[data-scene="reef"] .too-loud-veil {
+  background: var(--color-water-deep);
+}
+
+.scene-stage[data-scene="reef"][data-murky="true"] .too-loud-veil {
   opacity: 0.28;
+}
+
+.scene-stage[data-scene="savanna"][data-murky="true"] {
+  filter: saturate(0.6) sepia(0.18) brightness(0.88) blur(1px);
+}
+
+.scene-stage[data-scene="savanna"] .too-loud-veil {
+  /* Dust hangs thickest over the ground and thins out into the sky. */
+  background: linear-gradient(
+    to top,
+    var(--color-dust-haze) 0%,
+    var(--color-dust-haze) 30%,
+    color-mix(in srgb, var(--color-dust-haze) 55%, transparent) 100%
+  );
+}
+
+.scene-stage[data-scene="savanna"][data-murky="true"] .too-loud-veil {
+  opacity: 0.38;
 }
 
 /* --- Inlined artwork ---------------------------------------------------- */
 
 /*
- * Every SVG in the Scene is inlined (see scenes/reef/artwork.ts) and, by the
+ * Every SVG in the Scene is inlined (see each scene's artwork.ts) and, by the
  * art brief, carries no width or height of its own. Each one therefore takes
  * its size from the element the scatter positions.
  */
 .backdrop > svg,
 .shaft > svg,
-.plankton-field > svg {
+.plankton-field > svg,
+.dust-field > svg {
   display: block;
   width: 100%;
   height: 100%;
@@ -78,13 +130,18 @@ body {
 
 .creature > svg,
 .coral > svg,
-.shoal > svg {
+.shoal > svg,
+.scenery > svg,
+.sun > svg,
+.cloud > svg,
+.flock > svg {
   display: block;
   width: 100%;
   height: auto;
 }
 
-.weed > svg {
+.weed > svg,
+.grass > svg {
   display: block;
   height: 100%;
   width: auto;
@@ -251,7 +308,7 @@ body {
   animation: sway 2000ms ease-in-out infinite;
 }
 
-/* --- Ambient Life ------------------------------------------------------- */
+/* --- Ambient Life: reef ------------------------------------------------- */
 
 @keyframes weed-sway {
   0%,
@@ -320,6 +377,79 @@ body {
   animation: shoal-drift linear infinite;
 }
 
+/* --- Ambient Life: savanna ---------------------------------------------- */
+
+@keyframes grass-sway {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes dust-drift {
+  from {
+    transform: translate(-6%, 30%);
+    opacity: 0;
+  }
+  18%,
+  82% {
+    opacity: var(--dust-peak, 0.5);
+  }
+  to {
+    transform: translate(6%, -60%);
+    opacity: 0;
+  }
+}
+
+@keyframes sky-drift {
+  from {
+    transform: translateX(-20vw);
+  }
+  to {
+    transform: translateX(110vw);
+  }
+}
+
+@keyframes sun-glow {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+.grass {
+  /* Solid, not faded, so one piece of scenery never shows through another.
+     It stays subordinate through its muted colours instead. */
+  transform-origin: bottom center;
+  animation: grass-sway ease-in-out infinite alternate;
+}
+
+.dust-field {
+  opacity: 0;
+  animation: dust-drift linear infinite;
+}
+
+.sun {
+  animation: sun-glow 14s ease-in-out infinite;
+}
+
+.cloud {
+  left: 0;
+  animation: sky-drift linear infinite;
+}
+
+.flock {
+  left: 0;
+  opacity: 0.8;
+  animation: sky-drift linear infinite;
+}
+
 /*
  * Reduced motion quiets the drifting, but arrivals keep their entrance: an
  * arrival is the meaning of the whole app, not decoration.
@@ -330,6 +460,11 @@ body {
   .plankton-field,
   .shaft,
   .shoal,
+  .grass,
+  .dust-field,
+  .sun,
+  .cloud,
+  .flock,
   .creature .part-tail,
   .creature .part-fin,
   .creature .part-body,

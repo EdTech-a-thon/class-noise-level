@@ -2,12 +2,14 @@
  * Everything the teacher chooses, remembered on this computer.
  *
  * Per the workspace AGENTS.md data hierarchy this is localStorage and nothing
- * more: no accounts, no backend, nothing leaves the device. The reef itself is
- * kept separately (`session/savedReef.ts`) and only until Reset.
+ * more: no accounts, no backend, nothing leaves the device. The animals each
+ * Scene has earned are kept separately (`session/savedReef.ts`) and only
+ * until Reset.
  */
 
 import { browser } from "$app/environment";
 import type { Calibration } from "$lib/audio/calibration";
+import { DEFAULT_SCENE, SCENE_IDS, type SceneId } from "$lib/scenes/types";
 
 export type VolumeGoalPreset = "silent" | "independent" | "partner" | "custom";
 export type ArrivalRatePreset = "relaxed" | "normal" | "lively" | "custom";
@@ -49,6 +51,7 @@ export const MAX_ARRIVAL_MINUTES = 60;
 const STORAGE_KEY = "class-noise-level:settings";
 
 interface StoredSettings {
+  scene: SceneId;
   deviceId: string;
   calibration: Calibration | null;
   volumeGoalPreset: VolumeGoalPreset;
@@ -58,6 +61,7 @@ interface StoredSettings {
 }
 
 const DEFAULTS: StoredSettings = {
+  scene: DEFAULT_SCENE,
   deviceId: "",
   calibration: null,
   volumeGoalPreset: "independent",
@@ -80,6 +84,8 @@ function read(): StoredSettings {
           ? DEFAULTS.arrivalMinutes
           : ARRIVAL_RATE_PRESETS[stored.arrivalRatePreset]?.minutes;
     }
+    // A Scene this version no longer has falls back to the default.
+    if (stored.scene && !SCENE_IDS.includes(stored.scene)) delete stored.scene;
     return { ...DEFAULTS, ...stored };
   } catch {
     return { ...DEFAULTS };
@@ -97,6 +103,15 @@ class Settings {
       // A teacher browsing privately still gets a working app, just a
       // forgetful one. Losing settings is not worth breaking the Session for.
     }
+  }
+
+  get scene() {
+    return this.#stored.scene;
+  }
+
+  set scene(value: SceneId) {
+    this.#stored = { ...this.#stored, scene: value };
+    this.#save();
   }
 
   get deviceId() {

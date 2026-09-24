@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
-import { REEF_ROSTER, type CreatureDef } from "$lib/scenes/reef/roster";
+import { REEF_ROSTER } from "$lib/scenes/reef/roster";
+import type { CreatureDef } from "$lib/scenes/types";
 import { TIER_WEIGHTS, rollCreature } from "./roll";
 
 /** A deterministic stand-in for Math.random, cycling a fixed script. */

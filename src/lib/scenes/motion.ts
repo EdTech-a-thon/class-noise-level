@@ -1,5 +1,5 @@
 /**
- * How each Creature moves once it is in the water.
+ * How each Creature moves once it has arrived, in either Scene.
  *
  * Creatures never leave (CONTEXT.md), so none of them crosses the screen and
  * wraps. Each one wanders between waypoints inside a region of the Scene, and
@@ -29,7 +29,13 @@ export type MotionStyle =
   /** Big, slow, wide loops across the whole Scene. */
   | "glide"
   /** Slow sinuous prowl low over the reef. */
-  | "prowl";
+  | "prowl"
+  /** Savanna: ambles across the plain, head down for long rests. */
+  | "graze"
+  /** Savanna: brisk strides across the plain, short pauses. */
+  | "trot"
+  /** Savanna: wheels slowly through the sky above the plain. */
+  | "soar";
 
 interface Region {
   xMin: number;
@@ -60,13 +66,21 @@ export interface MotionProfile {
   flips: boolean;
   /** Banks nose-up / nose-down with vertical motion. */
   tilts: boolean;
-  /** Stands on the sand rather than swimming. */
+  /** Stands on the ground rather than swimming or flying. */
   ground: boolean;
+  /**
+   * Where a ground Creature's feet may rest, as fractions of Scene height,
+   * far to near. Defaults to the reef's sand.
+   */
+  band?: { top: number; bottom: number };
 }
 
 /** The sand in backdrop.svg, as fractions of Scene height. */
 export const SAND_TOP = 0.84;
 export const SAND_BOTTOM = 0.98;
+
+/** The open plain in the savanna backdrop, as fractions of Scene height. */
+const PLAIN = { top: 0.72, bottom: 0.97 };
 
 const WATER: Region = { xMin: 0.06, xMax: 0.94, yMin: 0.1, yMax: 0.78 };
 
@@ -188,6 +202,47 @@ export const MOTION_PROFILES: Record<MotionStyle, MotionProfile> = {
     tilts: true,
     ground: false,
   },
+  graze: {
+    region: { xMin: 0.04, xMax: 0.96, yMin: 0, yMax: 1 },
+    speed: 0.012,
+    agility: 2,
+    reachX: 0.4,
+    reachY: 0,
+    restChance: 0.75,
+    rest: [4, 12],
+    pulse: 0,
+    flips: true,
+    tilts: false,
+    ground: true,
+    band: PLAIN,
+  },
+  trot: {
+    region: { xMin: 0.04, xMax: 0.96, yMin: 0, yMax: 1 },
+    speed: 0.035,
+    agility: 4,
+    reachX: 0.6,
+    reachY: 0,
+    restChance: 0.5,
+    rest: [1.5, 5],
+    pulse: 0,
+    flips: true,
+    tilts: false,
+    ground: true,
+    band: PLAIN,
+  },
+  soar: {
+    region: { xMin: 0.08, xMax: 0.92, yMin: 0.08, yMax: 0.45 },
+    speed: 0.028,
+    agility: 0.5,
+    reachX: 1,
+    reachY: 0.5,
+    restChance: 0,
+    rest: [0, 0],
+    pulse: 0,
+    flips: true,
+    tilts: true,
+    ground: false,
+  },
 };
 
 export interface MotionState {
@@ -219,8 +274,11 @@ export interface Footprint {
  * Where a ground Creature's feet rest. Nearer Creatures stand lower on the
  * sand, so depth, size and ground line all agree.
  */
-export function groundLine(depth: number): number {
-  return SAND_TOP + depth * (SAND_BOTTOM - SAND_TOP);
+export function groundLine(
+  depth: number,
+  band = { top: SAND_TOP, bottom: SAND_BOTTOM },
+): number {
+  return band.top + depth * (band.bottom - band.top);
 }
 
 /** The box a Creature's centre is allowed in, so no part of it is cut off. */
@@ -236,7 +294,7 @@ function bounds(
   const x = xMin <= xMax ? { xMin, xMax } : { xMin: 0.5, xMax: 0.5 };
 
   if (profile.ground) {
-    const y = groundLine(depth) - halfH;
+    const y = groundLine(depth, profile.band) - halfH;
     return { ...x, yMin: y, yMax: y };
   }
   const yMin = Math.max(profile.region.yMin, halfH);
