@@ -39,7 +39,7 @@
 />
 
 <div
-  class="absolute inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4"
+  class="safe-edges absolute inset-0 z-50 flex items-center justify-center bg-slate-900/40"
   role="presentation"
   onclick={(event) => event.target === event.currentTarget && onclose()}
 >
@@ -49,8 +49,11 @@
     aria-modal="true"
     aria-label={t("collection.title")}
   >
-    <div class="flex items-start justify-between gap-4 p-6 pb-4">
-      <div>
+    <!-- On a phone the Scene picker drops to its own row, under the title. -->
+    <div
+      class="flex flex-wrap items-start gap-x-4 gap-y-3 p-4 pb-3 sm:p-6 sm:pb-4"
+    >
+      <div class="mr-auto">
         <h1 class="text-xl font-semibold text-slate-900">
           {t("collection.title")}
         </h1>
@@ -58,31 +61,30 @@
           {t("collection.spotted", { seen, total: scene.roster.length })}
         </p>
       </div>
-      <div class="flex items-center gap-3">
-        <div
-          class="inline-flex rounded-full border border-slate-300 p-1 text-sm"
-          role="group"
-          aria-label={t("scene.label")}
-        >
-          {#each Object.values(SCENES) as option (option.id)}
-            <button
-              class="rounded-full px-3 py-1 {sceneId === option.id
-                ? 'bg-slate-900 text-white'
-                : 'text-slate-700 hover:bg-slate-100'}"
-              aria-pressed={sceneId === option.id}
-              onclick={() => (sceneId = option.id)}
-              >{t(`scene.${option.id}.name`)}</button
-            >
-          {/each}
-        </div>
-        <button
-          class="rounded-md border border-slate-300 px-3 py-1 text-sm hover:bg-slate-50"
-          onclick={onclose}>{t("common.close")}</button
-        >
+      <div
+        class="order-last flex w-full rounded-full border border-slate-300 p-1 text-sm sm:order-none sm:inline-flex sm:w-auto"
+        role="group"
+        aria-label={t("scene.label")}
+      >
+        {#each Object.values(SCENES) as option (option.id)}
+          <button
+            class="flex-1 rounded-full px-3 py-1 sm:flex-none {sceneId ===
+            option.id
+              ? 'bg-slate-900 text-white'
+              : 'text-slate-700 hover:bg-slate-100'}"
+            aria-pressed={sceneId === option.id}
+            onclick={() => (sceneId = option.id)}
+            >{t(`scene.${option.id}.name`)}</button
+          >
+        {/each}
       </div>
+      <button
+        class="rounded-md border border-slate-300 px-3 py-1 text-sm hover:bg-slate-50 sm:self-center"
+        onclick={onclose}>{t("common.close")}</button
+      >
     </div>
 
-    <div class="min-h-0 flex-1 overflow-y-auto px-6 pb-6">
+    <div class="min-h-0 flex-1 overflow-y-auto px-4 pb-4 sm:px-6 sm:pb-6">
       {#each TIERS as tier (tier)}
         {@const defs = scene.roster.filter((def) => def.tier === tier)}
         {#if defs.length > 0}

@@ -83,7 +83,9 @@
   <meta name="description" content={t("app.description")} />
 </svelte:head>
 
-<main class="relative h-screen w-screen overflow-hidden">
+<!-- dvh, not vh: on a phone, vh is the height with the browser toolbars
+     hidden, which would tuck the control bar underneath them. -->
+<main class="relative h-dvh w-full overflow-hidden">
   {#if app.restored}
     <Scene
       scene={app.scene}
@@ -100,52 +102,65 @@
   {#if !app.listening && !app.blocked}
     <!-- Browsers only hand over a microphone after a real gesture, so the
          Session has to begin with a click either way. -->
-    <div
-      class="absolute inset-0 z-40 grid place-items-center bg-slate-900/55 p-6"
-    >
-      <div class="max-w-lg rounded-xl bg-white p-6 text-center shadow-xl">
-        <img src={logoUrl} alt="" class="mx-auto mb-3 size-24" />
-        <h1 class="text-2xl font-semibold text-slate-900">Shy Safari</h1>
-        <p
-          class="mt-3 rounded-lg bg-amber-50 px-4 py-3 text-balance text-slate-800"
-        >
-          <span class="block font-medium">{t("start.shy")}</span>
-          <!-- Checked after mount: the page is prerendered with the default. -->
-          {#if app.restored && settings.loudResponse === "pause"}
-            {t("start.explain")}
-          {:else}
-            {t("start.explainFlee")}
-          {/if}
-        </p>
+    <div class="absolute inset-0 z-40 overflow-y-auto bg-slate-900/55">
+      <!-- Scrolls rather than clips, should the card still not fit. -->
+      <div
+        class="grid min-h-full place-items-center p-4 sm:p-6 short:px-30 short:py-3"
+      >
         <div
-          class="mt-5 inline-flex rounded-full border border-slate-300 p-1 text-sm"
-          role="group"
-          aria-label={t("scene.label")}
+          class="max-w-lg rounded-xl bg-white p-6 text-center shadow-xl short:px-6 short:py-4"
         >
-          {#each Object.values(SCENES) as scene (scene.id)}
-            <!-- Neither is picked until the saved Scene is known, so a reload
+          <img
+            src={logoUrl}
+            alt=""
+            class="mx-auto mb-3 size-24 short:mb-1 short:size-14"
+          />
+          <h1 class="text-2xl font-semibold text-slate-900 short:text-xl">
+            Shy Safari
+          </h1>
+          <p
+            class="mt-3 rounded-lg bg-amber-50 px-4 py-3 text-balance text-slate-800 short:mt-2 short:py-2 short:text-sm"
+          >
+            <span class="block font-medium">{t("start.shy")}</span>
+            <!-- Checked after mount: the page is prerendered with the default. -->
+            {#if app.restored && settings.loudResponse === "pause"}
+              {t("start.explain")}
+            {:else}
+              {t("start.explainFlee")}
+            {/if}
+          </p>
+          <div
+            class="mt-5 inline-flex rounded-full border border-slate-300 p-1 text-sm short:mt-3"
+            role="group"
+            aria-label={t("scene.label")}
+          >
+            {#each Object.values(SCENES) as scene (scene.id)}
+              <!-- Neither is picked until the saved Scene is known, so a reload
                  doesn't flash the default as chosen. -->
-            {@const chosen = app.restored && app.scene.id === scene.id}
-            <button
-              class="rounded-full px-4 py-1.5 {chosen
-                ? 'bg-slate-900 text-white'
-                : 'text-slate-700 hover:bg-slate-100'}"
-              aria-pressed={chosen}
-              onclick={() => app.useScene(scene.id)}
-              >{t(`scene.${scene.id}.name` as UiKey)}</button
-            >
-          {/each}
+              {@const chosen = app.restored && app.scene.id === scene.id}
+              <button
+                class="rounded-full px-4 py-1.5 {chosen
+                  ? 'bg-slate-900 text-white'
+                  : 'text-slate-700 hover:bg-slate-100'}"
+                aria-pressed={chosen}
+                onclick={() => app.useScene(scene.id)}
+                >{t(`scene.${scene.id}.name` as UiKey)}</button
+              >
+            {/each}
+          </div>
+          <br />
+          <button
+            class="mt-4 rounded-full bg-slate-900 px-6 py-2.5 font-medium text-white short:mt-3"
+            onclick={async () => {
+              if (await app.connect()) app.startSession();
+            }}
+          >
+            {t("start.button")}
+          </button>
+          <p class="mt-3 text-xs text-slate-500 short:mt-2">
+            {t("start.micNote")}
+          </p>
         </div>
-        <br />
-        <button
-          class="mt-4 rounded-full bg-slate-900 px-6 py-2.5 font-medium text-white"
-          onclick={async () => {
-            if (await app.connect()) app.startSession();
-          }}
-        >
-          {t("start.button")}
-        </button>
-        <p class="mt-3 text-xs text-slate-500">{t("start.micNote")}</p>
       </div>
     </div>
   {/if}
@@ -155,7 +170,7 @@
        start card so it sits above it; Settings, Animals and the blocked-
        microphone screen cover it. -->
   <div
-    class="pointer-events-none absolute inset-x-0 top-0 z-40 flex items-start justify-between p-4 transition-opacity duration-300"
+    class="safe-edges pointer-events-none absolute inset-x-0 top-0 z-40 flex items-start justify-between p-4 transition-opacity duration-300"
     class:opacity-0={!topBarVisible}
     aria-hidden={!topBarVisible}
     inert={!topBarVisible}

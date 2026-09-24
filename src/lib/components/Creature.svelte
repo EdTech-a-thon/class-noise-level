@@ -182,7 +182,7 @@
   class="swimmer pointer-events-none absolute top-0 left-0"
   class:fleeing
   style="
-    width:{width}vw;
+    width:calc({width} * var(--wu));
     z-index:{creatureLayer(profile, creature.depth)};
     opacity:{depthFade ? 0.62 + creature.depth * 0.38 : 1};
   "
@@ -232,7 +232,7 @@
             style="
               left:{sparkle.x}%;
               top:{sparkle.y}%;
-              width:{sparkle.size * 2.2}vw;
+              width:calc({sparkle.size * 2.2} * var(--wu));
               animation-delay:{sparkle.delay}s;
             "
           >

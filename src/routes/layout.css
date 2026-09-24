@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "../lib/scenes/savanna/creatures.css";
 
+/* A phone on its side: too short for the start card at full size. */
+@custom-variant short (@media (max-height: 500px));
+
 /*
  * The Scene palettes. The reef group is the water, sand and coral used by
  * scenes/reef/ambient/ (docs/svg-art-brief.md uses the same values). The
@@ -94,6 +97,38 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
      Creature without ever climbing over the teacher's controls. */
   isolation: isolate;
   transition: filter 1400ms ease;
+
+  /*
+   * The landscape is drawn for a wide screen. On one taller than 4:3 — a
+   * tablet or phone held upright — it would be squeezed into a sliver with
+   * every animal a speck, so instead it keeps a 4:3 width and its sides run
+   * off the screen, like a photo cropped to fit. `--wu` is one hundredth of
+   * that landscape's width: everything in the Scene is sized in it. Scenery
+   * is placed across the whole landscape from `--world-left`; Creatures
+   * wander only the part on screen, so none is ever out of sight. Heights
+   * are untouched, so the ground stays where motion.ts expects it.
+   *
+   * `cq` units anywhere in the Scene resolve against this stage. Keep it
+   * the only container: another would contain layout inside it and stop
+   * the scenery and Creatures layering in and out of each other.
+   */
+  container-type: size;
+  --wu: max(1cqw, 1.3333cqh);
+  --world-left: calc(50cqw - 50 * var(--wu));
+}
+
+/* Controls over the Scene stay clear of a phone's notch and home bar, which
+   viewport-fit=cover (app.html) lets the Scene itself run under. */
+.safe-edges {
+  padding-top: max(1rem, env(safe-area-inset-top));
+  padding-right: max(1rem, env(safe-area-inset-right));
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  padding-left: max(1rem, env(safe-area-inset-left));
+}
+
+.backdrop {
+  left: var(--world-left);
+  width: calc(100 * var(--wu));
 }
 
 .too-loud-veil {
@@ -287,15 +322,15 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   left: 50%;
   display: grid;
   place-items: center;
-  width: 3.2vw;
+  width: calc(3.2 * var(--wu));
   min-width: 28px;
   aspect-ratio: 1;
-  margin-bottom: 0.4vw;
-  border: 0.25vw solid #1e293b;
+  margin-bottom: calc(0.4 * var(--wu));
+  border: calc(0.25 * var(--wu)) solid #1e293b;
   border-radius: 9999px;
   background: #fde047;
   color: #1e293b;
-  font-size: max(1.2rem, 2.2vw);
+  font-size: max(1.2rem, calc(2.2 * var(--wu)));
   font-weight: 900;
   line-height: 1;
   transform-origin: 50% 100%;
@@ -325,7 +360,7 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   top: 25%;
   display: none;
   /* A floor, so a meerkat's streaks still read from across the room. */
-  width: max(45%, 3.5vw);
+  width: max(45%, calc(3.5 * var(--wu)));
   height: 50%;
   flex-direction: column;
   justify-content: space-around;
@@ -342,7 +377,7 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
 }
 
 .speed-lines > i {
-  height: max(3px, 0.3vw);
+  height: max(3px, calc(0.3 * var(--wu)));
   border-radius: 9999px;
   background: rgb(255 255 255 / 0.85);
   animation: speed-line 400ms ease-out infinite;
@@ -385,20 +420,20 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
 @keyframes glow-uncommon {
   0%,
   100% {
-    filter: drop-shadow(0 0 0.35vw rgb(210 250 245 / 0.55));
+    filter: drop-shadow(0 0 calc(0.35 * var(--wu)) rgb(210 250 245 / 0.55));
   }
   50% {
-    filter: drop-shadow(0 0 0.9vw rgb(210 250 245 / 0.95));
+    filter: drop-shadow(0 0 calc(0.9 * var(--wu)) rgb(210 250 245 / 0.95));
   }
 }
 
 @keyframes glow-rare {
   0%,
   100% {
-    filter: drop-shadow(0 0 0.4vw rgb(255 209 102 / 0.6));
+    filter: drop-shadow(0 0 calc(0.4 * var(--wu)) rgb(255 209 102 / 0.6));
   }
   50% {
-    filter: drop-shadow(0 0 1.1vw rgb(255 209 102 / 1));
+    filter: drop-shadow(0 0 calc(1.1 * var(--wu)) rgb(255 209 102 / 1));
   }
 }
 
@@ -432,7 +467,7 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   height: auto;
   overflow: visible;
   fill: #fffbe6;
-  filter: drop-shadow(0 0 0.4vw var(--color-accent-yellow));
+  filter: drop-shadow(0 0 calc(0.4 * var(--wu)) var(--color-accent-yellow));
   opacity: 0;
   pointer-events: none;
   animation: sparkle-twinkle 3s ease-in-out infinite;
@@ -501,21 +536,21 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
 @keyframes shaft-drift {
   0%,
   100% {
-    transform: translateX(-4vw) skewX(-6deg);
+    transform: translateX(calc(-4 * var(--wu))) skewX(-6deg);
     opacity: 0.1;
   }
   50% {
-    transform: translateX(4vw) skewX(-10deg);
+    transform: translateX(calc(4 * var(--wu))) skewX(-10deg);
     opacity: 0.22;
   }
 }
 
 @keyframes shoal-drift {
   from {
-    transform: translateX(-12vw);
+    transform: translateX(min(-12cqw, -100%));
   }
   to {
-    transform: translateX(112vw);
+    transform: translateX(112cqw);
   }
 }
 
@@ -554,10 +589,10 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
 
 @keyframes sky-drift {
   from {
-    transform: translateX(-20vw);
+    transform: translateX(min(-20cqw, -100%));
   }
   to {
-    transform: translateX(110vw);
+    transform: translateX(110cqw);
   }
 }
 
@@ -618,12 +653,12 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   /* A steady glow rather than a breathing one. */
   .creature[data-tier="uncommon"] > svg {
     animation: none;
-    filter: drop-shadow(0 0 0.6vw rgb(210 250 245 / 0.8));
+    filter: drop-shadow(0 0 calc(0.6 * var(--wu)) rgb(210 250 245 / 0.8));
   }
 
   .creature[data-tier="rare"] > svg {
     animation: none;
-    filter: drop-shadow(0 0 0.8vw rgb(255 209 102 / 0.9));
+    filter: drop-shadow(0 0 calc(0.8 * var(--wu)) rgb(255 209 102 / 0.9));
   }
 
   /* Still marked as Rare, just without the flashing. */

@@ -45,7 +45,7 @@
   onclick={(event) => event.target === event.currentTarget && onclose()}
 >
   <aside
-    class="h-full w-full max-w-md overflow-y-auto bg-white p-6 shadow-xl"
+    class="h-full w-full max-w-md overflow-y-auto bg-white p-4 pr-[max(1rem,env(safe-area-inset-right))] pb-[max(1rem,env(safe-area-inset-bottom))] shadow-xl sm:p-6 sm:pr-[max(1.5rem,env(safe-area-inset-right))] sm:pb-[max(1.5rem,env(safe-area-inset-bottom))]"
     aria-label={t("settings.title")}
   >
     <div class="flex items-start justify-between">

@@ -79,10 +79,11 @@
   ];
 </script>
 
-<!-- The sun, low in the morning sky, behind everything. -->
+<!-- The sun, low in the morning sky, behind everything. Kept on screen when
+     an upright screen crops the sides of the landscape. -->
 <div
   class="sun pointer-events-none absolute"
-  style="left:12%; top:9%; width:10vw;"
+  style="left:max(calc(var(--world-left) + 12 * var(--wu)), 5cqw); top:9%; width:calc(10 * var(--wu));"
 >
   <!-- eslint-disable-next-line svelte/no-at-html-tags -->
   {@html AMBIENT_ART.sun}
@@ -91,7 +92,7 @@
 {#each clouds as cloud (cloud.y)}
   <div
     class="cloud pointer-events-none absolute"
-    style="top:{cloud.y}%; width:{cloud.width}%; opacity:{cloud.opacity}; animation-duration:{cloud.duration}s; animation-delay:{cloud.delay}s;"
+    style="top:{cloud.y}%; width:calc({cloud.width} * var(--wu)); opacity:{cloud.opacity}; animation-duration:{cloud.duration}s; animation-delay:{cloud.delay}s;"
   >
     <!-- eslint-disable-next-line svelte/no-at-html-tags -->
     {@html AMBIENT_ART.cloud}
@@ -102,7 +103,7 @@
 {#each flocks as flock (flock.y)}
   <div
     class="flock pointer-events-none absolute"
-    style="top:{flock.y}%; width:{flock.width}%; animation-duration:{flock.duration}s; animation-delay:{flock.delay}s;"
+    style="top:{flock.y}%; width:calc({flock.width} * var(--wu)); animation-duration:{flock.duration}s; animation-delay:{flock.delay}s;"
   >
     <!-- eslint-disable-next-line svelte/no-at-html-tags -->
     {@html AMBIENT_ART.birds}
@@ -114,7 +115,7 @@
   {#if piece.grass}
     <div
       class="grass pointer-events-none absolute"
-      style="left:{piece.x}%; bottom:{piece.base}%; height:{piece.size}%; z-index:{piece.layer}; animation-duration:{piece.sway}s;"
+      style="left:calc(var(--world-left) + {piece.x} * var(--wu)); bottom:{piece.base}%; height:{piece.size}%; z-index:{piece.layer}; animation-duration:{piece.sway}s;"
     >
       <!-- eslint-disable-next-line svelte/no-at-html-tags -->
       {@html AMBIENT_ART[piece.art]}
@@ -122,7 +123,7 @@
   {:else}
     <div
       class="scenery pointer-events-none absolute"
-      style="left:{piece.x}%; bottom:{piece.base}%; width:{piece.size}vw; z-index:{piece.layer};"
+      style="left:calc(var(--world-left) + {piece.x} * var(--wu)); bottom:{piece.base}%; width:calc({piece.size} * var(--wu)); z-index:{piece.layer};"
     >
       <!-- eslint-disable-next-line svelte/no-at-html-tags -->
       {@html AMBIENT_ART[piece.art]}

@@ -85,7 +85,7 @@
 {#each shafts as shaft (shaft.x)}
   <div
     class="shaft pointer-events-none absolute top-0 bottom-0"
-    style="left:{shaft.x}%; width:{shaft.width}%; animation-duration:{shaft.duration}s; animation-delay:{shaft.delay}s;"
+    style="left:calc(var(--world-left) + {shaft.x} * var(--wu)); width:calc({shaft.width} * var(--wu)); animation-duration:{shaft.duration}s; animation-delay:{shaft.delay}s;"
   >
     <!-- eslint-disable-next-line svelte/no-at-html-tags -->
     {@html AMBIENT_ART["light-shaft"]}
@@ -96,7 +96,7 @@
 {#each shoals as shoal (shoal.y)}
   <div
     class="shoal pointer-events-none absolute"
-    style="top:{shoal.y}%; width:{shoal.width}%; animation-duration:{shoal.duration}s; animation-delay:{shoal.delay}s;"
+    style="top:{shoal.y}%; width:calc({shoal.width} * var(--wu)); animation-duration:{shoal.duration}s; animation-delay:{shoal.delay}s;"
   >
     <!-- eslint-disable-next-line svelte/no-at-html-tags -->
     {@html AMBIENT_ART["distant-shoal"]}
@@ -119,7 +119,7 @@
   {#if piece.weed}
     <div
       class="weed pointer-events-none absolute"
-      style="left:{piece.x}%; bottom:{piece.base}%; height:{piece.size}%; z-index:{piece.layer}; animation-duration:{piece.sway}s;"
+      style="left:calc(var(--world-left) + {piece.x} * var(--wu)); bottom:{piece.base}%; height:{piece.size}%; z-index:{piece.layer}; animation-duration:{piece.sway}s;"
     >
       <!-- eslint-disable-next-line svelte/no-at-html-tags -->
       {@html AMBIENT_ART[piece.art]}
@@ -127,7 +127,7 @@
   {:else}
     <div
       class="coral pointer-events-none absolute"
-      style="left:{piece.x}%; bottom:{piece.base}%; width:{piece.size}vw; z-index:{piece.layer};"
+      style="left:calc(var(--world-left) + {piece.x} * var(--wu)); bottom:{piece.base}%; width:calc({piece.size} * var(--wu)); z-index:{piece.layer};"
     >
       <!-- eslint-disable-next-line svelte/no-at-html-tags -->
       {@html AMBIENT_ART[piece.art]}
