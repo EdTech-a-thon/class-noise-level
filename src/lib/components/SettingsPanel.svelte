@@ -130,6 +130,7 @@
         microphone={app.microphone}
         calibration={settings.calibration}
         onCalibrated={(calibration) => (settings.calibration = calibration)}
+        onOpenChange={(open) => app.setCalibrating(open)}
       />
     </section>
 

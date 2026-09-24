@@ -13,9 +13,9 @@
 import type { CreatureDef, RarityTier } from "$lib/scenes/types";
 
 export const TIER_WEIGHTS: Record<RarityTier, number> = {
-  common: 70,
-  uncommon: 25,
-  rare: 5,
+  common: 60,
+  uncommon: 30,
+  rare: 10,
 };
 
 function isEligible(creature: CreatureDef, present: string[]): boolean {
@@ -31,7 +31,7 @@ export function rollCreature(
   if (eligible.length === 0) return null;
 
   // Only tiers that still have something to give take part, and their weights
-  // are renormalised — once all three Rares have been seen, their 5% goes back
+  // are renormalised — once all three Rares have been seen, their 10% goes back
   // to the tiers that can still deliver rather than producing empty rolls.
   const tiers = [...new Set(eligible.map((creature) => creature.tier))];
   const totalWeight = tiers.reduce((sum, tier) => sum + TIER_WEIGHTS[tier], 0);

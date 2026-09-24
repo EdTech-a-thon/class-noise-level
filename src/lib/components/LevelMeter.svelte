@@ -20,6 +20,14 @@
     tooLoud: boolean;
     onGoalChange: (goal: number) => void;
   } = $props();
+
+  /**
+   * Amber whenever the bar disagrees with the pill: over the line but not
+   * yet Too Loud, or back under it but not yet for long enough to resume.
+   * It shows the debounce working, and that the state is about to change
+   * if the room keeps this up.
+   */
+  const changing = $derived(tooLoud ? level <= goal : level > goal);
 </script>
 
 <div class="space-y-2">
@@ -37,9 +45,11 @@
 
   <div class="relative h-8 overflow-hidden rounded-lg bg-slate-200">
     <div
-      class="h-full transition-[width] duration-100 ease-linear {tooLoud
-        ? 'bg-rose-400'
-        : 'bg-emerald-400'}"
+      class="h-full transition-[width] duration-100 ease-linear {changing
+        ? 'bg-amber-400'
+        : tooLoud
+          ? 'bg-rose-400'
+          : 'bg-emerald-400'}"
       style="width:{Math.max(0, Math.min(100, level))}%"
     ></div>
     <div

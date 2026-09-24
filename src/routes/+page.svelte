@@ -1,5 +1,6 @@
 <script lang="ts">
   import { App } from "$lib/app.svelte";
+  import Collection from "$lib/components/Collection.svelte";
   import ControlBar from "$lib/components/ControlBar.svelte";
   import MicBlocked from "$lib/components/MicBlocked.svelte";
   import Scene from "$lib/components/Scene.svelte";
@@ -10,6 +11,7 @@
   const app = new App();
 
   let settingsOpen = $state(false);
+  let collectionOpen = $state(false);
   let fullScreen = $state(false);
   let controlsVisible = $state(true);
   let idleTimer: ReturnType<typeof setTimeout>;
@@ -79,9 +81,12 @@
       <div class="max-w-lg rounded-xl bg-white p-6 text-center shadow-xl">
         <img src={logoUrl} alt="" class="mx-auto mb-3 size-24" />
         <h1 class="text-2xl font-semibold text-slate-900">Shy Safari</h1>
-        <p class="mt-3 rounded-lg bg-amber-50 px-4 py-3 text-slate-800">
-          Shh… these animals are shy! If it gets too loud, they stay hidden.
-          When the room is calm again, they'll start coming out.
+        <p
+          class="mt-3 rounded-lg bg-amber-50 px-4 py-3 text-balance text-slate-800"
+        >
+          <span class="block font-medium">Shh… these animals are shy!</span>
+          If it gets too loud, they stay hidden. When the room is calm again, they'll
+          start coming out.
         </p>
         <div
           class="mt-5 inline-flex rounded-full border border-slate-300 p-1 text-sm"
@@ -125,15 +130,51 @@
   {#if app.listening}
     <ControlBar
       {app}
-      visible={controlsVisible || settingsOpen}
-      {fullScreen}
-      {canFullScreen}
+      visible={controlsVisible || settingsOpen || collectionOpen}
       onopensettings={() => (settingsOpen = true)}
-      ontogglefullscreen={toggleFullScreen}
+      onopencollection={() => (collectionOpen = true)}
     />
+
+    {#if canFullScreen}
+      <!-- Fades with the control bar, so the class sees only the Scene. -->
+      <button
+        class="absolute top-4 right-4 z-40 grid size-11 place-items-center rounded-full bg-white/95 text-slate-700 shadow-lg transition-opacity duration-300 hover:bg-white"
+        class:opacity-0={!controlsVisible}
+        class:pointer-events-none={!controlsVisible}
+        aria-hidden={!controlsVisible}
+        aria-label={fullScreen ? "Exit full screen" : "Full screen"}
+        title={fullScreen ? "Exit full screen" : "Full screen"}
+        onclick={toggleFullScreen}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          class="size-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          {#if fullScreen}
+            <path
+              d="M9 4v3a2 2 0 0 1-2 2H4M15 4v3a2 2 0 0 0 2 2h3M9 20v-3a2 2 0 0 0-2-2H4M15 20v-3a2 2 0 0 1 2-2h3"
+            />
+          {:else}
+            <path
+              d="M4 9V6a2 2 0 0 1 2-2h3M20 9V6a2 2 0 0 0-2-2h-3M4 15v3a2 2 0 0 0 2 2h3M20 15v3a2 2 0 0 1-2 2h-3"
+            />
+          {/if}
+        </svg>
+      </button>
+    {/if}
   {/if}
 
   {#if settingsOpen}
     <SettingsPanel {app} onclose={() => (settingsOpen = false)} />
+  {/if}
+
+  {#if collectionOpen}
+    <Collection {app} onclose={() => (collectionOpen = false)} />
   {/if}
 </main>

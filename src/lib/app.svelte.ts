@@ -27,6 +27,12 @@ export class App {
    * Scene back until then, so a reload never flashes the default first.
    */
   restored = $state(false);
+  /**
+   * True while the calibration popup is open. The class is being asked to
+   * talk on purpose, so the room is not judged: the Scene must not go murky
+   * and the arrival clock must not bank or lose progress.
+   */
+  calibrating = $state(false);
   session = new Session(
     DEFAULT_SCENE,
     SCENES[DEFAULT_SCENE].roster,
@@ -77,6 +83,15 @@ export class App {
     await this.microphone.start(deviceId);
   }
 
+  /**
+   * Pause or resume judging the room. Resuming starts the monitor afresh,
+   * because the calibration may have just changed what every level means.
+   */
+  setCalibrating(active: boolean) {
+    this.calibrating = active;
+    this.monitor.reset();
+  }
+
   startSession() {
     this.monitor.reset();
     this.session.start(settings.arrivalIntervalMs);
@@ -99,7 +114,7 @@ export class App {
       const delta = now - this.#lastTick;
       this.#lastTick = now;
 
-      if (this.microphone.status === "on") {
+      if (this.microphone.status === "on" && !this.calibrating) {
         this.monitor.observe(
           this.microphone.levelWith(settings.calibration),
           settings.volumeGoal,

@@ -13,17 +13,13 @@
   let {
     app,
     visible,
-    fullScreen,
-    canFullScreen,
     onopensettings,
-    ontogglefullscreen,
+    onopencollection,
   }: {
     app: App;
     visible: boolean;
-    fullScreen: boolean;
-    canFullScreen: boolean;
     onopensettings: () => void;
-    ontogglefullscreen: () => void;
+    onopencollection: () => void;
   } = $props();
 
   let confirmingReset = $state(false);
@@ -87,10 +83,6 @@
           Start
         </button>
       {:else}
-        <span class="px-2 text-sm text-slate-600">
-          {app.session.creatures.length}
-          {app.session.creatures.length === 1 ? "animal" : "animals"} so far
-        </span>
         <button
           class="rounded-full border border-slate-300 px-4 py-2 text-sm hover:bg-slate-50"
           class:bg-slate-100={confirmingReset}
@@ -107,14 +99,12 @@
       >
         Settings
       </button>
-      {#if canFullScreen}
-        <button
-          class="rounded-full border border-slate-300 px-4 py-2 text-sm hover:bg-slate-50"
-          onclick={ontogglefullscreen}
-        >
-          {fullScreen ? "Exit full screen" : "Full screen"}
-        </button>
-      {/if}
+      <button
+        class="rounded-full border border-slate-300 px-4 py-2 text-sm hover:bg-slate-50"
+        onclick={onopencollection}
+      >
+        Animals
+      </button>
     </div>
   </div>
 </div>

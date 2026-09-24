@@ -16,6 +16,7 @@ import {
 } from "./arrivalClock";
 import { rollCreature } from "./roll";
 import { loadReef, saveReef } from "./savedReef";
+import { sightings } from "./sightings.svelte";
 
 /** One Creature actually in the water, and where it first appears. */
 export interface CreatureInstance {
@@ -141,6 +142,7 @@ export class Session {
     this.creatures = [...this.creatures, instance];
     this.newestId = instance.id;
     saveReef(this.#sceneId, this.creatures);
+    sightings.record(this.#sceneId, def.slug);
   }
 
   #place(def: CreatureDef): CreatureInstance {

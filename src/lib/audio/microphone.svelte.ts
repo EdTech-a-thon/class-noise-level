@@ -28,6 +28,13 @@ const PUBLISH_INTERVAL_MS = 100;
 
 export class Microphone {
   rawLevel = $state(0);
+  /**
+   * The plain average of the level over the last publish interval, with no
+   * smoothing. Calibration samples this: the smoothed level lags a room that
+   * has just gone quiet or started talking by seconds, which would bias a
+   * five-second sample. Its long-run average is the same as `rawLevel`'s.
+   */
+  unsmoothedLevel = $state(0);
   status = $state<MicrophoneStatus>("off");
   devices = $state<MediaDeviceInfo[]>([]);
   activeDeviceId = $state("");
@@ -57,6 +64,7 @@ export class Microphone {
     this.#teardown();
     this.#teardown = () => {};
     this.rawLevel = 0;
+    this.unsmoothedLevel = 0;
     this.status = "off";
   }
 
@@ -109,6 +117,8 @@ export class Microphone {
       let smoothed = 0;
       let lastTick = performance.now();
       let lastPublished = 0;
+      let windowSum = 0;
+      let windowFrames = 0;
 
       const measure = () => {
         analyser.getByteTimeDomainData(samples);
@@ -124,9 +134,14 @@ export class Microphone {
         smoothed +=
           (measured - smoothed) * (1 - Math.exp(-elapsed / SMOOTHING_MS));
         lastTick = now;
+        windowSum += measured;
+        windowFrames += 1;
 
         if (now - lastPublished >= PUBLISH_INTERVAL_MS) {
           this.rawLevel = smoothed;
+          this.unsmoothedLevel = windowSum / windowFrames;
+          windowSum = 0;
+          windowFrames = 0;
           lastPublished = now;
         }
         frame = requestAnimationFrame(measure);

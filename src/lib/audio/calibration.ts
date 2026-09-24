@@ -19,7 +19,7 @@ export interface Calibration {
 export const MIN_CALIBRATION_SPREAD = 1.5;
 
 /** Where "talking normally" lands on the 0-100 scale. */
-const TALKING_MAPS_TO = 65;
+export const TALKING_MAPS_TO = 50;
 /** Where a silent room lands, so a quiet room is not pinned at zero. */
 const QUIET_MAPS_TO = 5;
 
@@ -33,6 +33,27 @@ export function trimmedMean(samples: number[]): number {
   const trim = Math.floor(sorted.length * 0.15);
   const kept = trim > 0 ? sorted.slice(trim, sorted.length - trim) : sorted;
   return kept.reduce((sum, value) => sum + value, 0) / kept.length;
+}
+
+/** Readings per chunk: half a second at the microphone's publish rate. */
+const CHUNK_SIZE = 5;
+
+/**
+ * One number for a five-second run of unsmoothed readings.
+ *
+ * Speech is bursty, so individual readings are lopsided — mostly low with
+ * tall spikes — and trimming them directly would throw away the loud half of
+ * normal talking. Averaging half-second chunks first evens that out, and the
+ * trim then drops whole chunks: a cough, or the moment before the class
+ * started talking.
+ */
+export function sampleLevel(readings: number[]): number {
+  const chunks: number[] = [];
+  for (let start = 0; start < readings.length; start += CHUNK_SIZE) {
+    const chunk = readings.slice(start, start + CHUNK_SIZE);
+    chunks.push(chunk.reduce((sum, value) => sum + value, 0) / chunk.length);
+  }
+  return trimmedMean(chunks);
 }
 
 /** Null when the two samples are too close together to build a scale from. */

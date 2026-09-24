@@ -1,8 +1,10 @@
 import { describe, expect, it } from "bun:test";
 import {
   MIN_CALIBRATION_SPREAD,
+  TALKING_MAPS_TO,
   applyCalibration,
   makeCalibration,
+  sampleLevel,
   trimmedMean,
 } from "./calibration";
 
@@ -28,6 +30,29 @@ describe("trimmedMean", () => {
   });
 });
 
+describe("sampleLevel", () => {
+  it("matches the plain average of bursty talking", () => {
+    // Speech: mostly low with tall spikes. Trimming raw readings would cut
+    // the spikes and read quieter than the room really is during play.
+    const talking = Array.from({ length: 50 }, (_, i) =>
+      i % 5 === 0 ? 60 : 10,
+    );
+    expect(sampleLevel(talking)).toBeCloseTo(20);
+  });
+
+  it("ignores a half-second cough during the quiet sample", () => {
+    const quiet = Array.from({ length: 50 }, (_, i) =>
+      i >= 20 && i < 25 ? 90 : 5,
+    );
+    expect(sampleLevel(quiet)).toBeCloseTo(5);
+  });
+
+  it("ignores the moment before the class starts talking", () => {
+    const talking = Array.from({ length: 50 }, (_, i) => (i < 5 ? 2 : 30));
+    expect(sampleLevel(talking)).toBeCloseTo(30);
+  });
+});
+
 describe("makeCalibration", () => {
   it("rejects two samples that are too close to tell apart", () => {
     expect(makeCalibration(10, 10 + MIN_CALIBRATION_SPREAD / 2)).toBeNull();
@@ -49,10 +74,8 @@ describe("applyCalibration", () => {
     expect(applyCalibration(4, calibration)).toBeLessThan(10);
   });
 
-  it("puts normal talking well up the scale but not at the top", () => {
-    const talking = applyCalibration(24, calibration);
-    expect(talking).toBeGreaterThan(55);
-    expect(talking).toBeLessThan(80);
+  it("puts normal talking exactly where calibration promised", () => {
+    expect(applyCalibration(24, calibration)).toBeCloseTo(TALKING_MAPS_TO);
   });
 
   it("clamps to 0-100 outside the calibrated range", () => {
