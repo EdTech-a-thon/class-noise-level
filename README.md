@@ -69,6 +69,9 @@ bun run lint     # prettier + eslint
 bun run build    # static production build into build/
 ```
 
+Cloudflare Web Analytics is added to the build only when `CF_BEACON_TOKEN` is
+set, which it is only in Vercel's production environment.
+
 ## How it is put together
 
 Svelte 5 and SvelteKit, prerendered to static files with Tailwind for styling.
