@@ -119,24 +119,26 @@
   });
 </script>
 
-<div class="rounded-lg bg-slate-100 p-4">
-  <p class="text-sm text-slate-700">
-    <b>Calibrate this room.</b> Calibrating makes the meter match what quiet and
-    talking actually sound like on this computer.
-    {#if calibration}Already calibrated for this microphone.{/if}
-  </p>
+<div
+  class="flex items-center justify-between gap-3 rounded-lg bg-slate-100 p-3"
+>
+  <div class="min-w-0">
+    <p class="text-sm font-semibold text-slate-900">Calibration</p>
+    {#if !ready}
+      <p class="text-xs text-slate-500">Connect a microphone first</p>
+    {:else if calibration}
+      <p class="text-xs font-medium text-emerald-700">✓ Calibrated</p>
+    {:else}
+      <p class="text-xs text-slate-500">Fit the meter to your microphone</p>
+    {/if}
+  </div>
   <button
-    class="mt-3 rounded-md border border-slate-400 px-3 py-1.5 text-sm font-medium hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
+    class="shrink-0 rounded-md border border-slate-400 px-3 py-1.5 text-sm font-medium hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
     disabled={!ready}
     onclick={open}
   >
-    {calibration ? "Calibrate again" : "Start calibration"}
+    {calibration ? "Recalibrate" : "Calibrate"}
   </button>
-  {#if !ready}
-    <p class="mt-2 text-sm text-slate-600">
-      Connect a microphone first — calibration needs to hear the room.
-    </p>
-  {/if}
 </div>
 
 <!-- Closing by any route (Escape, Cancel, Done) resets to the intro, which
@@ -176,7 +178,7 @@
     {/each}
   </ol>
 
-  <div class="mt-6 min-h-32" aria-live="polite">
+  <div class="mt-6" aria-live="polite">
     {#if stage === "intro"}
       <p class="text-slate-700">
         <b>Step 1:</b> ask the class to be completely silent. When ready, we

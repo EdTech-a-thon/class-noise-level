@@ -69,9 +69,6 @@
           </button>
         {/each}
       </div>
-      <p class="text-xs text-slate-500">
-        Each scene keeps its own animals, so switching never loses any.
-      </p>
     </section>
 
     <section class="mt-6 space-y-3">
@@ -104,7 +101,7 @@
 
     <section class="mt-6 space-y-3">
       <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">
-        How loud is too loud
+        Noise Meter
       </h2>
       <LevelMeter
         level={app.monitor.level}
@@ -196,8 +193,7 @@
     </section>
 
     <p class="mt-6 text-xs text-slate-500">
-      Settings are saved on this computer only. No account, no server, and the
-      microphone audio never leaves the device.
+      Settings are saved on this computer only. Microphone audio never leaves the device.
     </p>
   </aside>
 </div>

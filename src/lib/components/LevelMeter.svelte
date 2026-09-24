@@ -32,7 +32,7 @@
 
 <div class="space-y-2">
   <div class="flex items-center justify-between gap-3">
-    <span class="text-sm font-medium text-slate-600">Room right now</span>
+    <span class="text-sm font-medium text-slate-600">Current volume</span>
     <span
       class="rounded-full px-3 py-1 text-sm font-semibold {tooLoud
         ? 'bg-rose-100 text-rose-800'
