@@ -19,6 +19,7 @@
     newestId,
     murky,
     frozen,
+    scares,
     fleeing,
     ondepart,
   }: {
@@ -26,8 +27,13 @@
     creatures: CreatureInstance[];
     newestId: number | null;
     murky: boolean;
-    /** Too Loud, with the teacher's choice to pause rather than scare. */
+    /** Too Loud: everyone holds still, except any Creature running away. */
     frozen: boolean;
+    /**
+     * The teacher chose "animals run away". The haze is then only a hint:
+     * everyone freezing and bolting is the signal, and must stay sharp.
+     */
+    scares: boolean;
     /** Ids of the Creatures running away. */
     fleeing: number[];
     /** A fleeing Creature has run out of sight. */
@@ -40,6 +46,7 @@
   data-scene={scene.id}
   data-murky={murky}
   data-frozen={frozen}
+  data-scares={scares}
 >
   <!--
     The whole landscape in one piece of artwork. It sits inside the container

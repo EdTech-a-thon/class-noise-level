@@ -136,13 +136,28 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   opacity: 0.38;
 }
 
+/* When animals run away, freezing and bolting carry the message, so the haze
+   is only a light hint, and never blurs the "!" or the animals running. */
+.scene-stage[data-scene="reef"][data-scares="true"][data-murky="true"] {
+  filter: saturate(0.85) brightness(0.95);
+}
+
+.scene-stage[data-scene="savanna"][data-scares="true"][data-murky="true"] {
+  filter: saturate(0.85) sepia(0.06) brightness(0.96);
+}
+
+.scene-stage[data-scares="true"][data-murky="true"] .too-loud-veil {
+  opacity: 0.12;
+}
+
 /* Too Loud freezes the Scene: the shy animals hold still, and the scenery
    with them, until the room settles. Creatures' wandering runs in script and
    stops there too (Creature.svelte); this catches every CSS sway, bob and
-   drift. The veil's fade is a transition, so it is unaffected. */
-.scene-stage[data-frozen="true"] *,
-.scene-stage[data-frozen="true"] *::before,
-.scene-stage[data-frozen="true"] *::after {
+   drift. The veil's fade is a transition, so it is unaffected. A Creature
+   running away is the one thing still moving, "!" and all. */
+.scene-stage[data-frozen="true"] :not(.fleeing, .fleeing *),
+.scene-stage[data-frozen="true"] :not(.fleeing, .fleeing *)::before,
+.scene-stage[data-frozen="true"] :not(.fleeing, .fleeing *)::after {
   animation-play-state: paused !important;
 }
 
@@ -238,6 +253,121 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
 
 .arrival-ring {
   animation: arrival-ring 1800ms ease-out forwards;
+}
+
+/* --- Running away ------------------------------------------------------- */
+
+/* A startled "!" over a Creature that is about to run: pops up, then keeps
+   a small nervous wobble while it goes. */
+@keyframes flee-alert-pop {
+  0% {
+    transform: translate(-50%, 0) scale(0);
+  }
+  60% {
+    transform: translate(-50%, 0) scale(1.25);
+  }
+  100% {
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+@keyframes flee-alert-wobble {
+  0%,
+  100% {
+    rotate: -8deg;
+  }
+  50% {
+    rotate: 8deg;
+  }
+}
+
+.flee-alert {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 3.2vw;
+  min-width: 28px;
+  aspect-ratio: 1;
+  margin-bottom: 0.4vw;
+  border: 0.25vw solid #1e293b;
+  border-radius: 9999px;
+  background: #fde047;
+  color: #1e293b;
+  font-size: max(1.2rem, 2.2vw);
+  font-weight: 900;
+  line-height: 1;
+  transform-origin: 50% 100%;
+  animation:
+    flee-alert-pop 350ms ease-out both,
+    flee-alert-wobble 300ms ease-in-out 350ms infinite;
+}
+
+/* Streaks trailing behind a Creature that has bolted. Script sets which side
+   (`data-bolting`) once it knows which way it is running. */
+@keyframes speed-line {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.3);
+  }
+  40% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}
+
+.speed-lines {
+  position: absolute;
+  top: 25%;
+  display: none;
+  /* A floor, so a meerkat's streaks still read from across the room. */
+  width: max(45%, 3.5vw);
+  height: 50%;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.swimmer[data-bolting="right"] .speed-lines {
+  right: 100%;
+  display: flex;
+}
+
+.swimmer[data-bolting="left"] .speed-lines {
+  left: 100%;
+  display: flex;
+}
+
+.speed-lines > i {
+  height: max(3px, 0.3vw);
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.85);
+  animation: speed-line 400ms ease-out infinite;
+}
+
+.swimmer[data-bolting="right"] .speed-lines > i {
+  transform-origin: right;
+}
+
+.swimmer[data-bolting="left"] .speed-lines > i {
+  transform-origin: left;
+}
+
+.speed-lines > i:nth-child(2) {
+  width: 70%;
+  margin-inline: auto 0;
+  animation-delay: 130ms;
+}
+
+.swimmer[data-bolting="left"] .speed-lines > i:nth-child(2) {
+  margin-inline: 0 auto;
+}
+
+.speed-lines > i:nth-child(3) {
+  animation-delay: 260ms;
 }
 
 /* The artwork's viewBox is cropped tight to the resting pose, and an inline

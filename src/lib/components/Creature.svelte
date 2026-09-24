@@ -39,7 +39,7 @@
     isNewest: boolean;
     /** Too Loud: hold perfectly still until the room settles. */
     frozen: boolean;
-    /** Scared off: bolt for the nearer edge. */
+    /** Scared off: a startled "!", then bolt for the nearer edge. */
     fleeing: boolean;
     /** Called once when a fleeing Creature is out of sight. */
     ongone: () => void;
@@ -70,6 +70,13 @@
   let swimmer: HTMLDivElement;
   let banker: HTMLDivElement;
   let flipper: HTMLDivElement;
+
+  /**
+   * Seconds a scared Creature stands startled, "!" up, before it bolts. A
+   * little random on top, so several scared at once never leave in lockstep.
+   */
+  const STARTLE_S = 0.8;
+  const STARTLE_JITTER_S = 0.5;
 
   onMount(() => {
     const scene = swimmer.parentElement!;
@@ -106,6 +113,7 @@
 
     let facing = 0;
     let fleeingTo: -1 | 1 | null = null;
+    let startled = STARTLE_S + Math.random() * STARTLE_JITTER_S;
     let last = performance.now();
     let frame = requestAnimationFrame(function tick(now) {
       // Clamp, so a backgrounded tab does not teleport everyone on return.
@@ -118,8 +126,14 @@
       // A Creature already running keeps running, even if the Scene freezes.
       if (frozen && !fleeing) dt = 0;
 
-      if (fleeing) {
-        fleeingTo ??= fleeDirection(state);
+      if (fleeing && startled > 0) {
+        startled -= dt;
+      } else if (fleeing) {
+        if (fleeingTo === null) {
+          fleeingTo = fleeDirection(state);
+          // Speed lines trail on the side it is running away from.
+          swimmer.dataset.bolting = fleeingTo > 0 ? "right" : "left";
+        }
         if (
           stepFlee(state, style, creature.depth, footprint(), fleeingTo, dt)
         ) {
@@ -140,7 +154,7 @@
         // skitter; the savanna animals (the ones with a `band`) only sway
         // slightly, so a plain full of walkers never reads as a stampede.
         const pace = Math.min(1, Math.abs(state.vx) / profile.speed);
-        angle = fleeing
+        angle = fleeingTo
           ? Math.sin(state.age * 24) * 4
           : profile.band
             ? Math.sin(state.age * 6) * 1 * pace
@@ -166,12 +180,21 @@
 <div
   bind:this={swimmer}
   class="swimmer pointer-events-none absolute top-0 left-0"
+  class:fleeing
   style="
     width:{width}vw;
     z-index:{creatureLayer(profile, creature.depth)};
     opacity:{depthFade ? 0.62 + creature.depth * 0.38 : 1};
   "
 >
+  {#if fleeing}
+    <!--
+      Outside the flipper and the banker, so the "!" never mirrors or rocks,
+      and big enough to read from the back of the room.
+    -->
+    <span class="flee-alert" aria-hidden="true">!</span>
+    <span class="speed-lines" aria-hidden="true"><i></i><i></i><i></i></span>
+  {/if}
   <div
     class={profile.ground ? "" : "bobber"}
     style="animation-duration:{5 + creature.depth * 4}s;"

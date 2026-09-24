@@ -65,8 +65,10 @@ Too Loud.
 
 ## Run Away
 
-What Too Loud does by default. While the room stays Too Loud, Creatures already present run off the edge of the Scene
-one at a time, and are gone for the rest of the Session.
+What Too Loud does by default. The Scene freezes, and while the room stays Too
+Loud, first a single Creature and then, every five seconds, a fifth of those
+still present (at least one) are startled and run off the edge of the Scene. They are gone for the rest of
+the Session.
 
 ## Volume Goal
 

@@ -90,8 +90,8 @@
       creatures={app.session.creatures}
       newestId={app.session.newestId}
       murky={app.monitor.state === "too-loud"}
-      frozen={app.monitor.state === "too-loud" &&
-        settings.loudResponse === "pause"}
+      frozen={app.monitor.state === "too-loud"}
+      scares={settings.loudResponse === "flee"}
       fleeing={app.session.fleeing}
       ondepart={(id) => app.session.depart(id)}
     />

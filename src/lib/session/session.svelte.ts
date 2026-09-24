@@ -19,6 +19,7 @@ import { rollCreature } from "./roll";
 import {
   advanceScareClock,
   createScareClock,
+  fleeCount,
   type ScareClock,
 } from "./scareClock";
 import { loadReef, saveReef } from "./savedReef";
@@ -138,7 +139,7 @@ export class Session {
 
     const scare = advanceScareClock(this.#scare, deltaMs, scares && !isQuiet);
     this.#scare = scare.clock;
-    if (scare.scared) this.#scareOne();
+    if (scare.wave) this.#scareSome(scare.wave === "first");
   }
 
   /** A fleeing Creature has run out of sight: now it is really gone. */
@@ -163,13 +164,20 @@ export class Session {
     this.#save();
   }
 
-  #scareOne() {
+  #scareSome(firstWave: boolean) {
     const staying = this.creatures.filter(
       (creature) => !this.fleeing.includes(creature.id),
     );
-    if (staying.length === 0) return;
-    const pick = staying[Math.floor(this.#random() * staying.length)];
-    this.fleeing = [...this.fleeing, pick.id];
+    const scared: number[] = [];
+    for (let n = fleeCount(staying.length, firstWave); n > 0; n--) {
+      const [pick] = staying.splice(
+        Math.floor(this.#random() * staying.length),
+        1,
+      );
+      scared.push(pick.id);
+    }
+    if (scared.length === 0) return;
+    this.fleeing = [...this.fleeing, ...scared];
     this.#save();
   }
 

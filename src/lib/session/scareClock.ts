@@ -3,35 +3,55 @@
  * run away" (docs/adr/0003-animals-can-run-away.md).
  *
  * Too Loud itself already takes seconds of sustained noise to reach, so a
- * single shout never scares anybody. Once there, the first Creature bolts
- * after a short beat and then one more at a steady pace, so a class that
- * notices and settles quickly loses one animal, not the Scene. Any Quiet
- * moment winds the clock back to the start.
+ * single shout never scares anybody. Once there, the Scene freezes; three
+ * seconds later a single Creature bolts as a warning, and from then on every
+ * five seconds a fifth of those still out follow (at least one), so a full
+ * Scene loses a dramatic handful at a time while a nearly empty one loses its
+ * last few one by one. Any Quiet moment winds the clock back to the start.
  *
  * Pure, like the arrival clock, so it is testable without waiting.
  */
 
-/** How long into Too Loud the first Creature runs away. */
-export const FIRST_FLEE_MS = 2_000;
-/** How often another one follows while the room stays Too Loud. */
-export const FLEE_EVERY_MS = 8_000;
+/** How long into Too Loud the first Creature runs away, on its own. */
+export const FIRST_FLEE_MS = 3_000;
+/** How often more follow while the room stays Too Loud. */
+export const FLEE_EVERY_MS = 5_000;
 
-/** Milliseconds until the next Creature runs away. */
-export type ScareClock = number;
+/** Share of the Creatures still out that bolt in each wave after the first. */
+export const FLEE_SHARE = 0.2;
+
+/**
+ * How many of `staying` Creatures run away in a wave. The first is a single
+ * warning animal; after that, a fifth, rounded up.
+ */
+export function fleeCount(staying: number, firstWave: boolean): number {
+  if (firstWave) return Math.min(1, staying);
+  return Math.ceil(staying * FLEE_SHARE);
+}
+
+export interface ScareClock {
+  /** Milliseconds until the next wave runs away. */
+  remainingMs: number;
+  /** The next wave is the first of this spell of Too Loud. */
+  firstWave: boolean;
+}
 
 export function createScareClock(): ScareClock {
-  return FIRST_FLEE_MS;
+  return { remainingMs: FIRST_FLEE_MS, firstWave: true };
 }
 
 export function advanceScareClock(
   clock: ScareClock,
   deltaMs: number,
   tooLoud: boolean,
-): { clock: ScareClock; scared: boolean } {
-  if (!tooLoud) return { clock: createScareClock(), scared: false };
-  const remaining = clock - deltaMs;
-  if (remaining > 0) return { clock: remaining, scared: false };
-  // A full wait before the next, so a stalled tab owes one departure, never
-  // a stampede.
-  return { clock: FLEE_EVERY_MS, scared: true };
+): { clock: ScareClock; wave: "first" | "later" | null } {
+  if (!tooLoud) return { clock: createScareClock(), wave: null };
+  const remainingMs = clock.remainingMs - deltaMs;
+  if (remainingMs > 0) return { clock: { ...clock, remainingMs }, wave: null };
+  // A full wait before the next, so a stalled tab owes one wave, never a
+  // stampede.
+  return {
+    clock: { remainingMs: FLEE_EVERY_MS, firstWave: false },
+    wave: clock.firstWave ? "first" : "later",
+  };
 }

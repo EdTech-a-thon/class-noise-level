@@ -53,7 +53,8 @@ const en = {
       "If it gets too loud, they'll run away! Keep the room calm and they'll come out and stay.",
     "settings.tooLoud": "When it's too loud",
     "loud.flee.label": "Animals run away",
-    "loud.flee.hint": "One animal runs off every few seconds until it's calm",
+    "loud.flee.hint":
+      "Everyone freezes, and some run off every 5 seconds until it's calm",
     "loud.pause.label": "Pause the scene",
     "loud.pause.hint": "Animals hold still and no new ones come out",
     "settings.arrival": "How often animals arrive",
@@ -264,7 +265,7 @@ const es = {
     "settings.tooLoud": "Cuando hay demasiado ruido",
     "loud.flee.label": "Los animales se escapan",
     "loud.flee.hint":
-      "Un animal se va cada pocos segundos hasta que vuelva la calma",
+      "Todos se quedan quietos y algunos se escapan cada 5 segundos hasta que vuelva la calma",
     "loud.pause.label": "Pausar la escena",
     "loud.pause.hint": "Los animales se quedan quietos y no sale ninguno nuevo",
     "settings.arrival": "Con qué frecuencia llegan animales",
@@ -467,7 +468,7 @@ const fr = {
     "settings.tooLoud": "Quand il y a trop de bruit",
     "loud.flee.label": "Les animaux s’enfuient",
     "loud.flee.hint":
-      "Un animal s’en va toutes les quelques secondes jusqu’au retour du calme",
+      "Tout le monde se fige, et certains s’enfuient toutes les 5 secondes jusqu’au retour du calme",
     "loud.pause.label": "Mettre la scène en pause",
     "loud.pause.hint": "Les animaux restent immobiles et aucun nouveau ne sort",
     "settings.arrival": "Fréquence d’arrivée des animaux",
