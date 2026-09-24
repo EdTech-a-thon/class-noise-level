@@ -6,6 +6,7 @@
   import Scene from "$lib/components/Scene.svelte";
   import SettingsPanel from "$lib/components/SettingsPanel.svelte";
   import { SCENES } from "$lib/scenes";
+  import { settings } from "$lib/settings/settings.svelte";
   import logoUrl from "$lib/brand/logo.svg";
 
   const app = new App();
@@ -69,6 +70,10 @@
       creatures={app.session.creatures}
       newestId={app.session.newestId}
       murky={app.monitor.state === "too-loud"}
+      frozen={app.monitor.state === "too-loud" &&
+        settings.loudResponse === "pause"}
+      fleeing={app.session.fleeing}
+      ondepart={(id) => app.session.depart(id)}
     />
   {/if}
 
@@ -85,8 +90,14 @@
           class="mt-3 rounded-lg bg-amber-50 px-4 py-3 text-balance text-slate-800"
         >
           <span class="block font-medium">Shh… these animals are shy!</span>
-          If it gets too loud, they stay hidden. When the room is calm again, they'll
-          start coming out.
+          <!-- Checked after mount: the page is prerendered with the default. -->
+          {#if app.restored && settings.loudResponse === "pause"}
+            If it gets too loud, they stay hidden. When the room is calm again,
+            they'll start coming out.
+          {:else}
+            If it gets too loud, they'll run away! Keep the room calm and
+            they'll come out and stay.
+          {/if}
         </p>
         <div
           class="mt-5 inline-flex rounded-full border border-slate-300 p-1 text-sm"

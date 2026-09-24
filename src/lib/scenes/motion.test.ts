@@ -2,7 +2,9 @@ import { describe, expect, it } from "bun:test";
 import {
   MOTION_PROFILES,
   createMotion,
+  fleeDirection,
   groundLine,
+  stepFlee,
   stepMotion,
   type MotionStyle,
 } from "./motion";
@@ -45,6 +47,31 @@ describe("stepMotion", () => {
     for (let t = 0; t < 600; t += 1 / 30) {
       stepMotion(state, "scuttle", 0.4, footprint, 1 / 30, random);
       expect(state.y + footprint.height / 2).toBeCloseTo(groundLine(0.4));
+    }
+  });
+});
+
+describe("stepFlee", () => {
+  for (const style of styles) {
+    it(`runs a ${style} Creature out of the nearer side within seconds`, () => {
+      const random = seeded(11);
+      const state = createMotion(style, 0.3, 0.5, 0.5, footprint, random);
+      const direction = fleeDirection(state);
+      let seconds = 0;
+      while (!stepFlee(state, style, 0.5, footprint, direction, 1 / 30)) {
+        seconds += 1 / 30;
+        expect(seconds).toBeLessThan(6);
+      }
+      expect(state.x).toBeLessThan(0);
+    });
+  }
+
+  it("keeps a fleeing zebra's hooves on the plain", () => {
+    const random = seeded(5);
+    const state = createMotion("trot", 0.8, 0.5, 0.4, footprint, random);
+    const band = MOTION_PROFILES.trot.band;
+    while (!stepFlee(state, "trot", 0.4, footprint, 1, 1 / 30)) {
+      expect(state.y + footprint.height / 2).toBeCloseTo(groundLine(0.4, band));
     }
   });
 });

@@ -124,6 +124,7 @@ export class App {
           delta,
           this.monitor.state === "quiet",
           settings.arrivalIntervalMs,
+          settings.loudResponse === "flee",
         );
       }
       this.#frame = requestAnimationFrame(step);

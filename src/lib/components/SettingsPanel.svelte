@@ -17,6 +17,7 @@
     VOLUME_GOAL_PRESETS,
     settings,
     type ArrivalRatePreset,
+    type LoudResponse,
     type VolumeGoalPreset,
   } from "$lib/settings/settings.svelte";
   import Calibration from "./Calibration.svelte";
@@ -32,6 +33,19 @@
     Exclude<ArrivalRatePreset, "custom">,
     (typeof ARRIVAL_RATE_PRESETS)["normal"],
   ][];
+
+  const LOUD_RESPONSES: { key: LoudResponse; label: string; hint: string }[] = [
+    {
+      key: "flee",
+      label: "Animals run away",
+      hint: "One animal runs off every few seconds until it's calm",
+    },
+    {
+      key: "pause",
+      label: "Pause the scene",
+      hint: "Animals hold still and no new ones come out",
+    },
+  ];
 </script>
 
 <div
@@ -133,6 +147,26 @@
 
     <section class="mt-6 space-y-3">
       <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">
+        When it's too loud
+      </h2>
+      <div class="grid grid-cols-2 gap-2">
+        {#each LOUD_RESPONSES as option (option.key)}
+          <button
+            class="rounded-md border px-2 py-2 text-left text-sm {settings.loudResponse ===
+            option.key
+              ? 'border-slate-900 bg-slate-900 text-white'
+              : 'border-slate-300 hover:bg-slate-50'}"
+            onclick={() => (settings.loudResponse = option.key)}
+          >
+            <span class="block font-semibold">{option.label}</span>
+            <span class="block text-xs opacity-80">{option.hint}</span>
+          </button>
+        {/each}
+      </div>
+    </section>
+
+    <section class="mt-6 space-y-3">
+      <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">
         How often animals arrive
       </h2>
       <div class="grid grid-cols-3 gap-2">
@@ -193,7 +227,8 @@
     </section>
 
     <p class="mt-6 text-xs text-slate-500">
-      Settings are saved on this computer only. Microphone audio never leaves the device.
+      Settings are saved on this computer only. Microphone audio never leaves
+      the device.
     </p>
   </aside>
 </div>

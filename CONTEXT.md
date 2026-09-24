@@ -15,7 +15,7 @@ has earned separately, so switching never takes any away.
 One animal that can appear in the Scene. Creatures are shy: they come out
 while the room is Quiet and stay hidden while it is Too Loud. A Creature is
 either **absent** or **present**. Once present, it stays present for the rest
-of the Session — Creatures never leave, and are never startled.
+of the Session, unless it Runs Away.
 
 ## Roster
 
@@ -57,9 +57,16 @@ Quiet, Creatures arrive, at the Arrival Rate.
 ## Too Loud
 
 The state of the room being above the Volume Goal. While the room is Too Loud,
-no new Creatures arrive — the shy animals wait to come out. Nothing is taken
-away and nothing is punished; arrival simply pauses. A momentary sound — a knock at the door, a dropped book — is not
+no new Creatures arrive — the shy animals wait to come out — and, by default,
+the ones already out start to Run Away. A teacher can choose instead to pause
+the Scene, where nothing is taken away; arrival simply pauses and the Scene
+holds still. A momentary sound — a knock at the door, a dropped book — is not
 Too Loud.
+
+## Run Away
+
+What Too Loud does by default. While the room stays Too Loud, Creatures already present run off the edge of the Scene
+one at a time, and are gone for the rest of the Session.
 
 ## Volume Goal
 

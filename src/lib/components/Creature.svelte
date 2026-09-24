@@ -17,6 +17,8 @@
     bankAngle,
     createMotion,
     creatureLayer,
+    fleeDirection,
+    stepFlee,
     stepMotion,
     type Footprint,
   } from "$lib/scenes/motion";
@@ -28,6 +30,8 @@
     depthFade,
     isNewest,
     frozen,
+    fleeing,
+    ongone,
   }: {
     creature: CreatureInstance;
     art: string;
@@ -35,6 +39,10 @@
     isNewest: boolean;
     /** Too Loud: hold perfectly still until the room settles. */
     frozen: boolean;
+    /** Scared off: bolt for the nearer edge. */
+    fleeing: boolean;
+    /** Called once when a fleeing Creature is out of sight. */
+    ongone: () => void;
   } = $props();
 
   /** Nearer Creatures are bigger; the roster width sets the species scale. */
@@ -97,6 +105,7 @@
     );
 
     let facing = 0;
+    let fleeingTo: -1 | 1 | null = null;
     let last = performance.now();
     let frame = requestAnimationFrame(function tick(now) {
       // Clamp, so a backgrounded tab does not teleport everyone on return.
@@ -106,9 +115,20 @@
       if (reducedMotion.matches) dt *= 0.2;
       // Frozen stops time rather than skipping the frame, so the gait rock
       // holds its pose instead of snapping upright.
-      if (frozen) dt = 0;
+      // A Creature already running keeps running, even if the Scene freezes.
+      if (frozen && !fleeing) dt = 0;
 
-      stepMotion(state, style, creature.depth, footprint(), dt, Math.random);
+      if (fleeing) {
+        fleeingTo ??= fleeDirection(state);
+        if (
+          stepFlee(state, style, creature.depth, footprint(), fleeingTo, dt)
+        ) {
+          ongone();
+          return;
+        }
+      } else {
+        stepMotion(state, style, creature.depth, footprint(), dt, Math.random);
+      }
 
       const left = state.x * sceneW - selfW / 2;
       const top = state.y * sceneH - selfH / 2;
@@ -120,9 +140,11 @@
         // skitter; the savanna animals (the ones with a `band`) only sway
         // slightly, so a plain full of walkers never reads as a stampede.
         const pace = Math.min(1, Math.abs(state.vx) / profile.speed);
-        angle = profile.band
-          ? Math.sin(state.age * 6) * 1 * pace
-          : Math.sin(state.age * 18) * 3 * pace;
+        angle = fleeing
+          ? Math.sin(state.age * 24) * 4
+          : profile.band
+            ? Math.sin(state.age * 6) * 1 * pace
+            : Math.sin(state.age * 18) * 3 * pace;
       }
       banker.style.transform = `rotate(${angle}deg)`;
 

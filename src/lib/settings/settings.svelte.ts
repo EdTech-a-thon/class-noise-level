@@ -13,6 +13,11 @@ import { DEFAULT_SCENE, SCENE_IDS, type SceneId } from "$lib/scenes/types";
 
 export type VolumeGoalPreset = "silent" | "independent" | "partner" | "custom";
 export type ArrivalRatePreset = "relaxed" | "normal" | "lively" | "custom";
+/**
+ * What Too Loud does to the Creatures already out: hold still until the room
+ * settles, or start running away. See docs/adr/0003-animals-can-run-away.md.
+ */
+export type LoudResponse = "flee" | "pause";
 
 export const VOLUME_GOAL_PRESETS: Record<
   Exclude<VolumeGoalPreset, "custom">,
@@ -58,6 +63,7 @@ interface StoredSettings {
   volumeGoal: number;
   arrivalRatePreset: ArrivalRatePreset;
   arrivalMinutes: number;
+  loudResponse: LoudResponse;
 }
 
 const DEFAULTS: StoredSettings = {
@@ -68,6 +74,7 @@ const DEFAULTS: StoredSettings = {
   volumeGoal: VOLUME_GOAL_PRESETS.independent.goal,
   arrivalRatePreset: "normal",
   arrivalMinutes: ARRIVAL_RATE_PRESETS.normal.minutes,
+  loudResponse: "flee",
 };
 
 function read(): StoredSettings {
@@ -199,6 +206,15 @@ class Settings {
       arrivalMinutes: clamped,
       arrivalRatePreset: matching ?? "custom",
     };
+    this.#save();
+  }
+
+  get loudResponse() {
+    return this.#stored.loudResponse;
+  }
+
+  set loudResponse(value: LoudResponse) {
+    this.#stored = { ...this.#stored, loudResponse: value };
     this.#save();
   }
 
