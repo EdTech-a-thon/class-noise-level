@@ -24,3 +24,7 @@ animatable. Art becomes an authoring task rather than a licensing hunt, which
 is what makes a second Scene (safari, butterfly garden) content work instead of
 a rewrite. The ceiling on visual fidelity is lower than filmed video: the reef
 will read as a stylised illustration, not a documentary.
+
+The product has since been rebranded from Quiet Reef to Shy Safari, and the
+reef Scene is being replaced by a safari one — the content-not-rewrite path
+this decision anticipated.

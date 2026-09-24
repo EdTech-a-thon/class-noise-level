@@ -16,17 +16,17 @@ root.
 
 Everything tunable, collected so it is not scattered through the code.
 
-| Thing | Value | Why |
-| --- | --- | --- |
-| Level smoothing time constant | 1400 ms | Lifted from Focus Friend; settles promptly without jitter |
-| Level publish rate | 10 Hz | Enough for a smooth bar, cheap |
-| Enter Too Loud | 10 s rolling mean above the Volume Goal | A knock at the door cannot survive a 10 s mean |
-| Leave Too Loud | 3 s below the Volume Goal | Slow in, fast out — recovery must feel immediate or it reads as punishment |
-| Volume Goal presets | Silent 15, Independent 30, Partner 50 | On the calibrated 0-100 scale |
-| Arrival Rate presets | Relaxed 8 min, Normal 5 min, Lively 2 min | Default Normal |
-| Arrival jitter | ±20% of the interval | So arrivals do not feel metronomic. My call, not yours — say if you want it exact |
-| Rarity weights | Common 70%, Uncommon 25%, Rare 5% | Split evenly within a tier; re-rolls are allowed, so common species repeat |
-| Murk transition | 1200 ms ease | Slow enough to read as weather, not as a reaction |
+| Thing                         | Value                                     | Why                                                                               |
+| ----------------------------- | ----------------------------------------- | --------------------------------------------------------------------------------- |
+| Level smoothing time constant | 1400 ms                                   | Lifted from Focus Friend; settles promptly without jitter                         |
+| Level publish rate            | 10 Hz                                     | Enough for a smooth bar, cheap                                                    |
+| Enter Too Loud                | 10 s rolling mean above the Volume Goal   | A knock at the door cannot survive a 10 s mean                                    |
+| Leave Too Loud                | 3 s below the Volume Goal                 | Slow in, fast out — recovery must feel immediate or it reads as punishment        |
+| Volume Goal presets           | Silent 15, Independent 30, Partner 50     | On the calibrated 0-100 scale                                                     |
+| Arrival Rate presets          | Relaxed 8 min, Normal 5 min, Lively 2 min | Default Normal; or type 1-60 whole minutes                                        |
+| Arrival jitter                | ±20% of the interval                      | So arrivals do not feel metronomic. My call, not yours — say if you want it exact |
+| Rarity weights                | Common 70%, Uncommon 25%, Rare 5%         | Split evenly within a tier; re-rolls are allowed, so common species repeat        |
+| Murk transition               | 1200 ms ease                              | Slow enough to read as weather, not as a reaction                                 |
 
 ## Module shape
 
@@ -98,7 +98,7 @@ animations.
 
 - **Sparse early Scene.** One arrival per 5 minutes means three Creatures in
   the first quarter hour. Ambient Life is the whole mitigation, so phase 4
-  should be judged against "does an empty reef look alive at 30 feet?" — if
+  should be judged against "does an empty Scene look alive at 30 feet?" — if
   not, the honest fixes are a faster first arrival or richer Ambient Life, not
   free Creatures (ADR-0001).
 - **Uncalibrated default.** A teacher who never calibrates gets raw RMS against

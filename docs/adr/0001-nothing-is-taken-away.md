@@ -2,18 +2,18 @@
 
 The tools this project exists to replace (bouncyballs.org and similar) react to
 noise so vividly that making noise becomes the game. To avoid that, a loud room
-in this app produces *the absence of a reward, never a punishment*: Creatures
+in this app produces _the absence of a reward, never a punishment_: Creatures
 never leave, never flee, and never play a startle animation; progress toward the
 next arrival pauses rather than resets; and the only signal to the class is an
 ambient dimming and murkiness across the whole Scene.
 
 ## Considered options
 
-- **Creatures swim away when it gets loud.** Rejected: a student who can clear
-  the reef by shouting has been handed a more responsive toy than the quiet
+- **Creatures leave (swim or run away) when it gets loud.** Rejected: a student
+  who can clear the Scene by shouting has been handed a more responsive toy than the quiet
   game, which is precisely the failure mode being designed against.
 - **A startle animation on a loud moment, without departures.** Rejected for the
-  same reason at smaller scale — anything that reacts *instantly and visibly* to
+  same reason at smaller scale — anything that reacts _instantly and visibly_ to
   a single loud noise is a button a child can press.
 - **Resetting progress toward the next arrival.** Rejected: it is the harshest
   option available and it is invisible, silently destroying several minutes of
@@ -30,3 +30,7 @@ feedback by design. Two decisions compensate and should not be unpicked without
 replacing them: Ambient Life keeps an unpopulated Scene from reading as broken,
 and the murk/dim shift gives loudness a visible consequence that is atmospheric
 rather than punitive.
+
+The Shy Safari framing ("the animals are shy, so they won't come out while it
+is too loud") is this decision told to children: loudness delays the next
+arrival, it never scares away an animal that is already out.
