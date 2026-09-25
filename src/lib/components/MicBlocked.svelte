@@ -21,7 +21,9 @@
   );
 </script>
 
-<div class="absolute inset-0 z-50 grid place-items-center bg-slate-900/70 p-6">
+<div
+  class="safe-edges absolute inset-0 z-50 grid place-items-center overflow-y-auto bg-slate-900/70"
+>
   <div class="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
     <h1 class="text-xl font-semibold text-slate-900">
       {t("blocked.title")}

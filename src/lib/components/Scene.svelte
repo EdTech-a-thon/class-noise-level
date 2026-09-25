@@ -53,8 +53,10 @@
     Too Loud filters, so a loud room clouds the Scene itself rather than
     tinting the animals in it.
   -->
-  <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-  <div class="backdrop absolute inset-0">{@html scene.ambientArt.backdrop}</div>
+  <div class="backdrop absolute inset-y-0">
+    <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+    {@html scene.ambientArt.backdrop}
+  </div>
 
   <scene.Ambient />
 
