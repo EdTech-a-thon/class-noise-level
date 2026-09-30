@@ -35,6 +35,8 @@ export interface Note {
   /** The ink the text is written in, and the next stroke drawn. */
   ink: Ink;
   strokes: Stroke[];
+  /** Whether it was being typed in or drawn on when last chosen. */
+  mode: NoteMode;
 }
 
 export type NoteBox = Pick<Note, "x" | "y" | "width" | "height">;
@@ -90,6 +92,7 @@ function read(): Note[] {
       ...note,
       ...fitBox(note),
       ink: INKS.includes(note.ink) ? note.ink : "dark",
+      mode: note.mode === "draw" ? "draw" : "type",
     }));
   } catch {
     return [];
@@ -133,6 +136,7 @@ class Notes {
       text: "",
       ink: "dark",
       strokes: [],
+      mode: "type",
     };
     this.all = [...this.all, note];
     this.#save();

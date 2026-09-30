@@ -29,12 +29,13 @@
   } = $props();
 
   let selectedId = $state<number | null>(null);
-  let mode = $state<NoteMode>("type");
   const views: Record<number, NoteView> = $state({});
 
   const selected = $derived(
     notes.all.find((note) => note.id === selectedId) ?? null,
   );
+  /** Each Note opens in the mode it was left in. */
+  const mode = $derived<NoteMode>(selected?.mode ?? "type");
 
   /** The Note being dragged and where it is, so its toolbar keeps up. */
   let dragging = $state<{ id: number; box: NoteBox } | null>(null);
@@ -65,13 +66,11 @@
       x: home.x + (home.width - width) / 2,
     });
     choose(note.id);
-    mode = "type";
     // Once it is on screen.
     requestAnimationFrame(() => views[note.id]?.focus());
   }
 
   function choose(id: number | null) {
-    if (id !== selectedId && id !== null) mode = "type";
     selectedId = id;
   }
 
@@ -174,7 +173,7 @@
                 : 'text-slate-700 hover:bg-slate-100'}"
               aria-pressed={mode === option}
               onclick={() => {
-                mode = option;
+                notes.update(selected.id, { mode: option });
                 if (option === "type") views[selected.id]?.focus();
               }}
             >
