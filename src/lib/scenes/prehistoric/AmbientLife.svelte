@@ -2,8 +2,8 @@
   /**
    * Scenery that is alive but is not a Creature: ferns stirring, dawn
    * redwoods, cycads and a fallen log on the floodplain, mist drifting over
-   * the river, light glinting on it, dragonflies, a herd grazing far off on
-   * the other bank and two pterosaurs in the haze. Present from the first
+   * the river, light glinting on it, a herd grazing far off on the other
+   * bank and two pterosaurs in the haze. Present from the first
    * second of every Session, never earned, never counted.
    *
    * It exists because an unpopulated Scene otherwise reads as "this app is
@@ -81,13 +81,6 @@
     { x: 74, top: 57, width: 12, duration: 10, delay: -2 },
     { x: 88, top: 55.4, width: 10, duration: 7.5, delay: -6 },
   ];
-
-  /** Dragonflies, each hovering about its own patch of ferns. */
-  const dragonflies = [
-    { x: 24, top: 70, duration: 17, delay: 0 },
-    { x: 61, top: 64, duration: 23, delay: -8 },
-    { x: 83, top: 78, duration: 19, delay: -13 },
-  ];
 </script>
 
 <!-- Two pterosaurs far off in the haze: silhouettes, clearly not Creatures. -->
@@ -144,16 +137,4 @@
       {@html AMBIENT_ART[piece.art]}
     </div>
   {/if}
-{/each}
-
-{#each dragonflies as fly (fly.x)}
-  <div
-    class="dragonfly pointer-events-none absolute"
-    style="left:calc(var(--world-left) + {fly.x} * var(--wu)); top:{fly.top}%; width:calc(1.6 * var(--wu)); z-index:{groundLayer(
-      fly.top / 100 + 0.12,
-    )}; animation-duration:{fly.duration}s; animation-delay:{fly.delay}s;"
-  >
-    <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-    {@html AMBIENT_ART.dragonfly}
-  </div>
 {/each}

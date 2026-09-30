@@ -411,6 +411,6 @@ These rules replace §1 and parts of §2 for this Scene only:
   slowly.
 
 Ambient Life here is ferns (they sway), dawn redwoods, cycads, a fallen log,
-drifting river mist, glints on the water, dragonflies, a far herd of
+drifting river mist, glints on the water, a far herd of
 hadrosaurs on the other bank and two pterosaurs in the haze. The far animals
 are flat silhouettes in a hazy tone so they never pass for Creatures.

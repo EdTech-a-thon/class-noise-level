@@ -40,7 +40,7 @@ unlocked or gated.
 
 Scenery that is alive but is not a Creature: swaying grass and drifting
 clouds on the savanna, seaweed and plankton on the reef, twinkling stars and
-drifting dust in deep space, ferns, river mist and dragonflies in the
+drifting dust in deep space, ferns and river mist in the
 prehistoric Scene. Ambient Life is present from the first moment of
 every Session, is never earned, and is never counted. It exists so an
 unpopulated Scene still reads as a living place.
