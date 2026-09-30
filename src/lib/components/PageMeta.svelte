@@ -5,8 +5,8 @@
    * address, and optionally structured data about what the page is.
    */
 
-  import { absoluteUrl, type PagePath } from "$lib/site";
-  import { current } from "$lib/i18n/index.svelte";
+  import { PREVIEW_IMAGE, absoluteUrl, type PagePath } from "$lib/site";
+  import { current, t } from "$lib/i18n/index.svelte";
 
   let {
     path,
@@ -40,7 +40,11 @@
   <meta property="og:description" content={description} />
   <meta property="og:url" content={url} />
   <meta property="og:locale" content={current().locale} />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content={PREVIEW_IMAGE} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content={t("preview.alt")} />
+  <meta name="twitter:card" content="summary_large_image" />
   {#if structuredData}
     <!-- eslint-disable-next-line svelte/no-at-html-tags -- built from our own strings and escaped above -->
     {@html structuredData}

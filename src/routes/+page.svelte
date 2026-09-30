@@ -14,7 +14,7 @@
   import { SCENES } from "$lib/scenes";
   import { settings } from "$lib/settings/settings.svelte";
   import logoUrl from "$lib/brand/logo.svg";
-  import { absoluteUrl } from "$lib/site";
+  import { PREVIEW_IMAGE, absoluteUrl } from "$lib/site";
 
   const app = new App();
 
@@ -27,6 +27,7 @@
     name: "Shy Safari",
     url: absoluteUrl("/"),
     description: t("app.description"),
+    image: PREVIEW_IMAGE,
     applicationCategory: "EducationalApplication",
     operatingSystem: "Any (web browser)",
     browserRequirements: "Requires a microphone and a modern web browser",

@@ -23,6 +23,8 @@ const en = {
     "common.about": "about",
     "common.privacy": "privacy",
     "common.howItWorks": "how it works",
+    "preview.alt":
+      "A calm savanna with an elephant, zebras, a lion, a giraffe and a meerkat, beside the words Shy Safari, a free classroom noise monitor",
     "common.back": "← Back to Shy Safari",
     "common.close": "Close",
     "common.cancel": "Cancel",
@@ -290,6 +292,8 @@ const es = {
     "common.about": "acerca de",
     "common.privacy": "privacidad",
     "common.howItWorks": "cómo funciona",
+    "preview.alt":
+      "Una sabana tranquila con un elefante, cebras, un león, una jirafa y un suricata, junto a las palabras Shy Safari, un medidor de ruido gratuito para el aula",
     "common.back": "← Volver a Shy Safari",
     "common.close": "Cerrar",
     "common.cancel": "Cancelar",
@@ -549,6 +553,8 @@ const fr = {
     "common.about": "à propos",
     "common.privacy": "confidentialité",
     "common.howItWorks": "comment ça marche",
+    "preview.alt":
+      "Une savane paisible avec un éléphant, des zèbres, un lion, une girafe et un suricate, à côté des mots Shy Safari, un sonomètre gratuit pour la classe",
     "common.back": "← Retour à Shy Safari",
     "common.close": "Fermer",
     "common.cancel": "Annuler",

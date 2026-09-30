@@ -12,6 +12,12 @@ export const PAGES = ["/", "/about", "/privacy"] as const;
 
 export type PagePath = (typeof PAGES)[number];
 
+/**
+ * The picture link previews show: the savanna with a few animals out and the
+ * name over it. A 1200×630 capture of the real Scene, in `static/`.
+ */
+export const PREVIEW_IMAGE = `${SITE_URL}/og-image.png`;
+
 export function absoluteUrl(path: PagePath): string {
   return new URL(path, SITE_URL).href;
 }
