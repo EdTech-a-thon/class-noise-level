@@ -412,11 +412,11 @@ type CreatureSlug = keyof typeof en.creatures;
  */
 const enScenes = {
   space: {
-    "start.shy": "Shh… the telescope is listening!",
+    "start.shy": "A quiet room keeps the signal clear.",
     "start.explain":
       "Noise shows up as interference. While the room is calm, the telescope picks up new sightings; if it gets too loud, it waits for the signal to clear.",
     "start.explainFlee":
-      "Noise shows up as interference: if it gets too loud, our sightings fade into static! Keep the room calm and new ones will come in and stay.",
+      "Noise shows up as interference. When the room gets too loud, sightings break up into static and are lost; while it stays calm, new ones come into view.",
     "controls.animals": "Sightings",
     "loud.flee.label": "Sightings fade out",
     "loud.flee.hint":
@@ -744,11 +744,11 @@ const es = {
   },
   scenes: {
     space: {
-      "start.shy": "Shh… ¡el telescopio está escuchando!",
+      "start.shy": "Un aula tranquila mantiene la señal limpia.",
       "start.explain":
         "El ruido llega como interferencias. Mientras el aula esté tranquila, el telescopio capta nuevos avistamientos; si hay demasiado ruido, espera a que la señal se aclare.",
       "start.explainFlee":
-        "El ruido llega como interferencias: ¡si hay demasiado ruido, nuestros avistamientos se desvanecen entre la estática! Mantengan el aula tranquila y llegarán otros nuevos que se quedarán.",
+        "El ruido llega como interferencias. Si hay demasiado ruido, los avistamientos se deshacen en estática y se pierden; mientras el aula esté tranquila, aparecen otros nuevos.",
       "controls.animals": "Avistamientos",
       "loud.flee.label": "Los avistamientos se desvanecen",
       "loud.flee.hint":
@@ -1166,11 +1166,11 @@ const fr = {
   },
   scenes: {
     space: {
-      "start.shy": "Chut… le télescope écoute !",
+      "start.shy": "Une salle calme garde le signal clair.",
       "start.explain":
         "Le bruit devient des interférences. Tant que la classe reste calme, le télescope capte de nouvelles observations ; s’il y a trop de bruit, il attend que le signal redevienne clair.",
       "start.explainFlee":
-        "Le bruit devient des interférences : s’il y a trop de bruit, nos observations se perdent dans les parasites ! Gardez la classe calme et de nouvelles observations arriveront et resteront.",
+        "Le bruit devient des interférences. S’il y a trop de bruit, les observations se dissolvent dans les parasites et sont perdues ; tant que la classe reste calme, de nouvelles apparaissent.",
       "controls.animals": "Observations",
       "loud.flee.label": "Les observations s’effacent",
       "loud.flee.hint":

@@ -23,6 +23,7 @@
     mode,
     onselect,
     onchange,
+    ondrag,
   }: {
     note: Note;
     look: NoteLook;
@@ -32,6 +33,8 @@
     mode: NoteMode;
     onselect: () => void;
     onchange: (change: Partial<Omit<Note, "id">>) => void;
+    /** Where the Note is while being dragged, and `null` once it is let go. */
+    ondrag?: (box: NoteBox | null) => void;
   } = $props();
 
   let root: HTMLDivElement;
@@ -43,6 +46,8 @@
   /** Where the Note is while being dragged; saved once it is let go. */
   let draft = $state<NoteBox | null>(null);
   const box = $derived(draft ?? note);
+
+  $effect(() => ondrag?.(draft));
 
   const writing = $derived(
     width && height ? look.writing(width, height) : null,
@@ -92,7 +97,7 @@
 
   $effect(() => {
     // Refit whenever the words, the space for them or the placeholder change.
-    void [note.text, writing, selected, chrome];
+    void [note.text, writing, selected, chrome, drawing];
     fit();
   });
 
@@ -257,7 +262,9 @@
         aria-multiline="true"
         aria-label={t("notes.text")}
         data-empty={empty}
-        data-placeholder={selected && chrome ? t("notes.placeholder") : ""}
+        data-placeholder={selected && chrome && !drawing
+          ? t("notes.placeholder")
+          : ""}
         onpointerdown={(event) => {
           if (selected) event.stopPropagation();
         }}

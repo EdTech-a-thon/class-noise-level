@@ -10,7 +10,12 @@
    */
 
   import { t, tIn, type UiKey } from "$lib/i18n/index.svelte";
-  import { INKS, notes, type NoteMode } from "$lib/notes/notes.svelte";
+  import {
+    INKS,
+    notes,
+    type NoteBox,
+    type NoteMode,
+  } from "$lib/notes/notes.svelte";
   import type { SceneDef } from "$lib/scenes";
   import NoteView from "./NoteView.svelte";
 
@@ -30,6 +35,9 @@
   const selected = $derived(
     notes.all.find((note) => note.id === selectedId) ?? null,
   );
+
+  /** The Note being dragged and where it is, so its toolbar keeps up. */
+  let dragging = $state<{ id: number; box: NoteBox } | null>(null);
 
   let layerWidth = $state(0);
   let layerHeight = $state(0);
@@ -85,16 +93,17 @@
    */
   const toolsAt = $derived.by(() => {
     if (!selected) return null;
+    const at = dragging?.id === selected.id ? dragging.box : selected;
     const gap = 16;
     const edge = 8;
     const barRoom = 88;
-    const noteTop = selected.y * layerHeight;
-    const noteBottom = (selected.y + selected.height) * layerHeight;
+    const noteTop = at.y * layerHeight;
+    const noteBottom = (at.y + at.height) * layerHeight;
     let top = noteBottom + gap;
     if (top + toolsHeight > layerHeight - barRoom)
       top = noteTop - toolsHeight - gap;
     if (top < edge) top = Math.max(edge, noteBottom - toolsHeight - edge);
-    const middle = (selected.x + selected.width / 2) * layerWidth;
+    const middle = (at.x + at.width / 2) * layerWidth;
     const left = Math.max(
       edge,
       Math.min(layerWidth - toolsWidth - edge, middle - toolsWidth / 2),
@@ -129,6 +138,10 @@
       {mode}
       onselect={() => choose(note.id)}
       onchange={(change) => notes.update(note.id, change)}
+      ondrag={(box) => {
+        if (box) dragging = { id: note.id, box };
+        else if (dragging?.id === note.id) dragging = null;
+      }}
     />
   {/each}
 
