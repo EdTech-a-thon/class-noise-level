@@ -6,10 +6,12 @@
  */
 
 import { Microphone } from "$lib/audio/microphone.svelte";
+import { classes } from "$lib/classes/classes.svelte";
 import { RoomMonitor } from "$lib/noise/roomMonitor.svelte";
 import { SCENES } from "$lib/scenes";
 import { DEFAULT_SCENE, type SceneId } from "$lib/scenes/types";
 import { Session } from "$lib/session/session.svelte";
+import { sightings } from "$lib/session/sightings.svelte";
 import { settings } from "$lib/settings/settings.svelte";
 import { untrack } from "svelte";
 
@@ -33,6 +35,13 @@ export class App {
    * and the arrival clock must not bank or lose progress.
    */
   calibrating = $state(false);
+  /**
+   * True while the teacher has paused the Session, say to make an
+   * announcement. The room is not judged, just as while calibrating, so the
+   * teacher talking never scares an animal away or costs arrival progress,
+   * and nothing new arrives while the class is listening.
+   */
+  paused = $state(false);
   session = new Session(
     DEFAULT_SCENE,
     SCENES[DEFAULT_SCENE].roster,
@@ -51,6 +60,29 @@ export class App {
     settings.scene = id;
     this.#sceneId = id;
     this.session.useScene(id, SCENES[id].roster);
+  }
+
+  /**
+   * Switch Class, say when third period arrives. Its animals and Collection
+   * come back; the Session waits for Start, so the new class begins together.
+   */
+  useClass(id: string) {
+    if (id === classes.currentId) return;
+    classes.select(id);
+    this.#enterClass();
+  }
+
+  /** Delete a Class for good. If it is the one on screen, another takes over. */
+  deleteClass(id: string) {
+    const wasCurrent = id === classes.currentId;
+    classes.remove(id);
+    if (wasCurrent) this.#enterClass();
+  }
+
+  #enterClass() {
+    sightings.reload();
+    this.monitor.reset();
+    this.session.useClass(settings.arrivalIntervalMs);
   }
 
   /** True once the microphone has failed in a way the teacher must resolve. */
@@ -92,12 +124,23 @@ export class App {
     this.monitor.reset();
   }
 
+  /**
+   * Pause or resume the Session. Pausing lifts any haze at once; resuming
+   * starts the monitor afresh, so noise from before the pause is forgotten.
+   */
+  setPaused(paused: boolean) {
+    this.paused = paused;
+    this.monitor.reset();
+  }
+
   startSession() {
+    this.paused = false;
     this.monitor.reset();
     this.session.start(settings.arrivalIntervalMs);
   }
 
   resetSession() {
+    this.paused = false;
     this.session.reset(settings.arrivalIntervalMs);
   }
 
@@ -114,7 +157,11 @@ export class App {
       const delta = now - this.#lastTick;
       this.#lastTick = now;
 
-      if (this.microphone.status === "on" && !this.calibrating) {
+      if (
+        this.microphone.status === "on" &&
+        !this.calibrating &&
+        !this.paused
+      ) {
         this.monitor.observe(
           this.microphone.levelWith(settings.calibration),
           settings.volumeGoal,

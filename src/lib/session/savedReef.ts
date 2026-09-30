@@ -9,17 +9,18 @@
  * Stored by slug rather than as the whole definition, so a change to the
  * Roster (a new width, a new motion style) applies to Creatures already saved.
  *
- * Each Scene keeps its own, so switching to the savanna and back never costs
- * the class the reef they earned. The reef's key predates the savanna and is
- * kept as it was so reefs saved before then still come back.
+ * Each Class keeps its own, and within it each Scene, so switching to the
+ * savanna and back never costs the class the reef they earned, and switching
+ * to another Class never shows them someone else's (`classes.svelte.ts`).
  */
 
 import { browser } from "$app/environment";
+import { classes } from "$lib/classes/classes.svelte";
 import type { CreatureDef } from "$lib/scenes/types";
 import type { CreatureInstance } from "./session.svelte";
 
 function storageKey(sceneId: string) {
-  return `class-noise-level:${sceneId}`;
+  return classes.storageKey(sceneId);
 }
 
 interface SavedCreature {
@@ -43,7 +44,7 @@ export function loadReef(
     return saved.flatMap(({ id, slug, depth, spawnX, spawnY }) => {
       // A Creature since dropped from the Roster just does not come back.
       const def = roster.find((candidate) => candidate.slug === slug);
-      return def ? [{ id, def, depth, spawnX, spawnY }] : [];
+      return def ? [{ id, def, depth, spawnX, spawnY, restored: true }] : [];
     });
   } catch {
     return [];

@@ -1,5 +1,7 @@
 <script lang="ts">
   import { App } from "$lib/app.svelte";
+  import ClassesPanel from "$lib/components/ClassesPanel.svelte";
+  import ClassPicker from "$lib/components/ClassPicker.svelte";
   import Collection from "$lib/components/Collection.svelte";
   import ControlBar from "$lib/components/ControlBar.svelte";
   import MicBlocked from "$lib/components/MicBlocked.svelte";
@@ -8,16 +10,61 @@
   import SettingsPanel from "$lib/components/SettingsPanel.svelte";
   import BrandChip from "$lib/components/BrandChip.svelte";
   import LanguagePicker from "$lib/components/LanguagePicker.svelte";
+  import PageMeta from "$lib/components/PageMeta.svelte";
+  import InfoDrawer, { FAQ_IDS } from "$lib/components/InfoDrawer.svelte";
   import { t, type UiKey } from "$lib/i18n/index.svelte";
   import { onMount } from "svelte";
   import { SCENES } from "$lib/scenes";
   import { settings } from "$lib/settings/settings.svelte";
   import logoUrl from "$lib/brand/logo.svg";
+  import { PREVIEW_IMAGE, absoluteUrl } from "$lib/site";
 
   const app = new App();
 
+  /**
+   * Tells search engines and AI assistants what kind of thing this page is,
+   * and gives them the questions the info drawer answers.
+   */
+  const webApplication = $derived({
+    "@type": "WebApplication",
+    name: "Shy Safari",
+    url: absoluteUrl("/"),
+    description: t("app.description"),
+    image: PREVIEW_IMAGE,
+    applicationCategory: "EducationalApplication",
+    operatingSystem: "Any (web browser)",
+    browserRequirements: "Requires a microphone and a modern web browser",
+    inLanguage: ["en", "es", "fr"],
+    isAccessibleForFree: true,
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    audience: { "@type": "EducationalAudience", educationalRole: "teacher" },
+    publisher: {
+      "@type": "Organization",
+      name: "teacher.dev",
+      url: "https://teacher.dev",
+    },
+  });
+
+  const faqPage = $derived({
+    "@type": "FAQPage",
+    url: absoluteUrl("/"),
+    mainEntity: FAQ_IDS.map((id) => ({
+      "@type": "Question",
+      name: t(`guide.faq.${id}.q`),
+      acceptedAnswer: { "@type": "Answer", text: t(`guide.faq.${id}.a`) },
+    })),
+  });
+
+  const jsonLd = $derived({
+    "@context": "https://schema.org",
+    "@graph": [webApplication, faqPage],
+  });
+
   let settingsOpen = $state(false);
   let collectionOpen = $state(false);
+  let infoOpen = $state(false);
+  let classesOpen = $state(false);
+  let classMenuOpen = $state(false);
   let fullScreen = $state(false);
   let controlsVisible = $state(true);
   let idleTimer: ReturnType<typeof setTimeout>;
@@ -57,7 +104,9 @@
    * The corner buttons fade with the control bar, so the class sees only the
    * Scene; before the Session starts there is nothing to hide them for.
    */
-  const topBarVisible = $derived(controlsVisible || !app.listening);
+  const topBarVisible = $derived(
+    controlsVisible || !app.listening || classMenuOpen,
+  );
 
   async function toggleFullScreen() {
     try {
@@ -84,10 +133,12 @@
   onfullscreenchange={() => (fullScreen = Boolean(document.fullscreenElement))}
 />
 
-<svelte:head>
-  <title>{t("app.pageTitle")}</title>
-  <meta name="description" content={t("app.description")} />
-</svelte:head>
+<PageMeta
+  path="/"
+  title={t("app.pageTitle")}
+  description={t("app.description")}
+  {jsonLd}
+/>
 
 <!-- dvh, not vh: on a phone, vh is the height with the browser toolbars
      hidden, which would tuck the control bar underneath them. -->
@@ -177,18 +228,24 @@
     </div>
   {/if}
 
-  <!-- Top left: who made this. Top right: the tools that change how the page
-       looks — a Note on the Scene once it is running, its language, and
-       whether it fills the screen. Later than the start card so it sits above
-       it; Settings, Animals and the blocked-microphone screen cover it. -->
+  <!-- Top left: who made this, and which Class is on screen. Top right: the
+       tools that change how the page looks — a Note on the Scene once it is
+       running, its language, and whether it fills the screen. Later than the
+       start card so it sits above it; Settings, Animals and the blocked-
+       microphone screen cover it. -->
   <div
     class="safe-edges pointer-events-none absolute inset-x-0 top-0 z-40 flex items-start justify-between p-4 transition-opacity duration-300"
     class:opacity-0={!topBarVisible}
     aria-hidden={!topBarVisible}
     inert={!topBarVisible}
   >
-    <div class="pointer-events-auto">
+    <div class="pointer-events-auto flex min-w-0 gap-2">
       <BrandChip />
+      <ClassPicker
+        {app}
+        bind:open={classMenuOpen}
+        onedit={() => (classesOpen = true)}
+      />
     </div>
     <div class="pointer-events-auto flex gap-2">
       {#if app.listening}
@@ -245,6 +302,71 @@
     </div>
   </div>
 
+  {#if app.listening && app.paused}
+    <!-- Stays up when the control bar fades, so a teacher who paused for an
+         announcement can see at a glance that the room isn't being judged,
+         and resume from right here. On a phone it sits below the corner
+         buttons, which leave no room between them. -->
+    <div
+      class="safe-edges pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-center p-4 max-sm:top-12"
+    >
+      <button
+        class="paused-pulse pointer-events-auto flex h-11 items-center gap-2 rounded-full bg-white/95 pr-4 pl-3 text-sm font-medium text-slate-800 shadow-lg hover:bg-white"
+        aria-label={t("controls.resume")}
+        onclick={() => app.setPaused(false)}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          class="size-5 text-amber-500"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <rect x="6" y="5" width="4" height="14" rx="1" />
+          <rect x="14" y="5" width="4" height="14" rx="1" />
+        </svg>
+        {t("paused.status")}
+      </button>
+    </div>
+  {/if}
+
+  <!-- Bottom left: help for the teacher, out of the way of the controls
+       above and fading with them. On a phone the control bar spans the
+       bottom edge, so during a Session it sits just above the bar. -->
+  <div
+    class="safe-edges pointer-events-none absolute bottom-0 left-0 z-40 p-4 transition-opacity duration-300 {app.listening
+      ? 'max-sm:bottom-16'
+      : ''}"
+    class:opacity-0={!topBarVisible}
+    aria-hidden={!topBarVisible}
+    inert={!topBarVisible}
+  >
+    <div class="pointer-events-auto">
+      <button
+        class="grid size-11 place-items-center rounded-full bg-white/95 text-slate-700 shadow-lg hover:bg-white"
+        aria-label={t("guide.title")}
+        title={t("guide.title")}
+        aria-expanded={infoOpen}
+        aria-controls="how-it-works-panel"
+        onclick={() => (infoOpen = true)}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          class="size-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="9" />
+          <path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6" />
+          <path d="M12 17.5h.01" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
   {#if app.blocked}
     <MicBlocked {app} />
   {/if}
@@ -254,8 +376,40 @@
       {app}
       visible={controlsVisible || settingsOpen || collectionOpen}
       onopensettings={() => (settingsOpen = true)}
-      onopencollection={() => (collectionOpen = true)}
     />
+
+    <!-- Bottom right: every animal the class has spotted. Mirrors the help
+         button, and like it sits above the control bar on a phone. -->
+    <div
+      class="safe-edges pointer-events-none absolute right-0 bottom-0 z-40 p-4 transition-opacity duration-300 max-sm:bottom-16"
+      class:opacity-0={!topBarVisible}
+      aria-hidden={!topBarVisible}
+      inert={!topBarVisible}
+    >
+      <div class="pointer-events-auto">
+        <button
+          class="grid size-11 place-items-center rounded-full bg-white/95 text-slate-700 shadow-lg hover:bg-white"
+          aria-label={t("controls.animals")}
+          title={t("controls.animals")}
+          onclick={() => (collectionOpen = true)}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            class="size-5"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <ellipse cx="5.4" cy="10.6" rx="1.9" ry="2.3" />
+            <ellipse cx="9.4" cy="6.3" rx="2" ry="2.5" />
+            <ellipse cx="14.6" cy="6.3" rx="2" ry="2.5" />
+            <ellipse cx="18.6" cy="10.6" rx="1.9" ry="2.3" />
+            <path
+              d="M12 11.2c-2.6 0-5.6 3.3-5.6 5.8 0 1.7 1.3 2.7 2.8 2.7 1.2 0 1.9-.6 2.8-.6s1.6.6 2.8.6c1.5 0 2.8-1 2.8-2.7 0-2.5-3-5.8-5.6-5.8Z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
   {/if}
 
   {#if settingsOpen}
@@ -264,5 +418,10 @@
 
   {#if collectionOpen}
     <Collection {app} onclose={() => (collectionOpen = false)} />
+  {/if}
+
+  <InfoDrawer bind:open={infoOpen} />
+  {#if classesOpen}
+    <ClassesPanel {app} onclose={() => (classesOpen = false)} />
   {/if}
 </main>
