@@ -266,29 +266,6 @@
       <BrandChip />
     </div>
     <div class="pointer-events-auto flex gap-2">
-      <button
-        class="grid size-11 place-items-center rounded-full bg-white/95 text-slate-700 shadow-lg hover:bg-white"
-        aria-label={t("guide.title")}
-        title={t("guide.title")}
-        aria-expanded={infoOpen}
-        aria-controls="how-it-works"
-        onclick={() => (infoOpen = true)}
-      >
-        <svg
-          viewBox="0 0 24 24"
-          class="size-5"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <circle cx="12" cy="12" r="9" />
-          <path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6" />
-          <path d="M12 17.5h.01" />
-        </svg>
-      </button>
       <LanguagePicker />
       {#if canFullScreen}
         <button
@@ -348,6 +325,44 @@
       </button>
     </div>
   {/if}
+
+  <!-- Bottom right: help for the teacher, out of the way of the controls
+       above and fading with them. On a phone the control bar spans the
+       bottom edge, so during a Session it sits just above the bar. -->
+  <div
+    class="safe-edges pointer-events-none absolute right-0 bottom-0 z-40 p-4 transition-opacity duration-300 {app.listening
+      ? 'max-sm:bottom-16'
+      : ''}"
+    class:opacity-0={!topBarVisible}
+    aria-hidden={!topBarVisible}
+    inert={!topBarVisible}
+  >
+    <div class="pointer-events-auto">
+      <button
+        class="grid size-11 place-items-center rounded-full bg-white/95 text-slate-700 shadow-lg hover:bg-white"
+        aria-label={t("guide.title")}
+        title={t("guide.title")}
+        aria-expanded={infoOpen}
+        aria-controls="how-it-works-panel"
+        onclick={() => (infoOpen = true)}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          class="size-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="9" />
+          <path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6" />
+          <path d="M12 17.5h.01" />
+        </svg>
+      </button>
+    </div>
+  </div>
 
   {#if app.blocked}
     <MicBlocked {app} />

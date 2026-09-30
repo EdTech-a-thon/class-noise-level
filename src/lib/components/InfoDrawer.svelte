@@ -22,10 +22,14 @@
    * it. The home page is otherwise almost all artwork, and this is the text
    * search engines and AI assistants read from the prerendered page to learn
    * what the app is. `#how-it-works` opens it, so the explanation can still be
-   * linked to on its own.
+   * linked to on its own; no element carries that id, so following the link
+   * never makes the browser scroll the Scene to find it.
    */
 
   import { t, type UiKey } from "$lib/i18n/index.svelte";
+  import { replaceState } from "$app/navigation";
+  import { resolve } from "$app/paths";
+  import { page } from "$app/state";
   import { onMount, tick } from "svelte";
 
   let { open = $bindable(false) }: { open?: boolean } = $props();
@@ -48,7 +52,9 @@
   $effect(() => {
     if (!open) return;
     returnFocus = document.activeElement as HTMLElement | null;
-    void tick().then(() => panel.focus());
+    // Without preventScroll the browser scrolls the Scene sideways to reveal
+    // a drawer that is still sliding in from past the right edge.
+    void tick().then(() => panel.focus({ preventScroll: true }));
   });
 
   function close() {
@@ -56,8 +62,7 @@
     if (location.hash === INFO_HASH) {
       // Drop the hash so a reload doesn't reopen it, without a new history
       // entry and without SvelteKit treating it as a navigation.
-      const url = location.pathname + location.search;
-      history.replaceState(history.state, "", url);
+      replaceState(resolve("/"), page.state);
     }
     returnFocus?.focus();
     returnFocus = null;
@@ -84,7 +89,7 @@
   onclick={(event) => event.target === event.currentTarget && close()}
 >
   <div
-    id="how-it-works"
+    id="how-it-works-panel"
     bind:this={panel}
     tabindex="-1"
     role="dialog"
