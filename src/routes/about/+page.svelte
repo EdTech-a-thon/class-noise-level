@@ -59,11 +59,7 @@
 
   <section class={card}>
     <h2 class="mb-3 text-xl font-semibold">{t("about.promiseTitle")}</h2>
-    <ul class="space-y-2 leading-relaxed font-semibold text-slate-900">
-      <li>{t("about.promise.paywalls")}</li>
-      <li>{t("about.promise.ads")}</li>
-      <li>{t("about.promise.tracking")}</li>
-    </ul>
+    <p class="leading-relaxed text-slate-700">{t("about.promise")}</p>
   </section>
 
   <section class={card}>

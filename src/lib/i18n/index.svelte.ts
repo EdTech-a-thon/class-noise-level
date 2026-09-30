@@ -179,27 +179,26 @@ const en = {
     "blocked.tryAgain": "Try again",
     "about.pageTitle": "About — Shy Safari",
     "about.meta":
-      "Shy Safari is a free, ad-free classroom noise-level tool built by teacher.dev.",
+      "Shy Safari is a free classroom noise tool made at the EdTech-a-thon and run by teacher.dev. No ads, no accounts.",
     "about.title": "About",
     "about.lede":
-      "A calm safari where shy animals come out the longer a classroom stays quiet.",
-    "about.originTitle": "From the EdTech-a-thon",
-    "about.origin.beforeEvent": "Shy Safari came out of the ",
+      "Put it on the projector. The quieter the room, the more animals come out.",
+    "about.originTitle": "Where it came from",
+    "about.origin.beforeEvent":
+      "Shy Safari started as a three-day project at the ",
     "about.origin.afterEvent":
-      ", a community of builders making free tools for classrooms. It is maintained by ",
-    "about.origin.afterTeacher":
-      ", where you can find the rest of what we are building.",
+      ", an event where people get together to build free tools for classrooms. It's now run by ",
+    "about.origin.afterTeacher": ", where you can find our other tools.",
     "about.photoAlt": "Participants of the 2026 EdTech-a-thon",
-    "about.purposeTitle": "What it is for",
+    "about.purposeTitle": "What it does",
     "about.purpose":
-      "Put a savanna or a coral reef on the board and press start. While the room stays under the volume goal, shy animals come out one by one; when it gets too loud, they wait until it is calm again. Nothing is ever taken away, so a noisy moment pauses the reward rather than punishing the class. Common animals turn up often and rare ones are a treat, and the collection remembers every animal the class has spotted.",
-    "about.promiseTitle": "Our promise",
-    "about.promise.paywalls": "Zero paywalls.",
-    "about.promise.ads": "Zero ads.",
-    "about.promise.tracking": "Zero tracking of personal data.",
-    "about.feedbackTitle": "Feedback & ideas",
+      "Put the savanna or the coral reef up on the board and press Start. While the class stays under the volume goal, animals come out one at a time. If it gets too loud, they run away. You can change that in Settings so the scene just pauses until it's quiet again. Most animals are common, a few are rare, and the class can look back at every one they've spotted.",
+    "about.promiseTitle": "No catch",
+    "about.promise":
+      "It's free. There's no paid version and no ads, and we don't collect personal information about you or your students.",
+    "about.feedbackTitle": "Get in touch",
     "about.feedback":
-      "We'd love to hear from you. Tell us what's working, what's not, or pitch us an idea for a tool you wish existed. We're here to help.",
+      "If something isn't working, or you have an idea for Shy Safari or for another tool you'd use in class, send us an email.",
     "about.email": "Email support@teacher.dev",
     "privacy.pageTitle": "Privacy — Shy Safari",
     "privacy.meta": "What Shy Safari collects, what it doesn't, and why.",
@@ -230,7 +229,7 @@ const en = {
       "Let the class work. The first animal appears after 10 to 20 quiet seconds, and after that about one every five minutes of quiet work. Choose Relaxed, Normal or Lively in Settings, or type any number of minutes.",
     "guide.loudTitle": "How it decides the room is too loud",
     "guide.loud":
-      "A single noise does not count. Sound over the goal fills up a bucket, and the further over it is, the faster it fills: just over the line takes about six seconds to count as too loud, far over takes about one second. Quiet moments drain the bucket again, so a knock at the door or a dropped book costs the class nothing. Once the room settles, it counts as quiet again within three seconds.",
+      "Short noises, like a knock at the door or a dropped book, don't count. The room has to stay over the goal for a bit first: about six seconds if it's just over, or about one second if it's much louder. Once it quiets down, the scene clears within three seconds.",
     "guide.calibrate":
       "Calibration is optional. Five seconds of silence and five seconds of normal talking teach the app what your room and your microphone sound like.",
     "guide.tooLoudTitle": "What happens when it gets too loud",
@@ -484,27 +483,27 @@ const es = {
     "blocked.tryAgain": "Volver a intentarlo",
     "about.pageTitle": "Acerca de — Shy Safari",
     "about.meta":
-      "Shy Safari es una herramienta gratuita y sin anuncios para el nivel de ruido en el aula, creada por teacher.dev.",
+      "Shy Safari es una herramienta gratuita para el ruido en el aula, creada en el EdTech-a-thon y gestionada por teacher.dev. Sin anuncios ni cuentas.",
     "about.title": "Acerca de",
     "about.lede":
-      "Un safari tranquilo donde los animales tímidos salen cuanto más tiempo se mantiene el aula en silencio.",
-    "about.originTitle": "Del EdTech-a-thon",
-    "about.origin.beforeEvent": "Shy Safari nació en el ",
+      "Ponlo en el proyector. Cuanto más silencio haya, más animales salen.",
+    "about.originTitle": "De dónde viene",
+    "about.origin.beforeEvent":
+      "Shy Safari empezó como un proyecto de tres días en el ",
     "about.origin.afterEvent":
-      ", una comunidad de creadores que hacen herramientas gratuitas para las aulas. Lo mantiene ",
+      ", un evento donde la gente se reúne para crear herramientas gratuitas para las aulas. Ahora lo gestiona ",
     "about.origin.afterTeacher":
-      ", donde puedes encontrar el resto de lo que estamos creando.",
+      ", donde también puedes encontrar nuestras otras herramientas.",
     "about.photoAlt": "Participantes del EdTech-a-thon 2026",
-    "about.purposeTitle": "Para qué sirve",
+    "about.purposeTitle": "Qué hace",
     "about.purpose":
-      "Proyecta una sabana o un arrecife de coral y pulsa empezar. Mientras el aula se mantenga por debajo del objetivo de volumen, los animales tímidos salen uno a uno; si hay demasiado ruido, esperan a que vuelva la calma. Nunca se quita nada, así que un momento ruidoso pausa la recompensa en lugar de castigar a la clase. Los animales comunes aparecen a menudo y los raros son una sorpresa, y la colección recuerda cada animal que la clase ha visto.",
-    "about.promiseTitle": "Nuestra promesa",
-    "about.promise.paywalls": "Cero muros de pago.",
-    "about.promise.ads": "Cero anuncios.",
-    "about.promise.tracking": "Cero seguimiento de datos personales.",
-    "about.feedbackTitle": "Comentarios e ideas",
+      "Proyecta la sabana o el arrecife de coral y pulsa Empezar. Mientras la clase no pase del límite de volumen, los animales van saliendo de uno en uno. Si hay demasiado ruido, huyen. Puedes cambiarlo en Ajustes para que la escena solo se pause hasta que vuelva el silencio. La mayoría de los animales son comunes, unos pocos son raros, y la clase puede volver a ver todos los que ha encontrado.",
+    "about.promiseTitle": "Sin trampa",
+    "about.promise":
+      "Es gratis. No hay versión de pago ni anuncios, y no recopilamos datos personales tuyos ni de tus alumnos.",
+    "about.feedbackTitle": "Escríbenos",
     "about.feedback":
-      "Nos encantaría saber de ti. Cuéntanos qué funciona, qué no, o propón una idea para una herramienta que te gustaría que existiera. Estamos aquí para ayudar.",
+      "Si algo no funciona, o tienes una idea para Shy Safari o para otra herramienta que usarías en clase, mándanos un correo.",
     "about.email": "Escribir a support@teacher.dev",
     "privacy.pageTitle": "Privacidad — Shy Safari",
     "privacy.meta": "Qué recopila Shy Safari, qué no y por qué.",
@@ -535,7 +534,7 @@ const es = {
       "Deja trabajar a la clase. El primer animal aparece tras 10 a 20 segundos de silencio y, después, más o menos uno cada cinco minutos de trabajo en silencio. Elige Tranquilo, Normal o Animado en Ajustes, o escribe cualquier número de minutos.",
     "guide.loudTitle": "Cómo decide que hay demasiado ruido",
     "guide.loud":
-      "Un ruido suelto no cuenta. El sonido por encima del límite va llenando un cubo, y cuanto más se pasa, más rápido se llena: justo por encima de la línea tarda unos seis segundos en contar como demasiado ruido; muy por encima, alrededor de un segundo. Los momentos de silencio vacían el cubo, así que un golpe en la puerta o un libro que se cae no le cuestan nada a la clase. Cuando la clase se calma, vuelve a contar como silencio en tres segundos.",
+      "Los ruidos cortos, como un golpe en la puerta o un libro que se cae, no cuentan. La clase tiene que pasarse del límite durante un rato: unos seis segundos si se pasa un poco, o alrededor de un segundo si hay mucho más ruido. Cuando vuelve la calma, la escena se aclara en tres segundos.",
     "guide.calibrate":
       "La calibración es opcional. Cinco segundos de silencio y cinco segundos de conversación normal le enseñan a la aplicación cómo suenan tu aula y tu micrófono.",
     "guide.tooLoudTitle": "Qué pasa cuando hay demasiado ruido",
@@ -781,27 +780,26 @@ const fr = {
     "blocked.tryAgain": "Réessayer",
     "about.pageTitle": "À propos — Shy Safari",
     "about.meta":
-      "Shy Safari est un outil gratuit et sans publicité pour gérer le niveau sonore en classe, créé par teacher.dev.",
+      "Shy Safari est un outil gratuit pour le bruit en classe, créé à l’EdTech-a-thon et géré par teacher.dev. Sans publicité ni compte.",
     "about.title": "À propos",
     "about.lede":
-      "Un safari paisible où des animaux timides sortent tant que la classe reste calme.",
-    "about.originTitle": "Né à l’EdTech-a-thon",
-    "about.origin.beforeEvent": "Shy Safari est né à l’",
+      "Affichez-le au tableau. Plus la classe est calme, plus il y a d’animaux.",
+    "about.originTitle": "D’où ça vient",
+    "about.origin.beforeEvent":
+      "Shy Safari a commencé comme un projet de trois jours à l’",
     "about.origin.afterEvent":
-      ", une communauté de créateurs qui conçoivent des outils gratuits pour les classes. Il est maintenu par ",
-    "about.origin.afterTeacher":
-      ", où vous trouverez tout ce que nous construisons d’autre.",
+      ", un événement où l’on se réunit pour créer des outils gratuits pour les classes. Il est maintenant géré par ",
+    "about.origin.afterTeacher": ", où vous trouverez aussi nos autres outils.",
     "about.photoAlt": "Participants de l’EdTech-a-thon 2026",
-    "about.purposeTitle": "À quoi ça sert",
+    "about.purposeTitle": "Ce qu’il fait",
     "about.purpose":
-      "Affichez une savane ou un récif de corail au tableau et appuyez sur Commencer. Tant que la classe reste sous l’objectif de volume, des animaux timides sortent un à un ; quand il y a trop de bruit, ils attendent le retour du calme. Rien n’est jamais retiré : un moment bruyant met la récompense en pause au lieu de punir la classe. Les animaux communs se montrent souvent, les rares sont une belle surprise, et la collection se souvient de chaque animal que la classe a aperçu.",
-    "about.promiseTitle": "Notre promesse",
-    "about.promise.paywalls": "Aucun accès payant.",
-    "about.promise.ads": "Aucune publicité.",
-    "about.promise.tracking": "Aucun suivi des données personnelles.",
-    "about.feedbackTitle": "Avis et idées",
+      "Affichez la savane ou le récif de corail au tableau et appuyez sur Commencer. Tant que la classe reste sous l’objectif de volume, les animaux sortent un par un. S’il y a trop de bruit, ils s’enfuient. Vous pouvez changer ça dans les réglages pour que la scène se mette simplement en pause jusqu’au retour du calme. La plupart des animaux sont communs, quelques-uns sont rares, et la classe peut revoir tous ceux qu’elle a aperçus.",
+    "about.promiseTitle": "Gratuit, vraiment",
+    "about.promise":
+      "C’est gratuit. Il n’y a ni version payante ni publicité, et nous ne collectons aucune donnée personnelle sur vous ou vos élèves.",
+    "about.feedbackTitle": "Nous écrire",
     "about.feedback":
-      "Nous serions ravis d’avoir de vos nouvelles. Dites-nous ce qui fonctionne, ce qui ne fonctionne pas, ou proposez-nous l’idée d’un outil que vous aimeriez voir exister. Nous sommes là pour vous aider.",
+      "Si quelque chose ne marche pas, ou si vous avez une idée pour Shy Safari ou pour un autre outil que vous utiliseriez en classe, envoyez-nous un e-mail.",
     "about.email": "Écrire à support@teacher.dev",
     "privacy.pageTitle": "Confidentialité — Shy Safari",
     "privacy.meta":
@@ -834,7 +832,7 @@ const fr = {
       "Laissez la classe travailler. Le premier animal arrive après 10 à 20 secondes de calme, puis environ un toutes les cinq minutes de travail silencieux. Choisissez Tranquille, Normal ou Animé dans les réglages, ou saisissez le nombre de minutes de votre choix.",
     "guide.loudTitle": "Comment il décide que c'est trop bruyant",
     "guide.loud":
-      "Un bruit isolé ne compte pas. Le son au-dessus de l'objectif remplit un seau, d'autant plus vite qu'il est fort : juste au-dessus de la ligne, il faut environ six secondes pour que ce soit trop bruyant ; bien au-dessus, environ une seconde. Les moments de calme vident le seau, donc un coup à la porte ou un livre qui tombe ne coûte rien à la classe. Dès que la salle se calme, elle redevient calme en trois secondes.",
+      "Les bruits brefs, comme un coup à la porte ou un livre qui tombe, ne comptent pas. La classe doit dépasser l'objectif un petit moment : environ six secondes si elle le dépasse à peine, ou environ une seconde si c'est beaucoup plus fort. Une fois le calme revenu, la scène s'éclaircit en trois secondes.",
     "guide.calibrate":
       "L'étalonnage est facultatif. Cinq secondes de silence et cinq secondes de conversation normale apprennent à l'application comment sonnent votre salle et votre micro.",
     "guide.tooLoudTitle": "Ce qui se passe quand c'est trop bruyant",
