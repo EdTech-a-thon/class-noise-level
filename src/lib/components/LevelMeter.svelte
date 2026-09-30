@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { t } from "$lib/i18n/index.svelte";
+  import { t, tIn } from "$lib/i18n/index.svelte";
+  import type { SceneId } from "$lib/scenes/types";
 
   /**
    * The teacher's meter. Never shown to the class.
@@ -12,11 +13,14 @@
    */
 
   let {
+    sceneId,
     level,
     goal,
     tooLoud,
     onGoalChange,
   }: {
+    /** Whose words to use: animals arriving, or signals coming in. */
+    sceneId: SceneId;
     level: number;
     goal: number;
     tooLoud: boolean;
@@ -41,7 +45,7 @@
         : 'bg-emerald-100 text-emerald-800'}"
       aria-live="polite"
     >
-      {tooLoud ? t("meter.paused") : t("meter.arriving")}
+      {tooLoud ? tIn(sceneId, "meter.paused") : tIn(sceneId, "meter.arriving")}
     </span>
   </div>
 
@@ -62,7 +66,7 @@
 
   <label class="block">
     <span class="text-sm text-slate-600">
-      {t("meter.goal", { goal })}
+      {tIn(sceneId, "meter.goal", { goal })}
     </span>
     <input
       type="range"

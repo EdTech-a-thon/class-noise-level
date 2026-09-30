@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 30">
+  <!-- Seen from above, heading right: two pairs of glassy wings, a long thin
+       abdomen. Scenery, not a Creature: small, dim, no detail. -->
+  <path d="M30 14 C 24 2, 12 0, 6 3 C 4 6, 14 10, 28 15 Z M34 14 C 38 1, 50 -1, 56 2 C 58 5, 48 9, 36 15 Z" fill="#e9ecdf" opacity="0.7"/>
+  <path d="M30 16 C 24 28, 12 30, 6 27 C 4 24, 14 20, 28 15 Z M34 16 C 38 29, 50 31, 56 28 C 58 25, 48 21, 36 15 Z" fill="#e9ecdf" opacity="0.55"/>
+  <path d="M2 15 C 10 14, 22 14, 30 14.2 L 30 15.8 C 22 16, 10 16, 2 15 Z" fill="#3c4a40"/>
+  <path d="M29 12.5 C 34 11.8, 39 11.8, 41.5 15 C 39 18.2, 33 18, 29 17.5 Z" fill="#3c4a40"/>
+  <circle cx="41.6" cy="15" r="2.8" fill="#2f3a32"/>
+</svg>

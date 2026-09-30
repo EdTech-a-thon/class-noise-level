@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "../lib/scenes/savanna/creatures.css";
+@import "../lib/scenes/space/creatures.css";
+@import "../lib/scenes/prehistoric/scene.css";
 
 /* A phone on its side: too short for the start card at full size. */
 @custom-variant short (@media (max-height: 500px));
@@ -8,8 +10,9 @@
  * The Scene palettes. The reef group is the water, sand and coral used by
  * scenes/reef/ambient/ (docs/svg-art-brief.md uses the same values). The
  * savanna group is the sky, hills, grass, earth and watering hole used by
- * scenes/savanna/ambient/. The last group is the Creature palette from
- * docs/svg-art-brief.md.
+ * scenes/savanna/ambient/. The space group is the night sky, the Milky Way
+ * and the planet's limb in scenes/space/ambient/. The last group is the
+ * Creature palette from docs/svg-art-brief.md.
  */
 @theme {
   --color-water-deep: #0b3d5c;
@@ -42,6 +45,11 @@
   --color-watering-hole: #8cc3c6;
   --color-dust-haze: #d8b88c;
 
+  --color-space-void: #04060d;
+  --color-space-deep: #0a1128;
+  --color-space-navy: #101c3d;
+  --color-space-signal: #a9c4f5;
+
   --color-accent-yellow: #ffd166;
   --color-accent-red: #ef476f;
   --color-accent-teal: #4ecdc4;
@@ -61,6 +69,11 @@ body {
 html:has(.scene-stage[data-scene="reef"]),
 html:has(.scene-stage[data-scene="reef"]) body {
   background: var(--color-water-deep);
+}
+
+html:has(.scene-stage[data-scene="space"]),
+html:has(.scene-stage[data-scene="space"]) body {
+  background: var(--color-space-void);
 }
 
 /*
@@ -83,6 +96,14 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
     var(--color-water-shallow),
     var(--color-water-mid) 52%,
     var(--color-water-deep)
+  );
+}
+
+html[data-scene="space"]:not(:has(.scene-stage)) body {
+  background: linear-gradient(
+    var(--color-space-void),
+    var(--color-space-deep) 70%,
+    var(--color-space-navy)
   );
 }
 
@@ -171,6 +192,31 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   opacity: 0.38;
 }
 
+/* In deep space, noise is interference: the picture loses its colour and
+   contrast, and still scanlines and grain settle over it. Nothing in it moves,
+   and it is never blurred, so the stars stay sharp. The grain is drawn once,
+   as a tile, not per frame. */
+.scene-stage[data-scene="space"][data-murky="true"] {
+  filter: saturate(0.5) brightness(0.82) contrast(0.9);
+}
+
+.scene-stage[data-scene="space"] .too-loud-veil {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-space-signal) 55%, transparent) 0
+        max(1px, calc(0.08 * var(--wu))),
+      transparent max(1px, calc(0.08 * var(--wu)))
+        max(3px, calc(0.3 * var(--wu)))
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.66 0 0 0 0 0.77 0 0 0 0 0.96 0 0 0 1.6 -0.55'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23g)'/%3E%3C/svg%3E"),
+    color-mix(in srgb, var(--color-space-navy) 60%, transparent);
+}
+
+.scene-stage[data-scene="space"][data-murky="true"] .too-loud-veil {
+  opacity: 0.34;
+}
+
 /* When animals run away, freezing and bolting carry the message, so the haze
    is only a light hint, and never blurs the "!" or the animals running. */
 .scene-stage[data-scene="reef"][data-scares="true"][data-murky="true"] {
@@ -179,6 +225,10 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
 
 .scene-stage[data-scene="savanna"][data-scares="true"][data-murky="true"] {
   filter: saturate(0.85) sepia(0.06) brightness(0.96);
+}
+
+.scene-stage[data-scene="space"][data-scares="true"][data-murky="true"] {
+  filter: saturate(0.8) brightness(0.94);
 }
 
 .scene-stage[data-scares="true"][data-murky="true"] .too-loud-veil {
@@ -205,7 +255,8 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
  */
 .backdrop > svg,
 .shaft > svg,
-.plankton-field > svg {
+.plankton-field > svg,
+.twinkle > svg {
   display: block;
   width: 100%;
   height: 100%;
@@ -217,7 +268,9 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
 .scenery > svg,
 .sun > svg,
 .cloud > svg,
-.flock > svg {
+.flock > svg,
+.dust > svg,
+.far-satellite > svg {
   display: block;
   width: 100%;
   height: auto;
@@ -405,6 +458,65 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   animation-delay: 260ms;
 }
 
+/* --- Fading out --------------------------------------------------------- */
+
+/* In a Scene whose Creatures fade rather than run (`departure` in
+   scenes/index.ts), one that is scared off breaks up into interference where
+   it stands: scanlines roll down through it, its colours split, and it jumps
+   sideways now and then like a picture losing its sync. Script dims it in
+   dropouts meanwhile (`fadeVisibility`, scenes/motion.ts). A mask and a
+   transform on the few Creatures leaving, nothing on the rest. */
+@keyframes signal-jitter {
+  0%,
+  100% {
+    transform: translateX(0) skewX(0deg);
+  }
+  14% {
+    transform: translateX(calc(0.35 * var(--wu))) skewX(-5deg);
+  }
+  18% {
+    transform: translateX(0) skewX(0deg);
+  }
+  47% {
+    transform: translateX(calc(-0.25 * var(--wu))) skewX(3deg);
+  }
+  50% {
+    transform: translateX(0) skewX(0deg);
+  }
+  76% {
+    transform: translateX(calc(0.5 * var(--wu))) skewX(0deg);
+  }
+  79% {
+    transform: translateX(0) skewX(0deg);
+  }
+}
+
+@keyframes scanline-roll {
+  to {
+    mask-position: 0 var(--scanline);
+  }
+}
+
+.swimmer.fading .creature {
+  --scanline: max(4px, calc(0.4 * var(--wu)));
+  mask-image: repeating-linear-gradient(
+    to bottom,
+    #000 0 calc(var(--scanline) * 0.55),
+    rgb(0 0 0 / 0.2) calc(var(--scanline) * 0.55) var(--scanline)
+  );
+  filter: drop-shadow(calc(0.3 * var(--wu)) 0 0 rgb(111 180 255 / 0.55))
+    drop-shadow(calc(-0.3 * var(--wu)) 0 0 rgb(255 90 170 / 0.45));
+  animation:
+    signal-jitter 900ms steps(1, end) infinite,
+    scanline-roll 350ms linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swimmer.fading .creature {
+    animation: none;
+  }
+}
+
 /* The artwork's viewBox is cropped tight to the resting pose, and an inline
    SVG clips to its viewBox by default, so a swaying tentacle or tail would be
    cut off at the edge of the box. */
@@ -498,6 +610,38 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   opacity: 0;
   pointer-events: none;
   animation: sparkle-twinkle 3s ease-in-out infinite;
+}
+
+/* In deep space the sparkles round a Rare are star glints, like a
+   telescope's diffraction spikes: cool white, and they brighten and fade
+   without the twirl, which would look like a cartoon there. */
+@keyframes glint-twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+  20%,
+  30% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(0.85);
+  }
+  50% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+}
+
+.scene-stage[data-scene="space"] .sparkle {
+  fill: #eef4ff;
+  filter: drop-shadow(0 0 calc(0.35 * var(--wu)) var(--color-space-signal));
+  animation-name: glint-twinkle;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-stage[data-scene="space"] .sparkle {
+    animation: none;
+  }
 }
 
 /* Part groups inside the artwork. A Creature whose SVG declares none of
@@ -674,6 +818,53 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   animation: paused-pulse 2.2s ease-in-out infinite;
 }
 
+/* --- Ambient Life: deep space ------------------------------------------- */
+
+@keyframes star-twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* A long wait off screen, then one unhurried crossing, high up. */
+@keyframes far-satellite-pass {
+  0% {
+    transform: translate(-2cqw, 0);
+  }
+  32% {
+    transform: translate(102cqw, -9cqh);
+  }
+  32.01%,
+  100% {
+    transform: translate(-2cqw, 0);
+    visibility: hidden;
+  }
+}
+
+.twinkle {
+  left: var(--world-left);
+  width: calc(100 * var(--wu));
+  will-change: opacity;
+  animation: star-twinkle ease-in-out infinite;
+}
+
+.dust {
+  left: 0;
+  animation: sky-drift linear infinite;
+}
+
+.far-satellite {
+  left: 0;
+  top: 22%;
+  width: max(10px, calc(0.9 * var(--wu)));
+  opacity: 0.85;
+  animation: far-satellite-pass 210s linear -40s infinite;
+}
+
 /*
  * Reduced motion quiets the drifting, but arrivals keep their entrance: an
  * arrival is the meaning of the whole app, not decoration.
@@ -688,6 +879,8 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   .sun,
   .cloud,
   .flock,
+  .twinkle,
+  .dust,
   .creature .part-tail,
   .creature .part-fin,
   .creature .part-body,
@@ -695,6 +888,11 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   .creature .part-arms,
   .paused-pulse {
     animation: none;
+  }
+
+  /* All it does is cross the sky; standing still, it would be a stray dot. */
+  .far-satellite {
+    display: none;
   }
 
   /* A steady glow rather than a breathing one. */
