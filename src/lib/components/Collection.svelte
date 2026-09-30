@@ -84,9 +84,23 @@
         {/each}
       </div>
       <button
-        class="rounded-md border border-slate-300 px-3 py-1 text-sm hover:bg-slate-50 sm:self-center"
-        onclick={onclose}>{t("common.close")}</button
+        class="-mt-1 -mr-2 grid size-8 place-items-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 sm:-mr-3"
+        aria-label={t("common.close")}
+        title={t("common.close")}
+        onclick={onclose}
       >
+        <svg
+          viewBox="0 0 24 24"
+          class="size-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
     </div>
 
     <div class="min-h-0 flex-1 overflow-y-auto px-4 pb-4 sm:px-6 sm:pb-6">
