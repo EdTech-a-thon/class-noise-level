@@ -3,6 +3,7 @@
   import Collection from "$lib/components/Collection.svelte";
   import ControlBar from "$lib/components/ControlBar.svelte";
   import MicBlocked from "$lib/components/MicBlocked.svelte";
+  import NotesLayer from "$lib/components/notes/NotesLayer.svelte";
   import Scene from "$lib/components/Scene.svelte";
   import SettingsPanel from "$lib/components/SettingsPanel.svelte";
   import BrandChip from "$lib/components/BrandChip.svelte";
@@ -20,6 +21,7 @@
   let fullScreen = $state(false);
   let controlsVisible = $state(true);
   let idleTimer: ReturnType<typeof setTimeout>;
+  let notesLayer = $state<NotesLayer>();
 
   /** How long the controls linger after the last movement. */
   const IDLE_MS = 3500;
@@ -71,10 +73,14 @@
   }
 </script>
 
+<!-- Pointer events too: a Smartboard pen drawing on a Note sends no mouse
+     or touch events of its own, and must not let the controls fade. -->
 <svelte:window
   onmousemove={wake}
   onkeydown={wake}
   ontouchstart={wake}
+  onpointerdown={wake}
+  onpointermove={wake}
   onfullscreenchange={() => (fullScreen = Boolean(document.fullscreenElement))}
 />
 
@@ -96,6 +102,12 @@
       scares={settings.loudResponse === "flee"}
       fleeing={app.session.fleeing}
       ondepart={(id) => app.session.depart(id)}
+    />
+    <!-- Over the Scene, so the animals pass behind the words. -->
+    <NotesLayer
+      bind:this={notesLayer}
+      scene={app.scene}
+      chrome={controlsVisible && app.listening}
     />
   {/if}
 
@@ -166,9 +178,9 @@
   {/if}
 
   <!-- Top left: who made this. Top right: the tools that change how the page
-       looks — its language, and whether it fills the screen. Later than the
-       start card so it sits above it; Settings, Animals and the blocked-
-       microphone screen cover it. -->
+       looks — a Note on the Scene once it is running, its language, and
+       whether it fills the screen. Later than the start card so it sits above
+       it; Settings, Animals and the blocked-microphone screen cover it. -->
   <div
     class="safe-edges pointer-events-none absolute inset-x-0 top-0 z-40 flex items-start justify-between p-4 transition-opacity duration-300"
     class:opacity-0={!topBarVisible}
@@ -179,6 +191,27 @@
       <BrandChip />
     </div>
     <div class="pointer-events-auto flex gap-2">
+      {#if app.listening}
+        <button
+          class="grid size-11 place-items-center rounded-full bg-white/95 text-slate-700 shadow-lg hover:bg-white"
+          aria-label={t("controls.addText")}
+          title={t("controls.addTextHint")}
+          onclick={() => notesLayer?.add()}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            class="size-5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M3 7V4h12v3M9 4v15M6.5 19h5M19 12v8M15 16h8" />
+          </svg>
+        </button>
+      {/if}
       <LanguagePicker />
       {#if canFullScreen}
         <button

@@ -37,6 +37,14 @@ clouds on the savanna, seaweed and plankton on the reef. Ambient Life is present
 every Session, is never earned, and is never counted. It exists so an
 unpopulated Scene still reads as a living place.
 
+## Note
+
+Words or a drawing the teacher puts on the Scene for the class to read,
+drawn as part of the world: a cloud in the savanna sky, a framed wooden sign
+hanging in the reef water. Creatures pass behind a Note. A Note belongs to the
+teacher, not the Session: Reset leaves it, and it stays where it is when the
+Scene changes, taking on the new Scene's look.
+
 ## Arrival Rate
 
 How much Quiet time buys one Creature. The teacher chooses it from named
