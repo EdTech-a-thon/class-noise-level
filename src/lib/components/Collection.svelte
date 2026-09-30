@@ -150,7 +150,7 @@
                 <!-- A Creature with a fact to tell shows it on hover. -->
                 <li
                   title={creatureFact(def.slug)}
-                  class="flex flex-col items-center rounded-lg border p-2 text-center {tier ===
+                  class="flex min-w-0 flex-col items-center rounded-lg border p-2 text-center {tier ===
                   'rare'
                     ? 'border-amber-300 bg-amber-50'
                     : 'border-slate-200'}"
@@ -162,7 +162,9 @@
                     <!-- eslint-disable-next-line svelte/no-at-html-tags -->
                     {@html scene.creatureArt[def.slug]}
                   </div>
-                  <span class="mt-1 text-sm font-medium text-slate-800"
+                  <!-- Long names break at their soft hyphens (see i18n) to fit the card. -->
+                  <span
+                    class="mt-1 max-w-full text-sm font-medium break-words hyphens-auto text-slate-800"
                     >{creatureName(def.slug)}</span
                   >
                   <span class="text-xs text-slate-500">
