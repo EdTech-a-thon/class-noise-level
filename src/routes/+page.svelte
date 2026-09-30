@@ -3,6 +3,7 @@
   import { classes } from "$lib/classes/classes.svelte";
   import ClassesPanel from "$lib/components/ClassesPanel.svelte";
   import ClassPicker from "$lib/components/ClassPicker.svelte";
+  import ScenePicker from "$lib/components/ScenePicker.svelte";
   import Collection from "$lib/components/Collection.svelte";
   import ControlBar from "$lib/components/ControlBar.svelte";
   import MicBlocked from "$lib/components/MicBlocked.svelte";
@@ -67,6 +68,7 @@
   let infoOpen = $state(false);
   let classesOpen = $state(false);
   let classMenuOpen = $state(false);
+  let sceneMenuOpen = $state(false);
   let fullScreen = $state(false);
   let controlsVisible = $state(true);
   let idleTimer: ReturnType<typeof setTimeout>;
@@ -107,7 +109,7 @@
    * Scene; before the Session starts there is nothing to hide them for.
    */
   const topBarVisible = $derived(
-    controlsVisible || !app.listening || classMenuOpen,
+    controlsVisible || !app.listening || classMenuOpen || sceneMenuOpen,
   );
 
   async function toggleFullScreen() {
@@ -423,15 +425,17 @@
       onopensettings={() => (settingsOpen = true)}
     />
 
-    <!-- Bottom right: every animal the class has spotted. Mirrors the help
-         button, and like it sits above the control bar on a phone. -->
+    <!-- Bottom right: which Scene is on screen, and every animal the class
+         has spotted. Mirrors the help button, and like it sits above the
+         control bar on a phone. -->
     <div
       class="safe-edges pointer-events-none absolute right-0 bottom-0 z-40 p-4 transition-opacity duration-300 max-sm:bottom-16"
       class:opacity-0={!topBarVisible}
       aria-hidden={!topBarVisible}
       inert={!topBarVisible}
     >
-      <div class="pointer-events-auto">
+      <div class="pointer-events-auto flex gap-2">
+        <ScenePicker {app} bind:open={sceneMenuOpen} />
         <button
           class="grid size-11 place-items-center rounded-full bg-white/95 text-slate-700 shadow-lg hover:bg-white"
           aria-label={tIn(app.scene.id, "controls.animals")}

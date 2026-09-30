@@ -10,7 +10,6 @@
 
   import { t, tIn, type UiKey } from "$lib/i18n/index.svelte";
   import type { App } from "$lib/app.svelte";
-  import { SCENES } from "$lib/scenes";
   import {
     ARRIVAL_RATE_PRESETS,
     MAX_ARRIVAL_MINUTES,
@@ -57,30 +56,6 @@
         onclick={onclose}>{t("common.close")}</button
       >
     </div>
-
-    <section class="mt-6 space-y-3">
-      <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">
-        {t("scene.label")}
-      </h2>
-      <div class="grid grid-cols-2 gap-2">
-        {#each Object.values(SCENES) as scene (scene.id)}
-          <button
-            class="rounded-md border px-2 py-2 text-left text-sm {app.scene
-              .id === scene.id
-              ? 'border-slate-900 bg-slate-900 text-white'
-              : 'border-slate-300 hover:bg-slate-50'}"
-            onclick={() => app.useScene(scene.id)}
-          >
-            <span class="block font-semibold"
-              >{t(`scene.${scene.id}.name` as UiKey)}</span
-            >
-            <span class="block text-xs opacity-80"
-              >{t(`scene.${scene.id}.hint` as UiKey)}</span
-            >
-          </button>
-        {/each}
-      </div>
-    </section>
 
     <section class="mt-6 space-y-3">
       <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">

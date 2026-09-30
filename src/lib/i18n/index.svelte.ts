@@ -39,6 +39,7 @@ const en = {
     "start.micNote":
       "Your browser will ask to use the microphone. Audio is measured on this computer and never recorded or sent anywhere.",
     "scene.label": "Scene",
+    "scene.change": "Change scene",
     "scene.savanna.name": "Savanna",
     "scene.savanna.hint": "Zebras, giraffes and lions",
     "scene.reef.name": "Coral reef",
@@ -487,6 +488,7 @@ const es = {
     "start.micNote":
       "El navegador pedirá permiso para usar el micrófono. El sonido se mide en esta computadora y nunca se graba ni se envía a ningún sitio.",
     "scene.label": "Escena",
+    "scene.change": "Cambiar escena",
     "scene.savanna.name": "Sabana",
     "scene.savanna.hint": "Cebras, jirafas y leones",
     "scene.reef.name": "Arrecife de coral",
@@ -907,6 +909,7 @@ const fr = {
     "start.micNote":
       "Le navigateur va demander l’accès au micro. Le son est mesuré sur cet ordinateur ; il n’est jamais enregistré ni envoyé nulle part.",
     "scene.label": "Décor",
+    "scene.change": "Changer de décor",
     "scene.savanna.name": "Savane",
     "scene.savanna.hint": "Zèbres, girafes et lions",
     "scene.reef.name": "Récif de corail",
