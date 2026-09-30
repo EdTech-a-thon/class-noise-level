@@ -7,13 +7,36 @@
   import SettingsPanel from "$lib/components/SettingsPanel.svelte";
   import BrandChip from "$lib/components/BrandChip.svelte";
   import LanguagePicker from "$lib/components/LanguagePicker.svelte";
+  import PageMeta from "$lib/components/PageMeta.svelte";
   import { t, type UiKey } from "$lib/i18n/index.svelte";
   import { onMount } from "svelte";
   import { SCENES } from "$lib/scenes";
   import { settings } from "$lib/settings/settings.svelte";
   import logoUrl from "$lib/brand/logo.svg";
+  import { absoluteUrl } from "$lib/site";
 
   const app = new App();
+
+  /** Tells search engines and AI assistants what kind of thing this page is. */
+  const jsonLd = $derived({
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Shy Safari",
+    url: absoluteUrl("/"),
+    description: t("app.description"),
+    applicationCategory: "EducationalApplication",
+    operatingSystem: "Any (web browser)",
+    browserRequirements: "Requires a microphone and a modern web browser",
+    inLanguage: ["en", "es", "fr"],
+    isAccessibleForFree: true,
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    audience: { "@type": "EducationalAudience", educationalRole: "teacher" },
+    publisher: {
+      "@type": "Organization",
+      name: "teacher.dev",
+      url: "https://teacher.dev",
+    },
+  });
 
   let settingsOpen = $state(false);
   let collectionOpen = $state(false);
@@ -78,10 +101,12 @@
   onfullscreenchange={() => (fullScreen = Boolean(document.fullscreenElement))}
 />
 
-<svelte:head>
-  <title>{t("app.pageTitle")}</title>
-  <meta name="description" content={t("app.description")} />
-</svelte:head>
+<PageMeta
+  path="/"
+  title={t("app.pageTitle")}
+  description={t("app.description")}
+  {jsonLd}
+/>
 
 <!-- dvh, not vh: on a phone, vh is the height with the browser toolbars
      hidden, which would tuck the control bar underneath them. -->

@@ -1,16 +1,18 @@
 <script lang="ts">
   import { asset } from "$app/paths";
   import DocPage from "$lib/components/DocPage.svelte";
+  import PageMeta from "$lib/components/PageMeta.svelte";
   import { t } from "$lib/i18n/index.svelte";
 
   const card = "mb-6 rounded-2xl bg-white/90 p-6 shadow-lg shadow-amber-900/5";
   const link = "font-semibold text-teal-700 underline-offset-4 hover:underline";
 </script>
 
-<svelte:head>
-  <title>{t("about.pageTitle")}</title>
-  <meta name="description" content={t("about.meta")} />
-</svelte:head>
+<PageMeta
+  path="/about"
+  title={t("about.pageTitle")}
+  description={t("about.meta")}
+/>
 
 <DocPage title={t("about.title")} lede={t("about.lede")}>
   <section class={card}>
