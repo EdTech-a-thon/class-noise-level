@@ -2,7 +2,7 @@
   /**
    * The Timer as an hourglass. It turns over when the Timer starts, then the
    * sand runs out of the top bulb, dipping into a funnel over the neck, and
-   * falls in a thin stream onto a heap that builds in the bottom bulb.
+   * falls in a stream onto a heap that builds in the bottom bulb.
    *
    * The sand is redrawn every frame while it runs, so it falls smoothly
    * rather than in the Timer's quarter-second steps.
@@ -106,15 +106,20 @@
 
   const flowing = $derived(running && !flipping && elapsed < 1);
 
-  /** Where each bulb's sand would lie if it were flat. */
+  /** Where the top bulb's sand would lie if it were flat. */
   const topLevel = $derived(NECK - depthHolding((1 - elapsed) * SAND));
-  const bottomLevel = $derived(
-    NECK + depthHolding(areaTo(BULB) - elapsed * SAND),
-  );
 
-  /** The funnel over the neck and the heap in the bottom form quickly. */
-  const dip = $derived(9 * Math.min(1, elapsed * 8));
-  const heap = $derived(12 * Math.min(1, elapsed * 5));
+  /** How much sand has run through, in the same units as `SAND`. */
+  const fallen = $derived(elapsed * SAND);
+
+  /**
+   * The funnel over the neck and the heap in the bottom grow with the sand
+   * that has fallen, not with the time gone, so both show within moments
+   * however long the Timer is.
+   */
+  const dip = $derived(
+    Math.min(9, 0.8 * Math.sqrt(fallen), (NECK - topLevel) / 0.65),
+  );
 
   const topSand = $derived.by(() => {
     const edge = topLevel - dip * 0.35;
@@ -122,11 +127,25 @@
     return `M-5 ${NECK + 1} L-5 ${edge} C25 ${edge} 42 ${middle} 50 ${middle} C58 ${middle} 75 ${edge} 105 ${edge} L105 ${NECK + 1} Z`;
   });
 
+  /** The heap's steepness, and how tall it gets before it spreads out flat. */
+  const SLOPE = 0.35;
+  const HEAP = 9;
+  const HEAP_SAND = (HEAP * HEAP) / SLOPE;
+
+  /** The heap grows first; the sand beyond it settles flat underneath. */
+  const heap = $derived(Math.min(HEAP, Math.sqrt(fallen * SLOPE)));
+  // One above the true bottom, because the rim of the glass hides that.
+  const bottomLevel = $derived(
+    NECK - 1 + depthHolding(areaTo(BULB) - Math.max(0, fallen - HEAP_SAND)),
+  );
+
   /** Where the stream lands. */
-  const peak = $derived(bottomLevel - heap * 0.6);
+  const peak = $derived(bottomLevel - heap);
   const bottomSand = $derived.by(() => {
-    const edge = bottomLevel + heap * 0.4;
-    return `M-5 126 L-5 ${edge} L44 ${peak + 1.5} Q50 ${peak} 56 ${peak + 1.5} L105 ${edge} L105 126 Z`;
+    const spread = heap / SLOPE;
+    const [left, right] = [50 - spread, 50 + spread];
+    const shoulder = bottomLevel - heap * 0.55;
+    return `M-5 126 L-5 ${bottomLevel} L${left} ${bottomLevel} C${50 - spread * 0.45} ${shoulder} ${50 - spread * 0.2} ${peak} 50 ${peak} C${50 + spread * 0.2} ${peak} ${50 + spread * 0.45} ${shoulder} ${right} ${bottomLevel} L105 ${bottomLevel} L105 126 Z`;
   });
 </script>
 
@@ -151,24 +170,14 @@
         <path d={bottomSand} fill="#f2b84b" />
       {/if}
       {#if flowing}
+        <!-- As wide as the opening in the neck, and running a little into
+             the heap so there is no gap where it lands. -->
         <rect
-          x="49"
-          y={NECK + 0.5}
-          width="2"
-          height={Math.max(0, peak - NECK - 0.5)}
-          fill="#e0a53a"
-        />
-        <!-- Paler flecks running down inside the stream, so it reads as
-             falling rather than as a stick. -->
-        <line
-          class="stream-flecks"
-          x1="50"
-          y1={NECK + 0.5}
-          x2="50"
-          y2={peak}
-          stroke="#fbe3a8"
-          stroke-width="1"
-          stroke-dasharray="1.5 4.5"
+          x="48.3"
+          y={NECK}
+          width="3.4"
+          height={Math.max(0, peak - NECK + 1)}
+          fill="#f2b84b"
         />
       {/if}
       <!-- The far side of the glass in shade, the near side catching the
@@ -234,19 +243,8 @@
     animation: hourglass-flip 900ms both;
   }
 
-  @keyframes stream-fall {
-    to {
-      stroke-dashoffset: -6;
-    }
-  }
-
-  .stream-flecks {
-    animation: stream-fall 300ms linear infinite;
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .hourglass-flip,
-    .stream-flecks {
+    .hourglass-flip {
       animation: none;
     }
   }
