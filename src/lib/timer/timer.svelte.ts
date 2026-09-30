@@ -45,11 +45,19 @@ export interface TimerPosition {
 export type TimerStyle = "digits" | "circle" | "hourglass";
 export const TIMER_STYLES: TimerStyle[] = ["digits", "circle", "hourglass"];
 
+/**
+ * How big the time is drawn, against its usual size: smaller to tuck it in a
+ * corner, bigger for the back of a large room.
+ */
+export const MIN_TIMER_SCALE = 0.5;
+export const MAX_TIMER_SCALE = 4;
+
 interface StoredTimer {
   open: boolean;
   countdown: Countdown;
   position: TimerPosition;
   style: TimerStyle;
+  scale: number;
 }
 
 const DEFAULTS: StoredTimer = {
@@ -58,6 +66,7 @@ const DEFAULTS: StoredTimer = {
   // Top right, below the language and full-screen buttons.
   position: { x: 1, y: 0.15 },
   style: "digits",
+  scale: 1,
 };
 
 function storageKey() {
@@ -65,6 +74,8 @@ function storageKey() {
 }
 
 const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
+export const clampScale = (value: number) =>
+  Math.max(MIN_TIMER_SCALE, Math.min(MAX_TIMER_SCALE, value));
 
 function read(): StoredTimer {
   if (!browser) return structuredClone(DEFAULTS);
@@ -79,6 +90,9 @@ function read(): StoredTimer {
       stored.countdown = DEFAULTS.countdown;
     }
     if (!TIMER_STYLES.includes(stored.style)) stored.style = DEFAULTS.style;
+    stored.scale = Number.isFinite(stored.scale)
+      ? clampScale(stored.scale)
+      : DEFAULTS.scale;
     return stored;
   } catch {
     return structuredClone(DEFAULTS);
@@ -139,6 +153,10 @@ export class ClassTimer {
     this.#set({ style: value });
   }
 
+  get scale() {
+    return this.#stored.scale;
+  }
+
   #save() {
     if (!browser) return;
     try {
@@ -187,6 +205,10 @@ export class ClassTimer {
 
   moveTo(position: TimerPosition) {
     this.#set({ position: { x: clamp01(position.x), y: clamp01(position.y) } });
+  }
+
+  resizeTo(scale: number) {
+    this.#set({ scale: clampScale(scale) });
   }
 
   /**

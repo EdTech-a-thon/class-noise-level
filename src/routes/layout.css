@@ -947,13 +947,6 @@ html[data-scene="space"]:not(:has(.scene-stage)) body {
   cursor: grabbing;
 }
 
-/* Chosen, while the teacher's controls show: a dashed frame round it. */
-.note.selected.chrome {
-  outline: 3px dashed rgb(255 255 255 / 0.9);
-  outline-offset: 6px;
-  border-radius: 12px;
-}
-
 .note-text {
   /* Rounded and heavy, for reading from the back of a classroom. */
   font-family:

@@ -39,6 +39,7 @@ const en = {
     "start.micNote":
       "Your browser will ask to use the microphone. Audio is measured on this computer and never recorded or sent anywhere.",
     "scene.label": "Scene",
+    "scene.change": "Change scene",
     "scene.savanna.name": "Savanna",
     "scene.savanna.hint": "Zebras, giraffes and lions",
     "scene.reef.name": "Coral reef",
@@ -64,7 +65,8 @@ const en = {
     "timer.reset": "Reset",
     "timer.done": "Time’s up!",
     "timer.close": "Close timer",
-    "timer.move": "Move timer: drag it, or use the arrow keys",
+    "timer.move": "Move timer: drag its edge, or use the arrow keys",
+    "timer.resize": "Resize timer: drag a corner, or use the arrow keys",
     "timer.style": "How the time is shown",
     "timer.style.digits": "Numbers",
     "timer.style.circle": "Circle",
@@ -87,8 +89,6 @@ const en = {
     "notes.undo": "Undo",
     "notes.clear": "Clear drawing",
     "notes.delete": "Delete",
-    "notes.move": "Drag to move",
-    "notes.resize": "Drag to resize",
     "controls.pause": "Pause",
     "controls.pauseHint":
       "Stop listening for a moment, so you can talk to the class",
@@ -97,8 +97,7 @@ const en = {
     "classes.change": "Change class",
     "classes.unnamed": "My class",
     "classes.edit": "Edit classes",
-    "classes.hint":
-      "Each class keeps its own animals and its own collection, so one class never sees what another earned. Switch between them from the class button in the top left.",
+    "classes.hint": "Each class keeps its own animals and its own collection.",
     "classes.storage":
       "Your classes are saved in this browser, on this computer only. They will not show up on another computer or browser, and clearing your browser data deletes them.",
     "classes.current": "On screen",
@@ -488,6 +487,7 @@ const es = {
     "start.micNote":
       "El navegador pedirá permiso para usar el micrófono. El sonido se mide en esta computadora y nunca se graba ni se envía a ningún sitio.",
     "scene.label": "Escena",
+    "scene.change": "Cambiar escena",
     "scene.savanna.name": "Sabana",
     "scene.savanna.hint": "Cebras, jirafas y leones",
     "scene.reef.name": "Arrecife de coral",
@@ -513,7 +513,9 @@ const es = {
     "timer.reset": "Reiniciar",
     "timer.done": "¡Se acabó el tiempo!",
     "timer.close": "Cerrar el temporizador",
-    "timer.move": "Mover el temporizador: arrástralo o usa las flechas",
+    "timer.move": "Mover el temporizador: arrastra su borde o usa las flechas",
+    "timer.resize":
+      "Cambiar el tamaño del temporizador: arrastra una esquina o usa las flechas",
     "timer.style": "Cómo se muestra el tiempo",
     "timer.style.digits": "Números",
     "timer.style.circle": "Círculo",
@@ -536,8 +538,6 @@ const es = {
     "notes.undo": "Deshacer",
     "notes.clear": "Borrar dibujo",
     "notes.delete": "Eliminar",
-    "notes.move": "Arrastra para mover",
-    "notes.resize": "Arrastra para cambiar el tamaño",
     "controls.pause": "Pausar",
     "controls.pauseHint":
       "Dejar de escuchar un momento, para poder hablar con la clase",
@@ -547,7 +547,7 @@ const es = {
     "classes.unnamed": "Mi clase",
     "classes.edit": "Editar clases",
     "classes.hint":
-      "Cada clase guarda sus propios animales y su propia colección, así que una clase nunca ve lo que ganó otra. Cambia de una a otra con el botón de clase, arriba a la izquierda.",
+      "Cada clase guarda sus propios animales y su propia colección.",
     "classes.storage":
       "Tus clases se guardan en este navegador, solo en esta computadora. No aparecerán en otra computadora ni en otro navegador, y al borrar los datos del navegador se eliminan.",
     "classes.current": "En pantalla",
@@ -908,6 +908,7 @@ const fr = {
     "start.micNote":
       "Le navigateur va demander l’accès au micro. Le son est mesuré sur cet ordinateur ; il n’est jamais enregistré ni envoyé nulle part.",
     "scene.label": "Décor",
+    "scene.change": "Changer de décor",
     "scene.savanna.name": "Savane",
     "scene.savanna.hint": "Zèbres, girafes et lions",
     "scene.reef.name": "Récif de corail",
@@ -934,7 +935,9 @@ const fr = {
     "timer.done": "Temps écoulé !",
     "timer.close": "Fermer le minuteur",
     "timer.move":
-      "Déplacer le minuteur : faites-le glisser ou utilisez les flèches",
+      "Déplacer le minuteur : faites glisser son bord ou utilisez les flèches",
+    "timer.resize":
+      "Redimensionner le minuteur : faites glisser un coin ou utilisez les flèches",
     "timer.style": "Affichage du temps",
     "timer.style.digits": "Chiffres",
     "timer.style.circle": "Cercle",
@@ -957,8 +960,6 @@ const fr = {
     "notes.undo": "Annuler",
     "notes.clear": "Effacer le dessin",
     "notes.delete": "Supprimer",
-    "notes.move": "Faites glisser pour déplacer",
-    "notes.resize": "Faites glisser pour redimensionner",
     "controls.pause": "Pause",
     "controls.pauseHint":
       "Arrêter d’écouter un moment, pour pouvoir parler à la classe",
@@ -968,7 +969,7 @@ const fr = {
     "classes.unnamed": "Ma classe",
     "classes.edit": "Modifier les classes",
     "classes.hint":
-      "Chaque classe garde ses propres animaux et sa propre collection : une classe ne voit jamais ce qu’une autre a gagné. Passez de l’une à l’autre avec le bouton de classe, en haut à gauche.",
+      "Chaque classe garde ses propres animaux et sa propre collection.",
     "classes.storage":
       "Vos classes sont enregistrées dans ce navigateur, sur cet ordinateur uniquement. Elles n’apparaîtront pas sur un autre ordinateur ou navigateur, et effacer les données du navigateur les supprime.",
     "classes.current": "À l’écran",

@@ -5,13 +5,15 @@
  */
 
 import type { NoteLook } from "../index";
-import { PEN_COLOURS } from "../noteArt";
+import { PEN_COLOURS, rectOf } from "../noteArt";
 import NoteArt from "./NoteArt.svelte";
 import { slabShape } from "./noteShape";
 
 export const PREHISTORIC_NOTE: NoteLook = {
   Art: NoteArt,
   writing: (width, height) => slabShape(width, height).writing,
+  // The smoothed face; the rough stone round it is the border.
+  surface: (width, height) => rectOf(slabShape(width, height).panel),
   // A dark umber, like charcoal on pale stone.
   inks: { dark: "#2a1f16", ...PEN_COLOURS },
   // In the sky over the far bank, right of the hazy sun, above where the

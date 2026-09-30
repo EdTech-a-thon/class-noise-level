@@ -5,18 +5,21 @@
    * It sits above every Creature, so animals wander behind it rather than
    * over the numbers, and below the teacher's controls and panels. Its
    * buttons fade with the control bar, leaving the class just the time; the
-   * card itself stays up, because the time is for the class to read.
+   * card itself stays up, because the time is for the class to read. Like a
+   * Note, it is moved by its edge and resized by any corner.
    */
 
   import { t } from "$lib/i18n/index.svelte";
   import { primeChime } from "$lib/audio/chime";
   import { durationFrom, MAX_TIMER_MINUTES } from "$lib/timer/countdown";
   import {
+    clampScale,
     TIMER_STYLES,
     type ClassTimer,
     type TimerPosition,
   } from "$lib/timer/timer.svelte";
   import { untrack } from "svelte";
+  import EdgeGrips, { type Corner } from "./EdgeGrips.svelte";
   import TimerCircle from "./TimerCircle.svelte";
   import TimerHourglass from "./TimerHourglass.svelte";
 
@@ -29,6 +32,10 @@
   const GUTTER = 16;
   /** How far one arrow key press moves it, as a fraction of the room. */
   const KEY_STEP = 0.02;
+  /** How much one arrow key press on the resize button grows or shrinks it. */
+  const KEY_SCALE_STEP = 1.1;
+
+  let card: HTMLElement;
 
   let viewportWidth = $state(0);
   let viewportHeight = $state(0);
@@ -39,11 +46,44 @@
   let dragging = $state<TimerPosition | null>(null);
   let dragStart = { pointerX: 0, pointerY: 0, left: 0, top: 0 };
 
+  /**
+   * How big it is while being resized, by which corner, and where its edges
+   * were when that began: the corner opposite stays put as the card grows,
+   * unless that would push the card off screen. Saved only when it is let go.
+   */
+  let resizing = $state<{
+    scale: number;
+    corner: Corner;
+    left: number;
+    top: number;
+    right: number;
+    bottom: number;
+  } | null>(null);
+  let resizeStart = { pointerX: 0, pointerY: 0, scale: 1, most: 1 };
+  let faceStart = { width: 1, height: 1 };
+
   const position = $derived(dragging ?? timer.position);
+  const scale = $derived(resizing?.scale ?? timer.scale);
   const roomX = $derived(Math.max(0, viewportWidth - cardWidth - 2 * GUTTER));
   const roomY = $derived(Math.max(0, viewportHeight - cardHeight - 2 * GUTTER));
-  const left = $derived(GUTTER + position.x * roomX);
-  const top = $derived(GUTTER + position.y * roomY);
+  const onScreen = (offset: number, room: number) =>
+    Math.max(GUTTER, Math.min(offset, GUTTER + room));
+  const left = $derived(
+    resizing
+      ? onScreen(
+          resizing.corner.x > 0 ? resizing.left : resizing.right - cardWidth,
+          roomX,
+        )
+      : GUTTER + position.x * roomX,
+  );
+  const top = $derived(
+    resizing
+      ? onScreen(
+          resizing.corner.y > 0 ? resizing.top : resizing.bottom - cardHeight,
+          roomY,
+        )
+      : GUTTER + position.y * roomY,
+  );
 
   // What the teacher is typing. Starts from the last length used, and goes
   // back to it on Reset. Text rather than numbers, so seconds can read "00".
@@ -95,11 +135,11 @@
   }
 
   function grab(event: PointerEvent) {
-    // Typing and pressing buttons are not dragging; the grip is the one
-    // button that is. Nor is anything in the setup, so a press that just
-    // misses a button there is a miss rather than a lurch across the screen.
+    // Typing and pressing buttons are not dragging. Nor is anything in the
+    // setup, so a press that just misses a button there is a miss rather
+    // than a lurch across the screen.
     const target = event.target as HTMLElement;
-    if (target.closest("input, button:not([data-grip]), [data-no-drag]")) {
+    if (target.closest("input, button, [data-no-drag]")) {
       return;
     }
     if (event.button !== 0) return;
@@ -145,6 +185,76 @@
     });
   }
 
+  /**
+   * The largest it can be and still fit on screen. Only the time grows, not
+   * the buttons around it, so this is worked out from the time's own size.
+   */
+  function largestScale() {
+    const face = card.querySelector<HTMLElement>("[data-timer-face]");
+    if (!face) return scale;
+    const { width, height } = face.getBoundingClientRect();
+    if (!width || !height) return scale;
+    faceStart = { width, height };
+    const spareX = viewportWidth - 2 * GUTTER - (cardWidth - width);
+    const spareY = viewportHeight - 2 * GUTTER - (cardHeight - height);
+    return scale * Math.min(spareX / width, spareY / height);
+  }
+
+  function startResize(event: PointerEvent, corner: Corner) {
+    if (event.button !== 0) return;
+    event.preventDefault();
+    (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    resizeStart = {
+      pointerX: event.clientX,
+      pointerY: event.clientY,
+      scale,
+      most: largestScale(),
+    };
+    resizing = {
+      scale,
+      corner,
+      left,
+      top,
+      right: left + cardWidth,
+      bottom: top + cardHeight,
+    };
+  }
+
+  /** The time grows by as much as the corner is pulled out, on average. */
+  function resize(event: PointerEvent) {
+    if (!resizing) return;
+    const { corner } = resizing;
+    const outX = corner.x * (event.clientX - resizeStart.pointerX);
+    const outY = corner.y * (event.clientY - resizeStart.pointerY);
+    const grow =
+      ((faceStart.width + outX) / faceStart.width +
+        (faceStart.height + outY) / faceStart.height) /
+      2;
+    resizing.scale = clampScale(
+      Math.min(resizeStart.scale * grow, resizeStart.most),
+    );
+  }
+
+  function endResize() {
+    if (!resizing) return;
+    timer.resizeTo(resizing.scale);
+    timer.moveTo(fractionAt(left, top));
+    resizing = null;
+  }
+
+  function resizeByKey(event: KeyboardEvent) {
+    const steps: Record<string, number> = {
+      ArrowUp: KEY_SCALE_STEP,
+      ArrowRight: KEY_SCALE_STEP,
+      ArrowDown: 1 / KEY_SCALE_STEP,
+      ArrowLeft: 1 / KEY_SCALE_STEP,
+    };
+    const step = steps[event.key];
+    if (!step) return;
+    event.preventDefault();
+    timer.resizeTo(Math.min(scale * step, Math.max(scale, largestScale())));
+  }
+
   const buttonClass =
     "rounded-full border border-slate-300 px-4 py-2 text-sm hover:bg-slate-50";
 </script>
@@ -154,68 +264,73 @@
   bind:innerHeight={viewportHeight}
 />
 
-<!-- Dragging by the card is a shortcut; the grip button moves it from the
-     keyboard. -->
+<!-- Dragged by its edge, or by any of the card not taken by a button; the
+     move and resize buttons, seen only by the keyboard, do it with the arrow
+     keys. -->
 <section
-  class="timer-card absolute z-30 touch-none rounded-2xl bg-white/95 px-5 pt-3 pb-4 text-center text-slate-900 shadow-xl select-none"
+  bind:this={card}
+  class="timer-card absolute z-30 touch-none rounded-2xl bg-white/95 px-5 pt-11 pb-4 text-center text-slate-900 shadow-xl select-none"
   class:cursor-grab={!dragging}
   class:cursor-grabbing={dragging}
   class:timer-done={timer.status === "done"}
   style:left="{left}px"
   style:top="{top}px"
+  style:--timer-scale={scale}
   aria-label={t("timer.label")}
   bind:clientWidth={cardWidth}
   bind:clientHeight={cardHeight}
   onpointerdown={grab}
-  onpointermove={drag}
-  onpointerup={drop}
-  onpointercancel={drop}
+  onpointermove={(event) => {
+    drag(event);
+    resize(event);
+  }}
+  onpointerup={() => {
+    drop();
+    endResize();
+  }}
+  onpointercancel={() => {
+    drop();
+    endResize();
+  }}
 >
-  <div
-    class="-mx-2 flex items-center justify-between transition-opacity duration-300"
+  <!-- The grips go with the rest of the teacher's controls, so the class
+       can't knock the Timer about while they're hidden. -->
+  {#if controlsVisible}
+    <EdgeGrips onresize={startResize} />
+  {/if}
+  <div class="contents" inert={!controlsVisible}>
+    <button
+      class="timer-key sr-only"
+      aria-label={t("timer.move")}
+      onkeydown={nudge}
+    ></button>
+    <button
+      class="timer-key sr-only"
+      aria-label={t("timer.resize")}
+      onkeydown={resizeByKey}
+    ></button>
+  </div>
+  <button
+    class="absolute top-2 right-2 grid size-8 place-items-center rounded-full text-slate-400 transition-opacity duration-300 hover:bg-slate-100 hover:text-slate-600"
     class:opacity-0={!controlsVisible}
     class:pointer-events-none={!controlsVisible}
     inert={!controlsVisible}
+    aria-label={t("timer.close")}
+    title={t("timer.close")}
+    onclick={() => timer.hide()}
   >
-    <button
-      data-grip
-      class="grid size-8 cursor-grab place-items-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600"
-      aria-label={t("timer.move")}
-      title={t("timer.move")}
-      onkeydown={nudge}
+    <svg
+      viewBox="0 0 24 24"
+      class="size-5"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.2"
+      stroke-linecap="round"
+      aria-hidden="true"
     >
-      <svg
-        viewBox="0 0 24 24"
-        class="size-5"
-        fill="currentColor"
-        aria-hidden="true"
-      >
-        {#each [8, 16] as x (x)}
-          {#each [6, 12, 18] as y (y)}
-            <circle cx={x} cy={y} r="1.7" />
-          {/each}
-        {/each}
-      </svg>
-    </button>
-    <button
-      class="grid size-8 place-items-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600"
-      aria-label={t("timer.close")}
-      title={t("timer.close")}
-      onclick={() => timer.hide()}
-    >
-      <svg
-        viewBox="0 0 24 24"
-        class="size-5"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2.2"
-        stroke-linecap="round"
-        aria-hidden="true"
-      >
-        <path d="M6 6l12 12M18 6L6 18" />
-      </svg>
-    </button>
-  </div>
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  </button>
 
   {#if timer.status === "idle"}
     <form
@@ -226,7 +341,10 @@
         begin();
       }}
     >
-      <div class="timer-digits flex items-start justify-center gap-1">
+      <div
+        class="timer-digits flex items-start justify-center gap-1"
+        data-timer-face
+      >
         <label class="flex flex-col items-center">
           <input
             class="timer-field"
@@ -340,6 +458,7 @@
     {#if timer.style !== "digits"}
       <div
         class="timer-picture-frame mx-auto mt-1"
+        data-timer-face
         class:opacity-50={timer.status === "paused"}
       >
         {#if timer.style === "circle"}
@@ -353,6 +472,7 @@
          read; the time is still there for a screen reader. -->
     <div
       class={timer.style === "digits" ? "timer-digits" : "sr-only"}
+      data-timer-face={timer.style === "digits" ? "" : undefined}
       class:text-slate-400={timer.status === "paused"}
       role="timer"
     >
@@ -391,9 +511,17 @@
     min-width: 11rem;
   }
 
-  /* Big enough to read from the back of the room. */
+  /* The move and resize buttons have nothing to show, so the card lights up
+     while one of them has the keyboard. */
+  .timer-card:has(:global(.timer-key:focus-visible)) {
+    outline: 3px solid rgb(15 23 42 / 0.6);
+    outline-offset: 4px;
+  }
+
+  /* Big enough to read from the back of the room, then as big again as the
+     teacher resizes it. */
   .timer-digits {
-    font-size: clamp(3rem, 11vmin, 7.5rem);
+    font-size: calc(clamp(3rem, 11vmin, 7.5rem) * var(--timer-scale, 1));
     font-weight: 700;
     line-height: 1.05;
     font-variant-numeric: tabular-nums;
@@ -403,7 +531,7 @@
   /* The circle and hourglass are the time for the class, so they get the
      room the numbers would have had. */
   .timer-picture-frame {
-    height: clamp(9rem, 32vmin, 18rem);
+    height: calc(clamp(9rem, 32vmin, 18rem) * var(--timer-scale, 1));
     transition: opacity 300ms;
   }
 

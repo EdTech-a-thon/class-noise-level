@@ -22,6 +22,21 @@ export interface Rect {
   bottom: number;
 }
 
+/** The same rectangle, from a box's corner and size. */
+export function rectOf(box: {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}): Rect {
+  return {
+    left: box.x,
+    top: box.y,
+    right: box.x + box.width,
+    bottom: box.y + box.height,
+  };
+}
+
 export interface Circle {
   cx: number;
   cy: number;
