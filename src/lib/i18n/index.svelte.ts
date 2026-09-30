@@ -7,6 +7,7 @@
  */
 
 import { browser } from "$app/environment";
+import type { SceneId } from "$lib/scenes/types";
 
 export type LanguageCode = "en" | "es" | "fr";
 
@@ -42,6 +43,10 @@ const en = {
     "scene.savanna.hint": "Zebras, giraffes and lions",
     "scene.reef.name": "Coral reef",
     "scene.reef.hint": "Fish, turtles and sharks",
+    "scene.space.name": "Deep space",
+    "scene.space.hint": "Satellites, comets and galaxies",
+    "scene.prehistoric.name": "Prehistoric",
+    "scene.prehistoric.hint": "T. rex, Triceratops and raptors",
     "controls.reset": "Reset",
     "controls.confirmReset": "Confirm reset",
     "controls.resetQuestion": "Empty this scene and start over?",
@@ -214,7 +219,7 @@ const en = {
     "about.photoAlt": "Participants of the 2026 EdTech-a-thon",
     "about.purposeTitle": "What it does",
     "about.purpose":
-      "Put the savanna or the coral reef up on the board and press Start. While the class stays under the volume goal, animals come out one at a time. If it gets too loud, they run away. You can change that in Settings so the scene just pauses until it's quiet again. Most animals are common, a few are rare, and the class can look back at every one they've spotted.",
+      "Put the savanna, the coral reef, deep space or the age of dinosaurs up on the board and press Start. While the class stays under the volume goal, animals come out one at a time. If it gets too loud, they run away. You can change that in Settings so the scene just pauses until it's quiet again. Most animals are common, a few are rare, and the class can look back at every one they've spotted.",
     "about.promiseTitle": "No catch",
     "about.promise":
       "It's free. There's no paid version and no ads, and we don't collect personal information about you or your students.",
@@ -241,10 +246,10 @@ const en = {
       "A free classroom noise level monitor that rewards quiet instead of punishing noise.",
     "guide.whatTitle": "What it is",
     "guide.what":
-      "Shy Safari is a classroom noise monitor that runs in a web browser. Put it on the projector or interactive whiteboard and it shows a calm savanna or coral reef. It listens to how loud the room is through the computer's microphone, and while the class stays under the volume goal, shy animals come out one at a time. It is the opposite of a bouncing noise meter: there is no score, no needle and no red warning light, so nothing makes being loud more interesting than being quiet.",
+      "Shy Safari is a classroom noise monitor that runs in a web browser. Put it on the projector or interactive whiteboard and it shows a calm savanna, coral reef, night sky in deep space or Cretaceous floodplain. It listens to how loud the room is through the computer's microphone, and while the class stays under the volume goal, shy animals come out one at a time. It is the opposite of a bouncing noise meter: there is no score, no needle and no red warning light, so nothing makes being loud more interesting than being quiet.",
     "guide.useTitle": "Using it in class",
     "guide.use.open":
-      "Open shysafari.com on the computer connected to your projector, pick the savanna or the coral reef, and press Start. The browser asks to use the microphone.",
+      "Open shysafari.com on the computer connected to your projector, pick the savanna, the coral reef, deep space or the prehistoric scene, and press Start. The browser asks to use the microphone.",
     "guide.use.goal":
       "Set the volume goal for the activity: Silent, Independent (quiet whispers) or Partner work (conversation voices), or drag the line on the meter to anywhere in between.",
     "guide.use.rate":
@@ -256,14 +261,14 @@ const en = {
       "Calibration is optional. Five seconds of silence and five seconds of normal talking teach the app what your room and your microphone sound like.",
     "guide.tooLoudTitle": "What happens when it gets too loud",
     "guide.tooLoud":
-      "The scene clouds over, with a dusty haze on the savanna and murky water on the reef, and no new animals come out. What happens next is your choice:",
+      "The scene clouds over, with a dusty haze on the savanna, murky water on the reef, interference in deep space and mist off the river in the prehistoric scene, and no new animals come out. What happens next is your choice:",
     "guide.tooLoud.flee":
-      "Animals run away (the default). The scene freezes and, while the room stays too loud, one animal and then a few more every five seconds run off the edge of the screen.",
+      "Animals run away (the default). The scene freezes and, while the room stays too loud, one animal and then a few more every five seconds run off the edge of the screen. In deep space, they fade out into static instead.",
     "guide.tooLoud.pause":
       "Pause the scene. The animals hold still, nothing is taken away, and progress toward the next animal waits until the room is calm again.",
     "guide.animalsTitle": "The animals",
     "guide.animals":
-      "The savanna has 17 animals, from meerkats and zebras to giraffes, hippos and rhinos, with lions, leopards and elephants as the rare ones. The coral reef has 18, from clownfish and seahorses to sea turtles and octopuses, with hammerhead sharks, manta rays and whale sharks as the rare ones. Common animals turn up often and rare ones are a real event that many sessions will not see at all. Each scene keeps its own animals, and the collection remembers every animal the class has spotted.",
+      "The savanna has 17 animals, from meerkats and zebras to giraffes, hippos and rhinos, with lions, leopards and elephants as the rare ones. The coral reef has 18, from clownfish and seahorses to sea turtles and octopuses, with hammerhead sharks, manta rays and whale sharks as the rare ones. Deep space has 17 sightings for older students, from satellites, asteroids and astronauts to the space station, comets and Saturn-like planets, with a spiral galaxy, a black hole, a pulsar and a ring nebula as the rare ones. The prehistoric scene has 17 animals from the very end of the age of dinosaurs, drawn with up-to-date science, from small mammals, lizards and feathered raptors to Triceratops and Ankylosaurus, with Tyrannosaurus, Quetzalcoatlus and the giant Alamosaurus as the rare ones. Common animals turn up often and rare ones are a real event that many sessions will not see at all. Each scene keeps its own animals, and the collection remembers every animal the class has spotted.",
     "guide.forTitle": "Who it is for",
     "guide.for":
       "Teachers from kindergarten through middle school who want a calm, visual cue for voice levels during independent work, reading time, tests, centers or group work. The whole class shares one screen, and students need nothing at all.",
@@ -323,16 +328,135 @@ const en = {
     "hammerhead-shark": "Hammerhead shark",
     "manta-ray": "Manta ray",
     "whale-shark": "Whale shark",
+    satellite: "Satellite",
+    asteroid: "Asteroid",
+    meteor: "Meteor",
+    "space-probe": "Space probe",
+    "space-capsule": "Space capsule",
+    astronaut: "Astronaut",
+    "space-shuttle": "Space shuttle",
+    iss: "Space station",
+    comet: "Comet",
+    "ringed-planet": "Ringed planet",
+    moon: "Moon",
+    "space-telescope": "Space telescope",
+    "gas-giant": "Gas giant",
+    "spiral-galaxy": "Spiral galaxy",
+    "black-hole": "Black hole",
+    pulsar: "Pulsar",
+    "ring-nebula": "Ring nebula",
+    didelphodon: "Didelphodon",
+    palaeosaniwa: "Palaeosaniwa",
+    basilemys: "Basilemys",
+    avisaurus: "Avisaurus",
+    pectinodon: "Pectinodon",
+    acheroraptor: "Acheroraptor",
+    thescelosaurus: "Thescelosaurus",
+    struthiomimus: "Struthiomimus",
+    anzu: "Anzu",
+    pachycephalosaurus: "Pachycephalosaurus",
+    dakotaraptor: "Dakotaraptor",
+    ankylosaurus: "Ankylosaurus",
+    triceratops: "Triceratops",
+    edmontosaurus: "Edmontosaurus",
+    tyrannosaurus: "Tyrannosaurus",
+    quetzalcoatlus: "Quetzalcoatlus",
+    alamosaurus: "Alamosaurus",
+  },
+  // One line about each prehistoric Creature, shown in the collection.
+  facts: {
+    didelphodon:
+      "A marsupial relative with the strongest bite, for its size, of any mammal known.",
+    palaeosaniwa:
+      "A big hunting lizard, a relative of today's monitor lizards.",
+    basilemys:
+      "A land turtle with a low, broad shell covered in a rough, pitted texture.",
+    avisaurus:
+      "An “opposite bird”, the most common kind of bird in the age of dinosaurs. They all died out with them.",
+    pectinodon:
+      "Its name means “comb tooth”, for the big serrations on its teeth, which are nearly all that has been found of it.",
+    acheroraptor:
+      "A feathered raptor named after the Acheron, a river of the underworld in Greek myth.",
+    thescelosaurus:
+      "Its name means “wondrous lizard”. A stocky plant-eater with a beak and cheeks.",
+    struthiomimus:
+      "Its name means “ostrich mimic”: a toothless beak, long legs and feathered wings.",
+    anzu: "Named after a feathered demon of Mesopotamian myth, and nicknamed “the chicken from hell”.",
+    pachycephalosaurus: "The bony dome on its head was up to 25 cm thick.",
+    dakotaraptor:
+      "Bumps on its forearm bones show where big wing feathers were anchored.",
+    ankylosaurus:
+      "Its tail ended in a club of fused bone, on a tail stiffened to swing it.",
+    triceratops: "The commonest big dinosaur in the rocks of Hell Creek.",
+    edmontosaurus:
+      "Mummified skin shows a fleshy crest along its back, spikes on its tail and hooves on its toes.",
+    tyrannosaurus:
+      "One of the strongest bites of any land animal ever. Lips probably covered its teeth, as in lizards.",
+    quetzalcoatlus:
+      "A pterosaur with a wingspan of about 10 m, as tall as a giraffe when it stood on all fours.",
+    alamosaurus:
+      "One of the last sauropods, and at 26 m or more, one of the biggest animals of its time.",
   },
 } as const;
 
 export type UiKey = keyof typeof en.ui;
 type CreatureSlug = keyof typeof en.creatures;
+
+/**
+ * Wording a Scene puts its own way, over the shared text. Deep space is an
+ * observatory: what the class earns are sightings picked up by a telescope,
+ * and noise is interference, not something that scares animals. A Scene with
+ * nothing here uses the shared text as it is. English is the source again:
+ * every key it rewords must be a real key, and every language must reword
+ * the same ones.
+ */
+const enScenes = {
+  space: {
+    "start.shy": "Shh… the telescope is listening!",
+    "start.explain":
+      "Noise shows up as interference. While the room is calm, the telescope picks up new sightings; if it gets too loud, it waits for the signal to clear.",
+    "start.explainFlee":
+      "Noise shows up as interference: if it gets too loud, our sightings fade into static! Keep the room calm and new ones will come in and stay.",
+    "controls.animals": "Sightings",
+    "loud.flee.label": "Sightings fade out",
+    "loud.flee.hint":
+      "Everything freezes, and some fade into static every 5 seconds until it's calm",
+    "loud.pause.hint": "Everything holds still and no new signals come in",
+    "settings.arrival": "How often new sightings come in",
+    "settings.aboutEvery": "About one sighting every",
+    "settings.summon": "Bring in every sighting",
+    "rate.hint": "about one sighting every {minutes} minutes",
+    "meter.paused": "Paused — too much interference",
+    "meter.arriving": "Signals are coming in",
+    "meter.goal":
+      "New sightings come in while the room stays left of the line ({goal}%)",
+    "collection.title": "Sightings",
+    "collection.spotted": "{class}: {seen} of {total} observed",
+    "collection.notSeen": "Not observed yet",
+    "collection.seen": "Observed {count}×",
+    "chance.common.label": "Chance of common sightings",
+    "chance.uncommon.label": "Chance of uncommon sightings",
+    "chance.rare.label": "Chance of rare sightings",
+    "blocked.title": "The telescope needs to hear the room",
+    "notes.ink.dark": "White",
+  },
+} as const satisfies { [S in SceneId]?: Partial<Record<UiKey, string>> };
+
+type SceneWording = {
+  readonly [S in keyof typeof enScenes]: Record<
+    keyof (typeof enScenes)[S],
+    string
+  >;
+};
+
+type FactSlug = keyof typeof en.facts;
 type Language = {
   readonly name: string;
   readonly locale: string;
   readonly ui: Record<UiKey, string>;
+  readonly scenes: SceneWording;
   readonly creatures: Record<CreatureSlug, string>;
+  readonly facts: Record<FactSlug, string>;
 };
 
 const es = {
@@ -367,6 +491,10 @@ const es = {
     "scene.savanna.hint": "Cebras, jirafas y leones",
     "scene.reef.name": "Arrecife de coral",
     "scene.reef.hint": "Peces, tortugas y tiburones",
+    "scene.space.name": "Espacio profundo",
+    "scene.space.hint": "Satélites, cometas y galaxias",
+    "scene.prehistoric.name": "Prehistoria",
+    "scene.prehistoric.hint": "T. rex, Triceratops y raptores",
     "controls.reset": "Reiniciar",
     "controls.confirmReset": "Confirmar reinicio",
     "controls.resetQuestion": "¿Vaciar esta escena y empezar de nuevo?",
@@ -541,7 +669,7 @@ const es = {
     "about.photoAlt": "Participantes del EdTech-a-thon 2026",
     "about.purposeTitle": "Qué hace",
     "about.purpose":
-      "Proyecta la sabana o el arrecife de coral y pulsa Empezar. Mientras la clase no pase del límite de volumen, los animales van saliendo de uno en uno. Si hay demasiado ruido, huyen. Puedes cambiarlo en Ajustes para que la escena solo se pause hasta que vuelva el silencio. La mayoría de los animales son comunes, unos pocos son raros, y la clase puede volver a ver todos los que ha encontrado.",
+      "Proyecta la sabana, el arrecife de coral, el espacio profundo o la era de los dinosaurios y pulsa Empezar. Mientras la clase no pase del límite de volumen, los animales van saliendo de uno en uno. Si hay demasiado ruido, huyen. Puedes cambiarlo en Ajustes para que la escena solo se pause hasta que vuelva el silencio. La mayoría de los animales son comunes, unos pocos son raros, y la clase puede volver a ver todos los que ha encontrado.",
     "about.promiseTitle": "Sin trampa",
     "about.promise":
       "Es gratis. No hay versión de pago ni anuncios, y no recopilamos datos personales tuyos ni de tus alumnos.",
@@ -568,10 +696,10 @@ const es = {
       "Un medidor de ruido gratuito para el aula que premia el silencio en lugar de castigar el ruido.",
     "guide.whatTitle": "Qué es",
     "guide.what":
-      "Shy Safari es un medidor de ruido para el aula que funciona en el navegador. Ponlo en el proyector o en la pizarra digital y muestra una sabana o un arrecife de coral tranquilos. Escucha lo fuerte que suena la clase a través del micrófono del ordenador y, mientras la clase se mantiene por debajo del límite de volumen, van apareciendo animales tímidos uno a uno. Es lo contrario de un medidor de ruido que salta: no hay puntuación, ni aguja, ni luz roja de aviso, así que hacer ruido nunca resulta más interesante que estar en silencio.",
+      "Shy Safari es un medidor de ruido para el aula que funciona en el navegador. Ponlo en el proyector o en la pizarra digital y muestra una sabana, un arrecife de coral, un cielo del espacio profundo o una llanura del Cretácico tranquilos. Escucha lo fuerte que suena la clase a través del micrófono del ordenador y, mientras la clase se mantiene por debajo del límite de volumen, van apareciendo animales tímidos uno a uno. Es lo contrario de un medidor de ruido que salta: no hay puntuación, ni aguja, ni luz roja de aviso, así que hacer ruido nunca resulta más interesante que estar en silencio.",
     "guide.useTitle": "Cómo usarlo en clase",
     "guide.use.open":
-      "Abre shysafari.com en el ordenador conectado al proyector, elige la sabana o el arrecife de coral y pulsa Empezar. El navegador pedirá permiso para usar el micrófono.",
+      "Abre shysafari.com en el ordenador conectado al proyector, elige la sabana, el arrecife de coral, el espacio profundo o la prehistoria y pulsa Empezar. El navegador pedirá permiso para usar el micrófono.",
     "guide.use.goal":
       "Elige el límite de volumen para la actividad: Silencio, Individual (solo susurros) o En parejas (voz de conversación), o arrastra la línea del medidor a cualquier punto intermedio.",
     "guide.use.rate":
@@ -583,14 +711,14 @@ const es = {
       "La calibración es opcional. Cinco segundos de silencio y cinco segundos de conversación normal le enseñan a la aplicación cómo suenan tu aula y tu micrófono.",
     "guide.tooLoudTitle": "Qué pasa cuando hay demasiado ruido",
     "guide.tooLoud":
-      "La escena se nubla, con una neblina de polvo en la sabana y agua turbia en el arrecife, y no aparecen animales nuevos. Lo que pasa después lo eliges tú:",
+      "La escena se nubla, con una neblina de polvo en la sabana, agua turbia en el arrecife, interferencias en el espacio profundo y niebla del río en la prehistoria, y no aparecen animales nuevos. Lo que pasa después lo eliges tú:",
     "guide.tooLoud.flee":
-      "Los animales huyen (la opción por defecto). La escena se congela y, mientras siga habiendo demasiado ruido, un animal y luego unos cuantos más cada cinco segundos salen corriendo de la pantalla.",
+      "Los animales huyen (la opción por defecto). La escena se congela y, mientras siga habiendo demasiado ruido, un animal y luego unos cuantos más cada cinco segundos salen corriendo de la pantalla. En el espacio profundo, en cambio, se desvanecen entre la estática.",
     "guide.tooLoud.pause":
       "Pausar la escena. Los animales se quedan quietos, no se pierde nada y el progreso hacia el siguiente animal espera a que la clase vuelva a estar en calma.",
     "guide.animalsTitle": "Los animales",
     "guide.animals":
-      "La sabana tiene 17 animales, desde suricatas y cebras hasta jirafas, hipopótamos y rinocerontes, con leones, leopardos y elefantes como los más raros. El arrecife de coral tiene 18, desde peces payaso y caballitos de mar hasta tortugas marinas y pulpos, con tiburones martillo, mantarrayas y tiburones ballena como los más raros. Los animales comunes aparecen a menudo y los raros son todo un acontecimiento que muchas sesiones no llegan a ver. Cada escena guarda sus propios animales, y la colección recuerda todos los que la clase ha visto.",
+      "La sabana tiene 17 animales, desde suricatas y cebras hasta jirafas, hipopótamos y rinocerontes, con leones, leopardos y elefantes como los más raros. El arrecife de coral tiene 18, desde peces payaso y caballitos de mar hasta tortugas marinas y pulpos, con tiburones martillo, mantarrayas y tiburones ballena como los más raros. El espacio profundo tiene 17 avistamientos pensados para estudiantes mayores, desde satélites, asteroides y astronautas hasta la estación espacial, cometas y planetas como Saturno, con una galaxia espiral, un agujero negro, un púlsar y una nebulosa anular como los más raros. La prehistoria tiene 17 animales del final de la era de los dinosaurios, dibujados según la ciencia actual, desde pequeños mamíferos, lagartos y raptores con plumas hasta Triceratops y Ankylosaurus, con Tyrannosaurus, Quetzalcoatlus y el gigantesco Alamosaurus como los más raros. Los animales comunes aparecen a menudo y los raros son todo un acontecimiento que muchas sesiones no llegan a ver. Cada escena guarda sus propios animales, y la colección recuerda todos los que la clase ha visto.",
     "guide.forTitle": "Para quién es",
     "guide.for":
       "Para docentes de infantil, primaria y secundaria que quieren una señal visual y tranquila del nivel de voz durante el trabajo individual, la lectura, los exámenes, los rincones o el trabajo en grupo. Toda la clase comparte una pantalla y el alumnado no necesita nada.",
@@ -613,6 +741,37 @@ const es = {
     "guide.faq.meter.q": "¿En qué se diferencia de un medidor de ruido?",
     "guide.faq.meter.a":
       "Un medidor de ruido le muestra a la clase lo fuerte que está hablando, y eso puede convertir el hacer ruido en un juego. Shy Safari solo muestra una escena tranquila que se va llenando de animales, así que lo que la clase ve es la recompensa por trabajar en silencio, y no hay ninguna puntuación que batir.",
+  },
+  scenes: {
+    space: {
+      "start.shy": "Shh… ¡el telescopio está escuchando!",
+      "start.explain":
+        "El ruido llega como interferencias. Mientras el aula esté tranquila, el telescopio capta nuevos avistamientos; si hay demasiado ruido, espera a que la señal se aclare.",
+      "start.explainFlee":
+        "El ruido llega como interferencias: ¡si hay demasiado ruido, nuestros avistamientos se desvanecen entre la estática! Mantengan el aula tranquila y llegarán otros nuevos que se quedarán.",
+      "controls.animals": "Avistamientos",
+      "loud.flee.label": "Los avistamientos se desvanecen",
+      "loud.flee.hint":
+        "Todo se congela y algunos se desvanecen entre la estática cada 5 segundos hasta que vuelva la calma",
+      "loud.pause.hint": "Todo se queda quieto y no llegan señales nuevas",
+      "settings.arrival": "Con qué frecuencia llegan avistamientos",
+      "settings.aboutEvery": "Más o menos un avistamiento cada",
+      "settings.summon": "Traer todos los avistamientos",
+      "rate.hint": "más o menos un avistamiento cada {minutes} minutos",
+      "meter.paused": "En pausa — demasiadas interferencias",
+      "meter.arriving": "Están llegando señales",
+      "meter.goal":
+        "Llegan nuevos avistamientos mientras el aula se mantiene a la izquierda de la línea ({goal}%)",
+      "collection.title": "Avistamientos",
+      "collection.spotted": "{class}: {seen} de {total} observados",
+      "collection.notSeen": "Aún no observado",
+      "collection.seen": "Observado {count}×",
+      "chance.common.label": "Probabilidad de avistamientos comunes",
+      "chance.uncommon.label": "Probabilidad de avistamientos poco comunes",
+      "chance.rare.label": "Probabilidad de avistamientos raros",
+      "blocked.title": "El telescopio necesita oír el aula",
+      "notes.ink.dark": "Blanco",
+    },
   },
   creatures: {
     meerkat: "Suricata",
@@ -650,6 +809,73 @@ const es = {
     "hammerhead-shark": "Tiburón martillo",
     "manta-ray": "Mantarraya",
     "whale-shark": "Tiburón ballena",
+    satellite: "Satélite",
+    asteroid: "Asteroide",
+    meteor: "Meteoro",
+    "space-probe": "Sonda espacial",
+    "space-capsule": "Cápsula espacial",
+    astronaut: "Astronauta",
+    "space-shuttle": "Transbordador espacial",
+    iss: "Estación espacial",
+    comet: "Cometa",
+    "ringed-planet": "Planeta con anillos",
+    moon: "Luna",
+    "space-telescope": "Telescopio espacial",
+    "gas-giant": "Gigante gaseoso",
+    "spiral-galaxy": "Galaxia espiral",
+    "black-hole": "Agujero negro",
+    pulsar: "Púlsar",
+    "ring-nebula": "Nebulosa anular",
+    didelphodon: "Didelphodon",
+    palaeosaniwa: "Palaeosaniwa",
+    basilemys: "Basilemys",
+    avisaurus: "Avisaurus",
+    pectinodon: "Pectinodon",
+    acheroraptor: "Acheroraptor",
+    thescelosaurus: "Thescelosaurus",
+    struthiomimus: "Struthiomimus",
+    anzu: "Anzu",
+    pachycephalosaurus: "Pachycephalosaurus",
+    dakotaraptor: "Dakotaraptor",
+    ankylosaurus: "Ankylosaurus",
+    triceratops: "Triceratops",
+    edmontosaurus: "Edmontosaurus",
+    tyrannosaurus: "Tyrannosaurus",
+    quetzalcoatlus: "Quetzalcoatlus",
+    alamosaurus: "Alamosaurus",
+  },
+  facts: {
+    didelphodon:
+      "Un pariente de los marsupiales con la mordida más fuerte, para su tamaño, de todos los mamíferos conocidos.",
+    palaeosaniwa: "Un gran lagarto cazador, pariente de los varanos actuales.",
+    basilemys:
+      "Una tortuga terrestre de caparazón bajo y ancho, con una textura rugosa y picada.",
+    avisaurus:
+      "Un “ave opuesta”, el tipo de ave más común en la era de los dinosaurios. Todas se extinguieron con ellos.",
+    pectinodon:
+      "Su nombre significa “diente de peine”, por las grandes sierras de sus dientes, casi lo único que se ha encontrado de él.",
+    acheroraptor:
+      "Un raptor con plumas que debe su nombre al Aqueronte, un río del inframundo en la mitología griega.",
+    thescelosaurus:
+      "Su nombre significa “lagarto maravilloso”. Un herbívoro robusto con pico y mejillas.",
+    struthiomimus:
+      "Su nombre significa “imitador de avestruz”: pico sin dientes, patas largas y alas con plumas.",
+    anzu: "Debe su nombre a un demonio con plumas de la mitología mesopotámica, y lo apodan “la gallina del infierno”.",
+    pachycephalosaurus:
+      "La cúpula de hueso de su cabeza medía hasta 25 cm de grosor.",
+    dakotaraptor:
+      "Unas protuberancias en los huesos de su antebrazo muestran dónde se anclaban grandes plumas de las alas.",
+    ankylosaurus:
+      "Su cola acababa en una maza de hueso soldado, sobre una cola rígida para blandirla.",
+    triceratops: "El dinosaurio grande más común en las rocas de Hell Creek.",
+    edmontosaurus:
+      "Su piel momificada muestra una cresta carnosa en el lomo, púas en la cola y pezuñas en los dedos.",
+    tyrannosaurus:
+      "Una de las mordidas más fuertes de cualquier animal terrestre. Seguramente unos labios le cubrían los dientes, como a los lagartos.",
+    quetzalcoatlus:
+      "Un pterosaurio de unos 10 m de envergadura, tan alto como una jirafa cuando se apoyaba en las cuatro patas.",
+    alamosaurus:
+      "Uno de los últimos saurópodos y, con 26 m o más, uno de los animales más grandes de su época.",
   },
 } satisfies Language;
 
@@ -685,6 +911,10 @@ const fr = {
     "scene.savanna.hint": "Zèbres, girafes et lions",
     "scene.reef.name": "Récif de corail",
     "scene.reef.hint": "Poissons, tortues et requins",
+    "scene.space.name": "Espace profond",
+    "scene.space.hint": "Satellites, comètes et galaxies",
+    "scene.prehistoric.name": "Préhistoire",
+    "scene.prehistoric.hint": "T. rex, tricératops et raptors",
     "controls.reset": "Réinitialiser",
     "controls.confirmReset": "Confirmer la réinitialisation",
     "controls.resetQuestion": "Vider ce décor et tout recommencer ?",
@@ -859,7 +1089,7 @@ const fr = {
     "about.photoAlt": "Participants de l’EdTech-a-thon 2026",
     "about.purposeTitle": "Ce qu’il fait",
     "about.purpose":
-      "Affichez la savane ou le récif de corail au tableau et appuyez sur Commencer. Tant que la classe reste sous l’objectif de volume, les animaux sortent un par un. S’il y a trop de bruit, ils s’enfuient. Vous pouvez changer ça dans les réglages pour que la scène se mette simplement en pause jusqu’au retour du calme. La plupart des animaux sont communs, quelques-uns sont rares, et la classe peut revoir tous ceux qu’elle a aperçus.",
+      "Affichez la savane, le récif de corail, l’espace profond ou l’ère des dinosaures au tableau et appuyez sur Commencer. Tant que la classe reste sous l’objectif de volume, les animaux sortent un par un. S’il y a trop de bruit, ils s’enfuient. Vous pouvez changer ça dans les réglages pour que la scène se mette simplement en pause jusqu’au retour du calme. La plupart des animaux sont communs, quelques-uns sont rares, et la classe peut revoir tous ceux qu’elle a aperçus.",
     "about.promiseTitle": "Gratuit, vraiment",
     "about.promise":
       "C’est gratuit. Il n’y a ni version payante ni publicité, et nous ne collectons aucune donnée personnelle sur vous ou vos élèves.",
@@ -888,10 +1118,10 @@ const fr = {
       "Un sonomètre gratuit pour la classe qui récompense le calme au lieu de punir le bruit.",
     "guide.whatTitle": "Ce que c'est",
     "guide.what":
-      "Shy Safari est un sonomètre pour la classe qui fonctionne dans le navigateur. Affichez-le au vidéoprojecteur ou sur le tableau interactif : il montre une savane ou un récif de corail paisibles. Il écoute le niveau sonore de la salle grâce au micro de l'ordinateur et, tant que la classe reste sous l'objectif de volume, des animaux timides sortent un par un. C'est le contraire d'un sonomètre qui s'agite : pas de score, pas d'aiguille, pas de voyant rouge, donc rien ne rend le bruit plus intéressant que le calme.",
+      "Shy Safari est un sonomètre pour la classe qui fonctionne dans le navigateur. Affichez-le au vidéoprojecteur ou sur le tableau interactif : il montre une savane, un récif de corail, un ciel de l'espace profond ou une plaine du Crétacé paisibles. Il écoute le niveau sonore de la salle grâce au micro de l'ordinateur et, tant que la classe reste sous l'objectif de volume, des animaux timides sortent un par un. C'est le contraire d'un sonomètre qui s'agite : pas de score, pas d'aiguille, pas de voyant rouge, donc rien ne rend le bruit plus intéressant que le calme.",
     "guide.useTitle": "L'utiliser en classe",
     "guide.use.open":
-      "Ouvrez shysafari.com sur l'ordinateur relié au vidéoprojecteur, choisissez la savane ou le récif de corail, puis appuyez sur Commencer. Le navigateur demande l'accès au micro.",
+      "Ouvrez shysafari.com sur l'ordinateur relié au vidéoprojecteur, choisissez la savane, le récif de corail, l'espace profond ou la préhistoire, puis appuyez sur Commencer. Le navigateur demande l'accès au micro.",
     "guide.use.goal":
       "Réglez l'objectif de volume pour l'activité : Silence, Travail seul (chuchotements) ou En binôme (voix de conversation), ou faites glisser la ligne du sonomètre n'importe où entre les deux.",
     "guide.use.rate":
@@ -903,14 +1133,14 @@ const fr = {
       "L'étalonnage est facultatif. Cinq secondes de silence et cinq secondes de conversation normale apprennent à l'application comment sonnent votre salle et votre micro.",
     "guide.tooLoudTitle": "Ce qui se passe quand c'est trop bruyant",
     "guide.tooLoud":
-      "La scène se trouble, avec une brume de poussière sur la savane et une eau trouble sur le récif, et aucun nouvel animal ne sort. La suite dépend de votre choix :",
+      "La scène se trouble, avec une brume de poussière sur la savane, une eau trouble sur le récif, des interférences dans l'espace profond et de la brume sur la rivière à la préhistoire, et aucun nouvel animal ne sort. La suite dépend de votre choix :",
     "guide.tooLoud.flee":
-      "Les animaux s'enfuient (par défaut). La scène se fige et, tant que la salle reste trop bruyante, un animal puis quelques autres toutes les cinq secondes s'enfuient hors de l'écran.",
+      "Les animaux s'enfuient (par défaut). La scène se fige et, tant que la salle reste trop bruyante, un animal puis quelques autres toutes les cinq secondes s'enfuient hors de l'écran. Dans l'espace profond, ils se dissolvent plutôt dans les parasites.",
     "guide.tooLoud.pause":
       "Mettre la scène en pause. Les animaux restent immobiles, rien n'est perdu, et la progression vers le prochain animal attend que la classe se calme.",
     "guide.animalsTitle": "Les animaux",
     "guide.animals":
-      "La savane compte 17 animaux, des suricates et des zèbres aux girafes, hippopotames et rhinocéros, avec les lions, les léopards et les éléphants parmi les plus rares. Le récif de corail en compte 18, des poissons-clowns et hippocampes aux tortues marines et pieuvres, avec les requins-marteaux, les raies manta et les requins-baleines parmi les plus rares. Les animaux communs arrivent souvent et les plus rares sont un vrai événement que beaucoup de séances ne verront pas. Chaque scène garde ses propres animaux, et la collection se souvient de tous ceux que la classe a aperçus.",
+      "La savane compte 17 animaux, des suricates et des zèbres aux girafes, hippopotames et rhinocéros, avec les lions, les léopards et les éléphants parmi les plus rares. Le récif de corail en compte 18, des poissons-clowns et hippocampes aux tortues marines et pieuvres, avec les requins-marteaux, les raies manta et les requins-baleines parmi les plus rares. L'espace profond compte 17 observations pour les plus grands, des satellites, astéroïdes et astronautes à la station spatiale, aux comètes et aux planètes comme Saturne, avec une galaxie spirale, un trou noir, un pulsar et une nébuleuse annulaire parmi les plus rares. La préhistoire compte 17 animaux de la toute fin de l'ère des dinosaures, dessinés d'après la science actuelle, des petits mammifères, lézards et raptors à plumes aux Triceratops et Ankylosaurus, avec Tyrannosaurus, Quetzalcoatlus et le géant Alamosaurus parmi les plus rares. Les animaux communs arrivent souvent et les plus rares sont un vrai événement que beaucoup de séances ne verront pas. Chaque scène garde ses propres animaux, et la collection se souvient de tous ceux que la classe a aperçus.",
     "guide.forTitle": "Pour qui",
     "guide.for":
       "Pour les enseignants de la maternelle au collège qui veulent un repère visuel et apaisant du niveau de voix pendant le travail autonome, la lecture, les évaluations, les ateliers ou le travail de groupe. Toute la classe partage un seul écran et les élèves n'ont besoin de rien.",
@@ -933,6 +1163,37 @@ const fr = {
     "guide.faq.meter.q": "En quoi est-ce différent d'un sonomètre ?",
     "guide.faq.meter.a":
       "Un sonomètre montre à la classe à quel point elle est bruyante, ce qui peut transformer le bruit en jeu. Shy Safari ne montre qu'une scène paisible qui se remplit peu à peu d'animaux : ce que la classe voit, c'est la récompense du travail silencieux, et il n'y a aucun score à battre.",
+  },
+  scenes: {
+    space: {
+      "start.shy": "Chut… le télescope écoute !",
+      "start.explain":
+        "Le bruit devient des interférences. Tant que la classe reste calme, le télescope capte de nouvelles observations ; s’il y a trop de bruit, il attend que le signal redevienne clair.",
+      "start.explainFlee":
+        "Le bruit devient des interférences : s’il y a trop de bruit, nos observations se perdent dans les parasites ! Gardez la classe calme et de nouvelles observations arriveront et resteront.",
+      "controls.animals": "Observations",
+      "loud.flee.label": "Les observations s’effacent",
+      "loud.flee.hint":
+        "Tout se fige, et certaines se perdent dans les parasites toutes les 5 secondes jusqu’au retour du calme",
+      "loud.pause.hint": "Tout reste immobile et aucun nouveau signal n’arrive",
+      "settings.arrival": "Fréquence des nouvelles observations",
+      "settings.aboutEvery": "Environ une observation toutes les",
+      "settings.summon": "Faire apparaître toutes les observations",
+      "rate.hint": "environ une observation toutes les {minutes} minutes",
+      "meter.paused": "En pause — trop d’interférences",
+      "meter.arriving": "Des signaux arrivent",
+      "meter.goal":
+        "De nouvelles observations arrivent tant que la classe reste à gauche de la ligne ({goal} %)",
+      "collection.title": "Observations",
+      "collection.spotted": "{class} : {seen} sur {total} observés",
+      "collection.notSeen": "Pas encore observé",
+      "collection.seen": "Observé {count}×",
+      "chance.common.label": "Probabilité des observations communes",
+      "chance.uncommon.label": "Probabilité des observations peu communes",
+      "chance.rare.label": "Probabilité des observations rares",
+      "blocked.title": "Le télescope a besoin d’entendre la classe",
+      "notes.ink.dark": "Blanc",
+    },
   },
   creatures: {
     meerkat: "Suricate",
@@ -970,10 +1231,82 @@ const fr = {
     "hammerhead-shark": "Requin-marteau",
     "manta-ray": "Raie manta",
     "whale-shark": "Requin-baleine",
+    satellite: "Satellite",
+    asteroid: "Astéroïde",
+    meteor: "Météore",
+    "space-probe": "Sonde spatiale",
+    "space-capsule": "Capsule spatiale",
+    astronaut: "Astronaute",
+    "space-shuttle": "Navette spatiale",
+    iss: "Station spatiale",
+    comet: "Comète",
+    "ringed-planet": "Planète à anneaux",
+    moon: "Lune",
+    "space-telescope": "Télescope spatial",
+    "gas-giant": "Géante gazeuse",
+    "spiral-galaxy": "Galaxie spirale",
+    "black-hole": "Trou noir",
+    pulsar: "Pulsar",
+    "ring-nebula": "Nébuleuse annulaire",
+    didelphodon: "Didelphodon",
+    palaeosaniwa: "Palaeosaniwa",
+    basilemys: "Basilemys",
+    avisaurus: "Avisaurus",
+    pectinodon: "Pectinodon",
+    acheroraptor: "Acheroraptor",
+    thescelosaurus: "Thescelosaurus",
+    struthiomimus: "Struthiomimus",
+    anzu: "Anzu",
+    pachycephalosaurus: "Pachycephalosaurus",
+    dakotaraptor: "Dakotaraptor",
+    ankylosaurus: "Ankylosaurus",
+    triceratops: "Triceratops",
+    edmontosaurus: "Edmontosaurus",
+    tyrannosaurus: "Tyrannosaurus",
+    quetzalcoatlus: "Quetzalcoatlus",
+    alamosaurus: "Alamosaurus",
+  },
+  facts: {
+    didelphodon:
+      "Un cousin des marsupiaux doté de la morsure la plus puissante, pour sa taille, de tous les mammifères connus.",
+    palaeosaniwa: "Un grand lézard chasseur, parent des varans actuels.",
+    basilemys:
+      "Une tortue terrestre à la carapace basse et large, couverte d’une texture rugueuse et criblée.",
+    avisaurus:
+      "Un « oiseau opposé », le type d’oiseau le plus répandu à l’époque des dinosaures. Tous ont disparu avec eux.",
+    pectinodon:
+      "Son nom signifie « dent en peigne », pour les grosses dentelures de ses dents, presque tout ce qu’on a retrouvé de lui.",
+    acheroraptor:
+      "Un raptor à plumes nommé d’après l’Achéron, un fleuve des Enfers dans la mythologie grecque.",
+    thescelosaurus:
+      "Son nom signifie « lézard merveilleux ». Un herbivore trapu, avec un bec et des joues.",
+    struthiomimus:
+      "Son nom signifie « imitateur d’autruche » : bec sans dents, longues pattes et ailes à plumes.",
+    anzu: "Nommé d’après un démon à plumes de la mythologie mésopotamienne, et surnommé « le poulet de l’enfer ».",
+    pachycephalosaurus:
+      "Le dôme osseux de son crâne atteignait 25 cm d’épaisseur.",
+    dakotaraptor:
+      "Des bosses sur les os de son avant-bras montrent où s’ancraient de grandes plumes d’aile.",
+    ankylosaurus:
+      "Sa queue se terminait par une massue d’os soudés, portée par une queue raidie pour la balancer.",
+    triceratops:
+      "Le grand dinosaure le plus courant dans les roches de Hell Creek.",
+    edmontosaurus:
+      "Sa peau momifiée montre une crête charnue sur le dos, des pointes sur la queue et des sabots aux orteils.",
+    tyrannosaurus:
+      "L’une des morsures les plus puissantes de tous les animaux terrestres. Des lèvres couvraient sans doute ses dents, comme chez les lézards.",
+    quetzalcoatlus:
+      "Un ptérosaure d’environ 10 m d’envergure, aussi grand qu’une girafe quand il se tenait sur ses quatre membres.",
+    alamosaurus:
+      "L’un des derniers sauropodes et, avec 26 m ou plus, l’un des plus grands animaux de son époque.",
   },
 } satisfies Language;
 
-const languages: Record<LanguageCode, Language> = { en, es, fr };
+const languages: Record<LanguageCode, Language> = {
+  en: { ...en, scenes: enScenes },
+  es,
+  fr,
+};
 const STORAGE_KEY = "class-noise-level:language";
 
 export const languageOptions = (Object.keys(languages) as LanguageCode[]).map(
@@ -1029,11 +1362,31 @@ export function current(): Language {
   return languages[language.code] ?? en;
 }
 
-export function t(key: UiKey, values: Record<string, string | number> = {}) {
-  const text = current().ui[key] ?? en.ui[key] ?? key;
+function fill(text: string, values: Record<string, string | number>) {
   return text.replace(/\{(\w+)\}/g, (match, name) =>
     values[name] === undefined ? match : String(values[name]),
   );
+}
+
+export function t(key: UiKey, values: Record<string, string | number> = {}) {
+  return fill(current().ui[key] ?? en.ui[key] ?? key, values);
+}
+
+/**
+ * `t`, in the words of a particular Scene where it has its own: "Sightings"
+ * rather than "Animals" when the Scene is deep space.
+ */
+export function tIn(
+  sceneId: SceneId,
+  key: UiKey,
+  values: Record<string, string | number> = {},
+) {
+  const own = (scenes: SceneWording) =>
+    (scenes as Partial<Record<SceneId, Partial<Record<UiKey, string>>>>)[
+      sceneId
+    ]?.[key];
+  const text = own(current().scenes) ?? own(enScenes);
+  return text === undefined ? t(key, values) : fill(text, values);
 }
 
 /** A Creature's name, by the slug its artwork is filed under. */
@@ -1044,4 +1397,9 @@ export function creatureName(slug: string): string {
 /** A Class's name, or "My class" in this language if it has none yet. */
 export function className(name: string): string {
   return name || t("classes.unnamed");
+}
+
+/** A one-line fact about a Creature, where it has one. */
+export function creatureFact(slug: string): string | undefined {
+  return current().facts[slug as FactSlug];
 }

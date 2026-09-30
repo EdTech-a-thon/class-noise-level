@@ -9,7 +9,7 @@
    * the rest of the teacher's controls so the class sees only the Note.
    */
 
-  import { t, type UiKey } from "$lib/i18n/index.svelte";
+  import { t, tIn, type UiKey } from "$lib/i18n/index.svelte";
   import { INKS, notes, type NoteMode } from "$lib/notes/notes.svelte";
   import type { SceneDef } from "$lib/scenes";
   import NoteView from "./NoteView.svelte";
@@ -192,15 +192,15 @@
           {#each INKS as ink (ink)}
             <button
               class="grid size-8 place-items-center rounded-full"
-              aria-label={t(`notes.ink.${ink}` as UiKey)}
-              title={t(`notes.ink.${ink}` as UiKey)}
+              aria-label={tIn(scene.id, `notes.ink.${ink}` as UiKey)}
+              title={tIn(scene.id, `notes.ink.${ink}` as UiKey)}
               aria-pressed={selected.ink === ink}
               onclick={() => notes.update(selected.id, { ink })}
             >
               <span
                 class="size-6 rounded-full ring-offset-2 {selected.ink === ink
                   ? 'ring-2 ring-slate-900'
-                  : ''}"
+                  : 'ring-1 ring-slate-900/20 ring-offset-0'}"
                 style="background:{scene.note.inks[ink]}"
               ></span>
             </button>

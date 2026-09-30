@@ -1,5 +1,5 @@
 /**
- * How each Creature moves once it has arrived, in either Scene.
+ * How each Creature moves once it has arrived, in any Scene.
  *
  * Creatures never leave (CONTEXT.md), so none of them crosses the screen and
  * wraps. Each one wanders between waypoints inside a region of the Scene, and
@@ -35,7 +35,17 @@ export type MotionStyle =
   /** Savanna: brisk strides across the plain, short pauses. */
   | "trot"
   /** Savanna: wheels slowly through the sky above the plain. */
-  | "soar";
+  | "soar"
+  /** Space: steady passes across the sky, like a spacecraft in orbit. */
+  | "orbit"
+  /** Space: long, fast, straight runs with no rests, like a meteor. */
+  | "streak"
+  /** Space: a slow, unhurried drift that stops for long spells. */
+  | "coast"
+  /** Space: turns over slowly on the spot, drifting a little. */
+  | "tumble"
+  /** Space: a vast object that barely moves, like a planet or a galaxy. */
+  | "loom";
 
 interface Region {
   xMin: number;
@@ -64,6 +74,12 @@ export interface MotionProfile {
   pulse: number;
   /** Faces its direction of travel. False for front-on art. */
   flips: boolean;
+  /**
+   * Lit from one side, like a planet with its sun off to the upper left, so
+   * never shown mirrored. Everything else that does not flip starts out
+   * facing either way at random.
+   */
+  oneSided?: boolean;
   /** Banks nose-up / nose-down with vertical motion. */
   tilts: boolean;
   /** Stands on the ground rather than swimming or flying. */
@@ -84,6 +100,9 @@ export const SAND_BOTTOM = 0.98;
 const PLAIN = { top: 0.62, bottom: 0.97 };
 
 const WATER: Region = { xMin: 0.06, xMax: 0.94, yMin: 0.1, yMax: 0.78 };
+
+/** Open sky, all the way down to the planet's limb at the bottom. */
+const SKY: Region = { xMin: 0.05, xMax: 0.95, yMin: 0.06, yMax: 0.86 };
 
 export const MOTION_PROFILES: Record<MotionStyle, MotionProfile> = {
   cruise: {
@@ -245,6 +264,72 @@ export const MOTION_PROFILES: Record<MotionStyle, MotionProfile> = {
     ground: false,
     band: PLAIN,
   },
+  orbit: {
+    region: SKY,
+    speed: 0.02,
+    agility: 0.4,
+    reachX: 1,
+    reachY: 0.15,
+    restChance: 0.05,
+    rest: [2, 5],
+    pulse: 0,
+    flips: true,
+    tilts: false,
+    ground: false,
+  },
+  streak: {
+    region: SKY,
+    speed: 0.05,
+    agility: 0.6,
+    reachX: 1,
+    reachY: 0.35,
+    restChance: 0,
+    rest: [0, 0],
+    pulse: 0,
+    flips: true,
+    tilts: true,
+    ground: false,
+  },
+  coast: {
+    region: SKY,
+    speed: 0.007,
+    agility: 0.4,
+    reachX: 0.35,
+    reachY: 0.35,
+    restChance: 0.4,
+    rest: [4, 10],
+    pulse: 0,
+    flips: true,
+    tilts: false,
+    ground: false,
+  },
+  tumble: {
+    region: SKY,
+    speed: 0.008,
+    agility: 0.5,
+    reachX: 0.3,
+    reachY: 0.3,
+    restChance: 0.3,
+    rest: [3, 8],
+    pulse: 0,
+    flips: false,
+    tilts: false,
+    ground: false,
+  },
+  loom: {
+    region: SKY,
+    speed: 0.003,
+    agility: 0.3,
+    reachX: 0.2,
+    reachY: 0.2,
+    restChance: 0.5,
+    rest: [10, 30],
+    pulse: 0,
+    flips: false,
+    oneSided: true,
+    tilts: false,
+    ground: false,
+  },
 };
 
 export interface MotionState {
@@ -374,6 +459,7 @@ export function createMotion(
     age: random() * 10,
     facing: random() < 0.5 ? -1 : 1,
   };
+  if (profile.oneSided) state.facing = 1;
   pickTarget(state, profile, box, random);
   return state;
 }
@@ -491,6 +577,33 @@ export function stepFlee(
 
   const halfW = footprint.width / 2;
   return state.x < -halfW || state.x > 1 + halfW;
+}
+
+/**
+ * How a Scene's Creatures leave when they Run Away. The Session decides who
+ * goes and when, the same in every Scene; this is only what it looks like.
+ * `run`: startled, then off the nearer edge. `fade`: the Creature stays where
+ * it is and dissolves into static, as a telescope's signal would.
+ */
+export type DepartureStyle = "run" | "fade";
+
+/** How long a Creature takes to fade out into static, in seconds. */
+export const FADE_S = 2.6;
+
+/**
+ * How much of a fading Creature is still showing, `elapsed` seconds in: 1 at
+ * the start, 0 by `FADE_S`. It breaks up rather than dimming smoothly, with
+ * brief dropouts like a signal cutting in and out, and the dropouts deepen as
+ * it goes. Pure time, so every frame agrees with the last and it can be tested.
+ */
+export function fadeVisibility(elapsed: number): number {
+  const progress = clamp(elapsed / FADE_S, 0, 1);
+  // Holds up for a moment, then goes, and is fully gone at the end.
+  const envelope = 1 - progress * progress * (3 - 2 * progress);
+  // Two out-of-step flickers, so the dropouts never fall into a rhythm.
+  const flicker = Math.sin(elapsed * 23) + Math.sin(elapsed * 37 + 1);
+  const dropout = flicker > 1.1 ? 0.35 + 0.4 * (1 - progress) : 1;
+  return envelope * dropout;
 }
 
 /** Degrees to bank the body, nose following the direction of travel. */

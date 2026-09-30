@@ -8,7 +8,7 @@
    * to it.
    */
 
-  import { t, type UiKey } from "$lib/i18n/index.svelte";
+  import { t, tIn, type UiKey } from "$lib/i18n/index.svelte";
   import type { App } from "$lib/app.svelte";
   import { SCENES } from "$lib/scenes";
   import {
@@ -115,6 +115,7 @@
         {t("settings.meter")}
       </h2>
       <LevelMeter
+        sceneId={app.scene.id}
         level={app.monitor.level}
         goal={settings.volumeGoal}
         tooLoud={app.monitor.state === "too-loud"}
@@ -159,8 +160,11 @@
               : 'border-slate-300 hover:bg-slate-50'}"
             onclick={() => (settings.loudResponse = key)}
           >
-            <span class="block font-semibold">{t(`loud.${key}.label`)}</span>
-            <span class="block text-xs opacity-80">{t(`loud.${key}.hint`)}</span
+            <span class="block font-semibold"
+              >{tIn(app.scene.id, `loud.${key}.label`)}</span
+            >
+            <span class="block text-xs opacity-80"
+              >{tIn(app.scene.id, `loud.${key}.hint`)}</span
             >
           </button>
         {/each}
@@ -169,7 +173,7 @@
 
     <section class="mt-6 space-y-3">
       <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">
-        {t("settings.arrival")}
+        {tIn(app.scene.id, "settings.arrival")}
       </h2>
       <div class="grid grid-cols-3 gap-2">
         {#each ratePresets as [key, preset] (key)}
@@ -182,13 +186,15 @@
           >
             <span class="block font-semibold">{t(`rate.${key}`)}</span>
             <span class="block text-xs opacity-80"
-              >{t("rate.hint", { minutes: preset.minutes })}</span
+              >{tIn(app.scene.id, "rate.hint", {
+                minutes: preset.minutes,
+              })}</span
             >
           </button>
         {/each}
       </div>
       <label class="flex items-center gap-2 text-sm text-slate-600">
-        {t("settings.aboutEvery")}
+        {tIn(app.scene.id, "settings.aboutEvery")}
         <input
           type="number"
           min={MIN_ARRIVAL_MINUTES}
@@ -226,7 +232,7 @@
         class="rounded-md border border-slate-400 px-3 py-1.5 text-sm font-medium hover:bg-slate-50"
         onclick={() => app.session.summonAll()}
       >
-        {t("settings.summon")}
+        {tIn(app.scene.id, "settings.summon")}
       </button>
     </section>
 

@@ -3,7 +3,8 @@
  *
  * A Note is the teacher's, not the Session's: Reset leaves it alone, and it
  * stays put when the Scene changes, taking on the new Scene's look (a cloud
- * on the savanna, a sign on the reef). Like the settings, it is localStorage
+ * on the savanna, a sign on the reef, a readout panel in deep space, a stone
+ * slab in the prehistoric Scene). Like the settings, it is localStorage
  * and nothing more.
  *
  * Positions and sizes are fractions of the screen, and drawn strokes are

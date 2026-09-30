@@ -155,7 +155,13 @@ describe("teaser", () => {
 
   it("still only counts quiet time", () => {
     const clock = createArrivalClock(FIVE_MINUTES, noJitter, { teaser: true });
-    const step = advanceArrivalClock(clock, 30_000, false, FIVE_MINUTES, noJitter);
+    const step = advanceArrivalClock(
+      clock,
+      30_000,
+      false,
+      FIVE_MINUTES,
+      noJitter,
+    );
     expect(step.arrived).toBe(false);
     expect(step.clock.bankedMs).toBe(0);
   });

@@ -6,7 +6,12 @@
 
 import type { Component } from "svelte";
 import type { Ink, NoteBox } from "$lib/notes/notes.svelte";
-import { cloudShape, signShape, type Rect } from "./noteArt";
+import { cloudShape, PEN_COLOURS, signShape, type Rect } from "./noteArt";
+import type { DepartureStyle } from "./motion";
+import PrehistoricAmbient from "./prehistoric/AmbientLife.svelte";
+import * as prehistoricArt from "./prehistoric/artwork";
+import { PREHISTORIC_NOTE } from "./prehistoric/note";
+import { PREHISTORIC_ROSTER } from "./prehistoric/roster";
 import ReefAmbient from "./reef/AmbientLife.svelte";
 import * as reefArt from "./reef/artwork";
 import ReefNoteArt from "./reef/NoteArt.svelte";
@@ -15,6 +20,10 @@ import SavannaAmbient from "./savanna/AmbientLife.svelte";
 import * as savannaArt from "./savanna/artwork";
 import SavannaNoteArt from "./savanna/NoteArt.svelte";
 import { SAVANNA_ROSTER } from "./savanna/roster";
+import SpaceAmbient from "./space/AmbientLife.svelte";
+import * as spaceArt from "./space/artwork";
+import { SPACE_NOTE } from "./space/note";
+import { SPACE_ROSTER } from "./space/roster";
 import type { CreatureDef, SceneId } from "./types";
 
 export type { SceneId };
@@ -31,9 +40,6 @@ export interface NoteLook {
   home: NoteBox;
 }
 
-/** Bright enough to pick out, dark enough to read on cream or on wood. */
-const PEN_COLOURS = { red: "#d62f4b", blue: "#1f63b5", green: "#23804a" };
-
 export interface SceneDef {
   id: SceneId;
   roster: CreatureDef[];
@@ -46,6 +52,12 @@ export interface SceneDef {
    */
   depthFade: boolean;
   note: NoteLook;
+  /**
+   * How Creatures leave when Too Loud makes them Run Away: animals bolt off
+   * the edge, while what a telescope picks up fades out into static. Who
+   * leaves, and when, is the Session's, and the same in every Scene.
+   */
+  departure: DepartureStyle;
 }
 
 export const SCENES: Record<SceneId, SceneDef> = {
@@ -63,6 +75,7 @@ export const SCENES: Record<SceneId, SceneDef> = {
       inks: { dark: "#2b2b3a", ...PEN_COLOURS },
       home: { x: 0.3, y: 0.1, width: 0.4, height: 0.3 },
     },
+    departure: "run",
   },
   reef: {
     id: "reef",
@@ -78,5 +91,28 @@ export const SCENES: Record<SceneId, SceneDef> = {
       inks: { dark: "#4a2c17", ...PEN_COLOURS },
       home: { x: 0.3, y: 0.14, width: 0.4, height: 0.3 },
     },
+    departure: "run",
+  },
+  space: {
+    id: "space",
+    roster: SPACE_ROSTER,
+    creatureArt: spaceArt.CREATURE_ART,
+    ambientArt: spaceArt.AMBIENT_ART,
+    Ambient: SpaceAmbient,
+    // Nothing out here is seen through water, and a planet the stars showed
+    // through would look like a hologram.
+    depthFade: false,
+    departure: "fade",
+    note: SPACE_NOTE,
+  },
+  prehistoric: {
+    id: "prehistoric",
+    roster: PREHISTORIC_ROSTER,
+    creatureArt: prehistoricArt.CREATURE_ART,
+    ambientArt: prehistoricArt.AMBIENT_ART,
+    Ambient: PrehistoricAmbient,
+    depthFade: false,
+    departure: "run",
+    note: PREHISTORIC_NOTE,
   },
 };

@@ -13,7 +13,7 @@
   import LanguagePicker from "$lib/components/LanguagePicker.svelte";
   import PageMeta from "$lib/components/PageMeta.svelte";
   import InfoDrawer, { FAQ_IDS } from "$lib/components/InfoDrawer.svelte";
-  import { t, type UiKey } from "$lib/i18n/index.svelte";
+  import { t, tIn, type UiKey } from "$lib/i18n/index.svelte";
   import { onMount } from "svelte";
   import { SCENES } from "$lib/scenes";
   import { settings } from "$lib/settings/settings.svelte";
@@ -185,12 +185,14 @@
           <p
             class="mt-3 rounded-lg bg-amber-50 px-4 py-3 text-balance text-slate-800 short:mt-2 short:py-2 short:text-sm"
           >
-            <span class="block font-medium">{t("start.shy")}</span>
+            <span class="block font-medium"
+              >{tIn(app.scene.id, "start.shy")}</span
+            >
             <!-- Checked after mount: the page is prerendered with the default. -->
             {#if app.restored && settings.loudResponse === "pause"}
-              {t("start.explain")}
+              {tIn(app.scene.id, "start.explain")}
             {:else}
-              {t("start.explainFlee")}
+              {tIn(app.scene.id, "start.explainFlee")}
             {/if}
           </p>
           <div
@@ -425,8 +427,8 @@
       <div class="pointer-events-auto">
         <button
           class="grid size-11 place-items-center rounded-full bg-white/95 text-slate-700 shadow-lg hover:bg-white"
-          aria-label={t("controls.animals")}
-          title={t("controls.animals")}
+          aria-label={tIn(app.scene.id, "controls.animals")}
+          title={tIn(app.scene.id, "controls.animals")}
           onclick={() => (collectionOpen = true)}
         >
           <svg

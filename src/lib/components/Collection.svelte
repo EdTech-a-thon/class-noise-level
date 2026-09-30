@@ -11,7 +11,13 @@
   import { TIER_WEIGHTS } from "$lib/session/roll";
   import { sightings } from "$lib/session/sightings.svelte";
   import { classes } from "$lib/classes/classes.svelte";
-  import { className, creatureName, t } from "$lib/i18n/index.svelte";
+  import {
+    className,
+    creatureFact,
+    creatureName,
+    t,
+    tIn,
+  } from "$lib/i18n/index.svelte";
 
   let { app, onclose }: { app: App; onclose: () => void } = $props();
 
@@ -48,7 +54,7 @@
     class="flex max-h-full w-full max-w-3xl flex-col rounded-xl bg-white shadow-xl"
     role="dialog"
     aria-modal="true"
-    aria-label={t("collection.title")}
+    aria-label={tIn(sceneId, "collection.title")}
   >
     <!-- On a phone the Scene picker drops to its own row, under the title. -->
     <div
@@ -56,10 +62,10 @@
     >
       <div class="mr-auto">
         <h1 class="text-xl font-semibold text-slate-900">
-          {t("collection.title")}
+          {tIn(sceneId, "collection.title")}
         </h1>
         <p class="mt-1 text-sm text-slate-500">
-          {t("collection.spotted", {
+          {tIn(sceneId, "collection.spotted", {
             class: className(classes.current.name),
             seen,
             total: scene.roster.length,
@@ -115,7 +121,7 @@
               <span class="group relative normal-case">
                 <button
                   class="grid size-4 place-items-center rounded-full text-slate-400 hover:text-slate-600 focus:text-slate-600 focus:outline-none"
-                  aria-label={t(`chance.${tier}.label`)}
+                  aria-label={tIn(sceneId, `chance.${tier}.label`)}
                 >
                   <svg
                     viewBox="0 0 16 16"
@@ -141,7 +147,9 @@
             >
               {#each defs as def (def.slug)}
                 {@const count = sightings.count(sceneId, def.slug)}
+                <!-- A Creature with a fact to tell shows it on hover. -->
                 <li
+                  title={creatureFact(def.slug)}
                   class="flex flex-col items-center rounded-lg border p-2 text-center {tier ===
                   'rare'
                     ? 'border-amber-300 bg-amber-50'
@@ -159,8 +167,8 @@
                   >
                   <span class="text-xs text-slate-500">
                     {count === 0
-                      ? t("collection.notSeen")
-                      : t("collection.seen", { count })}
+                      ? tIn(sceneId, "collection.notSeen")
+                      : tIn(sceneId, "collection.seen", { count })}
                   </span>
                 </li>
               {/each}

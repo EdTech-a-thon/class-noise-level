@@ -14,13 +14,16 @@
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import {
+    FADE_S,
     MOTION_PROFILES,
     bankAngle,
     createMotion,
     creatureLayer,
+    fadeVisibility,
     fleeDirection,
     stepFlee,
     stepMotion,
+    type DepartureStyle,
     type Footprint,
   } from "$lib/scenes/motion";
   import type { CreatureInstance } from "$lib/session/session.svelte";
@@ -29,6 +32,7 @@
     creature,
     art,
     depthFade,
+    departure,
     isNewest,
     frozen,
     fleeing,
@@ -37,14 +41,21 @@
     creature: CreatureInstance;
     art: string;
     depthFade: boolean;
+    /** How it leaves once scared off: see `fleeing`. */
+    departure: DepartureStyle;
     isNewest: boolean;
     /** Too Loud: hold perfectly still until the room settles. */
     frozen: boolean;
-    /** Scared off: a startled "!", then bolt for the nearer edge. */
+    /**
+     * Scared off. Running away is a startled "!", then a bolt for the nearer
+     * edge; fading is breaking up into static where it stands.
+     */
     fleeing: boolean;
     /** Called once when a fleeing Creature is out of sight. */
     ongone: () => void;
   } = $props();
+
+  const fading = $derived(fleeing && departure === "fade");
 
   /** Nearer Creatures are bigger; the roster width sets the species scale. */
   const width = $derived(
@@ -128,10 +139,12 @@
     let facing = 0;
     let fleeingTo: -1 | 1 | null = null;
     let startled = STARTLE_S + Math.random() * STARTLE_JITTER_S;
+    let fadedFor = 0;
     let last = performance.now();
     let frame = requestAnimationFrame(function tick(now) {
       // Clamp, so a backgrounded tab does not teleport everyone on return.
-      let dt = Math.min(0.1, (now - last) / 1000);
+      const elapsed = Math.min(0.1, (now - last) / 1000);
+      let dt = elapsed;
       last = now;
       // Reduced motion keeps everyone moving, just very gently.
       if (reducedMotion.matches) dt *= 0.2;
@@ -140,7 +153,17 @@
       // A Creature already running keeps running, even if the Scene freezes.
       if (frozen && !fleeing) dt = 0;
 
-      if (fleeing && startled > 0) {
+      if (fading) {
+        // Stays where it was when the signal broke up. Fading is not
+        // motion, so it runs on real time: neither the freeze nor reduced
+        // motion holds it up.
+        fadedFor += elapsed;
+        banker.style.opacity = String(fadeVisibility(fadedFor));
+        if (fadedFor >= FADE_S) {
+          ongone();
+          return;
+        }
+      } else if (fleeing && startled > 0) {
         startled -= dt;
       } else if (fleeing) {
         if (fleeingTo === null) {
@@ -196,13 +219,14 @@
   bind:this={swimmer}
   class="swimmer pointer-events-none absolute top-0 left-0"
   class:fleeing
+  class:fading
   style="
     width:calc({width} * var(--wu));
     z-index:{creatureLayer(profile, creature.depth)};
     opacity:{depthFade ? 0.62 + creature.depth * 0.38 : 1};
   "
 >
-  {#if fleeing}
+  {#if fleeing && !fading}
     <!--
       Outside the flipper and the banker, so the "!" never mirrors or rocks,
       and big enough to read from the back of the room.

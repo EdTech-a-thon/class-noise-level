@@ -7,6 +7,13 @@
  * a sign pulled tall keeps its frame the same thickness.
  */
 
+/** Bright enough to pick out, dark enough to read on cream or on wood. */
+export const PEN_COLOURS = {
+  red: "#d62f4b",
+  blue: "#1f63b5",
+  green: "#23804a",
+};
+
 /** A rectangle inside the Note, in the Note's own pixels. */
 export interface Rect {
   left: number;
