@@ -96,6 +96,18 @@ export class Session {
   }
 
   /**
+   * Another Class has taken over the room: bring back what it had earned in
+   * this Scene, and wait for Start. Progress towards the next Creature and
+   * any scare under way belonged to the class that was here before.
+   */
+  useClass(intervalMs: number) {
+    this.running = false;
+    this.#clock = createArrivalClock(intervalMs, this.#random);
+    this.#scare = createScareClock();
+    this.restore();
+  }
+
+  /**
    * Starting keeps whoever is already here; only `reset` empties the reef.
    * An empty scene gets its first Creature quickly, as a teaser.
    */

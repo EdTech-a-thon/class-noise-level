@@ -46,6 +46,28 @@ const en = {
     "controls.keepGoing": "Keep going",
     "controls.settings": "Settings",
     "controls.animals": "Animals",
+    "classes.title": "Classes",
+    "classes.label": "Class",
+    "classes.change": "Change class",
+    "classes.unnamed": "My class",
+    "classes.hint":
+      "Each class keeps its own animals and its own collection, so one class never sees what another earned. Switching class waits for you to press Start.",
+    "classes.current": "On screen",
+    "classes.use": "Switch to {name}",
+    "classes.rename": "Rename",
+    "classes.renameLabel": "New name for {name}",
+    "classes.save": "Save",
+    "classes.delete": "Delete",
+    "classes.deleteLabel": "Delete {name}",
+    "classes.addLabel": "New class name",
+    "classes.addPlaceholder": "e.g. 2nd period",
+    "classes.add": "Add class",
+    "classes.deleteTitle": "Are you sure?",
+    "classes.deleteBody":
+      "Delete {name}? The animals it has out in every scene and everything in its collection will be gone for good.",
+    "classes.deleteOnly":
+      "It's your only class, so a new, empty one will take its place.",
+    "classes.deleteYes": "Yes, delete",
     "settings.title": "Settings",
     "settings.microphone": "Microphone",
     "settings.meter": "Noise Meter",
@@ -114,7 +136,7 @@ const en = {
     "calibration.startAgain": "Start again",
     "calibration.hears": "What the microphone hears",
     "collection.title": "Animals",
-    "collection.spotted": "{seen} of {total} spotted on this computer",
+    "collection.spotted": "{class}: {seen} of {total} spotted",
     "collection.notSeen": "Not seen yet",
     "collection.seen": "Seen {count}×",
     "tier.common": "Common",
@@ -165,7 +187,7 @@ const en = {
     "privacy.microphone":
       "Shy Safari listens through your microphone only to measure how loud the room is. The sound is turned into a single volume level on this computer, moment by moment; it is never recorded, never saved, and never sent anywhere.",
     "privacy.local":
-      "There are no accounts, and we do not collect personal information from teachers or students. Your settings, your calibration and the animals your class has spotted are kept in this browser's local storage on this computer only, and clearing your browser data removes them.",
+      "There are no accounts, and we do not collect personal information from teachers or students. Your settings, your calibration and the animals each of your classes has spotted are kept in this browser's local storage on this computer only, and clearing your browser data removes them.",
     "privacy.analytics.beforeLink":
       "We use Cloudflare Web Analytics to anonymously count visits, which helps us understand how Shy Safari is being used in classrooms. Cloudflare Web Analytics is cookieless, does not fingerprint visitors, and does not track users across other sites; see Cloudflare's ",
     "privacy.analytics.link": "privacy policy",
@@ -257,6 +279,28 @@ const es = {
     "controls.keepGoing": "Seguir",
     "controls.settings": "Ajustes",
     "controls.animals": "Animales",
+    "classes.title": "Clases",
+    "classes.label": "Clase",
+    "classes.change": "Cambiar de clase",
+    "classes.unnamed": "Mi clase",
+    "classes.hint":
+      "Cada clase guarda sus propios animales y su propia colección, así que una clase nunca ve lo que ganó otra. Al cambiar de clase, pulsa Empezar cuando estén listos.",
+    "classes.current": "En pantalla",
+    "classes.use": "Cambiar a {name}",
+    "classes.rename": "Renombrar",
+    "classes.renameLabel": "Nuevo nombre para {name}",
+    "classes.save": "Guardar",
+    "classes.delete": "Eliminar",
+    "classes.deleteLabel": "Eliminar {name}",
+    "classes.addLabel": "Nombre de la nueva clase",
+    "classes.addPlaceholder": "p. ej., 2.º periodo",
+    "classes.add": "Añadir clase",
+    "classes.deleteTitle": "¿Seguro?",
+    "classes.deleteBody":
+      "¿Eliminar {name}? Los animales que tiene en cada escena y todo lo de su colección desaparecerán para siempre.",
+    "classes.deleteOnly":
+      "Es tu única clase, así que una nueva y vacía ocupará su lugar.",
+    "classes.deleteYes": "Sí, eliminar",
     "settings.title": "Ajustes",
     "settings.microphone": "Micrófono",
     "settings.meter": "Medidor de ruido",
@@ -326,7 +370,7 @@ const es = {
     "calibration.startAgain": "Empezar de nuevo",
     "calibration.hears": "Lo que oye el micrófono",
     "collection.title": "Animales",
-    "collection.spotted": "{seen} de {total} vistos en esta computadora",
+    "collection.spotted": "{class}: {seen} de {total} vistos",
     "collection.notSeen": "Aún no visto",
     "collection.seen": "Visto {count}×",
     "tier.common": "Comunes",
@@ -377,7 +421,7 @@ const es = {
     "privacy.microphone":
       "Shy Safari escucha por el micrófono solo para medir cuánto ruido hay en el aula. El sonido se convierte en un único nivel de volumen en esta computadora, momento a momento; nunca se graba, nunca se guarda y nunca se envía a ningún sitio.",
     "privacy.local":
-      "No hay cuentas y no recopilamos información personal de docentes ni estudiantes. Tus ajustes, tu calibración y los animales que ha visto tu clase se guardan en el almacenamiento local de este navegador, solo en esta computadora; al borrar los datos del navegador se eliminan.",
+      "No hay cuentas y no recopilamos información personal de docentes ni estudiantes. Tus ajustes, tu calibración y los animales que ha visto cada una de tus clases se guardan en el almacenamiento local de este navegador, solo en esta computadora; al borrar los datos del navegador se eliminan.",
     "privacy.analytics.beforeLink":
       "Usamos Cloudflare Web Analytics para contar las visitas de forma anónima, lo que nos ayuda a entender cómo se usa Shy Safari en las aulas. Cloudflare Web Analytics no usa cookies, no crea huellas digitales de los visitantes y no los rastrea en otros sitios; consulta la ",
     "privacy.analytics.link": "política de privacidad",
@@ -460,6 +504,28 @@ const fr = {
     "controls.keepGoing": "Continuer",
     "controls.settings": "Réglages",
     "controls.animals": "Animaux",
+    "classes.title": "Classes",
+    "classes.label": "Classe",
+    "classes.change": "Changer de classe",
+    "classes.unnamed": "Ma classe",
+    "classes.hint":
+      "Chaque classe garde ses propres animaux et sa propre collection : une classe ne voit jamais ce qu’une autre a gagné. Après un changement de classe, appuyez sur Commencer quand elle est prête.",
+    "classes.current": "À l’écran",
+    "classes.use": "Passer à {name}",
+    "classes.rename": "Renommer",
+    "classes.renameLabel": "Nouveau nom pour {name}",
+    "classes.save": "Enregistrer",
+    "classes.delete": "Supprimer",
+    "classes.deleteLabel": "Supprimer {name}",
+    "classes.addLabel": "Nom de la nouvelle classe",
+    "classes.addPlaceholder": "p. ex. 2e heure",
+    "classes.add": "Ajouter une classe",
+    "classes.deleteTitle": "Vous confirmez ?",
+    "classes.deleteBody":
+      "Supprimer {name} ? Les animaux sortis dans chaque décor et toute sa collection disparaîtront pour de bon.",
+    "classes.deleteOnly":
+      "C’est votre seule classe : une nouvelle classe vide la remplacera.",
+    "classes.deleteYes": "Oui, supprimer",
     "settings.title": "Réglages",
     "settings.microphone": "Micro",
     "settings.meter": "Sonomètre",
@@ -529,7 +595,7 @@ const fr = {
     "calibration.startAgain": "Recommencer",
     "calibration.hears": "Ce que le micro entend",
     "collection.title": "Animaux",
-    "collection.spotted": "{seen} sur {total} aperçus sur cet ordinateur",
+    "collection.spotted": "{class} : {seen} sur {total} aperçus",
     "collection.notSeen": "Pas encore vu",
     "collection.seen": "Vu {count}×",
     "tier.common": "Communs",
@@ -582,7 +648,7 @@ const fr = {
     "privacy.microphone":
       "Shy Safari écoute par le micro uniquement pour mesurer le niveau sonore de la classe. Le son est transformé en un simple niveau de volume sur cet ordinateur, instant après instant ; il n’est jamais enregistré, jamais conservé et jamais envoyé nulle part.",
     "privacy.local":
-      "Il n’y a pas de compte, et nous ne collectons aucune information personnelle sur les enseignants ou les élèves. Vos réglages, votre étalonnage et les animaux aperçus par votre classe sont conservés dans le stockage local de ce navigateur, sur cet ordinateur uniquement ; effacer les données du navigateur les supprime.",
+      "Il n’y a pas de compte, et nous ne collectons aucune information personnelle sur les enseignants ou les élèves. Vos réglages, votre étalonnage et les animaux aperçus par chacune de vos classes sont conservés dans le stockage local de ce navigateur, sur cet ordinateur uniquement ; effacer les données du navigateur les supprime.",
     "privacy.analytics.beforeLink":
       "Nous utilisons Cloudflare Web Analytics pour compter les visites de façon anonyme, ce qui nous aide à comprendre comment Shy Safari est utilisé en classe. Cloudflare Web Analytics n’utilise pas de cookies, ne crée pas d’empreinte des visiteurs et ne les suit pas sur d’autres sites ; consultez la ",
     "privacy.analytics.link": "politique de confidentialité",
@@ -695,4 +761,9 @@ export function t(key: UiKey, values: Record<string, string | number> = {}) {
 /** A Creature's name, by the slug its artwork is filed under. */
 export function creatureName(slug: string): string {
   return current().creatures[slug as CreatureSlug] ?? slug;
+}
+
+/** A Class's name, or "My class" in this language if it has none yet. */
+export function className(name: string): string {
+  return name || t("classes.unnamed");
 }
