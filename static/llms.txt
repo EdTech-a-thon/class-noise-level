@@ -9,7 +9,7 @@ Shy Safari came out of the EdTech-a-thon and is maintained by teacher.dev. It is
 ## Pages
 
 - [Shy Safari](https://www.shysafari.com/): the app itself
-- [How it works](https://www.shysafari.com/how-it-works): what it does, how to use it in class, how it decides the room is too loud, and answers to common questions
+- [How it works](https://www.shysafari.com/#how-it-works): what it does, how to use it in class, how it decides the room is too loud, and answers to common questions
 - [About](https://www.shysafari.com/about): who built it and why
 - [Privacy](https://www.shysafari.com/privacy): what is and is not collected
 

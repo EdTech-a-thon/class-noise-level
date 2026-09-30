@@ -71,7 +71,7 @@
       >
       <p class="flex items-center gap-2 text-xs font-medium text-slate-600">
         <a
-          href={resolve("/how-it-works")}
+          href="#how-it-works"
           class="hover:text-slate-900 hover:underline"
           >{t("common.howItWorks")}</a
         >

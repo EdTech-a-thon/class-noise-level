@@ -61,7 +61,7 @@
       <img src={asset("/edtechathon-logo.svg")} alt="" class="size-6" />
       {t("common.builtBy")}
     </a>
-    <a href={resolve("/how-it-works")} class="hover:text-slate-900"
+    <a href={resolve("/#how-it-works")} class="hover:text-slate-900"
       >{t("common.howItWorks")}</a
     >
     <a href={resolve("/about")} class="hover:text-slate-900"

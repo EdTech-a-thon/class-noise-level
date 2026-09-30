@@ -178,10 +178,6 @@ const en = {
     "privacy.analytics.afterLink":
       " for details. We do not share, sell, or otherwise transfer any visitor data to third parties.",
     "privacy.contact": "Questions or concerns? Email ",
-    "guide.pageTitle":
-      "How it works — Shy Safari, a free classroom noise monitor",
-    "guide.meta":
-      "How Shy Safari helps a class stay quiet: a calm projector scene where shy animals come out during quiet work. Free, no sign-up, and microphone audio never leaves the computer.",
     "guide.title": "How Shy Safari works",
     "guide.lede":
       "A free classroom noise level monitor that rewards quiet instead of punishing noise.",
@@ -232,7 +228,6 @@ const en = {
     "guide.faq.meter.q": "How is it different from a noise meter?",
     "guide.faq.meter.a":
       "A noise meter shows the class how loud they are, which can turn getting louder into a game. Shy Safari shows only a peaceful scene that slowly fills with animals, so the reward for quiet work is what the class sees, and there is no score to beat.",
-    "guide.cta": "Open Shy Safari",
   },
   creatures: {
     meerkat: "Meerkat",
@@ -451,10 +446,6 @@ const es = {
     "privacy.analytics.afterLink":
       " de Cloudflare para más detalles. No compartimos, vendemos ni transferimos de ningún otro modo los datos de los visitantes a terceros.",
     "privacy.contact": "¿Tienes preguntas o dudas? Escribe a ",
-    "guide.pageTitle":
-      "Cómo funciona — Shy Safari, un medidor de ruido gratuito para el aula",
-    "guide.meta":
-      "Cómo Shy Safari ayuda a una clase a mantener el silencio: una escena tranquila en el proyector donde aparecen animales tímidos durante el trabajo en silencio. Gratis, sin registro, y el audio nunca sale del ordenador.",
     "guide.title": "Cómo funciona Shy Safari",
     "guide.lede":
       "Un medidor de ruido gratuito para el aula que premia el silencio en lugar de castigar el ruido.",
@@ -505,7 +496,6 @@ const es = {
     "guide.faq.meter.q": "¿En qué se diferencia de un medidor de ruido?",
     "guide.faq.meter.a":
       "Un medidor de ruido le muestra a la clase lo fuerte que está hablando, y eso puede convertir el hacer ruido en un juego. Shy Safari solo muestra una escena tranquila que se va llenando de animales, así que lo que la clase ve es la recompensa por trabajar en silencio, y no hay ninguna puntuación que batir.",
-    "guide.cta": "Abrir Shy Safari",
   },
   creatures: {
     meerkat: "Suricata",
@@ -717,10 +707,6 @@ const fr = {
     "privacy.analytics.afterLink":
       " de Cloudflare pour en savoir plus. Nous ne partageons, ne vendons ni ne transférons d’aucune autre manière les données des visiteurs à des tiers.",
     "privacy.contact": "Des questions ou des inquiétudes ? Écrivez à ",
-    "guide.pageTitle":
-      "Comment ça marche — Shy Safari, un sonomètre gratuit pour la classe",
-    "guide.meta":
-      "Comment Shy Safari aide une classe à rester calme : une scène paisible au vidéoprojecteur où des animaux timides sortent pendant le travail silencieux. Gratuit, sans inscription, et le son ne quitte jamais l'ordinateur.",
     "guide.title": "Comment fonctionne Shy Safari",
     "guide.lede":
       "Un sonomètre gratuit pour la classe qui récompense le calme au lieu de punir le bruit.",
@@ -771,7 +757,6 @@ const fr = {
     "guide.faq.meter.q": "En quoi est-ce différent d'un sonomètre ?",
     "guide.faq.meter.a":
       "Un sonomètre montre à la classe à quel point elle est bruyante, ce qui peut transformer le bruit en jeu. Shy Safari ne montre qu'une scène paisible qui se remplit peu à peu d'animaux : ce que la classe voit, c'est la récompense du travail silencieux, et il n'y a aucun score à battre.",
-    "guide.cta": "Ouvrir Shy Safari",
   },
   creatures: {
     meerkat: "Suricate",

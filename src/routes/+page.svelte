@@ -8,6 +8,7 @@
   import BrandChip from "$lib/components/BrandChip.svelte";
   import LanguagePicker from "$lib/components/LanguagePicker.svelte";
   import PageMeta from "$lib/components/PageMeta.svelte";
+  import InfoDrawer, { FAQ_IDS } from "$lib/components/InfoDrawer.svelte";
   import { t, type UiKey } from "$lib/i18n/index.svelte";
   import { onMount } from "svelte";
   import { SCENES } from "$lib/scenes";
@@ -17,9 +18,11 @@
 
   const app = new App();
 
-  /** Tells search engines and AI assistants what kind of thing this page is. */
-  const jsonLd = $derived({
-    "@context": "https://schema.org",
+  /**
+   * Tells search engines and AI assistants what kind of thing this page is,
+   * and gives them the questions the info drawer answers.
+   */
+  const webApplication = $derived({
     "@type": "WebApplication",
     name: "Shy Safari",
     url: absoluteUrl("/"),
@@ -38,8 +41,24 @@
     },
   });
 
+  const faqPage = $derived({
+    "@type": "FAQPage",
+    url: absoluteUrl("/"),
+    mainEntity: FAQ_IDS.map((id) => ({
+      "@type": "Question",
+      name: t(`guide.faq.${id}.q`),
+      acceptedAnswer: { "@type": "Answer", text: t(`guide.faq.${id}.a`) },
+    })),
+  });
+
+  const jsonLd = $derived({
+    "@context": "https://schema.org",
+    "@graph": [webApplication, faqPage],
+  });
+
   let settingsOpen = $state(false);
   let collectionOpen = $state(false);
+  let infoOpen = $state(false);
   let fullScreen = $state(false);
   let controlsVisible = $state(true);
   let idleTimer: ReturnType<typeof setTimeout>;
@@ -204,6 +223,29 @@
       <BrandChip />
     </div>
     <div class="pointer-events-auto flex gap-2">
+      <button
+        class="grid size-11 place-items-center rounded-full bg-white/95 text-slate-700 shadow-lg hover:bg-white"
+        aria-label={t("guide.title")}
+        title={t("guide.title")}
+        aria-expanded={infoOpen}
+        aria-controls="how-it-works"
+        onclick={() => (infoOpen = true)}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          class="size-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="9" />
+          <path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6" />
+          <path d="M12 17.5h.01" />
+        </svg>
+      </button>
       <LanguagePicker />
       {#if canFullScreen}
         <button
@@ -284,4 +326,6 @@
   {#if collectionOpen}
     <Collection {app} onclose={() => (collectionOpen = false)} />
   {/if}
+
+  <InfoDrawer bind:open={infoOpen} />
 </main>

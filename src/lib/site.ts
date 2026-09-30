@@ -8,7 +8,7 @@
 export const SITE_URL = "https://www.shysafari.com";
 
 /** Every page a search engine should know about, in sitemap order. */
-export const PAGES = ["/", "/how-it-works", "/about", "/privacy"] as const;
+export const PAGES = ["/", "/about", "/privacy"] as const;
 
 export type PagePath = (typeof PAGES)[number];
 
