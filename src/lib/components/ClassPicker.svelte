@@ -36,12 +36,14 @@
   }}
 />
 
-<div class="relative" bind:this={container}>
+<!-- Shrinks, cutting the name short, when the corner buttons on the right
+     leave it little room on a phone. -->
+<div class="relative min-w-0" bind:this={container}>
   <!-- Hidden, not absent, until the saved Class is known: the page is
        prerendered, and a reload should not flash "My class" first. -->
   <button
     type="button"
-    class="flex h-11 max-w-36 items-center gap-2 rounded-full bg-white/95 px-4 text-sm font-medium text-slate-800 shadow-lg transition hover:bg-white sm:max-w-64"
+    class="flex h-11 w-full max-w-36 items-center gap-2 rounded-full bg-white/95 px-4 text-sm font-medium text-slate-800 shadow-lg transition hover:bg-white sm:max-w-64"
     class:invisible={!app.restored}
     aria-expanded={open}
     aria-controls="class-menu"
