@@ -6,7 +6,13 @@
 
 import type { Component } from "svelte";
 import type { Ink, NoteBox } from "$lib/notes/notes.svelte";
-import { cloudShape, PEN_COLOURS, signShape, type Rect } from "./noteArt";
+import {
+  cloudShape,
+  PEN_COLOURS,
+  rectOf,
+  signShape,
+  type Rect,
+} from "./noteArt";
 import type { DepartureStyle } from "./motion";
 import PrehistoricAmbient from "./prehistoric/AmbientLife.svelte";
 import * as prehistoricArt from "./prehistoric/artwork";
@@ -34,6 +40,12 @@ export interface NoteLook {
   Art: Component<{ width: number; height: number }>;
   /** Where the writing fits inside the artwork, in the same pixels. */
   writing: (width: number, height: number) => Rect;
+  /**
+   * The inside of the artwork, in the same pixels: what the pen draws on.
+   * Round it is the artwork's border, a frame or a rim, which is what the
+   * teacher grabs to move and resize the Note. It holds the writing.
+   */
+  surface: (width: number, height: number) => Rect;
   /** The pens, with `dark` chosen to suit the artwork. */
   inks: Record<Ink, string>;
   /** Where a new Note goes, as fractions of the screen. */
@@ -72,6 +84,8 @@ export const SCENES: Record<SceneId, SceneDef> = {
     note: {
       Art: SavannaNoteArt,
       writing: (width, height) => cloudShape(width, height).writing,
+      // A cloud has no frame: its puffs round the words are its border.
+      surface: (width, height) => cloudShape(width, height).writing,
       inks: { dark: "#2b2b3a", ...PEN_COLOURS },
       home: { x: 0.3, y: 0.1, width: 0.4, height: 0.3 },
     },
@@ -88,6 +102,8 @@ export const SCENES: Record<SceneId, SceneDef> = {
     note: {
       Art: ReefNoteArt,
       writing: (width, height) => signShape(width, height).writing,
+      // The painted board; the wooden frame round it is the border.
+      surface: (width, height) => rectOf(signShape(width, height).panel),
       inks: { dark: "#4a2c17", ...PEN_COLOURS },
       home: { x: 0.3, y: 0.14, width: 0.4, height: 0.3 },
     },

@@ -6,14 +6,22 @@
    * Typed words shrink to fit, so a one-word Note is as big as it can be for
    * the back of the room and a long one still fits. Drawing takes a mouse, a
    * pen or a finger alike, which is what a Smartboard or a touch screen by
-   * the projector sends. The Note is moved by dragging its artwork, and
-   * resized from its corner.
+   * the projector sends. The Note is moved by dragging its artwork or, once
+   * chosen, its edge, which in Draw is the only way: the inside is for the
+   * pen. Any corner resizes it.
    */
 
   import { t } from "$lib/i18n/index.svelte";
-  import type { Note, NoteBox, NoteMode } from "$lib/notes/notes.svelte";
+  import {
+    MIN_HEIGHT,
+    MIN_WIDTH,
+    type Note,
+    type NoteBox,
+    type NoteMode,
+  } from "$lib/notes/notes.svelte";
   import type { NoteLook } from "$lib/scenes";
   import { onMount } from "svelte";
+  import EdgeGrips, { type Corner } from "../EdgeGrips.svelte";
 
   let {
     note,
@@ -24,17 +32,19 @@
     onselect,
     onchange,
     ondrag,
+    onremove,
   }: {
     note: Note;
     look: NoteLook;
     selected: boolean;
-    /** The editing outline and handles show; they fade with the controls. */
+    /** The grips and close button show; they go with the controls. */
     chrome: boolean;
     mode: NoteMode;
     onselect: () => void;
     onchange: (change: Partial<Omit<Note, "id">>) => void;
     /** Where the Note is while being dragged, and `null` once it is let go. */
     ondrag?: (box: NoteBox | null) => void;
+    onremove: () => void;
   } = $props();
 
   let root: HTMLDivElement;
@@ -52,6 +62,15 @@
   const writing = $derived(
     width && height ? look.writing(width, height) : null,
   );
+  /** The inside of the artwork, the only place the pen draws. */
+  const surface = $derived(
+    width && height
+      ? look.surface(width, height)
+      : { left: 0, top: 0, right: 0, bottom: 0 },
+  );
+  // Inlined into the page, possibly more than once: ids must not clash.
+  const uid = $props.id();
+  const inkClipId = `note-ink-${uid}`;
   const empty = $derived(note.text.trim() === "");
   const drawing = $derived(selected && mode === "draw");
 
@@ -112,10 +131,32 @@
   }
 
   /**
-   * Move or resize by dragging. A press on a Note not yet chosen chooses it,
-   * and if it is let go without moving, starts typing in it.
+   * One edge of the box pulled out or in by `by`, a fraction of the screen,
+   * keeping the edge opposite where it was. `side` is -1 for the left or top
+   * edge and 1 for the right or bottom; it stops at the smallest a Note can
+   * be, and at the edge of the screen.
    */
-  function drag(event: PointerEvent, action: "move" | "resize") {
+  function stretch(
+    start: number,
+    size: number,
+    by: number,
+    side: -1 | 1,
+    smallest: number,
+  ): [number, number] {
+    if (side > 0) {
+      return [start, Math.max(smallest, Math.min(1 - start, size + by))];
+    }
+    const end = start + size;
+    const newStart = Math.max(0, Math.min(end - smallest, start + by));
+    return [newStart, end - newStart];
+  }
+
+  /**
+   * Move, or resize by a corner, by dragging. A press on a Note not yet
+   * chosen chooses it, and if it is let go without moving, starts typing in
+   * it.
+   */
+  function drag(event: PointerEvent, action: "move" | Corner) {
     if (event.button !== 0) return;
     event.preventDefault();
     const wasSelected = selected;
@@ -135,14 +176,25 @@
       )
         return;
       moved = true;
-      draft =
-        action === "move"
-          ? { ...start.box, x: start.box.x + dx, y: start.box.y + dy }
-          : {
-              ...start.box,
-              width: start.box.width + dx,
-              height: start.box.height + dy,
-            };
+      if (action === "move") {
+        draft = { ...start.box, x: start.box.x + dx, y: start.box.y + dy };
+        return;
+      }
+      const [x, width] = stretch(
+        start.box.x,
+        start.box.width,
+        dx,
+        action.x,
+        MIN_WIDTH,
+      );
+      const [y, height] = stretch(
+        start.box.y,
+        start.box.height,
+        dy,
+        action.y,
+        MIN_HEIGHT,
+      );
+      draft = { ...start.box, x, y, width, height };
     };
     const onUp = () => {
       target.removeEventListener("pointermove", onMove);
@@ -170,6 +222,19 @@
       Math.round(((event.clientX - rect.left) / rect.width) * 1000) / 1000,
       Math.round(((event.clientY - rect.top) / rect.height) * 1000) / 1000,
     ];
+  }
+
+  /** Whether a press is on the inside of the artwork, not its border. */
+  function onSurface(event: PointerEvent) {
+    const rect = (event.currentTarget as SVGSVGElement).getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    return (
+      x >= surface.left &&
+      x <= surface.right &&
+      y >= surface.top &&
+      y <= surface.bottom
+    );
   }
 
   function penDown(event: PointerEvent) {
@@ -227,8 +292,6 @@
   bind:clientWidth={width}
   bind:clientHeight={height}
   class="note pointer-events-auto absolute touch-none select-none"
-  class:selected
-  class:chrome
   data-note={note.id}
   style="left:{box.x * 100}%; top:{box.y * 100}%; width:{box.width *
     100}%; height:{box.height * 100}%; --ink:{look.inks[note.ink]};"
@@ -288,7 +351,8 @@
     aria-label={drawing ? t("notes.drawing") : undefined}
     aria-hidden={!drawing}
     onpointerdown={(event) => {
-      if (!drawing) return;
+      // The border is the Note's to move by, not the pen's.
+      if (!drawing || !onSurface(event)) return;
       event.stopPropagation();
       penDown(event);
     }}
@@ -296,57 +360,56 @@
     onpointerup={penUp}
     onpointercancel={penUp}
   >
-    {#each note.strokes as stroke, i (i)}
-      <path
-        d={pathFor(stroke.points)}
-        stroke={look.inks[stroke.ink]}
-        stroke-width={penWidth}
-      />
-    {/each}
-    {#if live}
-      <path
-        d={pathFor(live)}
-        stroke={look.inks[note.ink]}
-        stroke-width={penWidth}
-      />
-    {/if}
+    <defs>
+      <clipPath id={inkClipId}>
+        <rect
+          x={surface.left}
+          y={surface.top}
+          width={surface.right - surface.left}
+          height={surface.bottom - surface.top}
+        />
+      </clipPath>
+    </defs>
+    <!-- A line pulled off the inside stops at its edge, rather than running
+         over the border or off the Note. -->
+    <g clip-path="url(#{inkClipId})">
+      {#each note.strokes as stroke, i (i)}
+        <path
+          d={pathFor(stroke.points)}
+          stroke={look.inks[stroke.ink]}
+          stroke-width={penWidth}
+        />
+      {/each}
+      {#if live}
+        <path
+          d={pathFor(live)}
+          stroke={look.inks[note.ink]}
+          stroke-width={penWidth}
+        />
+      {/if}
+    </g>
   </svg>
 
   {#if selected && chrome}
     <!-- The artwork drags the Note too, but in Draw it is taken by the pen,
-         and a handle is plainer on a touch screen either way. -->
-    <button
-      class="note-handle absolute -top-3 -left-3 grid size-9 cursor-move touch-none place-items-center rounded-full bg-white text-slate-700 shadow-lg"
-      aria-label={t("notes.move")}
-      title={t("notes.move")}
-      onpointerdown={(event) => {
-        event.stopPropagation();
-        drag(event, "move");
+         and the edge is plainer on a touch screen either way. -->
+    <EdgeGrips
+      inset={{
+        left: surface.left,
+        top: surface.top,
+        right: width - surface.right,
+        bottom: height - surface.bottom,
       }}
-    >
-      <svg
-        viewBox="0 0 24 24"
-        class="size-5"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2.2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <path
-          d="M12 3v18M3 12h18M12 3 9 6M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"
-        />
-      </svg>
-    </button>
-    <button
-      class="note-handle absolute -right-3 -bottom-3 grid size-9 cursor-nwse-resize touch-none place-items-center rounded-full bg-white text-slate-700 shadow-lg"
-      aria-label={t("notes.resize")}
-      title={t("notes.resize")}
-      onpointerdown={(event) => {
-        event.stopPropagation();
-        drag(event, "resize");
+      onresize={(event, corner) => {
+        drag(event, corner);
       }}
+    />
+    <button
+      class="absolute top-3 right-3 grid size-8 place-items-center rounded-full bg-white text-slate-700 shadow-lg hover:bg-slate-100"
+      aria-label={t("notes.delete")}
+      title={t("notes.delete")}
+      onpointerdown={(event) => event.stopPropagation()}
+      onclick={onremove}
     >
       <svg
         viewBox="0 0 24 24"
@@ -357,7 +420,7 @@
         stroke-linecap="round"
         aria-hidden="true"
       >
-        <path d="M20 11v9h-9M4 13V4h9M20 20 4 4" />
+        <path d="M6 6l12 12M18 6L6 18" />
       </svg>
     </button>
   {/if}

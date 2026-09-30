@@ -10,6 +10,7 @@ import { panelShape, SPACE_INKS } from "./noteShape";
 export const SPACE_NOTE: NoteLook = {
   Art: NoteArt,
   writing: (width, height) => panelShape(width, height).writing,
+  surface: (width, height) => panelShape(width, height).surface,
   // Light pens on dark glass: see `SPACE_INKS`.
   inks: SPACE_INKS,
   // Up in the dark upper left, clear of the Milky Way crossing the middle

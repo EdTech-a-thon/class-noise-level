@@ -65,7 +65,8 @@ const en = {
     "timer.reset": "Reset",
     "timer.done": "Time’s up!",
     "timer.close": "Close timer",
-    "timer.move": "Move timer: drag it, or use the arrow keys",
+    "timer.move": "Move timer: drag its edge, or use the arrow keys",
+    "timer.resize": "Resize timer: drag a corner, or use the arrow keys",
     "timer.style": "How the time is shown",
     "timer.style.digits": "Numbers",
     "timer.style.circle": "Circle",
@@ -88,8 +89,6 @@ const en = {
     "notes.undo": "Undo",
     "notes.clear": "Clear drawing",
     "notes.delete": "Delete",
-    "notes.move": "Drag to move",
-    "notes.resize": "Drag to resize",
     "controls.pause": "Pause",
     "controls.pauseHint":
       "Stop listening for a moment, so you can talk to the class",
@@ -514,7 +513,9 @@ const es = {
     "timer.reset": "Reiniciar",
     "timer.done": "¡Se acabó el tiempo!",
     "timer.close": "Cerrar el temporizador",
-    "timer.move": "Mover el temporizador: arrástralo o usa las flechas",
+    "timer.move": "Mover el temporizador: arrastra su borde o usa las flechas",
+    "timer.resize":
+      "Cambiar el tamaño del temporizador: arrastra una esquina o usa las flechas",
     "timer.style": "Cómo se muestra el tiempo",
     "timer.style.digits": "Números",
     "timer.style.circle": "Círculo",
@@ -537,8 +538,6 @@ const es = {
     "notes.undo": "Deshacer",
     "notes.clear": "Borrar dibujo",
     "notes.delete": "Eliminar",
-    "notes.move": "Arrastra para mover",
-    "notes.resize": "Arrastra para cambiar el tamaño",
     "controls.pause": "Pausar",
     "controls.pauseHint":
       "Dejar de escuchar un momento, para poder hablar con la clase",
@@ -936,7 +935,9 @@ const fr = {
     "timer.done": "Temps écoulé !",
     "timer.close": "Fermer le minuteur",
     "timer.move":
-      "Déplacer le minuteur : faites-le glisser ou utilisez les flèches",
+      "Déplacer le minuteur : faites glisser son bord ou utilisez les flèches",
+    "timer.resize":
+      "Redimensionner le minuteur : faites glisser un coin ou utilisez les flèches",
     "timer.style": "Affichage du temps",
     "timer.style.digits": "Chiffres",
     "timer.style.circle": "Cercle",
@@ -959,8 +960,6 @@ const fr = {
     "notes.undo": "Annuler",
     "notes.clear": "Effacer le dessin",
     "notes.delete": "Supprimer",
-    "notes.move": "Faites glisser pour déplacer",
-    "notes.resize": "Faites glisser pour redimensionner",
     "controls.pause": "Pause",
     "controls.pauseHint":
       "Arrêter d’écouter un moment, pour pouvoir parler à la classe",

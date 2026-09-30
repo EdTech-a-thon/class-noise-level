@@ -1,12 +1,14 @@
 /**
  * A Note in deep space: a readout panel from the observatory's own screens,
- * floating in front of the sky. Dark glass with a thin cool edge, viewfinder
- * brackets at its corners and a slim header strip carrying a status light
- * and a signal meter, as on a telescope's display.
+ * floating in front of the sky. Dark glass set in a gunmetal bezel, the kind
+ * a telescope's monitor has: a deeper bar along the top carries a status
+ * light and a signal meter, a fine scale runs along the bottom, and
+ * viewfinder brackets mark its corners. The bezel is the Note's border, what
+ * the teacher grabs to move and resize it; the glass is for the words.
  *
  * Built at the Note's own size in pixels, like the savanna cloud and the reef
- * sign (`scenes/noteArt.ts`): a panel stretched wide keeps a hairline edge and
- * the same brackets, rather than growing a thick rim.
+ * sign (`scenes/noteArt.ts`): a panel stretched wide keeps the same bezel and
+ * brackets, rather than growing a thick rim.
  */
 
 import type { Rect } from "$lib/scenes/noteArt";
@@ -40,6 +42,18 @@ export const SPACE_INKS = {
 /** The glass edge and the brackets: the Scene's cool highlight, a touch bluer. */
 export const EDGE = "#9cc4ff";
 
+/**
+ * The bezel: dark blue-grey metal, lit from the upper left like everything
+ * else out here, so it reads as a solid frame against the black sky.
+ */
+export const BEZEL = {
+  lit: "#34466d",
+  shade: "#18233d",
+};
+
+/** The Scene's shadow ink (`docs/svg-art-brief.md` §9). */
+export const SHADOW = "#05070f";
+
 export interface PanelBox {
   x: number;
   y: number;
@@ -58,76 +72,92 @@ export interface Bar {
 }
 
 export interface PanelShape {
-  /** The glass itself. */
+  /** The metal frame round the glass: the Note's border. */
+  bezel: PanelBox;
+  /** How thick the bezel is at the sides and bottom. */
+  rim: number;
+  /** The glass, set into the bezel. */
   glass: PanelBox;
   /** How thick the glass's edge is. */
   edgeWidth: number;
-  /** The header strip along the top of the glass, and the line under it. */
-  header: {
-    height: number;
-    /** Where the line under it runs, stopping at the inside of the edge. */
-    divider: { y: number; left: number; right: number };
-    lineWidth: number;
-  };
+  /** The deeper bar of bezel along the top, which carries the readouts. */
+  header: { height: number };
   /** The status light at the header's left end. */
   light: { cx: number; cy: number; r: number };
   /** The signal meter at the header's right end, shortest bar first. */
   bars: Bar[];
   /**
-   * A fine scale hanging from the header's line, as on a telescope's
-   * readout, with a longer mark every fifth. One path.
+   * A fine scale along the bottom of the bezel, as on a telescope's readout,
+   * with a longer mark every fifth. One path.
    */
   scale: string;
-  /** One L-shaped bracket round each corner, as a path. */
+  lineWidth: number;
+  /** One L-shaped bracket in each corner of the bezel, as a path. */
   brackets: string[];
   bracketWidth: number;
+  /**
+   * The glass inside its edge: the panel's inside, where the pen draws.
+   * The bezel round it is the border.
+   */
+  surface: Rect;
   writing: Rect;
 }
 
 /**
- * The panel, with room round it for the corner brackets. The writing area is
- * all glass below the header, with nothing drawn on it.
+ * The panel. The writing area is all glass, with nothing drawn on it; every
+ * readout is on the bezel.
  */
 export function panelShape(width: number, height: number): PanelShape {
   const unit = Math.min(width, height);
 
-  // The brackets sit in the margin just outside the glass's corners.
-  // Thin and close at any size: on a big panel they stay fine marks hugging
-  // its corners rather than chunky frames standing off from it.
-  const bracketWidth = Math.min(3.5, Math.max(1.75, unit * 0.008));
-  const gap = Math.min(6, Math.max(4, unit * 0.012));
-  const inset = bracketWidth / 2 + gap + bracketWidth;
+  // Thick enough to see and to grab from the back of the room, thin enough
+  // that a big panel is still mostly glass.
+  const rim = Math.min(24, Math.max(12, unit * 0.07));
+  // Grows more slowly than the Note, so a big panel is not mostly header.
+  const headerHeight = Math.max(
+    rim * 1.5,
+    Math.min(unit * 0.11, 20 + unit * 0.05),
+  );
+
+  // A hair in from the Note's edge, so the rim light is never cut off.
+  const pad = 1;
+  const bezel: PanelBox = {
+    x: pad,
+    y: pad,
+    width: width - pad * 2,
+    height: height - pad * 2,
+    rx: rim * 0.7,
+  };
   const glass: PanelBox = {
-    x: inset,
-    y: inset,
-    width: width - inset * 2,
-    height: height - inset * 2,
-    rx: Math.max(3, unit * 0.025),
+    x: bezel.x + rim,
+    y: bezel.y + headerHeight,
+    width: bezel.width - rim * 2,
+    height: bezel.height - headerHeight - rim,
+    rx: rim * 0.25,
   };
 
   const edgeWidth = Math.min(3, Math.max(1.5, unit * 0.006));
   const lineWidth = Math.min(2, Math.max(1, unit * 0.004));
+  const bracketWidth = Math.min(3, Math.max(1.5, unit * 0.007));
 
-  // Grows more slowly than the Note, so a big panel is not mostly header.
-  const headerHeight = Math.max(10, Math.min(unit * 0.11, 20 + unit * 0.05));
-  const divider = glass.y + headerHeight;
-  const middle = glass.y + headerHeight / 2;
-  const sideRoom = Math.max(glass.rx, headerHeight * 0.45);
+  // The readouts sit in the header, clear of the brackets in its corners.
+  const middle = bezel.y + headerHeight / 2;
+  const sideRoom = rim * 2.4;
 
   const light = {
-    cx: glass.x + sideRoom + headerHeight * 0.18,
+    cx: bezel.x + sideRoom + headerHeight * 0.12,
     cy: middle,
-    r: Math.max(1.5, headerHeight * 0.16),
+    r: Math.max(2, headerHeight * 0.13),
   };
 
   // Four lit and one dim: a good signal, with the interference never quite
   // gone.
-  const barWidth = Math.max(1.5, headerHeight * 0.09);
-  const barGap = Math.max(1, headerHeight * 0.07);
-  const barFloor = middle + headerHeight * 0.26;
-  const meterRight = glass.x + glass.width - sideRoom;
+  const barWidth = Math.max(1.5, headerHeight * 0.08);
+  const barGap = Math.max(1, headerHeight * 0.06);
+  const barFloor = middle + headerHeight * 0.2;
+  const meterRight = bezel.x + bezel.width - sideRoom;
   const bars: Bar[] = Array.from({ length: 5 }, (_, i) => {
-    const barHeight = headerHeight * (0.16 + 0.09 * i);
+    const barHeight = headerHeight * (0.12 + 0.07 * i);
     return {
       x: meterRight - (5 - i) * barWidth - (4 - i) * barGap,
       y: barFloor - barHeight,
@@ -137,26 +167,32 @@ export function panelShape(width: number, height: number): PanelShape {
     };
   });
 
-  // Ticks at an even spacing whatever the width, between the rounded
-  // corners, and short enough to stay well clear of the words.
-  const tickRoom = glass.width - sideRoom * 2;
-  const tickSpacing = Math.max(8, headerHeight * 0.5);
-  const tickCount = Math.floor(tickRoom / tickSpacing);
-  const tickStart = glass.x + (glass.width - tickCount * tickSpacing) / 2;
+  // Ticks at an even spacing whatever the width, hanging from the glass's
+  // bottom edge into the bezel, between the brackets.
+  const tickRoom = bezel.width - sideRoom * 2;
+  const tickSpacing = Math.max(8, rim * 0.6);
+  const tickCount = Math.max(0, Math.floor(tickRoom / tickSpacing));
+  const tickStart = bezel.x + (bezel.width - tickCount * tickSpacing) / 2;
+  const tickTop = glass.y + glass.height + rim * 0.22;
   const scale = Array.from({ length: tickCount + 1 }, (_, i) => {
     const x = tickStart + i * tickSpacing;
-    const long = i % 5 === 0;
-    const length = headerHeight * (long ? 0.28 : 0.14);
-    return `M ${x} ${divider} L ${x} ${divider + length}`;
+    const length = rim * (i % 5 === 0 ? 0.36 : 0.2);
+    return `M ${x} ${tickTop} L ${x} ${tickTop + length}`;
   }).join(" ");
 
-  const arm = Math.max(8, Math.min(unit * 0.1, 12 + unit * 0.035));
-  const edge = bracketWidth / 2;
+  // Viewfinder brackets tucked into the bezel's corners, clear of its
+  // rounding and of the glass.
+  const inset = rim * 0.42;
+  const arm = rim * 1.1;
+  const left = bezel.x + inset;
+  const right = bezel.x + bezel.width - inset;
+  const top = bezel.y + inset;
+  const bottom = bezel.y + bezel.height - inset;
   const corners: [number, number, number, number][] = [
-    [edge, edge, 1, 1],
-    [width - edge, edge, -1, 1],
-    [edge, height - edge, 1, -1],
-    [width - edge, height - edge, -1, -1],
+    [left, top, 1, 1],
+    [right, top, -1, 1],
+    [left, bottom, 1, -1],
+    [right, bottom, -1, -1],
   ];
   const brackets = corners.map(
     ([x, y, dx, dy]) =>
@@ -165,30 +201,31 @@ export function panelShape(width: number, height: number): PanelShape {
 
   // Room between the glass's edge and the words, a little more at the
   // sides, so a short word pulled wide never runs right up to the edge.
-  const side = Math.max(12, unit * 0.1);
-  const margin = Math.max(8, unit * 0.064);
+  const side = Math.max(10, unit * 0.07);
+  const margin = Math.max(8, unit * 0.05);
 
   return {
+    bezel,
+    rim,
     glass,
     edgeWidth,
-    header: {
-      height: headerHeight,
-      divider: {
-        y: divider,
-        left: glass.x + edgeWidth / 2,
-        right: glass.x + glass.width - edgeWidth / 2,
-      },
-      lineWidth,
-    },
+    header: { height: headerHeight },
     light,
     bars,
     scale,
+    lineWidth,
     brackets,
     bracketWidth,
+    surface: {
+      left: glass.x + edgeWidth,
+      top: glass.y + edgeWidth,
+      right: glass.x + glass.width - edgeWidth,
+      bottom: glass.y + glass.height - edgeWidth,
+    },
     writing: {
       left: glass.x + side,
       right: glass.x + glass.width - side,
-      top: divider + margin,
+      top: glass.y + margin,
       bottom: glass.y + glass.height - margin,
     },
   };

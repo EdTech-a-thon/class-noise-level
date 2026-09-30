@@ -58,45 +58,74 @@ const OVER_WHITE = over(rgb(GLASS.lit), rgb("#ffffff"), GLASS.opacity);
 
 describe("panelShape", () => {
   test.each(SIZES)("stays inside a %ix%i Note", (width, height) => {
-    const { glass, brackets, bars, light } = panelShape(width, height);
-    expect(glass.x).toBeGreaterThan(0);
-    expect(glass.y).toBeGreaterThan(0);
-    expect(glass.x + glass.width).toBeLessThan(width);
-    expect(glass.y + glass.height).toBeLessThan(height);
-    for (const [x, y] of brackets.flatMap(points)) {
-      expect(x).toBeGreaterThanOrEqual(0);
-      expect(x).toBeLessThanOrEqual(width);
-      expect(y).toBeGreaterThanOrEqual(0);
-      expect(y).toBeLessThanOrEqual(height);
+    const { bezel, glass, brackets, scale } = panelShape(width, height);
+    expect(bezel.x).toBeGreaterThanOrEqual(0);
+    expect(bezel.y).toBeGreaterThanOrEqual(0);
+    expect(bezel.x + bezel.width).toBeLessThanOrEqual(width);
+    expect(bezel.y + bezel.height).toBeLessThanOrEqual(height);
+    expect(glass.x).toBeGreaterThan(bezel.x);
+    expect(glass.y).toBeGreaterThan(bezel.y);
+    expect(glass.x + glass.width).toBeLessThan(bezel.x + bezel.width);
+    expect(glass.y + glass.height).toBeLessThan(bezel.y + bezel.height);
+    for (const [x, y] of [...brackets, scale].flatMap(points)) {
+      expect(x).toBeGreaterThanOrEqual(bezel.x);
+      expect(x).toBeLessThanOrEqual(bezel.x + bezel.width);
+      expect(y).toBeGreaterThanOrEqual(bezel.y);
+      expect(y).toBeLessThanOrEqual(bezel.y + bezel.height);
     }
-    // The header's light and meter stay on the glass, clear of its corners.
-    expect(light.cx - light.r).toBeGreaterThan(glass.x);
-    expect(bars[0].x).toBeGreaterThan(light.cx + light.r);
-    const last = bars[bars.length - 1];
-    expect(last.x + last.width).toBeLessThan(glass.x + glass.width);
   });
 
-  // The whole point of the plain glass: nothing drawn crosses the words.
+  // Everything but the words is drawn on the bezel, so the glass stays
+  // plain and the bezel is the border the teacher grabs.
   test.each(SIZES)(
-    "writes only on plain glass in a %ix%i Note",
+    "keeps the readouts on the bezel in a %ix%i Note",
     (width, height) => {
-      const { glass, header, bars, scale, writing } = panelShape(width, height);
-      expect(hasRoom(writing)).toBe(true);
-      expect(writing.left).toBeGreaterThan(glass.x);
-      expect(writing.right).toBeLessThan(glass.x + glass.width);
-      expect(writing.bottom).toBeLessThan(glass.y + glass.height);
-      expect(writing.top).toBeGreaterThan(header.divider.y);
-      for (const bar of bars)
-        expect(bar.y + bar.height).toBeLessThan(header.divider.y);
-      for (const [, y] of points(scale)) expect(y).toBeLessThan(writing.top);
+      const { bezel, glass, bars, light, scale, brackets } = panelShape(
+        width,
+        height,
+      );
+      const onGlass = (x: number, y: number) =>
+        x > glass.x &&
+        x < glass.x + glass.width &&
+        y > glass.y &&
+        y < glass.y + glass.height;
+      expect(light.cy + light.r).toBeLessThan(glass.y);
+      expect(light.cx - light.r).toBeGreaterThan(bezel.x);
+      expect(bars[0].x).toBeGreaterThan(light.cx + light.r);
+      const last = bars[bars.length - 1];
+      expect(last.x + last.width).toBeLessThan(bezel.x + bezel.width);
+      for (const bar of bars) {
+        expect(bar.y).toBeGreaterThan(bezel.y);
+        expect(bar.y + bar.height).toBeLessThan(glass.y);
+      }
+      for (const [x, y] of [...brackets, scale].flatMap(points))
+        expect(onGlass(x, y)).toBe(false);
     },
   );
 
-  test("stretching a panel keeps the same edge, brackets and header", () => {
+  // The pen draws on the glass; the bezel round it moves the Note.
+  test.each(SIZES)(
+    "writes and draws only on the glass in a %ix%i Note",
+    (width, height) => {
+      const { glass, surface, writing } = panelShape(width, height);
+      expect(hasRoom(writing)).toBe(true);
+      expect(surface.left).toBeGreaterThan(glass.x);
+      expect(surface.top).toBeGreaterThan(glass.y);
+      expect(surface.right).toBeLessThan(glass.x + glass.width);
+      expect(surface.bottom).toBeLessThan(glass.y + glass.height);
+      expect(writing.left).toBeGreaterThanOrEqual(surface.left);
+      expect(writing.right).toBeLessThanOrEqual(surface.right);
+      expect(writing.top).toBeGreaterThanOrEqual(surface.top);
+      expect(writing.bottom).toBeLessThanOrEqual(surface.bottom);
+    },
+  );
+
+  test("stretching a panel keeps the same bezel, brackets and header", () => {
     const small = panelShape(300, 400);
     const tall = panelShape(300, 900);
     const wide = panelShape(1200, 300);
     for (const other of [tall, wide]) {
+      expect(other.rim).toBeCloseTo(small.rim);
       expect(other.glass.x).toBeCloseTo(small.glass.x);
       expect(other.edgeWidth).toBeCloseTo(small.edgeWidth);
       expect(other.bracketWidth).toBeCloseTo(small.bracketWidth);
@@ -104,11 +133,14 @@ describe("panelShape", () => {
     }
   });
 
-  test("a huge panel keeps fine lines, not a thick rim", () => {
+  // Thick enough to grab on a small Note, and still mostly glass on a
+  // big one.
+  test("the bezel is easy to grab, and never a slab", () => {
+    expect(panelShape(90, 70).rim).toBeGreaterThanOrEqual(12);
     const huge = panelShape(1900, 1000);
+    expect(huge.rim).toBeLessThanOrEqual(24);
     expect(huge.edgeWidth).toBeLessThanOrEqual(3);
     expect(huge.bracketWidth).toBeLessThanOrEqual(4);
-    // The header is a strip, never a big slab of the panel.
     expect(huge.header.height / huge.glass.height).toBeLessThan(0.1);
   });
 });
