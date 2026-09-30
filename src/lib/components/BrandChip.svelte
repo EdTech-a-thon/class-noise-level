@@ -5,7 +5,7 @@
    * The Scene fills the whole screen, so there is no strip of page left to
    * stand a footer in. Instead the teacher.dev mark sits in the top bar and
    * opens what a footer would have said: who built this, and the about and
-   * privacy pages.
+   * privacy pages. How it works has its own button in the bottom corner.
    */
 
   import { asset, resolve } from "$app/paths";
@@ -70,12 +70,6 @@
         >{t("common.builtBy")}</a
       >
       <p class="flex items-center gap-2 text-xs font-medium text-slate-600">
-        <a
-          href="#how-it-works"
-          class="hover:text-slate-900 hover:underline"
-          >{t("common.howItWorks")}</a
-        >
-        <span aria-hidden="true" class="text-slate-300">·</span>
         <a href={resolve("/about")} class="hover:text-slate-900 hover:underline"
           >{t("common.about")}</a
         >
