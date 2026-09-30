@@ -7,27 +7,20 @@
    * it would destroy. Reset confirms in a pop-up above the bar, so the bar
    * itself never changes shape; it is the only irreversible action on screen.
    * Pause stops the room being judged while the teacher talks to the class.
-   * The Class button names the Class on screen, so a teacher can see at a
-   * glance whose animals these are.
    */
 
-  import { classes } from "$lib/classes/classes.svelte";
-  import { className, t } from "$lib/i18n/index.svelte";
+  import { t } from "$lib/i18n/index.svelte";
   import type { App } from "$lib/app.svelte";
 
   let {
     app,
     visible,
     onopensettings,
-    onopenclasses,
   }: {
     app: App;
     visible: boolean;
     onopensettings: () => void;
-    onopenclasses: () => void;
   } = $props();
-
-  const currentName = $derived(className(classes.current.name));
 
   let confirmingReset = $state(false);
 
@@ -130,29 +123,6 @@
         </button>
       {/if}
 
-      <!-- Just the symbol on a phone, where the bar has no room for a name. -->
-      <button
-        class="flex items-center gap-1.5 rounded-full border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50 sm:px-4"
-        aria-label="{t('classes.change')}: {currentName}"
-        title={t("classes.change")}
-        onclick={onopenclasses}
-      >
-        <svg
-          viewBox="0 0 24 24"
-          class="size-5 shrink-0 sm:size-4"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path
-            d="M16 20v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 18.5V20M10 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM20 20v-1.5a3.5 3.5 0 0 0-2.5-3.35M15.5 5.2a3 3 0 0 1 0 5.6"
-          />
-        </svg>
-        <span class="hidden max-w-48 truncate sm:inline">{currentName}</span>
-      </button>
       <button
         class="rounded-full border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50 sm:px-4"
         onclick={onopensettings}

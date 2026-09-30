@@ -30,11 +30,14 @@ export function firstClassList(id: string): ClassList {
   return { classes: [{ id, name: "" }], currentId: id };
 }
 
-/** A new Class, which becomes the one on screen. Nameless is refused. */
+/**
+ * A new Class, at the end of the list. It does not take over the screen:
+ * switching is its own step. Nameless is refused.
+ */
 export function addClass(list: ClassList, id: string, name: string): ClassList {
   const cleaned = cleanName(name);
   if (!cleaned) return list;
-  return { classes: [...list.classes, { id, name: cleaned }], currentId: id };
+  return { ...list, classes: [...list.classes, { id, name: cleaned }] };
 }
 
 /** Clearing the name keeps the old one, rather than leaving a blank row. */

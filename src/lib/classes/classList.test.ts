@@ -31,10 +31,10 @@ describe("cleanName", () => {
 });
 
 describe("addClass", () => {
-  it("adds the Class and moves to it", () => {
+  it("adds the Class without switching to it", () => {
     const list = addClass(three, "d", " Period 5 ");
     expect(list.classes.at(-1)).toEqual({ id: "d", name: "Period 5" });
-    expect(list.currentId).toBe("d");
+    expect(list.currentId).toBe("b");
   });
 
   it("refuses a blank name", () => {

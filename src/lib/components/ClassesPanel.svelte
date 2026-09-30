@@ -1,11 +1,11 @@
 <script lang="ts">
   /**
-   * The teacher's Classes: switch between them, name them, add and delete.
+   * Edit classes: add, rename and delete them.
    *
-   * Opened from the start card and from the control bar. Picking a Class
-   * closes the panel, since that is what it is usually opened for between
-   * periods; adding one does not, so a teacher can set up the whole day at
-   * once. Deleting is the only irreversible thing here, so it asks first.
+   * Opened from the class menu in the top bar, which is where switching
+   * happens; nothing here changes which Class is on screen, except deleting
+   * that Class. Deleting is the only irreversible thing here, so it asks
+   * first.
    */
 
   import type { App } from "$lib/app.svelte";
@@ -27,7 +27,7 @@
   function add(event: SubmitEvent) {
     event.preventDefault();
     if (!newName.trim()) return;
-    app.addClass(newName);
+    classes.add(newName);
     newName = "";
   }
 
@@ -46,11 +46,6 @@
   function confirmDelete() {
     if (deleting) app.deleteClass(deleting.id);
     deleting = null;
-  }
-
-  function choose(id: string) {
-    app.useClass(id);
-    onclose();
   }
 </script>
 
@@ -72,11 +67,11 @@
     class="flex max-h-full w-full max-w-md flex-col rounded-xl bg-white shadow-xl"
     role="dialog"
     aria-modal="true"
-    aria-label={t("classes.title")}
+    aria-label={t("classes.edit")}
   >
     <div class="flex items-start justify-between gap-4 p-4 pb-2 sm:p-6 sm:pb-3">
       <h1 class="text-xl font-semibold text-slate-900">
-        {t("classes.title")}
+        {t("classes.edit")}
       </h1>
       <button
         class="rounded-md border border-slate-300 px-3 py-1 text-sm hover:bg-slate-50"
@@ -120,12 +115,7 @@
                 >
               </form>
             {:else}
-              <button
-                class="flex min-w-0 flex-1 items-center gap-2 rounded-md px-2 py-1.5 text-left hover:bg-slate-50"
-                aria-current={current}
-                aria-label={current ? undefined : t("classes.use", { name })}
-                onclick={() => choose(info.id)}
-              >
+              <div class="flex min-w-0 flex-1 items-center gap-2 px-2 py-1.5">
                 <span class="truncate font-medium text-slate-900">{name}</span>
                 {#if current}
                   <span
@@ -133,7 +123,7 @@
                     >{t("classes.current")}</span
                   >
                 {/if}
-              </button>
+              </div>
               <button
                 class="grid size-9 shrink-0 place-items-center rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-800"
                 aria-label={t("classes.renameLabel", { name })}

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { App } from "$lib/app.svelte";
   import ClassesPanel from "$lib/components/ClassesPanel.svelte";
+  import ClassPicker from "$lib/components/ClassPicker.svelte";
   import Collection from "$lib/components/Collection.svelte";
   import ControlBar from "$lib/components/ControlBar.svelte";
   import MicBlocked from "$lib/components/MicBlocked.svelte";
@@ -10,8 +11,7 @@
   import LanguagePicker from "$lib/components/LanguagePicker.svelte";
   import PageMeta from "$lib/components/PageMeta.svelte";
   import InfoDrawer, { FAQ_IDS } from "$lib/components/InfoDrawer.svelte";
-  import { classes } from "$lib/classes/classes.svelte";
-  import { className, t, type UiKey } from "$lib/i18n/index.svelte";
+  import { t, type UiKey } from "$lib/i18n/index.svelte";
   import { onMount } from "svelte";
   import { SCENES } from "$lib/scenes";
   import { settings } from "$lib/settings/settings.svelte";
@@ -63,6 +63,7 @@
   let collectionOpen = $state(false);
   let infoOpen = $state(false);
   let classesOpen = $state(false);
+  let classMenuOpen = $state(false);
   let fullScreen = $state(false);
   let controlsVisible = $state(true);
   let idleTimer: ReturnType<typeof setTimeout>;
@@ -101,7 +102,9 @@
    * The corner buttons fade with the control bar, so the class sees only the
    * Scene; before the Session starts there is nothing to hide them for.
    */
-  const topBarVisible = $derived(controlsVisible || !app.listening);
+  const topBarVisible = $derived(
+    controlsVisible || !app.listening || classMenuOpen,
+  );
 
   async function toggleFullScreen() {
     try {
@@ -196,46 +199,7 @@
               >
             {/each}
           </div>
-          <!-- Hidden, not absent, until the saved Class is known, so the card
-               neither flashes "My class" nor jumps in height. -->
-          <div class="mt-3 short:mt-2" class:invisible={!app.restored}>
-            <button
-              class="inline-flex max-w-full items-center gap-1.5 rounded-full border border-slate-300 px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-50"
-              title={t("classes.change")}
-              onclick={() => (classesOpen = true)}
-            >
-              <svg
-                viewBox="0 0 24 24"
-                class="size-4 shrink-0"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path
-                  d="M16 20v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 18.5V20M10 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM20 20v-1.5a3.5 3.5 0 0 0-2.5-3.35M15.5 5.2a3 3 0 0 1 0 5.6"
-                />
-              </svg>
-              <span>{t("classes.label")}:</span>
-              <span class="truncate font-medium text-slate-900"
-                >{className(classes.current.name)}</span
-              >
-              <svg
-                viewBox="0 0 24 24"
-                class="size-4 shrink-0"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path d="m6 9 6 6 6-6" />
-              </svg>
-            </button>
-          </div>
+          <br />
           <button
             class="mt-4 rounded-full bg-slate-900 px-6 py-2.5 font-medium text-white short:mt-3"
             onclick={async () => {
@@ -252,18 +216,23 @@
     </div>
   {/if}
 
-  <!-- Top left: who made this. Top right: the tools that change how the page
-       looks — its language, and whether it fills the screen. Later than the
-       start card so it sits above it; Settings, Animals and the blocked-
-       microphone screen cover it. -->
+  <!-- Top left: who made this, and which Class is on screen. Top right: the
+       tools that change how the page looks — its language, and whether it
+       fills the screen. Later than the start card so it sits above it;
+       Settings, Animals and the blocked-microphone screen cover it. -->
   <div
     class="safe-edges pointer-events-none absolute inset-x-0 top-0 z-40 flex items-start justify-between p-4 transition-opacity duration-300"
     class:opacity-0={!topBarVisible}
     aria-hidden={!topBarVisible}
     inert={!topBarVisible}
   >
-    <div class="pointer-events-auto">
+    <div class="pointer-events-auto flex min-w-0 gap-2">
       <BrandChip />
+      <ClassPicker
+        {app}
+        bind:open={classMenuOpen}
+        onedit={() => (classesOpen = true)}
+      />
     </div>
     <div class="pointer-events-auto flex gap-2">
       <LanguagePicker />
@@ -371,9 +340,8 @@
   {#if app.listening}
     <ControlBar
       {app}
-      visible={controlsVisible || settingsOpen || collectionOpen || classesOpen}
+      visible={controlsVisible || settingsOpen || collectionOpen}
       onopensettings={() => (settingsOpen = true)}
-      onopenclasses={() => (classesOpen = true)}
     />
 
     <!-- Bottom right: every animal the class has spotted. Mirrors the help

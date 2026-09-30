@@ -72,13 +72,6 @@ export class App {
     this.#enterClass();
   }
 
-  /** Add a Class and switch to it: it is being made to be used. */
-  addClass(name: string) {
-    const before = classes.currentId;
-    classes.add(name);
-    if (classes.currentId !== before) this.#enterClass();
-  }
-
   /** Delete a Class for good. If it is the one on screen, another takes over. */
   deleteClass(id: string) {
     const wasCurrent = id === classes.currentId;
