@@ -5,13 +5,22 @@
  * pill shows and the progress the arrival clock banks can never disagree.
  */
 
-import { Microphone } from "$lib/audio/microphone.svelte";
+import { CHIME_MS, playChime } from "$lib/audio/chime";
+import { Microphone, SMOOTHING_MS } from "$lib/audio/microphone.svelte";
 import { RoomMonitor } from "$lib/noise/roomMonitor.svelte";
 import { SCENES } from "$lib/scenes";
 import { DEFAULT_SCENE, type SceneId } from "$lib/scenes/types";
 import { Session } from "$lib/session/session.svelte";
 import { settings } from "$lib/settings/settings.svelte";
+import { ClassTimer } from "$lib/timer/timer.svelte";
 import { untrack } from "svelte";
+
+/**
+ * How long the microphone's level takes to forget a sound. It is smoothed
+ * (`SMOOTHING_MS`), so the chime lingers in it after the room has gone
+ * quiet again; three time constants leave only a twentieth of it.
+ */
+const CHIME_ECHO_MS = 3 * SMOOTHING_MS;
 
 export class App {
   microphone = new Microphone();
@@ -33,6 +42,7 @@ export class App {
    * and the arrival clock must not bank or lose progress.
    */
   calibrating = $state(false);
+  timer = new ClassTimer(() => this.#ring());
   session = new Session(
     DEFAULT_SCENE,
     SCENES[DEFAULT_SCENE].roster,
@@ -41,6 +51,12 @@ export class App {
 
   #frame = 0;
   #lastTick = 0;
+  /**
+   * Until this time (on the frame clock), the room is not listened to. The
+   * microphone cannot tell the Timer's chime from the class, and the class
+   * must never be blamed, or lose an animal, for the teacher's own bell.
+   */
+  #hushUntil = 0;
 
   get scene() {
     return SCENES[this.#sceneId];
@@ -101,12 +117,18 @@ export class App {
     this.session.reset(settings.arrivalIntervalMs);
   }
 
+  #ring() {
+    playChime();
+    this.#hushUntil = performance.now() + CHIME_MS + CHIME_ECHO_MS;
+  }
+
   /** Drive the loop. Returns a teardown for $effect. */
   run() {
     // Untracked so the page's $effect never re-runs (and tears down the
     // microphone) because of anything restoring touched. Switching to the
     // saved Scene also brings back the animals it had.
     untrack(() => this.useScene(settings.scene));
+    const stopTimer = untrack(() => this.timer.run());
     this.restored = true;
     this.#lastTick = performance.now();
     const step = () => {
@@ -114,7 +136,14 @@ export class App {
       const delta = now - this.#lastTick;
       this.#lastTick = now;
 
-      if (this.microphone.status === "on" && !this.calibrating) {
+      // While the chime rings the Scene simply holds, as while calibrating:
+      // the bell cannot tip the room into Too Loud, and a class that falls
+      // silent at it is not still losing animals to the noise before it.
+      if (
+        this.microphone.status === "on" &&
+        !this.calibrating &&
+        now >= this.#hushUntil
+      ) {
         this.monitor.observe(
           this.microphone.levelWith(settings.calibration),
           settings.volumeGoal,
@@ -133,6 +162,7 @@ export class App {
 
     return () => {
       cancelAnimationFrame(this.#frame);
+      stopTimer();
       this.microphone.stop();
     };
   }

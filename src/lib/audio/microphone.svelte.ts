@@ -22,7 +22,7 @@ export type MicrophoneStatus =
   | "unsupported";
 
 /** How quickly the published level follows the room. From Focus Friend. */
-const SMOOTHING_MS = 1400;
+export const SMOOTHING_MS = 1400;
 /** Publishing faster than this only makes the bar jitter. */
 const PUBLISH_INTERVAL_MS = 100;
 

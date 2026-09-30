@@ -80,3 +80,10 @@ by choosing a named preset or by adjusting it directly.
 Teaching the app what this particular room and microphone sound like, by
 sampling the room while it is silent and again while it is talking normally.
 Calibration is optional; without it the app uses a sensible default.
+
+## Timer
+
+A countdown the teacher can put up over the Scene and drag wherever suits
+the room. Creatures pass behind it. When it runs out it chimes, and while the
+chime rings the room is not judged: the teacher's own bell is never Too Loud
+and never makes a Creature Run Away.

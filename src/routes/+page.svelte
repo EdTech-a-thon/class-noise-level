@@ -5,6 +5,7 @@
   import MicBlocked from "$lib/components/MicBlocked.svelte";
   import Scene from "$lib/components/Scene.svelte";
   import SettingsPanel from "$lib/components/SettingsPanel.svelte";
+  import Timer from "$lib/components/Timer.svelte";
   import BrandChip from "$lib/components/BrandChip.svelte";
   import LanguagePicker from "$lib/components/LanguagePicker.svelte";
   import { t, type UiKey } from "$lib/i18n/index.svelte";
@@ -166,9 +167,9 @@
   {/if}
 
   <!-- Top left: who made this. Top right: the tools that change how the page
-       looks — its language, and whether it fills the screen. Later than the
-       start card so it sits above it; Settings, Animals and the blocked-
-       microphone screen cover it. -->
+       looks — the Timer over the Scene, its language, and whether it fills
+       the screen. Later than the start card so it sits above it; Settings,
+       Animals and the blocked-microphone screen cover it. -->
   <div
     class="safe-edges pointer-events-none absolute inset-x-0 top-0 z-40 flex items-start justify-between p-4 transition-opacity duration-300"
     class:opacity-0={!topBarVisible}
@@ -179,6 +180,35 @@
       <BrandChip />
     </div>
     <div class="pointer-events-auto flex gap-2">
+      <!-- Only once listening: the Timer is not shown over the start card. -->
+      {#if app.listening}
+        <button
+          class={[
+            "grid size-11 place-items-center rounded-full shadow-lg",
+            app.timer.open
+              ? "bg-slate-900 text-white"
+              : "bg-white/95 text-slate-700 hover:bg-white",
+          ]}
+          aria-pressed={app.timer.open}
+          aria-label={t("controls.timer")}
+          title={t("controls.timer")}
+          onclick={() => (app.timer.open ? app.timer.hide() : app.timer.show())}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            class="size-5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="13.5" r="7.5" />
+            <path d="M12 13.5V9.5M10 2.5h4M18.5 6.5l1.5-1.5" />
+          </svg>
+        </button>
+      {/if}
       <LanguagePicker />
       {#if canFullScreen}
         <button
@@ -211,6 +241,13 @@
       {/if}
     </div>
   </div>
+
+  {#if app.listening && app.timer.open}
+    <Timer
+      timer={app.timer}
+      controlsVisible={controlsVisible || settingsOpen || collectionOpen}
+    />
+  {/if}
 
   {#if app.blocked}
     <MicBlocked {app} />
