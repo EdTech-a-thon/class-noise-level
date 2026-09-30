@@ -134,6 +134,7 @@
       creature.depth,
       footprint(),
       Math.random,
+      creature.def.flips,
     );
 
     let facing = 0;

@@ -72,7 +72,10 @@ export interface MotionProfile {
   rest: [number, number];
   /** Seconds per propulsion pulse; 0 for a steady swim. */
   pulse: number;
-  /** Faces its direction of travel. False for front-on art. */
+  /**
+   * Faces its direction of travel. False for front-on art, and for most of
+   * space, where only what is propelled has a front (`CreatureDef.flips`).
+   */
   flips: boolean;
   /**
    * Lit from one side, like a planet with its sun off to the upper left, so
@@ -273,7 +276,7 @@ export const MOTION_PROFILES: Record<MotionStyle, MotionProfile> = {
     restChance: 0.05,
     rest: [2, 5],
     pulse: 0,
-    flips: true,
+    flips: false,
     tilts: false,
     ground: false,
   },
@@ -286,7 +289,7 @@ export const MOTION_PROFILES: Record<MotionStyle, MotionProfile> = {
     restChance: 0,
     rest: [0, 0],
     pulse: 0,
-    flips: true,
+    flips: false,
     tilts: true,
     ground: false,
   },
@@ -299,7 +302,7 @@ export const MOTION_PROFILES: Record<MotionStyle, MotionProfile> = {
     restChance: 0.4,
     rest: [4, 10],
     pulse: 0,
-    flips: true,
+    flips: false,
     tilts: false,
     ground: false,
   },
@@ -347,6 +350,8 @@ export interface MotionState {
   age: number;
   /** 1 faces right, -1 faces left. Changes with hysteresis, not per frame. */
   facing: -1 | 1;
+  /** Turns to face its direction of travel; see `MotionProfile.flips`. */
+  flips: boolean;
 }
 
 /** The Creature's footprint, as fractions of the Scene. */
@@ -444,6 +449,7 @@ export function createMotion(
   depth: number,
   footprint: Footprint,
   random: () => number,
+  flips = MOTION_PROFILES[style].flips,
 ): MotionState {
   const profile = MOTION_PROFILES[style];
   const box = bounds(profile, footprint, depth);
@@ -458,6 +464,7 @@ export function createMotion(
     resting: 1.2,
     age: random() * 10,
     facing: random() < 0.5 ? -1 : 1,
+    flips,
   };
   if (profile.oneSided) state.facing = 1;
   pickTarget(state, profile, box, random);
@@ -526,7 +533,7 @@ export function stepMotion(
     box.yMax,
   );
 
-  if (profile.flips && Math.abs(state.vx) > profile.speed * 0.25) {
+  if (state.flips && Math.abs(state.vx) > profile.speed * 0.25) {
     state.facing = state.vx > 0 ? 1 : -1;
   }
   return state;
@@ -573,7 +580,7 @@ export function stepFlee(
     box.yMin,
     box.yMax,
   );
-  if (profile.flips) state.facing = direction;
+  if (state.flips) state.facing = direction;
 
   const halfW = footprint.width / 2;
   return state.x < -halfW || state.x > 1 + halfW;

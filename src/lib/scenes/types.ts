@@ -41,6 +41,8 @@ export interface CreatureDef {
   width: number;
   /** How it moves around the Scene once it has arrived. */
   motion: MotionStyle;
+  /** Overrides whether it faces its direction of travel (`motion`'s `flips`). */
+  flips?: boolean;
   /** The part-* classes actually present in the artwork. */
   parts: AnimatablePart[];
 }

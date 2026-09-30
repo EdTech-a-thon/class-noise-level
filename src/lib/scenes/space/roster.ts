@@ -9,6 +9,10 @@
  *
  * Planets, moons and the Rare objects `loom`, and never show mirrored, so the
  * sunlight on every one of them comes from the same upper left.
+ *
+ * Only what is propelled, and the meteor with its trail (`flips: true`),
+ * turns round to face where it is going. Everything else keeps the way it
+ * arrived facing, whichever way it drifts.
  */
 
 import type { CreatureDef } from "$lib/scenes/types";
@@ -34,6 +38,7 @@ export const SPACE_ROSTER: CreatureDef[] = [
     tier: "common",
     width: 150,
     motion: "streak",
+    flips: true,
     parts: [],
   },
   {
@@ -48,6 +53,7 @@ export const SPACE_ROSTER: CreatureDef[] = [
     tier: "common",
     width: 84,
     motion: "orbit",
+    flips: true,
     parts: [],
   },
   {
@@ -55,6 +61,7 @@ export const SPACE_ROSTER: CreatureDef[] = [
     tier: "common",
     width: 58,
     motion: "coast",
+    flips: true,
     parts: [],
   },
   {
@@ -62,6 +69,7 @@ export const SPACE_ROSTER: CreatureDef[] = [
     tier: "common",
     width: 140,
     motion: "orbit",
+    flips: true,
     parts: [],
   },
 
@@ -78,6 +86,7 @@ export const SPACE_ROSTER: CreatureDef[] = [
     tier: "uncommon",
     width: 190,
     motion: "orbit",
+    flips: true,
     parts: ["part-pulse"],
   },
   {

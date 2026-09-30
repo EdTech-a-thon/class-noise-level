@@ -67,6 +67,31 @@ describe("createMotion", () => {
       expect(state.facing).toBe(1);
     }
   });
+
+  it("lets a Creature override its style's flipping", () => {
+    const random = seeded(3);
+    const drifter = createMotion("orbit", 0.5, 0.5, 0.5, footprint, random);
+    const shuttle = createMotion(
+      "orbit",
+      0.5,
+      0.5,
+      0.5,
+      footprint,
+      random,
+      true,
+    );
+    const arrived = drifter.facing;
+    const facings = new Set<number>();
+    for (let i = 0; i < 30 * 120; i++) {
+      stepMotion(drifter, "orbit", 0.5, footprint, 1 / 30, random);
+      stepMotion(shuttle, "orbit", 0.5, footprint, 1 / 30, random);
+      expect(drifter.facing).toBe(arrived);
+      facings.add(shuttle.facing);
+    }
+    expect(facings.size).toBe(2);
+    stepFlee(drifter, "orbit", 0.5, footprint, -arrived as -1 | 1, 1 / 30);
+    expect(drifter.facing).toBe(arrived);
+  });
 });
 
 describe("stepFlee", () => {
