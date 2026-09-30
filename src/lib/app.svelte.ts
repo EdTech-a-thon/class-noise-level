@@ -6,10 +6,12 @@
  */
 
 import { Microphone } from "$lib/audio/microphone.svelte";
+import { classes } from "$lib/classes/classes.svelte";
 import { RoomMonitor } from "$lib/noise/roomMonitor.svelte";
 import { SCENES } from "$lib/scenes";
 import { DEFAULT_SCENE, type SceneId } from "$lib/scenes/types";
 import { Session } from "$lib/session/session.svelte";
+import { sightings } from "$lib/session/sightings.svelte";
 import { settings } from "$lib/settings/settings.svelte";
 import { untrack } from "svelte";
 
@@ -58,6 +60,36 @@ export class App {
     settings.scene = id;
     this.#sceneId = id;
     this.session.useScene(id, SCENES[id].roster);
+  }
+
+  /**
+   * Switch Class, say when third period arrives. Its animals and Collection
+   * come back; the Session waits for Start, so the new class begins together.
+   */
+  useClass(id: string) {
+    if (id === classes.currentId) return;
+    classes.select(id);
+    this.#enterClass();
+  }
+
+  /** Add a Class and switch to it: it is being made to be used. */
+  addClass(name: string) {
+    const before = classes.currentId;
+    classes.add(name);
+    if (classes.currentId !== before) this.#enterClass();
+  }
+
+  /** Delete a Class for good. If it is the one on screen, another takes over. */
+  deleteClass(id: string) {
+    const wasCurrent = id === classes.currentId;
+    classes.remove(id);
+    if (wasCurrent) this.#enterClass();
+  }
+
+  #enterClass() {
+    sightings.reload();
+    this.monitor.reset();
+    this.session.useClass(settings.arrivalIntervalMs);
   }
 
   /** True once the microphone has failed in a way the teacher must resolve. */

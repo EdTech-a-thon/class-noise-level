@@ -49,6 +49,14 @@ resetting. A Session begins with an empty Scene and fills as the room stays
 quiet. Refreshing the page does not end a Session; nothing about a Session
 outlives Reset.
 
+## Class
+
+A group of students the teacher names, such as "2nd period". Each Class has
+its own Creatures in every Scene and its own Collection, so one Class never
+sees what another earned, and Reset empties only the Class on screen.
+Switching Class ends the Session until the teacher presses start again.
+Deleting a Class removes everything it kept. There is always at least one.
+
 ## Quiet
 
 The state of the room being at or below the Volume Goal. While the room is

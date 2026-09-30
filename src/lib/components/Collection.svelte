@@ -1,7 +1,7 @@
 <script lang="ts">
   /**
    * Every animal a Scene can bring, by rarity, with how many times each has
-   * arrived on this computer. Animals not seen yet show as silhouettes, so
+   * arrived for the Class on screen. Animals not seen yet show as silhouettes, so
    * the class knows what there is to earn without it being spoiled.
    */
 
@@ -10,7 +10,8 @@
   import type { RarityTier, SceneId } from "$lib/scenes/types";
   import { TIER_WEIGHTS } from "$lib/session/roll";
   import { sightings } from "$lib/session/sightings.svelte";
-  import { creatureName, t } from "$lib/i18n/index.svelte";
+  import { classes } from "$lib/classes/classes.svelte";
+  import { className, creatureName, t } from "$lib/i18n/index.svelte";
 
   let { app, onclose }: { app: App; onclose: () => void } = $props();
 
@@ -58,7 +59,11 @@
           {t("collection.title")}
         </h1>
         <p class="mt-1 text-sm text-slate-500">
-          {t("collection.spotted", { seen, total: scene.roster.length })}
+          {t("collection.spotted", {
+            class: className(classes.current.name),
+            seen,
+            total: scene.roster.length,
+          })}
         </p>
       </div>
       <div
