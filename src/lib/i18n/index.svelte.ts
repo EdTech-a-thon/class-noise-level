@@ -381,7 +381,7 @@ const en = {
       "Its name means “wondrous lizard”. A stocky plant-eater with a beak and cheeks.",
     struthiomimus:
       "Its name means “ostrich mimic”: a toothless beak, long legs and feathered wings.",
-    anzu: "Named after a feathered demon of Mesopotamian myth, and nicknamed “the chicken from hell”.",
+    anzu: "Named after a feathered demon of Mesopotamian myth. It had a tall crest on its head, like a cassowary.",
     pachycephalosaurus: "The bony dome on its head was up to 25 cm thick.",
     dakotaraptor:
       "Bumps on its forearm bones show where big wing feathers were anchored.",
@@ -860,7 +860,7 @@ const es = {
       "Su nombre significa “lagarto maravilloso”. Un herbívoro robusto con pico y mejillas.",
     struthiomimus:
       "Su nombre significa “imitador de avestruz”: pico sin dientes, patas largas y alas con plumas.",
-    anzu: "Debe su nombre a un demonio con plumas de la mitología mesopotámica, y lo apodan “la gallina del infierno”.",
+    anzu: "Debe su nombre a un demonio con plumas de la mitología mesopotámica. Tenía una cresta alta en la cabeza, como un casuario.",
     pachycephalosaurus:
       "La cúpula de hueso de su cabeza medía hasta 25 cm de grosor.",
     dakotaraptor:
@@ -1282,7 +1282,7 @@ const fr = {
       "Son nom signifie « lézard merveilleux ». Un herbivore trapu, avec un bec et des joues.",
     struthiomimus:
       "Son nom signifie « imitateur d’autruche » : bec sans dents, longues pattes et ailes à plumes.",
-    anzu: "Nommé d’après un démon à plumes de la mythologie mésopotamienne, et surnommé « le poulet de l’enfer ».",
+    anzu: "Nommé d’après un démon à plumes de la mythologie mésopotamienne. Il portait une haute crête sur la tête, comme un casoar.",
     pachycephalosaurus:
       "Le dôme osseux de son crâne atteignait 25 cm d’épaisseur.",
     dakotaraptor:
