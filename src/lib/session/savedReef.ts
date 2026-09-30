@@ -44,7 +44,7 @@ export function loadReef(
     return saved.flatMap(({ id, slug, depth, spawnX, spawnY }) => {
       // A Creature since dropped from the Roster just does not come back.
       const def = roster.find((candidate) => candidate.slug === slug);
-      return def ? [{ id, def, depth, spawnX, spawnY }] : [];
+      return def ? [{ id, def, depth, spawnX, spawnY, restored: true }] : [];
     });
   } catch {
     return [];

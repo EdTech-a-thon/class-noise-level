@@ -37,6 +37,11 @@ export interface CreatureInstance {
    */
   spawnX: number;
   spawnY: number;
+  /**
+   * Brought back from before a refresh or a Scene switch rather than just
+   * arrived, so it comes back plain instead of glistening all over again.
+   */
+  restored?: boolean;
 }
 
 export class Session {

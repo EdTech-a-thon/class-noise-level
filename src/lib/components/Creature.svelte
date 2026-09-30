@@ -12,6 +12,7 @@
    */
 
   import { onMount } from "svelte";
+  import { fade } from "svelte/transition";
   import {
     MOTION_PROFILES,
     bankAngle,
@@ -67,6 +68,17 @@
     { x: 72, y: 40, size: 0.5, delay: 2.6 },
   ];
 
+  /**
+   * An Uncommon or Rare Creature glistens for its first minute in the Scene,
+   * so the class notices it, then settles down to look like everyone else.
+   * One brought back from before a refresh has had its minute already.
+   */
+  const GLISTEN_MS = 60_000;
+  const SETTLE_MS = 2000;
+  // Only the value it mounts with matters: the timer below takes it from there.
+  // svelte-ignore state_referenced_locally
+  let glistening = $state(!creature.restored);
+
   let swimmer: HTMLDivElement;
   let banker: HTMLDivElement;
   let flipper: HTMLDivElement;
@@ -101,6 +113,8 @@
     });
     resize.observe(scene);
     resize.observe(swimmer);
+
+    const settle = setTimeout(() => (glistening = false), GLISTEN_MS);
 
     const state = createMotion(
       style,
@@ -173,6 +187,7 @@
     return () => {
       cancelAnimationFrame(frame);
       resize.disconnect();
+      clearTimeout(settle);
     };
   });
 </script>
@@ -211,6 +226,7 @@
         <div
           class="creature"
           class:arriving={isNewest}
+          class:settled={!glistening}
           data-tier={creature.def.tier}
         >
           {#if isNewest}
@@ -223,24 +239,30 @@
           {@html art}
         </div>
       </div>
-      {#if creature.def.tier === "rare"}
-        {#each SPARKLES as sparkle, i (i)}
-          <svg
-            class="sparkle"
-            viewBox="-10 -10 20 20"
-            aria-hidden="true"
-            style="
-              left:{sparkle.x}%;
-              top:{sparkle.y}%;
-              width:calc({sparkle.size * 2.2} * var(--wu));
-              animation-delay:{sparkle.delay}s;
-            "
-          >
-            <path
-              d="M0 -10 C 1 -2, 2 -1, 10 0 C 2 1, 1 2, 0 10 C -1 2, -2 1, -10 0 C -2 -1, -1 -2, 0 -10 Z"
-            />
-          </svg>
-        {/each}
+      {#if creature.def.tier === "rare" && glistening}
+        <span
+          class="absolute inset-0"
+          aria-hidden="true"
+          out:fade={{ duration: SETTLE_MS }}
+        >
+          {#each SPARKLES as sparkle, i (i)}
+            <svg
+              class="sparkle"
+              viewBox="-10 -10 20 20"
+              aria-hidden="true"
+              style="
+                left:{sparkle.x}%;
+                top:{sparkle.y}%;
+                width:calc({sparkle.size * 2.2} * var(--wu));
+                animation-delay:{sparkle.delay}s;
+              "
+            >
+              <path
+                d="M0 -10 C 1 -2, 2 -1, 10 0 C 2 1, 1 2, 0 10 C -1 2, -2 1, -10 0 C -2 -1, -1 -2, 0 -10 Z"
+              />
+            </svg>
+          {/each}
+        </span>
       {/if}
     </div>
   </div>

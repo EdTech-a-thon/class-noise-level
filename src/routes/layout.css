@@ -415,7 +415,8 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
 /*
  * Rarity Tier, visible from across the room. Uncommon Creatures carry a pale silvery
  * glow round their outline that breathes; Rare ones a warmer, stronger gold
- * glow plus twinkling sparkles.
+ * glow plus twinkling sparkles. Both only for their first minute in the Scene
+ * (`Creature.svelte`): then the glow fades and they look like everyone else.
  */
 @keyframes glow-uncommon {
   0%,
@@ -454,12 +455,38 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   }
 }
 
-.creature[data-tier="uncommon"] > svg {
+@keyframes glow-uncommon-settle {
+  from {
+    filter: drop-shadow(0 0 calc(0.6 * var(--wu)) rgb(210 250 245 / 0.8));
+  }
+  to {
+    filter: drop-shadow(0 0 0 rgb(210 250 245 / 0));
+  }
+}
+
+@keyframes glow-rare-settle {
+  from {
+    filter: drop-shadow(0 0 calc(0.8 * var(--wu)) rgb(255 209 102 / 0.9));
+  }
+  to {
+    filter: drop-shadow(0 0 0 rgb(255 209 102 / 0));
+  }
+}
+
+.creature[data-tier="uncommon"]:not(.settled) > svg {
   animation: glow-uncommon 3.2s ease-in-out infinite;
 }
 
-.creature[data-tier="rare"] > svg {
+.creature[data-tier="rare"]:not(.settled) > svg {
   animation: glow-rare 2.4s ease-in-out infinite;
+}
+
+.creature.settled[data-tier="uncommon"] > svg {
+  animation: glow-uncommon-settle 2s ease-out forwards;
+}
+
+.creature.settled[data-tier="rare"] > svg {
+  animation: glow-rare-settle 2s ease-out forwards;
 }
 
 .sparkle {
@@ -671,12 +698,12 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   }
 
   /* A steady glow rather than a breathing one. */
-  .creature[data-tier="uncommon"] > svg {
+  .creature[data-tier="uncommon"]:not(.settled) > svg {
     animation: none;
     filter: drop-shadow(0 0 calc(0.6 * var(--wu)) rgb(210 250 245 / 0.8));
   }
 
-  .creature[data-tier="rare"] > svg {
+  .creature[data-tier="rare"]:not(.settled) > svg {
     animation: none;
     filter: drop-shadow(0 0 calc(0.8 * var(--wu)) rgb(255 209 102 / 0.9));
   }
