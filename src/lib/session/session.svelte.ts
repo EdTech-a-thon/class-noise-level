@@ -37,6 +37,11 @@ export interface CreatureInstance {
    */
   spawnX: number;
   spawnY: number;
+  /**
+   * Brought back from before a refresh or a Scene switch rather than just
+   * arrived, so it comes back plain instead of glistening all over again.
+   */
+  restored?: boolean;
 }
 
 export class Session {
@@ -92,6 +97,18 @@ export class Session {
   useScene(sceneId: string, roster: CreatureDef[]) {
     this.#sceneId = sceneId;
     this.#roster = roster;
+    this.restore();
+  }
+
+  /**
+   * Another Class has taken over the room: bring back what it had earned in
+   * this Scene, and wait for Start. Progress towards the next Creature and
+   * any scare under way belonged to the class that was here before.
+   */
+  useClass(intervalMs: number) {
+    this.running = false;
+    this.#clock = createArrivalClock(intervalMs, this.#random);
+    this.#scare = createScareClock();
     this.restore();
   }
 

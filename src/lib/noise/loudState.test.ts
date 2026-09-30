@@ -36,10 +36,7 @@ describe("nextNoiseState", () => {
 
   it("ignores a knock at the door", () => {
     const now = 60_000;
-    const samples = concat(
-      series(now - 500, 20_000, 8),
-      series(now, 500, 95),
-    );
+    const samples = concat(series(now - 500, 20_000, 8), series(now, 500, 95));
     expect(nextNoiseState("quiet", samples, GOAL, now)).toBe("quiet");
   });
 
@@ -72,10 +69,7 @@ describe("nextNoiseState", () => {
 
   it("never enters Too Loud faster than the fastest window", () => {
     const now = 60_000;
-    const samples = concat(
-      series(now - 800, 20_000, 8),
-      series(now, 800, 100),
-    );
+    const samples = concat(series(now - 800, 20_000, 8), series(now, 800, 100));
     expect(nextNoiseState("quiet", samples, GOAL, now)).toBe("quiet");
     expect(FASTEST_TOO_LOUD_MS).toBeGreaterThan(800);
   });

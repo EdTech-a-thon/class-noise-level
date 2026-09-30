@@ -6,7 +6,7 @@
    * confidence in it.
    */
 
-  import { t } from "$lib/i18n/index.svelte";
+  import { t, tIn } from "$lib/i18n/index.svelte";
   import type { App } from "$lib/app.svelte";
   import { settings } from "$lib/settings/settings.svelte";
 
@@ -26,7 +26,7 @@
 >
   <div class="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
     <h1 class="text-xl font-semibold text-slate-900">
-      {t("blocked.title")}
+      {tIn(app.scene.id, "blocked.title")}
     </h1>
     <p class="mt-3 text-slate-700">{message}</p>
 

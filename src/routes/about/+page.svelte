@@ -1,16 +1,18 @@
 <script lang="ts">
   import { asset } from "$app/paths";
   import DocPage from "$lib/components/DocPage.svelte";
+  import PageMeta from "$lib/components/PageMeta.svelte";
   import { t } from "$lib/i18n/index.svelte";
 
   const card = "mb-6 rounded-2xl bg-white/90 p-6 shadow-lg shadow-amber-900/5";
   const link = "font-semibold text-teal-700 underline-offset-4 hover:underline";
 </script>
 
-<svelte:head>
-  <title>{t("about.pageTitle")}</title>
-  <meta name="description" content={t("about.meta")} />
-</svelte:head>
+<PageMeta
+  path="/about"
+  title={t("about.pageTitle")}
+  description={t("about.meta")}
+/>
 
 <DocPage title={t("about.title")} lede={t("about.lede")}>
   <section class={card}>
@@ -57,11 +59,7 @@
 
   <section class={card}>
     <h2 class="mb-3 text-xl font-semibold">{t("about.promiseTitle")}</h2>
-    <ul class="space-y-2 leading-relaxed font-semibold text-slate-900">
-      <li>{t("about.promise.paywalls")}</li>
-      <li>{t("about.promise.ads")}</li>
-      <li>{t("about.promise.tracking")}</li>
-    </ul>
+    <p class="leading-relaxed text-slate-700">{t("about.promise")}</p>
   </section>
 
   <section class={card}>

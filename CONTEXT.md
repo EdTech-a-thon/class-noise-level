@@ -5,10 +5,12 @@ no decisions, no specification. Decisions live in `docs/adr/`.
 
 ## Scene
 
-The calm world on screen. The teacher chooses between two Scenes, the
-savanna and the coral reef. A Scene is a backdrop, its Ambient Life and the
-Roster of Creatures that can live in it. Each Scene keeps the Creatures it
-has earned separately, so switching never takes any away.
+The calm world on screen. The teacher chooses between four Scenes: the
+savanna, the coral reef, deep space and the prehistoric floodplain. A Scene
+is a backdrop, its Ambient Life, the Roster of Creatures that can live in it,
+and its Departure. Each
+Scene keeps the Creatures it has earned separately, so switching never takes
+any away.
 
 ## Creature
 
@@ -16,6 +18,10 @@ One animal that can appear in the Scene. Creatures are shy: they come out
 while the room is Quiet and stay hidden while it is Too Loud. A Creature is
 either **absent** or **present**. Once present, it stays present for the rest
 of the Session, unless it Runs Away.
+
+In deep space a Creature is not an animal but a **sighting**: something the
+class's telescope picks up, from a satellite to a black hole. It is still a
+Creature in every other way.
 
 ## Roster
 
@@ -33,9 +39,21 @@ unlocked or gated.
 ## Ambient Life
 
 Scenery that is alive but is not a Creature: swaying grass and drifting
-clouds on the savanna, seaweed and plankton on the reef. Ambient Life is present from the first moment of
+clouds on the savanna, seaweed and plankton on the reef, twinkling stars and
+drifting dust in deep space, ferns and river mist in the
+prehistoric Scene. Ambient Life is present from the first moment of
 every Session, is never earned, and is never counted. It exists so an
 unpopulated Scene still reads as a living place.
+
+## Note
+
+Words or a drawing the teacher puts on the Scene for the class to read,
+drawn as part of the world: a cloud in the savanna sky, a framed wooden sign
+hanging in the reef water, a readout panel floating in deep space, a slab of
+sandstone with a fossil in its border in the prehistoric Scene. Creatures pass behind a Note. A Note belongs to the
+teacher and the Class, not the Session: Reset leaves it, and it stays where it
+is when the Scene changes, taking on the new Scene's look. Each Class has its
+own Notes.
 
 ## Arrival Rate
 
@@ -49,6 +67,15 @@ resetting. A Session begins with an empty Scene and fills as the room stays
 quiet. Refreshing the page does not end a Session; nothing about a Session
 outlives Reset.
 
+## Class
+
+A group of students the teacher names, such as "2nd period". Each Class has
+its own Creatures in every Scene, its own Collection, and its own Notes and
+Timer, so one Class never sees what another earned or was told, and Reset
+empties only the Class on screen.
+Switching Class ends the Session until the teacher presses start again.
+Deleting a Class removes everything it kept. There is always at least one.
+
 ## Quiet
 
 The state of the room being at or below the Volume Goal. While the room is
@@ -56,7 +83,8 @@ Quiet, Creatures arrive, at the Arrival Rate.
 
 ## Too Loud
 
-The state of the room being above the Volume Goal. While the room is Too Loud,
+The state of the room being above the Volume Goal. In deep space, noise is
+interference on the telescope's signal. While the room is Too Loud,
 no new Creatures arrive — the shy animals wait to come out — and, by default,
 the ones already out start to Run Away. A teacher can choose instead to pause
 the Scene, where nothing is taken away; arrival simply pauses and the Scene
@@ -67,8 +95,23 @@ Too Loud.
 
 What Too Loud does by default. The Scene freezes, and while the room stays Too
 Loud, first a single Creature and then, every five seconds, a fifth of those
-still present (at least one) are startled and run off the edge of the Scene. They are gone for the rest of
-the Session.
+still present (at least one) are startled and leave, in the Scene's own
+Departure. They are gone for the rest of the Session.
+
+## Departure
+
+How a Scene's Creatures leave when they Run Away. On the savanna, the
+reef and the prehistoric floodplain they are startled and **run** off the edge of the Scene. In deep space
+they **fade out**: each one stays where it is and breaks up into static, like
+a signal lost to interference. Only the look differs: which Creatures leave,
+and when, is the same in every Scene.
+
+## Paused
+
+The teacher has stopped the app listening for a while, say to make an
+announcement. Nothing is judged while Paused: no Creature Runs Away, none
+arrives, and the Scene stays clear. Not to be confused with choosing to pause
+the Scene when it is Too Loud, which is about how the Scene reacts to noise.
 
 ## Volume Goal
 
@@ -80,3 +123,12 @@ by choosing a named preset or by adjusting it directly.
 Teaching the app what this particular room and microphone sound like, by
 sampling the room while it is silent and again while it is talking normally.
 Calibration is optional; without it the app uses a sensible default.
+
+## Timer
+
+A countdown the teacher can put up over the Scene and drag wherever suits
+the room. Creatures pass behind it. When it runs out it chimes, and while the
+chime rings the room is not judged: the teacher's own bell is never Too Loud
+and never makes a Creature Run Away. Each Class has its own Timer: switching
+Class pauses the one on screen, and it waits for that Class to come back.
+Changing Scene leaves it running.

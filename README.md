@@ -1,7 +1,8 @@
 # Shy Safari
 
-A calm scene on the classroom projector — a savanna or a coral reef — where
-animals come out the longer the room stays quiet. The animals are shy: if the room is too loud,
+A calm scene on the classroom projector — a savanna, a coral reef, deep
+space or the age of dinosaurs — where animals (or, in deep space, sightings
+through a telescope) come out the longer the room stays quiet. The animals are shy: if the room is too loud,
 they stay hidden until it is calm again.
 
 It is the opposite of a noise meter. There is no bouncing, no score, no red
@@ -15,8 +16,10 @@ minutes of quiet working brings another one. Some of them are rare.
 1. Open the page and press **Start listening**. The browser asks for the
    microphone; audio is measured on the computer and never recorded or sent
    anywhere.
-   Pick **Savanna** (zebras, giraffes, lions) or **Coral reef** (fish,
-   turtles, sharks) first if you like.
+   Pick **Savanna** (zebras, giraffes, lions), **Coral reef** (fish,
+   turtles, sharks), **Deep space** (satellites, comets, galaxies) or
+   **Prehistoric** (T. rex, Triceratops, feathered raptors) first if you
+   like. The last two are drawn to appeal to older students too.
 2. Press **Start**. The class begins earning animals.
 3. Move the mouse to bring up the controls. **Settings** has everything:
    which scene, which microphone, how loud is too loud, and how often animals
@@ -39,7 +42,8 @@ because a class that settles down should be rewarded immediately rather than
 serve a sentence.
 
 When the room is too loud, the whole scene slowly clouds over — a dusty haze
-on the savanna, murky water on the reef. That is
+on the savanna, murky water on the reef, interference in deep space, mist off the river in the
+prehistoric scene. That is
 the only signal the class sees. The shy animals simply wait to come out:
 nothing already out runs away, nothing gets startled, and progress
 toward the next animal pauses rather than resetting — a loud spell costs
@@ -90,6 +94,7 @@ they can be checked without a microphone or a ten-second wait:
   than resetting.
 - `src/lib/session/roll.ts` — the weighted rarity roll.
 
-`CONTEXT.md` defines the vocabulary the code uses. `docs/` holds the two
+`CONTEXT.md` defines the vocabulary the code uses. `docs/` holds the
 architecture decisions, the implementation plan, and the brief for drawing the
-reef artwork, whose style rules the savanna follows too.
+reef artwork, whose style rules the savanna follows too; deep space and the
+prehistoric scene each have their own section there.

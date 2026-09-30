@@ -1,7 +1,7 @@
 <script lang="ts">
   /**
    * Every animal a Scene can bring, by rarity, with how many times each has
-   * arrived on this computer. Animals not seen yet show as silhouettes, so
+   * arrived for the Class on screen. Animals not seen yet show as silhouettes, so
    * the class knows what there is to earn without it being spoiled.
    */
 
@@ -10,7 +10,14 @@
   import type { RarityTier, SceneId } from "$lib/scenes/types";
   import { TIER_WEIGHTS } from "$lib/session/roll";
   import { sightings } from "$lib/session/sightings.svelte";
-  import { creatureName, t } from "$lib/i18n/index.svelte";
+  import { classes } from "$lib/classes/classes.svelte";
+  import {
+    className,
+    creatureFact,
+    creatureName,
+    t,
+    tIn,
+  } from "$lib/i18n/index.svelte";
 
   let { app, onclose }: { app: App; onclose: () => void } = $props();
 
@@ -47,7 +54,7 @@
     class="flex max-h-full w-full max-w-3xl flex-col rounded-xl bg-white shadow-xl"
     role="dialog"
     aria-modal="true"
-    aria-label={t("collection.title")}
+    aria-label={tIn(sceneId, "collection.title")}
   >
     <!-- On a phone the Scene picker drops to its own row, under the title. -->
     <div
@@ -55,10 +62,14 @@
     >
       <div class="mr-auto">
         <h1 class="text-xl font-semibold text-slate-900">
-          {t("collection.title")}
+          {tIn(sceneId, "collection.title")}
         </h1>
         <p class="mt-1 text-sm text-slate-500">
-          {t("collection.spotted", { seen, total: scene.roster.length })}
+          {tIn(sceneId, "collection.spotted", {
+            class: className(classes.current.name),
+            seen,
+            total: scene.roster.length,
+          })}
         </p>
       </div>
       <div
@@ -79,9 +90,23 @@
         {/each}
       </div>
       <button
-        class="rounded-md border border-slate-300 px-3 py-1 text-sm hover:bg-slate-50 sm:self-center"
-        onclick={onclose}>{t("common.close")}</button
+        class="-mt-1 -mr-2 grid size-8 place-items-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 sm:-mr-3"
+        aria-label={t("common.close")}
+        title={t("common.close")}
+        onclick={onclose}
       >
+        <svg
+          viewBox="0 0 24 24"
+          class="size-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
     </div>
 
     <div class="min-h-0 flex-1 overflow-y-auto px-4 pb-4 sm:px-6 sm:pb-6">
@@ -96,7 +121,7 @@
               <span class="group relative normal-case">
                 <button
                   class="grid size-4 place-items-center rounded-full text-slate-400 hover:text-slate-600 focus:text-slate-600 focus:outline-none"
-                  aria-label={t(`chance.${tier}.label`)}
+                  aria-label={tIn(sceneId, `chance.${tier}.label`)}
                 >
                   <svg
                     viewBox="0 0 16 16"
@@ -122,8 +147,10 @@
             >
               {#each defs as def (def.slug)}
                 {@const count = sightings.count(sceneId, def.slug)}
+                <!-- A Creature with a fact to tell shows it on hover. -->
                 <li
-                  class="flex flex-col items-center rounded-lg border p-2 text-center {tier ===
+                  title={creatureFact(def.slug)}
+                  class="flex min-w-0 flex-col items-center rounded-lg border p-2 text-center {tier ===
                   'rare'
                     ? 'border-amber-300 bg-amber-50'
                     : 'border-slate-200'}"
@@ -135,13 +162,15 @@
                     <!-- eslint-disable-next-line svelte/no-at-html-tags -->
                     {@html scene.creatureArt[def.slug]}
                   </div>
-                  <span class="mt-1 text-sm font-medium text-slate-800"
+                  <!-- Long names break at their soft hyphens (see i18n) to fit the card. -->
+                  <span
+                    class="mt-1 max-w-full text-sm font-medium break-words hyphens-auto text-slate-800"
                     >{creatureName(def.slug)}</span
                   >
                   <span class="text-xs text-slate-500">
                     {count === 0
-                      ? t("collection.notSeen")
-                      : t("collection.seen", { count })}
+                      ? tIn(sceneId, "collection.notSeen")
+                      : tIn(sceneId, "collection.seen", { count })}
                   </span>
                 </li>
               {/each}

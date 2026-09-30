@@ -1,9 +1,12 @@
 # SVG art brief — coral reef Scene
 
-> **Reef Scene.** This brief describes the coral reef artwork, one of the two
+> **Reef Scene.** This brief describes the coral reef artwork, one of the three
 > Scenes in Shy Safari. The savanna (`src/lib/scenes/savanna/`) follows the
 > same style rules and SVG constraints with its own palette and Roster. The
-> palette, backdrop and Roster specifics below are reef-only.
+> palette, backdrop and Roster specifics below are reef-only. Deep space
+> (`src/lib/scenes/space/`) and the prehistoric Scene
+> (`src/lib/scenes/prehistoric/`) deliberately do not follow the §1 style;
+> see §9 and §10 for what they do instead, and which §2 rules they change.
 
 A standalone task brief. Everything needed to produce the reef artwork is in
 this file; the app code does not need to exist yet. Read `CONTEXT.md` for
@@ -277,3 +280,137 @@ to it later. Everything below is a decision the brief did not settle.
 - **The cuttlefish has the signature eye**, not the W-shaped pupil of §3. The
   eye rule in §1 is called non-negotiable and does more for set coherence than
   any single species' accuracy.
+
+---
+
+## 9. Deep space Scene
+
+Deep space was asked for to appeal to older students, so it is drawn to look
+much less like a cartoon than the reef and savanna: NASA/JPL poster art and
+astrophotography rather than flat stickers. §1 does not apply to it. The
+Scene's own rules are below; §2 applies with the changes noted.
+
+### Style
+
+- **Accurate shapes, layered light.** `linearGradient`, `radialGradient`,
+  `clipPath` and `pattern` are allowed, as is `<use>` pointing at a shape in
+  the same file (the astronaut draws each limb once and shades it through
+  clipped copies). A glow is a radial gradient fading to `stop-opacity="0"`,
+  never a filter. Spacecraft are shaded like rendered objects, not flat
+  shapes: a cylinder carries a gradient across its axis with a specular band,
+  parts cast contact shadows where they meet, and sunlit edges catch a thin
+  rim light.
+- **No faces, no eyes, no outline strokes.** Thin strokes are allowed only for
+  structure that really is thin: booms, struts, antennas, truss and panel
+  lines.
+- **The sun is off to the upper left** for every object, so shadow sides and
+  night sides are lower right. Shade by laying near-black `#05070f` over the
+  base at `opacity` 0.15–0.5; highlight with `#dce8ff` (cool) or `#fff6d0`
+  (warm) at 0.1–0.4 — the reef's overlay trick, with the Scene's own ink.
+- **A deep, limited palette:** near-black navy for space, cool blues and
+  violets, metals and gold foil for spacecraft, and warm accents (amber,
+  orange, a deep red) kept for fire, gas giants and the hottest light.
+- **Presence for the Rare tier comes from luminosity and fine detail**, the way
+  scale and silhouette give it on the reef. The app adds its gold glow and
+  sparkles on top, so the art draws neither.
+
+### Changes to §2
+
+- **§2.5, ids.** Gradients, clip paths and patterns need ids, so the space art uses
+  them freely, but every id is prefixed with the Scene and the file:
+  `space-<slug>-<name>`, e.g. `space-comet-coma`, and `space-backdrop-sky` for
+  Ambient Life. The Scene prefix keeps a space `moon-…` from ever meeting
+  another Scene's `moon-…`. Two copies of one Creature on screen (Commons can
+  arrive more than once) repeat _identical_ definitions under the same id,
+  which renders correctly whichever copy the browser resolves to. What must
+  never happen is two different definitions sharing an id, and the prefix
+  rules that out. `src/lib/scenes/artwork.test.ts` checks it.
+- **§2.5, `style`.** The only `style` attribute is still the one on a part
+  group, now also allowed to set `animation-duration` (below).
+- **§2.2, direction.** Spacecraft, meteors and comets face right, as before.
+  Planets, the moon and the Rare objects face nowhere, and are never shown
+  mirrored, because a mirrored planet would be lit from the wrong side. Their
+  motion, `loom`, is `oneSided` (`scenes/motion.ts`).
+- **§2.6, parts.** Two part classes are added, with keyframes in
+  `scenes/space/creatures.css`: `part-spin`, a slow continuous turn (the
+  asteroid tumbling, the galaxy turning, the pulsar's beams sweeping), and
+  `part-pulse`, a slow breathing of a glow. Each group sets its pivot as
+  `transform-origin` in viewBox units (so its viewBox starts at `0 0`) and may
+  set its own `animation-duration`. Anything that spins must stay inside its
+  viewBox at every angle.
+- **§2.8, budget.** Up to about 12 KB and 80 elements for Common and Uncommon,
+  20 KB for Rare. Gradient stops and clip paths count against the element
+  number, so a heavily shaded piece (the astronaut) can pass 80 while staying
+  well under the size. No `filter`, `mask` or `<image>` anywhere: the art runs on
+  school laptops driving a projector, and a blur on each of twenty moving
+  Creatures is exactly what they cannot afford. The one filter in the Scene is
+  the grain tile in the Too Loud veil (`routes/layout.css`), drawn once and
+  never animated.
+
+### Ambient Life
+
+At `src/lib/scenes/space/ambient/`, generated or drawn at 1920×1080 with
+`preserveAspectRatio="xMidYMax slice"`, so stars stay round and the planet's
+limb stays on the bottom edge at any screen shape:
+
+- `backdrop.svg`: the night sky, the Milky Way crossing it from lower left to
+  upper right with its dust lanes and brighter core, a few far galaxies too
+  small to be mistaken for the Rare one, and the dark limb of a planet along
+  the bottom with sunlight catching its atmosphere. Nothing that moves.
+- `twinkle-1.svg` to `twinkle-3.svg`: the brighter stars, in three sheets that
+  twinkle out of step. Each sheet fades as a whole, so twinkling is a cheap
+  opacity change on a layer, never a repaint.
+- `dust.svg`: a faint veil of interstellar dust that drifts across very
+  slowly.
+- `far-satellite.svg`: a point of light, too far away to have a shape, that
+  crosses the sky every few minutes. It is deliberately not a Creature.
+
+## 10. The prehistoric Scene
+
+Asked for by teachers of older students, and so drawn as naturalist paleoart
+(field-guide plates, museum murals) rather than in the flat, friendly style
+above. It is a single place and moment: the Hell Creek floodplain of western
+North America at the very end of the Cretaceous, with two giants of the same
+age from a little further south (see `prehistoric/roster.ts`). Accuracy is
+part of the brief: lips over theropod teeth, feathered dromaeosaurs with
+folded wings and inward-facing palms, a Quetzalcoatlus whose wing membrane
+runs to the ankle, no grass on the ground.
+
+These rules replace §1 and parts of §2 for this Scene only:
+
+- **Form light is one gradient per Creature.** Each Creature file has exactly
+  one vertical `<linearGradient id="prehistoric-<slug>-form">` in `userSpaceOnUse`, with
+  the same four stops in every file (light `#fff1d0` above, ink `#1d1812`
+  below), laid over the body, tail and big limbs as its own path. That is
+  what gives the set its soft, consistent top light. User-space units keep the
+  tone identical across separately drawn parts, so the seam where a
+  swinging tail meets the body never shows. **Why the id is safe:** a Common
+  Creature can be on screen twice, so its id appears twice in the document.
+  `url(#id)` resolves to the first match, and both copies define the same
+  stops, so either one paints the same. The id follows the same
+  `<scene>-<slug>-` scheme as deep space (§9), which
+  `src/lib/scenes/artwork.test.ts` checks, so no two _different_ definitions
+  ever share a name.
+- **Backdrop gradients** (sky, sun, river, ground) are prefixed
+  `prehistoric-`, since the backdrop is only ever on the page once.
+- **No signature eye.** Eyes are small and anatomical: a coloured iris, a
+  darker pupil, at most a tiny glint, under a brow shadow.
+- **Palette:** earthy browns, greys, olives and buffs, with rust, brick and
+  ochre kept for display features (a crest, a frill, a dome). Shading is still
+  one shared ink (`#1d1812`) at low opacity, and highlights one shared light
+  (`#fff1d0`). The full table is in the drawer brief that was used for the
+  set; the files themselves are the reference now.
+- **Strokes are for texture only**: a handful of thin marks (feather shafts,
+  scale creases) per animal, never outlines.
+- **Budget:** up to about 14 KB and 75 shapes per Creature. They are larger
+  animals with more anatomy to get right, but still meant to animate
+  smoothly on a school laptop.
+- **Part groups** set `transform-box: view-box` and a `transform-origin` in
+  viewBox units inline, as §8 describes. Tails and heads move far more slowly
+  and less than on the savanna (`prehistoric/scene.css`): big bodies move
+  slowly.
+
+Ambient Life here is ferns (they sway), dawn redwoods, cycads, a fallen log,
+drifting river mist, glints on the water, a far herd of
+hadrosaurs on the other bank and two pterosaurs in the haze. The far animals
+are flat silhouettes in a hazy tone so they never pass for Creatures.

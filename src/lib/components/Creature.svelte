@@ -12,14 +12,18 @@
    */
 
   import { onMount } from "svelte";
+  import { fade } from "svelte/transition";
   import {
+    FADE_S,
     MOTION_PROFILES,
     bankAngle,
     createMotion,
     creatureLayer,
+    fadeVisibility,
     fleeDirection,
     stepFlee,
     stepMotion,
+    type DepartureStyle,
     type Footprint,
   } from "$lib/scenes/motion";
   import type { CreatureInstance } from "$lib/session/session.svelte";
@@ -28,6 +32,7 @@
     creature,
     art,
     depthFade,
+    departure,
     isNewest,
     frozen,
     fleeing,
@@ -36,14 +41,21 @@
     creature: CreatureInstance;
     art: string;
     depthFade: boolean;
+    /** How it leaves once scared off: see `fleeing`. */
+    departure: DepartureStyle;
     isNewest: boolean;
     /** Too Loud: hold perfectly still until the room settles. */
     frozen: boolean;
-    /** Scared off: a startled "!", then bolt for the nearer edge. */
+    /**
+     * Scared off. Running away is a startled "!", then a bolt for the nearer
+     * edge; fading is breaking up into static where it stands.
+     */
     fleeing: boolean;
     /** Called once when a fleeing Creature is out of sight. */
     ongone: () => void;
   } = $props();
+
+  const fading = $derived(fleeing && departure === "fade");
 
   /** Nearer Creatures are bigger; the roster width sets the species scale. */
   const width = $derived(
@@ -66,6 +78,17 @@
     { x: 44, y: -6, size: 0.6, delay: 2.1 },
     { x: 72, y: 40, size: 0.5, delay: 2.6 },
   ];
+
+  /**
+   * An Uncommon or Rare Creature glistens for its first minute in the Scene,
+   * so the class notices it, then settles down to look like everyone else.
+   * One brought back from before a refresh has had its minute already.
+   */
+  const GLISTEN_MS = 60_000;
+  const SETTLE_MS = 2000;
+  // Only the value it mounts with matters: the timer below takes it from there.
+  // svelte-ignore state_referenced_locally
+  let glistening = $state(!creature.restored);
 
   let swimmer: HTMLDivElement;
   let banker: HTMLDivElement;
@@ -102,6 +125,8 @@
     resize.observe(scene);
     resize.observe(swimmer);
 
+    const settle = setTimeout(() => (glistening = false), GLISTEN_MS);
+
     const state = createMotion(
       style,
       creature.spawnX,
@@ -109,15 +134,18 @@
       creature.depth,
       footprint(),
       Math.random,
+      creature.def.flips,
     );
 
     let facing = 0;
     let fleeingTo: -1 | 1 | null = null;
     let startled = STARTLE_S + Math.random() * STARTLE_JITTER_S;
+    let fadedFor = 0;
     let last = performance.now();
     let frame = requestAnimationFrame(function tick(now) {
       // Clamp, so a backgrounded tab does not teleport everyone on return.
-      let dt = Math.min(0.1, (now - last) / 1000);
+      const elapsed = Math.min(0.1, (now - last) / 1000);
+      let dt = elapsed;
       last = now;
       // Reduced motion keeps everyone moving, just very gently.
       if (reducedMotion.matches) dt *= 0.2;
@@ -126,7 +154,17 @@
       // A Creature already running keeps running, even if the Scene freezes.
       if (frozen && !fleeing) dt = 0;
 
-      if (fleeing && startled > 0) {
+      if (fading) {
+        // Stays where it was when the signal broke up. Fading is not
+        // motion, so it runs on real time: neither the freeze nor reduced
+        // motion holds it up.
+        fadedFor += elapsed;
+        banker.style.opacity = String(fadeVisibility(fadedFor));
+        if (fadedFor >= FADE_S) {
+          ongone();
+          return;
+        }
+      } else if (fleeing && startled > 0) {
         startled -= dt;
       } else if (fleeing) {
         if (fleeingTo === null) {
@@ -173,6 +211,7 @@
     return () => {
       cancelAnimationFrame(frame);
       resize.disconnect();
+      clearTimeout(settle);
     };
   });
 </script>
@@ -181,13 +220,14 @@
   bind:this={swimmer}
   class="swimmer pointer-events-none absolute top-0 left-0"
   class:fleeing
+  class:fading
   style="
     width:calc({width} * var(--wu));
     z-index:{creatureLayer(profile, creature.depth)};
     opacity:{depthFade ? 0.62 + creature.depth * 0.38 : 1};
   "
 >
-  {#if fleeing}
+  {#if fleeing && !fading}
     <!--
       Outside the flipper and the banker, so the "!" never mirrors or rocks,
       and big enough to read from the back of the room.
@@ -211,6 +251,7 @@
         <div
           class="creature"
           class:arriving={isNewest}
+          class:settled={!glistening}
           data-tier={creature.def.tier}
         >
           {#if isNewest}
@@ -223,24 +264,30 @@
           {@html art}
         </div>
       </div>
-      {#if creature.def.tier === "rare"}
-        {#each SPARKLES as sparkle, i (i)}
-          <svg
-            class="sparkle"
-            viewBox="-10 -10 20 20"
-            aria-hidden="true"
-            style="
-              left:{sparkle.x}%;
-              top:{sparkle.y}%;
-              width:calc({sparkle.size * 2.2} * var(--wu));
-              animation-delay:{sparkle.delay}s;
-            "
-          >
-            <path
-              d="M0 -10 C 1 -2, 2 -1, 10 0 C 2 1, 1 2, 0 10 C -1 2, -2 1, -10 0 C -2 -1, -1 -2, 0 -10 Z"
-            />
-          </svg>
-        {/each}
+      {#if creature.def.tier === "rare" && glistening}
+        <span
+          class="absolute inset-0"
+          aria-hidden="true"
+          out:fade={{ duration: SETTLE_MS }}
+        >
+          {#each SPARKLES as sparkle, i (i)}
+            <svg
+              class="sparkle"
+              viewBox="-10 -10 20 20"
+              aria-hidden="true"
+              style="
+                left:{sparkle.x}%;
+                top:{sparkle.y}%;
+                width:calc({sparkle.size * 2.2} * var(--wu));
+                animation-delay:{sparkle.delay}s;
+              "
+            >
+              <path
+                d="M0 -10 C 1 -2, 2 -1, 10 0 C 2 1, 1 2, 0 10 C -1 2, -2 1, -10 0 C -2 -1, -1 -2, 0 -10 Z"
+              />
+            </svg>
+          {/each}
+        </span>
       {/if}
     </div>
   </div>

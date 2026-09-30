@@ -1,7 +1,9 @@
 import { describe, expect, it } from "bun:test";
 import {
+  FADE_S,
   MOTION_PROFILES,
   createMotion,
+  fadeVisibility,
   fleeDirection,
   groundLine,
   stepFlee,
@@ -51,6 +53,47 @@ describe("stepMotion", () => {
   });
 });
 
+describe("createMotion", () => {
+  it("never shows a one-sided Creature mirrored", () => {
+    for (let seed = 1; seed < 40; seed++) {
+      const state = createMotion(
+        "loom",
+        0.5,
+        0.5,
+        0.5,
+        footprint,
+        seeded(seed),
+      );
+      expect(state.facing).toBe(1);
+    }
+  });
+
+  it("lets a Creature override its style's flipping", () => {
+    const random = seeded(3);
+    const drifter = createMotion("orbit", 0.5, 0.5, 0.5, footprint, random);
+    const shuttle = createMotion(
+      "orbit",
+      0.5,
+      0.5,
+      0.5,
+      footprint,
+      random,
+      true,
+    );
+    const arrived = drifter.facing;
+    const facings = new Set<number>();
+    for (let i = 0; i < 30 * 120; i++) {
+      stepMotion(drifter, "orbit", 0.5, footprint, 1 / 30, random);
+      stepMotion(shuttle, "orbit", 0.5, footprint, 1 / 30, random);
+      expect(drifter.facing).toBe(arrived);
+      facings.add(shuttle.facing);
+    }
+    expect(facings.size).toBe(2);
+    stepFlee(drifter, "orbit", 0.5, footprint, -arrived as -1 | 1, 1 / 30);
+    expect(drifter.facing).toBe(arrived);
+  });
+});
+
 describe("stepFlee", () => {
   for (const style of styles) {
     it(`runs a ${style} Creature out of the nearer side within seconds`, () => {
@@ -73,5 +116,40 @@ describe("stepFlee", () => {
     while (!stepFlee(state, "trot", 0.4, footprint, 1, 1 / 30)) {
       expect(state.y + footprint.height / 2).toBeCloseTo(groundLine(0.4, band));
     }
+  });
+});
+
+describe("fadeVisibility", () => {
+  const frames = Array.from(
+    { length: Math.ceil(FADE_S * 60) + 1 },
+    (_, i) => i / 60,
+  );
+
+  it("starts fully visible and is gone by the end", () => {
+    expect(fadeVisibility(0)).toBe(1);
+    expect(fadeVisibility(FADE_S)).toBe(0);
+    expect(fadeVisibility(FADE_S + 5)).toBe(0);
+  });
+
+  it("stays between hidden and fully visible", () => {
+    for (const t of frames) {
+      expect(fadeVisibility(t)).toBeGreaterThanOrEqual(0);
+      expect(fadeVisibility(t)).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it("breaks up on the way out rather than dimming smoothly", () => {
+    let dropouts = 0;
+    for (let i = 1; i < frames.length; i++) {
+      if (fadeVisibility(frames[i]) < fadeVisibility(frames[i - 1]) * 0.8) {
+        dropouts++;
+      }
+    }
+    expect(dropouts).toBeGreaterThanOrEqual(3);
+  });
+
+  it("never comes back once it has mostly gone", () => {
+    const late = frames.filter((t) => t > FADE_S * 0.75);
+    for (const t of late) expect(fadeVisibility(t)).toBeLessThan(0.2);
   });
 });

@@ -4,8 +4,9 @@
    *
    * Nothing here reports a number, shows a meter or displays a "too loud"
    * badge. The single class-facing signal is the Scene clouding over — murky
-   * water on the reef, a dusty haze on the savanna — which is legible from the
-   * back of a room and is not a button a child can press.
+   * water on the reef, a dusty haze on the savanna, interference breaking up
+   * the signal in deep space — which is legible from the back of a room and
+   * is not a button a child can press.
    * See docs/adr/0001-nothing-is-taken-away.md.
    */
 
@@ -34,9 +35,9 @@
      * everyone freezing and bolting is the signal, and must stay sharp.
      */
     scares: boolean;
-    /** Ids of the Creatures running away. */
+    /** Ids of the Creatures running away, or fading out. */
     fleeing: number[];
-    /** A fleeing Creature has run out of sight. */
+    /** A fleeing Creature has run out of sight, or faded away. */
     ondepart: (id: number) => void;
   } = $props();
 </script>
@@ -70,6 +71,7 @@
       {creature}
       art={scene.creatureArt[creature.def.slug]}
       depthFade={scene.depthFade}
+      departure={scene.departure}
       isNewest={creature.id === newestId}
       {frozen}
       fleeing={fleeing.includes(creature.id)}
