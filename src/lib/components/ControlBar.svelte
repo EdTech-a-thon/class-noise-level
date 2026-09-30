@@ -19,13 +19,11 @@
     app,
     visible,
     onopensettings,
-    onopencollection,
     onopenclasses,
   }: {
     app: App;
     visible: boolean;
     onopensettings: () => void;
-    onopencollection: () => void;
     onopenclasses: () => void;
   } = $props();
 
@@ -160,12 +158,6 @@
         onclick={onopensettings}
       >
         {t("controls.settings")}
-      </button>
-      <button
-        class="rounded-full border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50 sm:px-4"
-        onclick={onopencollection}
-      >
-        {t("controls.animals")}
       </button>
     </div>
   </div>

@@ -326,11 +326,11 @@
     </div>
   {/if}
 
-  <!-- Bottom right: help for the teacher, out of the way of the controls
+  <!-- Bottom left: help for the teacher, out of the way of the controls
        above and fading with them. On a phone the control bar spans the
        bottom edge, so during a Session it sits just above the bar. -->
   <div
-    class="safe-edges pointer-events-none absolute right-0 bottom-0 z-40 p-4 transition-opacity duration-300 {app.listening
+    class="safe-edges pointer-events-none absolute bottom-0 left-0 z-40 p-4 transition-opacity duration-300 {app.listening
       ? 'max-sm:bottom-16'
       : ''}"
     class:opacity-0={!topBarVisible}
@@ -373,9 +373,41 @@
       {app}
       visible={controlsVisible || settingsOpen || collectionOpen || classesOpen}
       onopensettings={() => (settingsOpen = true)}
-      onopencollection={() => (collectionOpen = true)}
       onopenclasses={() => (classesOpen = true)}
     />
+
+    <!-- Bottom right: every animal the class has spotted. Mirrors the help
+         button, and like it sits above the control bar on a phone. -->
+    <div
+      class="safe-edges pointer-events-none absolute right-0 bottom-0 z-40 p-4 transition-opacity duration-300 max-sm:bottom-16"
+      class:opacity-0={!topBarVisible}
+      aria-hidden={!topBarVisible}
+      inert={!topBarVisible}
+    >
+      <div class="pointer-events-auto">
+        <button
+          class="grid size-11 place-items-center rounded-full bg-white/95 text-slate-700 shadow-lg hover:bg-white"
+          aria-label={t("controls.animals")}
+          title={t("controls.animals")}
+          onclick={() => (collectionOpen = true)}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            class="size-5"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <ellipse cx="5.4" cy="10.6" rx="1.9" ry="2.3" />
+            <ellipse cx="9.4" cy="6.3" rx="2" ry="2.5" />
+            <ellipse cx="14.6" cy="6.3" rx="2" ry="2.5" />
+            <ellipse cx="18.6" cy="10.6" rx="1.9" ry="2.3" />
+            <path
+              d="M12 11.2c-2.6 0-5.6 3.3-5.6 5.8 0 1.7 1.3 2.7 2.8 2.7 1.2 0 1.9-.6 2.8-.6s1.6.6 2.8.6c1.5 0 2.8-1 2.8-2.7 0-2.5-3-5.8-5.6-5.8Z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
   {/if}
 
   {#if settingsOpen}
