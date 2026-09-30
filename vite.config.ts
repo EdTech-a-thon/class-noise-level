@@ -22,6 +22,14 @@ export default defineConfig({
       // Everything happens in the browser: the microphone never leaves the
       // device and there is no server to talk to.
       adapter: adapter({ fallback: "404.html" }),
+
+      prerender: {
+        // #how-it-works opens the info drawer rather than naming an element,
+        // so nothing on the page carries that id on purpose.
+        handleMissingId: ({ id, message }) => {
+          if (id !== "how-it-works") throw new Error(message);
+        },
+      },
     }),
   ],
 });
