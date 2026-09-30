@@ -49,6 +49,14 @@ resetting. A Session begins with an empty Scene and fills as the room stays
 quiet. Refreshing the page does not end a Session; nothing about a Session
 outlives Reset.
 
+## Class
+
+A group of students the teacher names, such as "2nd period". Each Class has
+its own Creatures in every Scene and its own Collection, so one Class never
+sees what another earned, and Reset empties only the Class on screen.
+Switching Class ends the Session until the teacher presses start again.
+Deleting a Class removes everything it kept. There is always at least one.
+
 ## Quiet
 
 The state of the room being at or below the Volume Goal. While the room is
@@ -69,6 +77,13 @@ What Too Loud does by default. The Scene freezes, and while the room stays Too
 Loud, first a single Creature and then, every five seconds, a fifth of those
 still present (at least one) are startled and run off the edge of the Scene. They are gone for the rest of
 the Session.
+
+## Paused
+
+The teacher has stopped the app listening for a while, say to make an
+announcement. Nothing is judged while Paused: no Creature Runs Away, none
+arrives, and the Scene stays clear. Not to be confused with choosing to pause
+the Scene when it is Too Loud, which is about how the Scene reacts to noise.
 
 ## Volume Goal
 

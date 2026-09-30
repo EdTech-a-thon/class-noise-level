@@ -6,6 +6,7 @@
    * there is no Reset button sitting on the wall all lesson next to the thing
    * it would destroy. Reset confirms in a pop-up above the bar, so the bar
    * itself never changes shape; it is the only irreversible action on screen.
+   * Pause stops the room being judged while the teacher talks to the class.
    */
 
   import { t } from "$lib/i18n/index.svelte";
@@ -15,12 +16,10 @@
     app,
     visible,
     onopensettings,
-    onopencollection,
   }: {
     app: App;
     visible: boolean;
     onopensettings: () => void;
-    onopencollection: () => void;
   } = $props();
 
   let confirmingReset = $state(false);
@@ -73,8 +72,10 @@
       </div>
     {/if}
 
+    <!-- On the narrowest phones it wraps onto a second row rather than
+         running off the screen. -->
     <div
-      class="flex items-center gap-1.5 rounded-full bg-white/95 px-2 py-2 shadow-lg sm:gap-2 sm:px-3"
+      class="flex max-w-[calc(100vw-2rem)] flex-wrap items-center justify-center gap-1.5 rounded-[1.6rem] bg-white/95 px-2 py-2 shadow-lg sm:gap-2 sm:px-3"
     >
       {#if !app.session.running}
         <button
@@ -92,6 +93,34 @@
         >
           {t("controls.reset")}
         </button>
+        <!-- Just the symbol on a phone, where the bar has no room for a
+             fourth word in every language. -->
+        <button
+          class="flex items-center gap-1.5 rounded-full border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50 sm:px-4"
+          class:bg-slate-100={app.paused}
+          aria-label={app.paused ? t("controls.resume") : t("controls.pause")}
+          title={app.paused ? t("controls.resume") : t("controls.pauseHint")}
+          onclick={() => app.setPaused(!app.paused)}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            class="size-5 sm:size-4"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            {#if app.paused}
+              <path
+                d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"
+              />
+            {:else}
+              <rect x="6" y="5" width="4" height="14" rx="1" />
+              <rect x="14" y="5" width="4" height="14" rx="1" />
+            {/if}
+          </svg>
+          <span class="hidden sm:inline"
+            >{app.paused ? t("controls.resume") : t("controls.pause")}</span
+          >
+        </button>
       {/if}
 
       <button
@@ -99,12 +128,6 @@
         onclick={onopensettings}
       >
         {t("controls.settings")}
-      </button>
-      <button
-        class="rounded-full border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50 sm:px-4"
-        onclick={onopencollection}
-      >
-        {t("controls.animals")}
       </button>
     </div>
   </div>

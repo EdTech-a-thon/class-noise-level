@@ -70,6 +70,12 @@
         >{t("common.builtBy")}</a
       >
       <p class="flex items-center gap-2 text-xs font-medium text-slate-600">
+        <a
+          href="#how-it-works"
+          class="hover:text-slate-900 hover:underline"
+          >{t("common.howItWorks")}</a
+        >
+        <span aria-hidden="true" class="text-slate-300">·</span>
         <a href={resolve("/about")} class="hover:text-slate-900 hover:underline"
           >{t("common.about")}</a
         >
