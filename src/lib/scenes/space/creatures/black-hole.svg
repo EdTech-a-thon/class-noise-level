@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 140">
   <defs>
-    <radialGradient id="space-black-hole-glow" cx="0.44" cy="0.5" r="0.5">
+    <radialGradient id="space-black-hole-glow" cx="0.5" cy="0.5" r="0.5">
       <stop offset="0" stop-color="#f2b36b" stop-opacity="0.4"/>
       <stop offset="0.35" stop-color="#e8743b" stop-opacity="0.14"/>
       <stop offset="0.7" stop-color="#c44b3a" stop-opacity="0.05"/>
       <stop offset="1" stop-color="#c44b3a" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="space-black-hole-sheen" cx="0.4" cy="0.5" r="0.5">
+    <radialGradient id="space-black-hole-sheen" cx="0.5" cy="0.5" r="0.5">
       <stop offset="0" stop-color="#fff6d0" stop-opacity="0.35"/>
       <stop offset="0.5" stop-color="#f2b36b" stop-opacity="0.12"/>
       <stop offset="1" stop-color="#e8743b" stop-opacity="0"/>
@@ -37,9 +37,9 @@
       <stop offset="0.6" stop-color="#fff6d0" stop-opacity="0.18"/>
       <stop offset="0.8" stop-color="#f2b36b" stop-opacity="0"/>
     </radialGradient>
-    <!-- Upper lensed image: inner edge hugs the shadow, the band is wide and
-         white on the left, narrower and redder on the right. -->
-    <radialGradient id="space-black-hole-lens" cx="113" cy="70" fx="128.8" fy="70" r="56" gradientUnits="userSpaceOnUse">
+    <!-- Upper lensed image: inner edge hugs the shadow, the band is even all round,
+         centered on the shadow. -->
+    <radialGradient id="space-black-hole-lens" cx="120" cy="70" fx="120" fy="70" r="56" gradientUnits="userSpaceOnUse">
       <stop offset="0.557" stop-color="#ffffff"/>
       <stop offset="0.58" stop-color="#f3c98a" stop-opacity="0.55"/>
       <stop offset="0.61" stop-color="#fffbe8"/>
@@ -49,7 +49,7 @@
       <stop offset="0.93" stop-color="#e8743b" stop-opacity="0.45"/>
       <stop offset="1" stop-color="#c44b3a" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="space-black-hole-under" cx="114" cy="70" fx="141.3" fy="70" r="40" gradientUnits="userSpaceOnUse">
+    <radialGradient id="space-black-hole-under" cx="120" cy="70" fx="120" fy="70" r="40" gradientUnits="userSpaceOnUse">
       <stop offset="0.78" stop-color="#fff6d0"/>
       <stop offset="0.8" stop-color="#f3c98a" stop-opacity="0.45"/>
       <stop offset="0.83" stop-color="#f3dc92" stop-opacity="0.9"/>
