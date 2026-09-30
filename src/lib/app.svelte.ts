@@ -33,6 +33,13 @@ export class App {
    * and the arrival clock must not bank or lose progress.
    */
   calibrating = $state(false);
+  /**
+   * True while the teacher has paused the Session, say to make an
+   * announcement. The room is not judged, just as while calibrating, so the
+   * teacher talking never scares an animal away or costs arrival progress,
+   * and nothing new arrives while the class is listening.
+   */
+  paused = $state(false);
   session = new Session(
     DEFAULT_SCENE,
     SCENES[DEFAULT_SCENE].roster,
@@ -92,12 +99,23 @@ export class App {
     this.monitor.reset();
   }
 
+  /**
+   * Pause or resume the Session. Pausing lifts any haze at once; resuming
+   * starts the monitor afresh, so noise from before the pause is forgotten.
+   */
+  setPaused(paused: boolean) {
+    this.paused = paused;
+    this.monitor.reset();
+  }
+
   startSession() {
+    this.paused = false;
     this.monitor.reset();
     this.session.start(settings.arrivalIntervalMs);
   }
 
   resetSession() {
+    this.paused = false;
     this.session.reset(settings.arrivalIntervalMs);
   }
 
@@ -114,7 +132,11 @@ export class App {
       const delta = now - this.#lastTick;
       this.#lastTick = now;
 
-      if (this.microphone.status === "on" && !this.calibrating) {
+      if (
+        this.microphone.status === "on" &&
+        !this.calibrating &&
+        !this.paused
+      ) {
         this.monitor.observe(
           this.microphone.levelWith(settings.calibration),
           settings.volumeGoal,

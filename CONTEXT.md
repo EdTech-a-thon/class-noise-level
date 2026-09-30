@@ -70,6 +70,13 @@ Loud, first a single Creature and then, every five seconds, a fifth of those
 still present (at least one) are startled and run off the edge of the Scene. They are gone for the rest of
 the Session.
 
+## Paused
+
+The teacher has stopped the app listening for a while, say to make an
+announcement. Nothing is judged while Paused: no Creature Runs Away, none
+arrives, and the Scene stays clear. Not to be confused with choosing to pause
+the Scene when it is Too Loud, which is about how the Scene reacts to noise.
+
 ## Volume Goal
 
 The sound level the class is aiming to stay under. The teacher sets it, either

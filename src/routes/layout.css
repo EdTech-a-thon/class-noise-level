@@ -628,6 +628,25 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   animation: sky-drift linear infinite;
 }
 
+/* --- Paused ------------------------------------------------------------ */
+
+/* The "noise meter paused" pill gently grows and shrinks, so nobody forgets
+   the room isn't being listened to. It sits outside the Scene, so Too Loud's
+   freeze never stops it. */
+@keyframes paused-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+.paused-pulse {
+  animation: paused-pulse 2.2s ease-in-out infinite;
+}
+
 /*
  * Reduced motion quiets the drifting, but arrivals keep their entrance: an
  * arrival is the meaning of the whole app, not decoration.
@@ -646,7 +665,8 @@ html[data-scene="reef"]:not(:has(.scene-stage)) body {
   .creature .part-fin,
   .creature .part-body,
   .creature .part-tentacles,
-  .creature .part-arms {
+  .creature .part-arms,
+  .paused-pulse {
     animation: none;
   }
 
