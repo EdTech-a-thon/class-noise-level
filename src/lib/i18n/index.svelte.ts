@@ -74,6 +74,8 @@ const en = {
     "classes.edit": "Edit classes",
     "classes.hint":
       "Each class keeps its own animals and its own collection, so one class never sees what another earned. Switch between them from the class button in the top left.",
+    "classes.storage":
+      "Your classes are saved in this browser, on this computer only. They will not show up on another computer or browser, and clearing your browser data deletes them.",
     "classes.current": "On screen",
     "classes.rename": "Rename",
     "classes.renameLabel": "New name for {name}",
@@ -377,6 +379,8 @@ const es = {
     "classes.edit": "Editar clases",
     "classes.hint":
       "Cada clase guarda sus propios animales y su propia colección, así que una clase nunca ve lo que ganó otra. Cambia de una a otra con el botón de clase, arriba a la izquierda.",
+    "classes.storage":
+      "Tus clases se guardan en este navegador, solo en esta computadora. No aparecerán en otra computadora ni en otro navegador, y al borrar los datos del navegador se eliminan.",
     "classes.current": "En pantalla",
     "classes.rename": "Renombrar",
     "classes.renameLabel": "Nuevo nombre para {name}",
@@ -674,6 +678,8 @@ const fr = {
     "classes.edit": "Modifier les classes",
     "classes.hint":
       "Chaque classe garde ses propres animaux et sa propre collection : une classe ne voit jamais ce qu’une autre a gagné. Passez de l’une à l’autre avec le bouton de classe, en haut à gauche.",
+    "classes.storage":
+      "Vos classes sont enregistrées dans ce navigateur, sur cet ordinateur uniquement. Elles n’apparaîtront pas sur un autre ordinateur ou navigateur, et effacer les données du navigateur les supprime.",
     "classes.current": "À l’écran",
     "classes.rename": "Renommer",
     "classes.renameLabel": "Nouveau nom pour {name}",

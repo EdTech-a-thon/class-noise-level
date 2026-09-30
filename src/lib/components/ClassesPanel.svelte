@@ -187,6 +187,25 @@
           disabled={!newName.trim()}>{t("classes.add")}</button
         >
       </form>
+
+      <p
+        class="mt-4 flex gap-2 border-t border-slate-200 pt-4 text-xs text-slate-500"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          class="mt-px size-4 shrink-0"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="3" y="4" width="18" height="12" rx="2" />
+          <path d="M8 20h8M12 16v4" />
+        </svg>
+        {t("classes.storage")}
+      </p>
     </div>
   </div>
 
