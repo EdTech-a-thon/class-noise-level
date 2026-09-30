@@ -1,5 +1,6 @@
 <script lang="ts">
   import { App } from "$lib/app.svelte";
+  import { classes } from "$lib/classes/classes.svelte";
   import ClassesPanel from "$lib/components/ClassesPanel.svelte";
   import ClassPicker from "$lib/components/ClassPicker.svelte";
   import Collection from "$lib/components/Collection.svelte";
@@ -155,12 +156,15 @@
       fleeing={app.session.fleeing}
       ondepart={(id) => app.session.depart(id)}
     />
-    <!-- Over the Scene, so the animals pass behind the words. -->
-    <NotesLayer
-      bind:this={notesLayer}
-      scene={app.scene}
-      chrome={controlsVisible && app.listening}
-    />
+    <!-- Over the Scene, so the animals pass behind the words. Keyed by
+         Class, so nothing stays chosen from the last class's Notes. -->
+    {#key classes.currentId}
+      <NotesLayer
+        bind:this={notesLayer}
+        scene={app.scene}
+        chrome={controlsVisible && app.listening}
+      />
+    {/key}
   {/if}
 
   {#if !app.listening && !app.blocked}
@@ -334,10 +338,13 @@
   </div>
 
   {#if app.listening && app.timer.open}
-    <Timer
-      timer={app.timer}
-      controlsVisible={controlsVisible || settingsOpen || collectionOpen}
-    />
+    <!-- Keyed by Class, so the length typed in is the new class's own. -->
+    {#key classes.currentId}
+      <Timer
+        timer={app.timer}
+        controlsVisible={controlsVisible || settingsOpen || collectionOpen}
+      />
+    {/key}
   {/if}
 
   {#if app.listening && app.paused}

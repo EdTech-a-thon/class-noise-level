@@ -41,13 +41,14 @@
   }}
 />
 
+<!-- The strip spans the bottom edge but only the bar takes clicks, so the
+     help button in the corner beneath it still works. -->
 <div
-  class="safe-edges absolute inset-x-0 bottom-0 z-40 flex justify-center p-4 transition-opacity duration-300"
+  class="safe-edges pointer-events-none absolute inset-x-0 bottom-0 z-40 flex justify-center p-4 transition-opacity duration-300"
   class:opacity-0={!visible}
-  class:pointer-events-none={!visible}
   aria-hidden={!visible}
 >
-  <div class="relative">
+  <div class="relative" class:pointer-events-auto={visible}>
     {#if confirmingReset && app.session.running}
       <div
         class="absolute bottom-full left-1/2 mb-3 flex w-max max-w-[calc(100vw-2rem)] -translate-x-1/2 flex-wrap items-center justify-center gap-2 rounded-2xl bg-white/95 px-4 py-3 text-center shadow-lg"

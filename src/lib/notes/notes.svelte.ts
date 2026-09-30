@@ -4,8 +4,9 @@
  * A Note is the teacher's, not the Session's: Reset leaves it alone, and it
  * stays put when the Scene changes, taking on the new Scene's look (a cloud
  * on the savanna, a sign on the reef, a readout panel in deep space, a stone
- * slab in the prehistoric Scene). Like the settings, it is localStorage
- * and nothing more.
+ * slab in the prehistoric Scene). Each Class has its own
+ * (`classes.svelte.ts`), so third period's instructions wait for third
+ * period. Like the settings, it is localStorage and nothing more.
  *
  * Positions and sizes are fractions of the screen, and drawn strokes are
  * fractions of their Note, so everything keeps its place when the window is
@@ -13,6 +14,7 @@
  */
 
 import { browser } from "$app/environment";
+import { classes } from "$lib/classes/classes.svelte";
 
 /** The pens on offer. `dark` is each Scene's own ink. */
 export const INKS = ["dark", "red", "blue", "green"] as const;
@@ -51,7 +53,9 @@ export const MIN_HEIGHT = 0.1;
 /** How far each further new Note steps down and right from the last. */
 const CASCADE = 0.04;
 
-const STORAGE_KEY = "class-noise-level:notes";
+function storageKey() {
+  return classes.storageKey("notes");
+}
 
 function clamp(value: number, min: number, max: number) {
   return Math.max(min, Math.min(max, value));
@@ -86,7 +90,7 @@ function isNote(value: unknown): value is Note {
 function read(): Note[] {
   if (!browser) return [];
   try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]");
+    const saved = JSON.parse(localStorage.getItem(storageKey()) ?? "[]");
     if (!Array.isArray(saved)) return [];
     return saved.filter(isNote).map((note) => ({
       ...note,
@@ -102,11 +106,16 @@ function read(): Note[] {
 class Notes {
   all = $state<Note[]>(read());
 
+  /** Switch to the Notes of the Class now on screen. */
+  reload() {
+    this.all = read();
+  }
+
   #save() {
     if (!browser) return;
     try {
-      if (this.all.length === 0) localStorage.removeItem(STORAGE_KEY);
-      else localStorage.setItem(STORAGE_KEY, JSON.stringify(this.all));
+      if (this.all.length === 0) localStorage.removeItem(storageKey());
+      else localStorage.setItem(storageKey(), JSON.stringify(this.all));
     } catch {
       // Browsing privately: the Note still works, it just forgets on refresh.
     }

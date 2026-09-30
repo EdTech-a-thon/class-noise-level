@@ -1,10 +1,11 @@
 /**
  * The teacher's Classes, remembered on this computer.
  *
- * Each Class keeps its own animals in every Scene and its own Collection, so
- * second period never inherits what third period earned, and Reset only
- * empties the Class on screen. Settings — the microphone, calibration, goal
- * and Arrival Rate — belong to the room, not the class, and stay shared.
+ * Each Class keeps its own animals in every Scene, its own Collection, and
+ * its own Notes and Timer, so second period never inherits what third period
+ * earned or was told, and Reset only empties the Class on screen. Settings —
+ * the microphone, calibration, goal and Arrival Rate — belong to the room,
+ * not the class, and stay shared.
  *
  * Everything a Class keeps is stored under its own prefix, so deleting it is
  * a matter of removing every key that starts with it.
@@ -34,10 +35,11 @@ function newId() {
 
 /**
  * Before there were Classes, the animals and the Collection were kept under
- * un-prefixed keys. They become the first Class's, so nothing is lost.
+ * un-prefixed keys, and the Notes and Timer were for a while after. They
+ * become the Class on screen's, so nothing is lost.
  */
 function adoptUnprefixed(classId: string) {
-  for (const part of [...SCENE_IDS, "sightings"]) {
+  for (const part of [...SCENE_IDS, "sightings", "notes", "timer"]) {
     const old = `class-noise-level:${part}`;
     const saved = localStorage.getItem(old);
     if (saved === null) continue;
@@ -52,7 +54,10 @@ function load(): ClassList {
     const saved = parseClassList(
       JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "null"),
     );
-    if (saved) return saved;
+    if (saved) {
+      adoptUnprefixed(saved.currentId);
+      return saved;
+    }
     const list = firstClassList(newId());
     adoptUnprefixed(list.currentId);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(list));

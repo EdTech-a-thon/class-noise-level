@@ -8,6 +8,7 @@
 import { CHIME_MS, playChime } from "$lib/audio/chime";
 import { Microphone, SMOOTHING_MS } from "$lib/audio/microphone.svelte";
 import { classes } from "$lib/classes/classes.svelte";
+import { notes } from "$lib/notes/notes.svelte";
 import { RoomMonitor } from "$lib/noise/roomMonitor.svelte";
 import { SCENES } from "$lib/scenes";
 import { DEFAULT_SCENE, type SceneId } from "$lib/scenes/types";
@@ -79,24 +80,29 @@ export class App {
   }
 
   /**
-   * Switch Class, say when third period arrives. Its animals and Collection
-   * come back; the Session waits for Start, so the new class begins together.
+   * Switch Class, say when third period arrives. Its animals, Collection,
+   * Notes and Timer come back, and the last class's are kept for it; the
+   * Session waits for Start, so the new class begins together.
    */
   useClass(id: string) {
     if (id === classes.currentId) return;
-    classes.select(id);
+    this.timer.useClass(() => classes.select(id));
     this.#enterClass();
   }
 
   /** Delete a Class for good. If it is the one on screen, another takes over. */
   deleteClass(id: string) {
-    const wasCurrent = id === classes.currentId;
-    classes.remove(id);
-    if (wasCurrent) this.#enterClass();
+    if (id !== classes.currentId) {
+      classes.remove(id);
+      return;
+    }
+    this.timer.useClass(() => classes.remove(id));
+    this.#enterClass();
   }
 
   #enterClass() {
     sightings.reload();
+    notes.reload();
     this.monitor.reset();
     this.session.useClass(settings.arrivalIntervalMs);
   }

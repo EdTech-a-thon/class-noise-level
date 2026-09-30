@@ -51,8 +51,9 @@ Words or a drawing the teacher puts on the Scene for the class to read,
 drawn as part of the world: a cloud in the savanna sky, a framed wooden sign
 hanging in the reef water, a readout panel floating in deep space, a slab of
 sandstone with a fossil in its border in the prehistoric Scene. Creatures pass behind a Note. A Note belongs to the
-teacher, not the Session: Reset leaves it, and it stays where it is when the
-Scene changes, taking on the new Scene's look.
+teacher and the Class, not the Session: Reset leaves it, and it stays where it
+is when the Scene changes, taking on the new Scene's look. Each Class has its
+own Notes.
 
 ## Arrival Rate
 
@@ -69,8 +70,9 @@ outlives Reset.
 ## Class
 
 A group of students the teacher names, such as "2nd period". Each Class has
-its own Creatures in every Scene and its own Collection, so one Class never
-sees what another earned, and Reset empties only the Class on screen.
+its own Creatures in every Scene, its own Collection, and its own Notes and
+Timer, so one Class never sees what another earned or was told, and Reset
+empties only the Class on screen.
 Switching Class ends the Session until the teacher presses start again.
 Deleting a Class removes everything it kept. There is always at least one.
 
@@ -127,4 +129,6 @@ Calibration is optional; without it the app uses a sensible default.
 A countdown the teacher can put up over the Scene and drag wherever suits
 the room. Creatures pass behind it. When it runs out it chimes, and while the
 chime rings the room is not judged: the teacher's own bell is never Too Loud
-and never makes a Creature Run Away.
+and never makes a Creature Run Away. Each Class has its own Timer: switching
+Class pauses the one on screen, and it waits for that Class to come back.
+Changing Scene leaves it running.

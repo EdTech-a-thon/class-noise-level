@@ -19,8 +19,8 @@ many classrooms drive the projector from a Smartboard.
 - **The teacher's, not the Session's.** Reset does not clear Notes, and they
   are not per Scene: a Note stays put when the Scene changes and is redrawn in
   the new Scene's style. The instructions on the board don't depend on which
-  animals the class is earning. Notes are remembered in localStorage, like the
-  settings.
+  animals the class is earning. Notes are remembered in localStorage, and each
+  Class has its own (see the Classes ADR).
 - **Sized for the back of the room.** Typed words shrink to the largest size
   that fits, and never break mid-word. The artwork is built at the Note's own
   size (`scenes/noteArt.ts`), so the teacher can stretch a Note to any shape:

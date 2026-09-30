@@ -4,10 +4,14 @@
  *
  * Remembered on this computer, like the reef: a refresh halfway through a
  * five-minute task keeps counting from where it was, and the Timer stays
- * where the teacher dragged it. Its arithmetic lives in ./countdown.
+ * where the teacher dragged it. Each Class has its own
+ * (`classes.svelte.ts`); switching Class pauses the one it leaves, so it is
+ * waiting where it was when that class comes back. Changing Scene leaves it
+ * alone. Its arithmetic lives in ./countdown.
  */
 
 import { browser } from "$app/environment";
+import { classes } from "$lib/classes/classes.svelte";
 import {
   advance,
   elapsedFraction,
@@ -20,7 +24,6 @@ import {
   type Countdown,
 } from "./countdown";
 
-const STORAGE_KEY = "class-noise-level:timer";
 /** Often enough that the seconds never visibly stick. */
 const TICK_MS = 200;
 const DEFAULT_DURATION_MS = 5 * 60_000;
@@ -57,12 +60,16 @@ const DEFAULTS: StoredTimer = {
   style: "digits",
 };
 
+function storageKey() {
+  return classes.storageKey("timer");
+}
+
 const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
 
 function read(): StoredTimer {
   if (!browser) return structuredClone(DEFAULTS);
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(storageKey());
     if (!raw) return structuredClone(DEFAULTS);
     const stored = {
       ...DEFAULTS,
@@ -135,7 +142,7 @@ export class ClassTimer {
   #save() {
     if (!browser) return;
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.#stored));
+      localStorage.setItem(storageKey(), JSON.stringify(this.#stored));
     } catch {
       // Private browsing may refuse storage; the Timer still works this visit.
     }
@@ -182,18 +189,36 @@ export class ClassTimer {
     this.#set({ position: { x: clamp01(position.x), y: clamp01(position.y) } });
   }
 
-  /** Drive the countdown. Returns a teardown for $effect. */
-  run() {
-    // Read here rather than in the constructor, because the page is
-    // prerendered with the defaults and hydration expects to find those.
-    // A countdown that ran out while the page was closed shows as done, but
-    // does not chime: nobody asked for a bell on opening the laptop.
+  /**
+   * Switch Class. The countdown on screen is paused and kept with the Class
+   * it belonged to, so it never rings for the wrong class, and `select`
+   * then puts the next Class on screen, whose own Timer comes back.
+   */
+  useClass(select: () => void) {
+    this.pause();
+    select();
+    this.#restore();
+  }
+
+  /**
+   * Bring back the saved Timer of the Class on screen. A countdown that ran
+   * out while the page was closed shows as done, but does not chime: nobody
+   * asked for a bell on opening the laptop.
+   */
+  #restore() {
     const restored = read();
     this.#now = Date.now();
     this.#stored = {
       ...restored,
       countdown: advance(restored.countdown, this.#now),
     };
+  }
+
+  /** Drive the countdown. Returns a teardown for $effect. */
+  run() {
+    // Read here rather than in the constructor, because the page is
+    // prerendered with the defaults and hydration expects to find those.
+    this.#restore();
 
     const interval = setInterval(() => {
       if (this.#stored.countdown.status !== "running") return;
