@@ -73,16 +73,16 @@
         </p>
       </div>
       <div
-        class="order-last flex w-full rounded-full border border-slate-300 p-1 text-sm sm:order-none sm:inline-flex sm:w-auto"
+        class="order-last flex w-full flex-wrap gap-1.5 text-sm sm:order-none sm:w-auto"
         role="group"
         aria-label={t("scene.label")}
       >
         {#each Object.values(SCENES) as option (option.id)}
           <button
-            class="flex-1 rounded-full px-3 py-1 sm:flex-none {sceneId ===
+            class="rounded-full border px-3 py-1 whitespace-nowrap {sceneId ===
             option.id
-              ? 'bg-slate-900 text-white'
-              : 'text-slate-700 hover:bg-slate-100'}"
+              ? 'border-slate-900 bg-slate-900 text-white'
+              : 'border-slate-300 text-slate-700 hover:bg-slate-100'}"
             aria-pressed={sceneId === option.id}
             onclick={() => (sceneId = option.id)}
             >{t(`scene.${option.id}.name`)}</button

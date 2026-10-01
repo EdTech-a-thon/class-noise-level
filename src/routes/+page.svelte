@@ -202,7 +202,7 @@
             {/if}
           </p>
           <div
-            class="mt-5 inline-flex rounded-full border border-slate-300 p-1 text-sm short:mt-3"
+            class="mt-5 flex flex-wrap justify-center gap-1.5 text-sm short:mt-3"
             role="group"
             aria-label={t("scene.label")}
           >
@@ -211,16 +211,15 @@
                  doesn't flash the default as chosen. -->
               {@const chosen = app.restored && app.scene.id === scene.id}
               <button
-                class="rounded-full px-4 py-1.5 {chosen
-                  ? 'bg-slate-900 text-white'
-                  : 'text-slate-700 hover:bg-slate-100'}"
+                class="rounded-full border px-4 py-1.5 whitespace-nowrap {chosen
+                  ? 'border-slate-900 bg-slate-900 text-white'
+                  : 'border-slate-300 text-slate-700 hover:bg-slate-100'}"
                 aria-pressed={chosen}
                 onclick={() => app.useScene(scene.id)}
                 >{t(`scene.${scene.id}.name` as UiKey)}</button
               >
             {/each}
           </div>
-          <br />
           <button
             class="mt-4 rounded-full bg-slate-900 px-6 py-2.5 font-medium text-white short:mt-3"
             onclick={async () => {
