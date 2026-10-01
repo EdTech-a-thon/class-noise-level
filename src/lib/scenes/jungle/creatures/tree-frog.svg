@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="9.8 4 88.3 60">
+  <path d="M70 46 C 71 52, 72 55, 72 58 L 79 58 C 79 55, 79 50, 80 44 Z M70 60 a5 3 0 1 0 10 0 a5 3 0 1 0 -10 0 Z" fill="#9bd25a"/>
+  <path d="M70 46 C 71 52, 72 55, 72 58 L 79 58 C 79 55, 79 50, 80 44 Z M70 60 a5 3 0 1 0 10 0 a5 3 0 1 0 -10 0 Z" fill="#2b2b3a" opacity="0.25"/>
+  <circle cx="71.5" cy="61.5" r="2.5" fill="#ff9f5a"/>
+  <circle cx="76.5" cy="61.5" r="2.5" fill="#ff9f5a"/>
+  <path d="M12 50 C 8 36, 22 25, 44 23 C 58 22, 66 14, 80 15 C 94 16, 101 28, 97 39 C 93 47, 82 51, 68 54 C 50 57, 16 60, 12 50 Z" fill="#9bd25a"/>
+  <path d="M64 54 C 78 52, 90 47, 97 39 C 96 45, 88 51, 78 54.5 C 72 56, 67 56, 64 54 Z" fill="#f4f1de"/>
+  <path d="M30 47 C 40 40, 56 40, 66 45 C 60 51, 44 53, 34 53 Z" fill="#1a6f96"/>
+  <rect x="44" y="42" width="4.5" height="10" rx="2.25" fill="#ffd166"/>
+  <rect x="55" y="42" width="4.5" height="10" rx="2.25" fill="#ffd166"/>
+  <path d="M12 50 C 14 57, 30 58, 46 55 C 30 55, 18 54, 12 50 Z" fill="#2b2b3a" opacity="0.18"/>
+  <path d="M18.5 37 C 26.5 30, 41.5 30, 46 38 C 48.5 44, 42.5 51, 35.5 55 C 39.5 49, 43.5 43, 41.5 39 C 37.5 34, 27.5 34, 18.5 37 Z" fill="#2b2b3a" opacity="0.2"/>
+  <ellipse cx="28.5" cy="44" rx="16" ry="10" transform="rotate(-25 28.5 44)" fill="#9bd25a"/>
+  <path d="M16.5 48 C 23.5 50, 35.5 47, 42.5 40 C 39.5 48, 27.5 54, 17.5 52 Z" fill="#2b2b3a" opacity="0.18"/>
+  <path d="M14 56 C 14 52, 18 51, 22 52 C 30 53, 38 55, 44 57 C 47.5 58, 47 62, 44 62 L 20 61 C 16 61, 14 59, 14 56 Z" fill="#9bd25a"/>
+  <path d="M14 56 C 14 52, 18 51, 22 52 C 30 53, 38 55, 44 57 C 47.5 58, 47 62, 44 62 L 20 61 C 16 61, 14 59, 14 56 Z" fill="#2b2b3a" opacity="0.12"/>
+  <circle cx="45" cy="61.5" r="2.5" fill="#ff9f5a"/>
+  <circle cx="49.5" cy="61.5" r="2.5" fill="#ff9f5a"/>
+  <path d="M78 46 C 80 51, 82 55, 84 58 L 91 57 C 89 54, 87 50, 87 44 Z M82 59.5 a6 3 0 1 0 12 0 a6 3 0 1 0 -12 0 Z" fill="#9bd25a"/>
+  <circle cx="84.5" cy="61.5" r="2.5" fill="#ff9f5a"/>
+  <circle cx="89.5" cy="61.5" r="2.5" fill="#ff9f5a"/>
+  <circle cx="94" cy="61" r="2.5" fill="#ff9f5a"/>
+  <circle cx="75" cy="17" r="13" fill="#9bd25a"/>
+  <circle cx="75.5" cy="17" r="11" fill="#ef476f"/>
+  <circle cx="76.5" cy="17" r="6.5" fill="#2b2b3a"/>
+  <circle cx="74.8" cy="15.3" r="1.7" fill="#ffffff"/>
+  <path d="M84 37 C 89 39, 94 38, 96.5 35 C 93.5 37.5, 89 37.5, 84 37 Z" fill="#2b2b3a" opacity="0.5"/>
+</svg>

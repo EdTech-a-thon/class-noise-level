@@ -13,6 +13,10 @@ import {
   signShape,
   type Rect,
 } from "./noteArt";
+import JungleAmbient from "./jungle/AmbientLife.svelte";
+import * as jungleArt from "./jungle/artwork";
+import { JUNGLE_NOTE } from "./jungle/note";
+import { JUNGLE_ROSTER } from "./jungle/roster";
 import type { DepartureStyle } from "./motion";
 import PrehistoricAmbient from "./prehistoric/AmbientLife.svelte";
 import * as prehistoricArt from "./prehistoric/artwork";
@@ -130,5 +134,15 @@ export const SCENES: Record<SceneId, SceneDef> = {
     depthFade: false,
     departure: "run",
     note: PREHISTORIC_NOTE,
+  },
+  jungle: {
+    id: "jungle",
+    roster: JUNGLE_ROSTER,
+    creatureArt: jungleArt.CREATURE_ART,
+    ambientArt: jungleArt.AMBIENT_ART,
+    Ambient: JungleAmbient,
+    depthFade: false,
+    departure: "run",
+    note: JUNGLE_NOTE,
   },
 };

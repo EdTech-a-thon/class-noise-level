@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1.2 -7.9 132.4 247.9">
+  <ellipse cx="65" cy="240" rx="34" ry="5" fill="#2b2b3a" opacity="0.14"/>
+  <path d="M 65 240 Q 52.5 130 40 70" fill="none" stroke="#3a7a4c" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 40 70 C 49 45.4, 25.6 14.2, 7.1 8.2 C 1.8 26.9, 14.6 63.7, 40 70 Z" fill="#3f8a5a"/>
+  <path d="M 40 70 L 13.1 19.3" fill="none" stroke="#5aa36a" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M 65 240 Q 77.5 118 90 58" fill="none" stroke="#3a7a4c" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 90 58 C 115.2 50.8, 126.7 13.6, 120.7 -4.9 C 102.4 1.7, 80.1 33.7, 90 58 Z" fill="#3f8a5a"/>
+  <path d="M 90 58 L 115.2 6.4" fill="none" stroke="#5aa36a" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M 65 240 Q 64.5 180 64 120" fill="none" stroke="#3a7a4c" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 64 120 C 58.6 94.4, 22.3 80.3, 3.4 85 C 8.8 103.7, 39.1 128.1, 64 120 Z" fill="#4f9a62"/>
+  <path d="M 64 120 L 14.3 91.3" fill="none" stroke="#5aa36a" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M 66 240 L 66 92" fill="none" stroke="#4f7a3e" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 66 186 C 56 184, 44 176, 40 182 C 42 190, 58 202, 66 202 Z" fill="#e2685e" stroke="#e2685e" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="43" cy="183" r="4" fill="#ecc45e"/>
+  <path d="M 66 162 C 76 160, 88 152, 92 158 C 90 166, 74 178, 66 178 Z" fill="#e2685e" stroke="#e2685e" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="89" cy="159" r="4" fill="#ecc45e"/>
+  <path d="M 66 138 C 56 136, 44 128, 40 134 C 42 142, 58 154, 66 154 Z" fill="#e2685e" stroke="#e2685e" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="43" cy="135" r="4" fill="#ecc45e"/>
+  <path d="M 66 114 C 76 112, 88 104, 92 110 C 90 118, 74 130, 66 130 Z" fill="#e2685e" stroke="#e2685e" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="89" cy="111" r="4" fill="#ecc45e"/>
+  <path d="M 66 90 C 56 88, 44 80, 40 86 C 42 94, 58 106, 66 106 Z" fill="#e2685e" stroke="#e2685e" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="43" cy="87" r="4" fill="#ecc45e"/>
+</svg>

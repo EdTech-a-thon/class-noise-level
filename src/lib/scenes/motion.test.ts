@@ -51,6 +51,22 @@ describe("stepMotion", () => {
       expect(state.y + footprint.height / 2).toBeCloseTo(groundLine(0.4));
     }
   });
+
+  it("walks jungle Creatures along the bough, and hangs the sloth under it", () => {
+    const random = seeded(9);
+    const walker = createMotion("clamber", 0.2, 0.5, 0.4, footprint, random);
+    const hanger = createMotion("hang", 0.6, 0.5, 0.4, footprint, random);
+    for (let t = 0; t < 600; t += 1 / 30) {
+      stepMotion(walker, "clamber", 0.4, footprint, 1 / 30, random);
+      stepMotion(hanger, "hang", 0.4, footprint, 1 / 30, random);
+      expect(walker.y + footprint.height / 2).toBeCloseTo(
+        groundLine(0.4, MOTION_PROFILES.clamber.band),
+      );
+      expect(hanger.y - footprint.height / 2).toBeCloseTo(
+        groundLine(0.4, MOTION_PROFILES.hang.band),
+      );
+    }
+  });
 });
 
 describe("createMotion", () => {
