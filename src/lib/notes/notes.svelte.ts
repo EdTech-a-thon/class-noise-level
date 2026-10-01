@@ -4,8 +4,8 @@
  * A Note is the teacher's, not the Session's: Reset leaves it alone, and it
  * stays put when the Scene changes, taking on the new Scene's look (a cloud
  * on the savanna, a sign on the reef, a readout panel in deep space, a stone
- * slab in the prehistoric Scene). Each Class has its own
- * (`classes.svelte.ts`), so third period's instructions wait for third
+ * slab in the prehistoric Scene, a trail sign in the forest). Each Class has
+ * its own (`classes.svelte.ts`), so third period's instructions wait for third
  * period. Like the settings, it is localStorage and nothing more.
  *
  * Positions and sizes are fractions of the screen, and drawn strokes are

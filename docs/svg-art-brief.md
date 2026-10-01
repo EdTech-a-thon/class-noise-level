@@ -7,6 +7,8 @@
 > (`src/lib/scenes/space/`) and the prehistoric Scene
 > (`src/lib/scenes/prehistoric/`) deliberately do not follow the §1 style;
 > see §9 and §10 for what they do instead, and which §2 rules they change.
+> The forest (`src/lib/scenes/forest/`) is drawn as the savanna is; §11 has
+> what is its own.
 
 A standalone task brief. Everything needed to produce the reef artwork is in
 this file; the app code does not need to exist yet. Read `CONTEXT.md` for
@@ -414,3 +416,42 @@ Ambient Life here is ferns (they sway), dawn redwoods, cycads, a fallen log,
 drifting river mist, glints on the water, a far herd of
 hadrosaurs on the other bank and two pterosaurs in the haze. The far animals
 are flat silhouettes in a hazy tone so they never pass for Creatures.
+
+## 11. The forest Scene
+
+A sunlit clearing in a mixed temperate woodland, the kind found across North
+America and Europe: oaks, maples, pines and birches round an open glade with a
+stream and a trail. Its seventeen animals (`forest/roster.ts`) run from a
+chipmunk and a robin to a moose, with a gray wolf, a black bear and a moose as
+the Rare ones. It is drawn in the savanna's style, so §1 and §2 apply as they
+do there:
+
+- **Flat, friendly, the signature eye and the pink cheek** (`#ff7a8a` at
+  0.55), shaded with the same shape again in `#2b2b3a` at 0.15–0.4 and lit
+  with `#ffffff` at 0.12–0.2. Part groups set `transform-box: fill-box` and
+  their joint inline, as the savanna's do (§8), and use the savanna's part
+  classes (`part-tail`, `part-ears`, `part-head`, `part-wings`), which move
+  the same way in both Scenes.
+- **Palette:** the savanna's animal colours (`#7a5a44`, `#c98f5c`,
+  `#a87a34`, `#c99440`, `#8a7470`, `#8e9bb0`, `#68748a`, `#e08a5a`, plus the
+  shared cream, yellow, red, ink and white), with two additions: `#d9733f`
+  for the fox and `#5c4334` for the darkest browns (the moose, the beaver's
+  tail). Animals avoid large areas of green, so they stand out on the grass.
+  The black animals (skunk, bear) lift their black with a white overlay and
+  ring the eye in a lighter tone, so neither reads as a hole.
+- **Scenery** (`forest/ambient/`) is solid, muted and hazier with distance,
+  in sage and leaf greens with a few soft autumn trees. The backdrop's only
+  gradient is its light, prefixed `forest-backdrop-`. Ground animals walk the
+  savanna's band of the screen (`scenes/motion.ts`), so the clearing is open
+  from 62% of the way down to the bottom, and the sky over the canopy is
+  kept light for the owl and the woodpecker. Leaves fall, ferns sway,
+  sunbeams lean and motes drift; the far flock is a flat silhouette so it is
+  never mistaken for a Creature.
+- **Too Loud** is fog rolling in between the trees: banks of pale mist over
+  the clearing, thinning up into the canopy (`forest/scene.css`).
+- **The Note** is a trail sign: a plain planed board in a frame of four
+  rough logs with sawn, ringed ends, moss and two toadstools on the top log
+  and a fallen leaf on the bottom one, standing on a post (two under a long
+  sign). The logs are the border the teacher drags and resizes by, never
+  thinner than 14px, and nothing is drawn on the board
+  (`forest/noteShape.ts`).

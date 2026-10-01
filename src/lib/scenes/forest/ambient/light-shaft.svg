@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 900">
+  <!-- One slanted sunbeam: three nested wedges, each fainter and longer than
+       the last, so it is brightest in the middle and fades at the edges and foot. -->
+  <path d="M110 0 L176 0 L162 836 C 156 892, 8 892, 2 836 Z" fill="#fff8e0" opacity="0.12"/>
+  <path d="M122 0 L164 0 L136 790 C 130 832, 46 832, 40 790 Z" fill="#fff8e0" opacity="0.12"/>
+  <path d="M133 0 L154 0 L110 730 C 106 758, 76 758, 72 730 Z" fill="#fff8e0" opacity="0.12"/>
+</svg>

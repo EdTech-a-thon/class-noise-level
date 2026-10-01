@@ -13,6 +13,10 @@ import {
   signShape,
   type Rect,
 } from "./noteArt";
+import ForestAmbient from "./forest/AmbientLife.svelte";
+import * as forestArt from "./forest/artwork";
+import { FOREST_NOTE } from "./forest/note";
+import { FOREST_ROSTER } from "./forest/roster";
 import type { DepartureStyle } from "./motion";
 import PrehistoricAmbient from "./prehistoric/AmbientLife.svelte";
 import * as prehistoricArt from "./prehistoric/artwork";
@@ -130,5 +134,15 @@ export const SCENES: Record<SceneId, SceneDef> = {
     depthFade: false,
     departure: "run",
     note: PREHISTORIC_NOTE,
+  },
+  forest: {
+    id: "forest",
+    roster: FOREST_ROSTER,
+    creatureArt: forestArt.CREATURE_ART,
+    ambientArt: forestArt.AMBIENT_ART,
+    Ambient: ForestAmbient,
+    depthFade: false,
+    departure: "run",
+    note: FOREST_NOTE,
   },
 };
