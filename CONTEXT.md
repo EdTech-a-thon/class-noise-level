@@ -5,9 +5,9 @@ no decisions, no specification. Decisions live in `docs/adr/`.
 
 ## Scene
 
-The calm world on screen. The teacher chooses between six Scenes: the
+The calm world on screen. The teacher chooses between seven Scenes: the
 savanna, the coral reef, deep space, the prehistoric floodplain, the
-forest and the jungle. A Scene
+forest, the jungle and the Arctic sea ice. A Scene
 is a backdrop, its Ambient Life, the Roster of Creatures that can live in it,
 and its Departure. Each
 Scene keeps the Creatures it has earned separately, so switching never takes
@@ -43,7 +43,8 @@ Scenery that is alive but is not a Creature: swaying grass and drifting
 clouds on the savanna, seaweed and plankton on the reef, twinkling stars and
 drifting dust in deep space, ferns and river mist in the
 prehistoric Scene, falling leaves and sunbeams in the forest, lianas, sunbeams
-and a far waterfall in the jungle. Ambient Life is present from the first moment of
+and a far waterfall in the jungle, the aurora, falling snow and bobbing
+ice floes in the Arctic. Ambient Life is present from the first moment of
 every Session, is never earned, and is never counted. It exists so an
 unpopulated Scene still reads as a living place.
 
@@ -54,7 +55,8 @@ drawn as part of the world: a cloud in the savanna sky, a framed wooden sign
 hanging in the reef water, a readout panel floating in deep space, a slab of
 sandstone with a fossil in its border in the prehistoric Scene, a trail sign
 framed in logs in the forest, a board in a lashed bamboo frame hanging from
-lianas in the jungle. Creatures pass behind a Note. A Note belongs to the
+lianas in the jungle, a block of sea ice with a pane of packed snow and
+icicles along its foot in the Arctic. Creatures pass behind a Note. A Note belongs to the
 teacher and the Class, not the Session: Reset leaves it, and it stays where it
 is when the Scene changes, taking on the new Scene's look. Each Class has its
 own Notes.
@@ -105,7 +107,7 @@ Departure. They are gone for the rest of the Session.
 ## Departure
 
 How a Scene's Creatures leave when they Run Away. On the savanna, the
-reef, the prehistoric floodplain, the forest and the jungle they are startled and **run** off the edge of the Scene. In deep space
+reef, the prehistoric floodplain, the forest, the jungle and the Arctic they are startled and **run** off the edge of the Scene. In deep space
 they **fade out**: each one stays where it is and breaks up into static, like
 a signal lost to interference. Only the look differs: which Creatures leave,
 and when, is the same in every Scene.

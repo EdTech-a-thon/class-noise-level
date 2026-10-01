@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 46">
+  <!-- A flat floe floating in the open water. The bottom edge is the
+       waterline, so it bobs on the water as the swimmers do. -->
+  <path d="M8 40 L14 20 C 16 14, 22 11, 30 11 L196 9 C 210 9, 220 12, 226 18 L234 40 Z" fill="#a9d0ea"/>
+  <path d="M182 10 L196 9 C 210 9, 220 12, 226 18 L234 40 L190 40 C 194 30, 192 18, 182 10 Z" fill="#2b2b3a" opacity="0.14"/>
+  <path d="M14 20 C 16 14, 22 11, 30 11 L196 9 C 210 9, 220 12, 226 18 C 180 22, 70 24, 14 20 Z" fill="#f4f8fc"/>
+  <path d="M0 40 C 40 37, 90 38, 120 39 C 160 40, 200 37, 240 40 L240 46 L0 46 Z" fill="#24527c"/>
+  <rect x="34" y="41" width="56" height="2.5" rx="1.25" fill="#6f9cc6"/>
+  <rect x="150" y="41.5" width="40" height="2.5" rx="1.25" fill="#6f9cc6"/>
+</svg>

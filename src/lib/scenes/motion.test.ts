@@ -169,3 +169,20 @@ describe("fadeVisibility", () => {
     for (const t of late) expect(fadeVisibility(t)).toBeLessThan(0.2);
   });
 });
+
+describe("paddle", () => {
+  it("keeps an arctic swimmer on the open water, between the ice", () => {
+    const random = seeded(5);
+    const band = MOTION_PROFILES.paddle.band!;
+    for (const depth of [0, 0.5, 1]) {
+      const state = createMotion("paddle", 0.3, 0.5, depth, footprint, random);
+      for (let t = 0; t < 600; t += 1 / 30) {
+        stepMotion(state, "paddle", depth, footprint, 1 / 30, random);
+        const waterline = state.y + footprint.height / 2;
+        expect(waterline).toBeCloseTo(groundLine(depth, band));
+        expect(waterline).toBeGreaterThanOrEqual(band.top - 1e-9);
+        expect(waterline).toBeLessThanOrEqual(band.bottom + 1e-9);
+      }
+    }
+  });
+});

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 16 101 60">
+  <path d="M3 50 C 10 52 18 54 25 56 L 16 66 C 10 62 5 56 3 50 Z" fill="#2b2b3a"/>
+  <clipPath id="eider-body">
+    <path d="M10 76 C 5 68 8 58 18 53 C 28 48 42 45 54 45 C 62 45 66 43 68 40 L 86 40 C 92 50 93 62 87 70 C 85 73 83 75 81 76 Z"/>
+  </clipPath>
+  <path d="M10 76 C 5 68 8 58 18 53 C 28 48 42 45 54 45 C 62 45 66 43 68 40 L 86 40 C 92 50 93 62 87 70 C 85 73 83 75 81 76 Z" fill="#2b2b3a"/>
+  <path d="M56 76 C 56 64 59 54 64 46 L 64 30 L 96 30 L 96 76 Z" fill="#ffffff" clip-path="url(#eider-body)"/>
+  <path d="M74 76 C 81 70 86 62 88 54 L 96 54 L 96 76 Z" fill="#2b2b3a" opacity="0.12" clip-path="url(#eider-body)"/>
+  <path d="M18 55 C 28 49.5 40 47 50 47 C 40 49.5 30 52 22 57.5 C 19 59 16 56.5 18 55 Z" fill="#ffffff" opacity="0.2"/>
+  <path d="M24 60 C 34 54 50 53 62 57 C 56 63 44 66 32 65 C 26 64.5 21 62.5 24 60 Z" fill="#ffffff" opacity="0.15"/>
+  <circle cx="75" cy="31" r="14" fill="#8fa3bb"/>
+  <clipPath id="eider-head">
+    <circle cx="75" cy="31" r="14"/>
+  </clipPath>
+  <g clip-path="url(#eider-head)">
+    <path d="M60 37 C 62 32 70 30 76 32 C 81 34 84 40 81 46 L 60 46 Z" fill="#3fae6d"/>
+    <ellipse cx="81.5" cy="41.5" rx="3.5" ry="2.2" fill="#ff7a8a" opacity="0.55"/>
+  </g>
+  <path d="M83 21 C 85 17 92 17 94.5 21 C 96 24 95.5 28 94.5 30 C 97 30.5 99.5 32 100.5 34 C 101 36 98 37.5 93 37.5 L 85 37.5 C 83 32 82 25 83 21 Z" fill="#ff9f5a"/>
+  <path d="M83 21 C 82 25 83 32 85 37.5 L 87.5 37.5 C 85.5 32 85 25 86 18.5 C 84.5 19 83.5 20 83 21 Z" fill="#2b2b3a" opacity="0.3"/>
+  <path d="M94.5 30 C 92 31.5 89 31.5 86.5 30.5 C 89 32.5 92 32.8 94.5 31.5 Z" fill="#2b2b3a" opacity="0.3"/>
+  <path d="M87 34.5 C 91 35.5 96 35.5 100.5 34.5 C 96 36.5 91 36.5 87 35.5 Z" fill="#2b2b3a" opacity="0.3"/>
+  <path d="M86 20 C 87.5 18.5 90 18.2 91.5 19 C 89.5 19.5 88 20.5 87 22 Z" fill="#ffffff" opacity="0.4"/>
+  <circle cx="77.5" cy="27.5" r="4" fill="#2b2b3a"/>
+  <circle cx="76.3" cy="26.3" r="1.2" fill="#ffffff"/>
+  <path d="M0 73 C 6 71.5 12 74 18 72.8 C 24 71.5 30 74 36 72.8 C 42 71.5 48 74 54 72.8 C 60 71.5 66 74 72 72.8 C 78 71.5 84 74 90 72.8 C 95 72 98 72.5 101 73 L 101 76 L 0 76 Z" fill="#24527c"/>
+  <rect x="14" y="73.6" width="10" height="2" rx="1" fill="#6f9cc6"/>
+  <rect x="64" y="73.6" width="8" height="2" rx="1" fill="#6f9cc6"/>
+</svg>

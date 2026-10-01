@@ -7,6 +7,7 @@
 import { describe, expect, it } from "bun:test";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
+import { ARCTIC_ROSTER } from "./arctic/roster";
 import { FOREST_ROSTER } from "./forest/roster";
 import { JUNGLE_ROSTER } from "./jungle/roster";
 import { PREHISTORIC_ROSTER } from "./prehistoric/roster";
@@ -22,6 +23,7 @@ const ROSTERS: Record<SceneId, CreatureDef[]> = {
   prehistoric: PREHISTORIC_ROSTER,
   forest: FOREST_ROSTER,
   jungle: JUNGLE_ROSTER,
+  arctic: ARCTIC_ROSTER,
 };
 
 /** The Scenes whose art brief (§9, §10) prefixes every id with the Scene. */

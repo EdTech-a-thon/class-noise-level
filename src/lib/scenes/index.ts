@@ -13,6 +13,10 @@ import {
   signShape,
   type Rect,
 } from "./noteArt";
+import ArcticAmbient from "./arctic/AmbientLife.svelte";
+import * as arcticArt from "./arctic/artwork";
+import { ARCTIC_NOTE } from "./arctic/note";
+import { ARCTIC_ROSTER } from "./arctic/roster";
 import ForestAmbient from "./forest/AmbientLife.svelte";
 import * as forestArt from "./forest/artwork";
 import { FOREST_NOTE } from "./forest/note";
@@ -158,5 +162,16 @@ export const SCENES: Record<SceneId, SceneDef> = {
     depthFade: false,
     departure: "run",
     note: JUNGLE_NOTE,
+  },
+  arctic: {
+    id: "arctic",
+    roster: ARCTIC_ROSTER,
+    creatureArt: arcticArt.CREATURE_ART,
+    ambientArt: arcticArt.AMBIENT_ART,
+    Ambient: ArcticAmbient,
+    // Open air over the ice, as on the savanna.
+    depthFade: false,
+    departure: "run",
+    note: ARCTIC_NOTE,
   },
 };

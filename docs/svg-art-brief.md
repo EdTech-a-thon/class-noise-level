@@ -2,7 +2,8 @@
 
 > **Reef Scene.** This brief describes the coral reef artwork, one of the three
 > Scenes in Shy Safari. The savanna (`src/lib/scenes/savanna/`) follows the
-> same style rules and SVG constraints with its own palette and Roster. The
+> same style rules and SVG constraints with its own palette and Roster, and so
+> does the Arctic (`src/lib/scenes/arctic/`, §13). The
 > palette, backdrop and Roster specifics below are reef-only. The jungle
 > (`src/lib/scenes/jungle/`) follows them too; §12 has its additions. Deep space
 > (`src/lib/scenes/space/`) and the prehistoric Scene
@@ -486,3 +487,36 @@ in them, mist under the bough, streaks running down the far waterfall and a
 flock of parrots in silhouette. Every class in `jungle/scene.css` is prefixed
 `jungle-`, and the backdrop's one gradient is `jungle-backdrop-sky`. Too Loud
 is a tropical downpour: a still tile of rain streaks over a steamy haze.
+
+## 13. The Arctic Scene
+
+The edge of the sea ice at polar twilight: a snowfield running back to a
+lead of open water, icebergs and floes in it, snow-capped mountains on the far
+shore and the aurora overhead (`arctic/roster.ts` has the animals). It is
+drawn in the §1 style, eye, blush and all, and follows §2 as written. What it
+adds:
+
+- **White animals on snow.** Half the Roster is white. The snow is therefore
+  a cool twilight blue (`#d0dcea` far to `#adc2da` near) and the sky dark
+  overhead, so white and cream fur reads against both; the animals shade
+  their far legs and undersides with the `#2b2b3a` overlay, and every ground
+  animal has a contact shadow, an ellipse centred on the bottom edge of its
+  viewBox (only its top half shows).
+- **Swimmers are drawn from the waterline up.** The eider and the whales
+  surface in the open water (`paddle` in `scenes/motion.ts`), so the bottom
+  edge of their viewBox is the waterline: the body is cut off there under a
+  low wavy lip of the water colour (`#24527c`) with a ripple or two
+  (`#6f9cc6`). The floes in Ambient Life use the same convention.
+- **Palette.** §1's ink, highlight, cream, pinks, orange, red, yellow and
+  green, plus pale grey `#c3ccd6`, blue-grey `#8fa3bb`, slate `#5f6b7d`,
+  charcoal `#3a4250`, tans `#e6c79a` and `#b9875a`, browns `#8a6a4f` and
+  `#5a4434`, walrus `#c48e74` and antler `#cdb38f`.
+- **Ids** follow §2.5: none, or prefixed with the slug (a clip path). The
+  backdrop's and ambient art's are prefixed `arctic-`.
+
+Ambient Life is two aurora curtains that breathe slowly, two sheets of
+falling snow (one behind the animals, one in front), floes bobbing in the
+open water, pressure ridges, drifts, boulders and dry sedge that sways on the
+snowfield, and a far skein of geese in silhouette. Too Loud is a whiteout:
+the Scene pales and wind-blown streaks of snow cross it
+(`arctic/scene.css`).

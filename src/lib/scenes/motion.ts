@@ -51,7 +51,12 @@ export type MotionStyle =
   /** Jungle: hangs under the bough and creeps along it, barely moving. */
   | "hang"
   /** Jungle: short quick hops across the forest floor, long sits between. */
-  | "hop";
+  | "hop"
+  /**
+   * Arctic: swims along the open water between the ice, surfaced, with long
+   * rests. Drawn from the waterline up, so its feet are the waterline.
+   */
+  | "paddle";
 
 interface Region {
   xMin: number;
@@ -123,6 +128,12 @@ export const BOUGH = { top: 0.5, bottom: 0.525 };
 
 /** The underside of that bough, which the sloth hooks its claws round. */
 const BOUGH_UNDERSIDE = { top: 0.546, bottom: 0.556 };
+
+/**
+ * The open water between the far shore and the near ice in the arctic
+ * backdrop, as fractions of Scene height: where a swimmer's waterline runs.
+ */
+const OPEN_WATER = { top: 0.54, bottom: 0.598 };
 
 /** Open sky, all the way down to the planet's limb at the bottom. */
 const SKY: Region = { xMin: 0.05, xMax: 0.95, yMin: 0.06, yMax: 0.86 };
@@ -395,6 +406,22 @@ export const MOTION_PROFILES: Record<MotionStyle, MotionProfile> = {
     tilts: false,
     ground: true,
     band: PLAIN,
+  },
+  paddle: {
+    region: { xMin: 0.04, xMax: 0.96, yMin: 0, yMax: 1 },
+    speed: 0.014,
+    agility: 1.2,
+    reachX: 0.5,
+    reachY: 0,
+    restChance: 0.55,
+    rest: [3, 9],
+    pulse: 0,
+    flips: true,
+    tilts: false,
+    // On the water rather than in it: it keeps to its waterline the way a
+    // walker keeps to the ground.
+    ground: true,
+    band: OPEN_WATER,
   },
 };
 

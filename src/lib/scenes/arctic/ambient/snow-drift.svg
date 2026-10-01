@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 56">
+  <!-- A drift of snow heaped by the wind into a long, low mound, lit from
+       above and shaded on its far side. Rooted on the bottom edge. -->
+  <path d="M0 56 C 24 44, 56 22, 104 18 C 150 14, 192 34, 220 56 Z" fill="#d6e2ee"/>
+  <path d="M150 17 C 182 24, 204 40, 220 56 L160 56 C 172 44, 168 28, 150 17 Z" fill="#8ea8c6" opacity="0.4"/>
+  <path d="M10 50 C 34 38, 64 24, 104 21 C 124 20, 140 21, 154 24 C 124 25, 80 32, 40 50 Z" fill="#ffffff" opacity="0.7"/>
+</svg>

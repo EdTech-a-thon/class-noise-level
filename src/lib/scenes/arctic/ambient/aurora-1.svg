@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" preserveAspectRatio="none">
+  <defs>
+    <!-- Brightest along its lower edge and fading upward, as a real curtain
+         of aurora is. -->
+    <linearGradient id="arctic-aurora-1-glow" x1="0" y1="40" x2="0" y2="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7ee8b8" stop-opacity="0"/>
+      <stop offset="0.7" stop-color="#7ee8b8" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#b8f5d6" stop-opacity="0.75"/>
+    </linearGradient>
+    <linearGradient id="arctic-aurora-1-rays" x1="0" y1="20" x2="0" y2="290" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a06cd5" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#4ecdc4" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#d6fbe8" stop-opacity="0.55"/>
+    </linearGradient>
+  </defs>
+  <!-- The curtain: a ribbon whose lower edge folds back and forth. -->
+  <path d="M0 120 C 120 70, 220 60, 330 100 C 430 136, 520 150, 620 120 C 730 86, 830 60, 950 90
+           C 1050 116, 1130 120, 1200 100 L1200 210 C 1130 236, 1050 240, 950 214 C 830 184, 730 206, 620 240
+           C 520 272, 430 262, 330 224 C 220 184, 120 192, 0 236 Z" fill="url(#arctic-aurora-1-glow)"/>
+  <!-- Rays standing up out of it. -->
+  <g fill="url(#arctic-aurora-1-rays)">
+    <path d="M150 196 L172 60 L196 60 L180 196 Z"/>
+    <path d="M300 214 L318 40 L346 40 L336 222 Z"/>
+    <path d="M470 258 L488 70 L510 70 L500 260 Z"/>
+    <path d="M640 236 L664 30 L694 30 L676 228 Z"/>
+    <path d="M820 198 L836 50 L860 50 L852 198 Z"/>
+    <path d="M1000 222 L1020 64 L1044 64 L1030 224 Z"/>
+    <path d="M1120 230 L1134 80 L1152 80 L1146 228 Z"/>
+  </g>
+</svg>
