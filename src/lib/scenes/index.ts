@@ -17,6 +17,10 @@ import ForestAmbient from "./forest/AmbientLife.svelte";
 import * as forestArt from "./forest/artwork";
 import { FOREST_NOTE } from "./forest/note";
 import { FOREST_ROSTER } from "./forest/roster";
+import JungleAmbient from "./jungle/AmbientLife.svelte";
+import * as jungleArt from "./jungle/artwork";
+import { JUNGLE_NOTE } from "./jungle/note";
+import { JUNGLE_ROSTER } from "./jungle/roster";
 import type { DepartureStyle } from "./motion";
 import PrehistoricAmbient from "./prehistoric/AmbientLife.svelte";
 import * as prehistoricArt from "./prehistoric/artwork";
@@ -144,5 +148,15 @@ export const SCENES: Record<SceneId, SceneDef> = {
     depthFade: false,
     departure: "run",
     note: FOREST_NOTE,
+  },
+  jungle: {
+    id: "jungle",
+    roster: JUNGLE_ROSTER,
+    creatureArt: jungleArt.CREATURE_ART,
+    ambientArt: jungleArt.AMBIENT_ART,
+    Ambient: JungleAmbient,
+    depthFade: false,
+    departure: "run",
+    note: JUNGLE_NOTE,
   },
 };

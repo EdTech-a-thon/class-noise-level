@@ -50,6 +50,8 @@ const en = {
     "scene.prehistoric.hint": "T. rex, Triceratops and raptors",
     "scene.forest.name": "Forest",
     "scene.forest.hint": "Squirrels, foxes and deer",
+    "scene.jungle.name": "Jungle",
+    "scene.jungle.hint": "Sloths, toucans and jaguars",
     "controls.reset": "Reset",
     "controls.confirmReset": "Confirm reset",
     "controls.resetQuestion": "Empty this scene and start over?",
@@ -220,7 +222,7 @@ const en = {
     "about.photoAlt": "Participants of the 2026 EdTech-a-thon",
     "about.purposeTitle": "What it does",
     "about.purpose":
-      "Put the savanna, the coral reef, deep space or the age of dinosaurs up on the board and press Start. While the class stays under the volume goal, animals come out one at a time. If it gets too loud, they run away. You can change that in Settings so the scene just pauses until it's quiet again. Most animals are common, a few are rare, and the class can look back at every one they've spotted.",
+      "Put the savanna, the coral reef, deep space, the age of dinosaurs or the jungle up on the board and press Start. While the class stays under the volume goal, animals come out one at a time. If it gets too loud, they run away. You can change that in Settings so the scene just pauses until it's quiet again. Most animals are common, a few are rare, and the class can look back at every one they've spotted.",
     "about.promiseTitle": "No catch",
     "about.promise":
       "It's free. There's no paid version and no ads, and we don't collect personal information about you or your students.",
@@ -247,10 +249,10 @@ const en = {
       "A free classroom noise level monitor that rewards quiet instead of punishing noise.",
     "guide.whatTitle": "What it is",
     "guide.what":
-      "Shy Safari is a classroom noise monitor that runs in a web browser. Put it on the projector or interactive whiteboard and it shows a calm savanna, coral reef, night sky in deep space, Cretaceous floodplain or woodland clearing. It listens to how loud the room is through the computer's microphone, and while the class stays under the volume goal, shy animals come out one at a time. It is the opposite of a bouncing noise meter: there is no score, no needle and no red warning light, so nothing makes being loud more interesting than being quiet.",
+      "Shy Safari is a classroom noise monitor that runs in a web browser. Put it on the projector or interactive whiteboard and it shows a calm savanna, coral reef, night sky in deep space, Cretaceous floodplain, woodland clearing or rainforest jungle. It listens to how loud the room is through the computer's microphone, and while the class stays under the volume goal, shy animals come out one at a time. It is the opposite of a bouncing noise meter: there is no score, no needle and no red warning light, so nothing makes being loud more interesting than being quiet.",
     "guide.useTitle": "Using it in class",
     "guide.use.open":
-      "Open shysafari.com on the computer connected to your projector, pick the savanna, the coral reef, deep space, the prehistoric scene or the forest, and press Start. The browser asks to use the microphone.",
+      "Open shysafari.com on the computer connected to your projector, pick the savanna, the coral reef, deep space, the prehistoric scene, the forest or the jungle, and press Start. The browser asks to use the microphone.",
     "guide.use.goal":
       "Set the volume goal for the activity: Silent, Independent (quiet whispers) or Partner work (conversation voices), or drag the line on the meter to anywhere in between.",
     "guide.use.rate":
@@ -262,14 +264,14 @@ const en = {
       "Calibration is optional. Five seconds of silence and five seconds of normal talking teach the app what your room and your microphone sound like.",
     "guide.tooLoudTitle": "What happens when it gets too loud",
     "guide.tooLoud":
-      "The scene clouds over, with a dusty haze on the savanna, murky water on the reef, interference in deep space, mist off the river in the prehistoric scene and fog between the trees in the forest, and no new animals come out. What happens next is your choice:",
+      "The scene clouds over, with a dusty haze on the savanna, murky water on the reef, interference in deep space, mist off the river in the prehistoric scene, fog between the trees in the forest and a tropical downpour in the jungle, and no new animals come out. What happens next is your choice:",
     "guide.tooLoud.flee":
       "Animals run away (the default). The scene freezes and, while the room stays too loud, one animal and then a few more every five seconds run off the edge of the screen. In deep space, they fade out into static instead.",
     "guide.tooLoud.pause":
       "Pause the scene. The animals hold still, nothing is taken away, and progress toward the next animal waits until the room is calm again.",
     "guide.animalsTitle": "The animals",
     "guide.animals":
-      "The savanna has 17 animals, from meerkats and zebras to giraffes, hippos and rhinos, with lions, leopards and elephants as the rare ones. The coral reef has 18, from clownfish and seahorses to sea turtles and octopuses, with hammerhead sharks, manta rays and whale sharks as the rare ones. Deep space has 17 sightings for older students, from satellites, asteroids and astronauts to the space station, comets and Saturn-like planets, with a spiral galaxy, a black hole, a pulsar and a ring nebula as the rare ones. The prehistoric scene has 17 animals from the very end of the age of dinosaurs, drawn with up-to-date science, from small mammals, lizards and feathered raptors to Triceratops and Ankylosaurus, with Tyrannosaurus, Quetzalcoatlus and the giant Alamosaurus as the rare ones. The forest has 17 woodland animals, from chipmunks, robins and hedgehogs to raccoons, foxes and deer, with a gray wolf, a black bear and a moose as the rare ones. Common animals turn up often and rare ones are a real event that many sessions will not see at all. Each scene keeps its own animals, and the collection remembers every animal the class has spotted.",
+      "The savanna has 17 animals, from meerkats and zebras to giraffes, hippos and rhinos, with lions, leopards and elephants as the rare ones. The coral reef has 18, from clownfish and seahorses to sea turtles and octopuses, with hammerhead sharks, manta rays and whale sharks as the rare ones. Deep space has 17 sightings for older students, from satellites, asteroids and astronauts to the space station, comets and Saturn-like planets, with a spiral galaxy, a black hole, a pulsar and a ring nebula as the rare ones. The prehistoric scene has 17 animals from the very end of the age of dinosaurs, drawn with up-to-date science, from small mammals, lizards and feathered raptors to Triceratops and Ankylosaurus, with Tyrannosaurus, Quetzalcoatlus and the giant Alamosaurus as the rare ones. The forest has 17 woodland animals, from chipmunks, robins and hedgehogs to raccoons, foxes and deer, with a gray wolf, a black bear and a moose as the rare ones. The jungle has 17 rainforest animals, from poison dart frogs, toucans and capuchin monkeys to sloths, macaws and orangutans, with jaguars, gorillas and tigers as the rare ones. Common animals turn up often and rare ones are a real event that many sessions will not see at all. Each scene keeps its own animals, and the collection remembers every animal the class has spotted.",
     "guide.forTitle": "Who it is for",
     "guide.for":
       "Teachers of any grade who want a calm, visual cue for voice levels during independent work, reading time, tests, centers or group work. The whole class shares one screen, and students need nothing at all.",
@@ -381,6 +383,23 @@ const en = {
     "gray-wolf": "Gray wolf",
     "black-bear": "Black bear",
     moose: "Moose",
+    "poison-dart-frog": "Poison dart frog",
+    "tree-frog": "Red-eyed tree frog",
+    butterfly: "Blue morpho",
+    hummingbird: "Hummingbird",
+    toucan: "Toucan",
+    capuchin: "Capuchin monkey",
+    iguana: "Green iguana",
+    capybara: "Capybara",
+    chameleon: "Chameleon",
+    sloth: "Sloth",
+    macaw: "Scarlet macaw",
+    orangutan: "Orangutan",
+    okapi: "Okapi",
+    tapir: "Malayan tapir",
+    jaguar: "Jaguar",
+    gorilla: "Gorilla",
+    tiger: "Tiger",
   },
   // One line about each prehistoric Creature, shown in the collection.
   facts: {
@@ -517,6 +536,8 @@ const es = {
     "scene.prehistoric.hint": "T. rex, Triceratops y raptores",
     "scene.forest.name": "Bosque",
     "scene.forest.hint": "Ardillas, zorros y ciervos",
+    "scene.jungle.name": "Selva",
+    "scene.jungle.hint": "Perezosos, tucanes y jaguares",
     "controls.reset": "Reiniciar",
     "controls.confirmReset": "Confirmar reinicio",
     "controls.resetQuestion": "¿Vaciar esta escena y empezar de nuevo?",
@@ -691,7 +712,7 @@ const es = {
     "about.photoAlt": "Participantes del EdTech-a-thon 2026",
     "about.purposeTitle": "Qué hace",
     "about.purpose":
-      "Proyecta la sabana, el arrecife de coral, el espacio profundo o la era de los dinosaurios y pulsa Empezar. Mientras la clase no pase del límite de volumen, los animales van saliendo de uno en uno. Si hay demasiado ruido, huyen. Puedes cambiarlo en Ajustes para que la escena solo se pause hasta que vuelva el silencio. La mayoría de los animales son comunes, unos pocos son raros, y la clase puede volver a ver todos los que ha encontrado.",
+      "Proyecta la sabana, el arrecife de coral, el espacio profundo, la era de los dinosaurios o la selva y pulsa Empezar. Mientras la clase no pase del límite de volumen, los animales van saliendo de uno en uno. Si hay demasiado ruido, huyen. Puedes cambiarlo en Ajustes para que la escena solo se pause hasta que vuelva el silencio. La mayoría de los animales son comunes, unos pocos son raros, y la clase puede volver a ver todos los que ha encontrado.",
     "about.promiseTitle": "Sin trampa",
     "about.promise":
       "Es gratis. No hay versión de pago ni anuncios, y no recopilamos datos personales tuyos ni de tus alumnos.",
@@ -718,10 +739,10 @@ const es = {
       "Un medidor de ruido gratuito para el aula que premia el silencio en lugar de castigar el ruido.",
     "guide.whatTitle": "Qué es",
     "guide.what":
-      "Shy Safari es un medidor de ruido para el aula que funciona en el navegador. Ponlo en el proyector o en la pizarra digital y muestra una sabana, un arrecife de coral, un cielo del espacio profundo o una llanura del Cretácico o un claro del bosque tranquilos. Escucha lo fuerte que suena la clase a través del micrófono del ordenador y, mientras la clase se mantiene por debajo del límite de volumen, van apareciendo animales tímidos uno a uno. Es lo contrario de un medidor de ruido que salta: no hay puntuación, ni aguja, ni luz roja de aviso, así que hacer ruido nunca resulta más interesante que estar en silencio.",
+      "Shy Safari es un medidor de ruido para el aula que funciona en el navegador. Ponlo en el proyector o en la pizarra digital y muestra una sabana, un arrecife de coral, un cielo del espacio profundo, una llanura del Cretácico, un claro del bosque o una selva tropical tranquilos. Escucha lo fuerte que suena la clase a través del micrófono del ordenador y, mientras la clase se mantiene por debajo del límite de volumen, van apareciendo animales tímidos uno a uno. Es lo contrario de un medidor de ruido que salta: no hay puntuación, ni aguja, ni luz roja de aviso, así que hacer ruido nunca resulta más interesante que estar en silencio.",
     "guide.useTitle": "Cómo usarlo en clase",
     "guide.use.open":
-      "Abre shysafari.com en el ordenador conectado al proyector, elige la sabana, el arrecife de coral, el espacio profundo, la prehistoria o el bosque y pulsa Empezar. El navegador pedirá permiso para usar el micrófono.",
+      "Abre shysafari.com en el ordenador conectado al proyector, elige la sabana, el arrecife de coral, el espacio profundo, la prehistoria, el bosque o la selva y pulsa Empezar. El navegador pedirá permiso para usar el micrófono.",
     "guide.use.goal":
       "Elige el límite de volumen para la actividad: Silencio, Individual (solo susurros) o En parejas (voz de conversación), o arrastra la línea del medidor a cualquier punto intermedio.",
     "guide.use.rate":
@@ -733,14 +754,14 @@ const es = {
       "La calibración es opcional. Cinco segundos de silencio y cinco segundos de conversación normal le enseñan a la aplicación cómo suenan tu aula y tu micrófono.",
     "guide.tooLoudTitle": "Qué pasa cuando hay demasiado ruido",
     "guide.tooLoud":
-      "La escena se nubla, con una neblina de polvo en la sabana, agua turbia en el arrecife, interferencias en el espacio profundo, niebla del río en la prehistoria y niebla entre los árboles en el bosque, y no aparecen animales nuevos. Lo que pasa después lo eliges tú:",
+      "La escena se nubla, con una neblina de polvo en la sabana, agua turbia en el arrecife, interferencias en el espacio profundo, niebla del río en la prehistoria, niebla entre los árboles en el bosque y un aguacero tropical en la selva, y no aparecen animales nuevos. Lo que pasa después lo eliges tú:",
     "guide.tooLoud.flee":
       "Los animales huyen (la opción por defecto). La escena se congela y, mientras siga habiendo demasiado ruido, un animal y luego unos cuantos más cada cinco segundos salen corriendo de la pantalla. En el espacio profundo, en cambio, se desvanecen entre la estática.",
     "guide.tooLoud.pause":
       "Pausar la escena. Los animales se quedan quietos, no se pierde nada y el progreso hacia el siguiente animal espera a que la clase vuelva a estar en calma.",
     "guide.animalsTitle": "Los animales",
     "guide.animals":
-      "La sabana tiene 17 animales, desde suricatas y cebras hasta jirafas, hipopótamos y rinocerontes, con leones, leopardos y elefantes como los más raros. El arrecife de coral tiene 18, desde peces payaso y caballitos de mar hasta tortugas marinas y pulpos, con tiburones martillo, mantarrayas y tiburones ballena como los más raros. El espacio profundo tiene 17 avistamientos pensados para estudiantes mayores, desde satélites, asteroides y astronautas hasta la estación espacial, cometas y planetas como Saturno, con una galaxia espiral, un agujero negro, un púlsar y una nebulosa anular como los más raros. La prehistoria tiene 17 animales del final de la era de los dinosaurios, dibujados según la ciencia actual, desde pequeños mamíferos, lagartos y raptores con plumas hasta Triceratops y Ankylosaurus, con Tyrannosaurus, Quetzalcoatlus y el gigantesco Alamosaurus como los más raros. El bosque tiene 17 animales, desde ardillas listadas, petirrojos y erizos hasta mapaches, zorros y ciervos, con un lobo gris, un oso negro y un alce como los más raros. Los animales comunes aparecen a menudo y los raros son todo un acontecimiento que muchas sesiones no llegan a ver. Cada escena guarda sus propios animales, y la colección recuerda todos los que la clase ha visto.",
+      "La sabana tiene 17 animales, desde suricatas y cebras hasta jirafas, hipopótamos y rinocerontes, con leones, leopardos y elefantes como los más raros. El arrecife de coral tiene 18, desde peces payaso y caballitos de mar hasta tortugas marinas y pulpos, con tiburones martillo, mantarrayas y tiburones ballena como los más raros. El espacio profundo tiene 17 avistamientos pensados para estudiantes mayores, desde satélites, asteroides y astronautas hasta la estación espacial, cometas y planetas como Saturno, con una galaxia espiral, un agujero negro, un púlsar y una nebulosa anular como los más raros. La prehistoria tiene 17 animales del final de la era de los dinosaurios, dibujados según la ciencia actual, desde pequeños mamíferos, lagartos y raptores con plumas hasta Triceratops y Ankylosaurus, con Tyrannosaurus, Quetzalcoatlus y el gigantesco Alamosaurus como los más raros. El bosque tiene 17 animales, desde ardillas listadas, petirrojos y erizos hasta mapaches, zorros y ciervos, con un lobo gris, un oso negro y un alce como los más raros. La selva tiene 17 animales de la selva tropical, desde ranas venenosas, tucanes y monos capuchinos hasta perezosos, guacamayos y orangutanes, con jaguares, gorilas y tigres como los más raros. Los animales comunes aparecen a menudo y los raros son todo un acontecimiento que muchas sesiones no llegan a ver. Cada escena guarda sus propios animales, y la colección recuerda todos los que la clase ha visto.",
     "guide.forTitle": "Para quién es",
     "guide.for":
       "Para docentes de cualquier etapa que quieren una señal visual y tranquila del nivel de voz durante el trabajo individual, la lectura, los exámenes, los rincones o el trabajo en grupo. Toda la clase comparte una pantalla y el alumnado no necesita nada.",
@@ -882,6 +903,23 @@ const es = {
     "gray-wolf": "Lobo gris",
     "black-bear": "Oso negro",
     moose: "Alce",
+    "poison-dart-frog": "Rana venenosa",
+    "tree-frog": "Rana de ojos rojos",
+    butterfly: "Mariposa morfo",
+    hummingbird: "Colibrí",
+    toucan: "Tucán",
+    capuchin: "Mono capuchino",
+    iguana: "Iguana verde",
+    capybara: "Capibara",
+    chameleon: "Camaleón",
+    sloth: "Perezoso",
+    macaw: "Guacamayo rojo",
+    orangutan: "Orangután",
+    okapi: "Okapi",
+    tapir: "Tapir malayo",
+    jaguar: "Jaguar",
+    gorilla: "Gorila",
+    tiger: "Tigre",
   },
   facts: {
     didelphodon:
@@ -957,6 +995,8 @@ const fr = {
     "scene.prehistoric.hint": "T. rex, tricératops et raptors",
     "scene.forest.name": "Forêt",
     "scene.forest.hint": "Écureuils, renards et cerfs",
+    "scene.jungle.name": "Jungle",
+    "scene.jungle.hint": "Paresseux, toucans et jaguars",
     "controls.reset": "Réinitialiser",
     "controls.confirmReset": "Confirmer la réinitialisation",
     "controls.resetQuestion": "Vider ce décor et tout recommencer ?",
@@ -1131,7 +1171,7 @@ const fr = {
     "about.photoAlt": "Participants de l’EdTech-a-thon 2026",
     "about.purposeTitle": "Ce qu’il fait",
     "about.purpose":
-      "Affichez la savane, le récif de corail, l’espace profond ou l’ère des dinosaures au tableau et appuyez sur Commencer. Tant que la classe reste sous l’objectif de volume, les animaux sortent un par un. S’il y a trop de bruit, ils s’enfuient. Vous pouvez changer ça dans les réglages pour que la scène se mette simplement en pause jusqu’au retour du calme. La plupart des animaux sont communs, quelques-uns sont rares, et la classe peut revoir tous ceux qu’elle a aperçus.",
+      "Affichez la savane, le récif de corail, l’espace profond, l’ère des dinosaures ou la jungle au tableau et appuyez sur Commencer. Tant que la classe reste sous l’objectif de volume, les animaux sortent un par un. S’il y a trop de bruit, ils s’enfuient. Vous pouvez changer ça dans les réglages pour que la scène se mette simplement en pause jusqu’au retour du calme. La plupart des animaux sont communs, quelques-uns sont rares, et la classe peut revoir tous ceux qu’elle a aperçus.",
     "about.promiseTitle": "Gratuit, vraiment",
     "about.promise":
       "C’est gratuit. Il n’y a ni version payante ni publicité, et nous ne collectons aucune donnée personnelle sur vous ou vos élèves.",
@@ -1160,10 +1200,10 @@ const fr = {
       "Un sonomètre gratuit pour la classe qui récompense le calme au lieu de punir le bruit.",
     "guide.whatTitle": "Ce que c'est",
     "guide.what":
-      "Shy Safari est un sonomètre pour la classe qui fonctionne dans le navigateur. Affichez-le au vidéoprojecteur ou sur le tableau interactif : il montre une savane, un récif de corail, un ciel de l'espace profond ou une plaine du Crétacé ou une clairière en forêt paisibles. Il écoute le niveau sonore de la salle grâce au micro de l'ordinateur et, tant que la classe reste sous l'objectif de volume, des animaux timides sortent un par un. C'est le contraire d'un sonomètre qui s'agite : pas de score, pas d'aiguille, pas de voyant rouge, donc rien ne rend le bruit plus intéressant que le calme.",
+      "Shy Safari est un sonomètre pour la classe qui fonctionne dans le navigateur. Affichez-le au vidéoprojecteur ou sur le tableau interactif : il montre une savane, un récif de corail, un ciel de l'espace profond, une plaine du Crétacé, une clairière en forêt ou une jungle tropicale paisibles. Il écoute le niveau sonore de la salle grâce au micro de l'ordinateur et, tant que la classe reste sous l'objectif de volume, des animaux timides sortent un par un. C'est le contraire d'un sonomètre qui s'agite : pas de score, pas d'aiguille, pas de voyant rouge, donc rien ne rend le bruit plus intéressant que le calme.",
     "guide.useTitle": "L'utiliser en classe",
     "guide.use.open":
-      "Ouvrez shysafari.com sur l'ordinateur relié au vidéoprojecteur, choisissez la savane, le récif de corail, l'espace profond, la préhistoire ou la forêt, puis appuyez sur Commencer. Le navigateur demande l'accès au micro.",
+      "Ouvrez shysafari.com sur l'ordinateur relié au vidéoprojecteur, choisissez la savane, le récif de corail, l'espace profond, la préhistoire, la forêt ou la jungle, puis appuyez sur Commencer. Le navigateur demande l'accès au micro.",
     "guide.use.goal":
       "Réglez l'objectif de volume pour l'activité : Silence, Travail seul (chuchotements) ou En binôme (voix de conversation), ou faites glisser la ligne du sonomètre n'importe où entre les deux.",
     "guide.use.rate":
@@ -1175,14 +1215,14 @@ const fr = {
       "L'étalonnage est facultatif. Cinq secondes de silence et cinq secondes de conversation normale apprennent à l'application comment sonnent votre salle et votre micro.",
     "guide.tooLoudTitle": "Ce qui se passe quand c'est trop bruyant",
     "guide.tooLoud":
-      "La scène se trouble, avec une brume de poussière sur la savane, une eau trouble sur le récif, des interférences dans l'espace profond, de la brume sur la rivière à la préhistoire et du brouillard entre les arbres en forêt, et aucun nouvel animal ne sort. La suite dépend de votre choix :",
+      "La scène se trouble, avec une brume de poussière sur la savane, une eau trouble sur le récif, des interférences dans l'espace profond, de la brume sur la rivière à la préhistoire, du brouillard entre les arbres en forêt et une averse tropicale dans la jungle, et aucun nouvel animal ne sort. La suite dépend de votre choix :",
     "guide.tooLoud.flee":
       "Les animaux s'enfuient (par défaut). La scène se fige et, tant que la salle reste trop bruyante, un animal puis quelques autres toutes les cinq secondes s'enfuient hors de l'écran. Dans l'espace profond, ils se dissolvent plutôt dans les parasites.",
     "guide.tooLoud.pause":
       "Mettre la scène en pause. Les animaux restent immobiles, rien n'est perdu, et la progression vers le prochain animal attend que la classe se calme.",
     "guide.animalsTitle": "Les animaux",
     "guide.animals":
-      "La savane compte 17 animaux, des suricates et des zèbres aux girafes, hippopotames et rhinocéros, avec les lions, les léopards et les éléphants parmi les plus rares. Le récif de corail en compte 18, des poissons-clowns et hippocampes aux tortues marines et pieuvres, avec les requins-marteaux, les raies manta et les requins-baleines parmi les plus rares. L'espace profond compte 17 observations pour les plus grands, des satellites, astéroïdes et astronautes à la station spatiale, aux comètes et aux planètes comme Saturne, avec une galaxie spirale, un trou noir, un pulsar et une nébuleuse annulaire parmi les plus rares. La préhistoire compte 17 animaux de la toute fin de l'ère des dinosaures, dessinés d'après la science actuelle, des petits mammifères, lézards et raptors à plumes aux Triceratops et Ankylosaurus, avec Tyrannosaurus, Quetzalcoatlus et le géant Alamosaurus parmi les plus rares. La forêt compte 17 animaux, des tamias, rouges-gorges et hérissons aux ratons laveurs, renards et cerfs, avec un loup gris, un ours noir et un élan parmi les plus rares. Les animaux communs arrivent souvent et les plus rares sont un vrai événement que beaucoup de séances ne verront pas. Chaque scène garde ses propres animaux, et la collection se souvient de tous ceux que la classe a aperçus.",
+      "La savane compte 17 animaux, des suricates et des zèbres aux girafes, hippopotames et rhinocéros, avec les lions, les léopards et les éléphants parmi les plus rares. Le récif de corail en compte 18, des poissons-clowns et hippocampes aux tortues marines et pieuvres, avec les requins-marteaux, les raies manta et les requins-baleines parmi les plus rares. L'espace profond compte 17 observations pour les plus grands, des satellites, astéroïdes et astronautes à la station spatiale, aux comètes et aux planètes comme Saturne, avec une galaxie spirale, un trou noir, un pulsar et une nébuleuse annulaire parmi les plus rares. La préhistoire compte 17 animaux de la toute fin de l'ère des dinosaures, dessinés d'après la science actuelle, des petits mammifères, lézards et raptors à plumes aux Triceratops et Ankylosaurus, avec Tyrannosaurus, Quetzalcoatlus et le géant Alamosaurus parmi les plus rares. La forêt compte 17 animaux, des tamias, rouges-gorges et hérissons aux ratons laveurs, renards et cerfs, avec un loup gris, un ours noir et un élan parmi les plus rares. La jungle compte 17 animaux de la forêt tropicale, des grenouilles venimeuses, toucans et capucins aux paresseux, aras et orangs-outans, avec les jaguars, les gorilles et les tigres parmi les plus rares. Les animaux communs arrivent souvent et les plus rares sont un vrai événement que beaucoup de séances ne verront pas. Chaque scène garde ses propres animaux, et la collection se souvient de tous ceux que la classe a aperçus.",
     "guide.forTitle": "Pour qui",
     "guide.for":
       "Pour les enseignants de tous niveaux qui veulent un repère visuel et apaisant du niveau de voix pendant le travail autonome, la lecture, les évaluations, les ateliers ou le travail de groupe. Toute la classe partage un seul écran et les élèves n'ont besoin de rien.",
@@ -1324,6 +1364,23 @@ const fr = {
     "gray-wolf": "Loup gris",
     "black-bear": "Ours noir",
     moose: "Élan",
+    "poison-dart-frog": "Dendrobate",
+    "tree-frog": "Rainette aux yeux rouges",
+    butterfly: "Morpho bleu",
+    hummingbird: "Colibri",
+    toucan: "Toucan",
+    capuchin: "Capucin",
+    iguana: "Iguane vert",
+    capybara: "Capybara",
+    chameleon: "Caméléon",
+    sloth: "Paresseux",
+    macaw: "Ara rouge",
+    orangutan: "Orang-outan",
+    okapi: "Okapi",
+    tapir: "Tapir de Malaisie",
+    jaguar: "Jaguar",
+    gorilla: "Gorille",
+    tiger: "Tigre",
   },
   facts: {
     didelphodon:

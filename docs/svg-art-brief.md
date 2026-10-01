@@ -3,7 +3,8 @@
 > **Reef Scene.** This brief describes the coral reef artwork, one of the three
 > Scenes in Shy Safari. The savanna (`src/lib/scenes/savanna/`) follows the
 > same style rules and SVG constraints with its own palette and Roster. The
-> palette, backdrop and Roster specifics below are reef-only. Deep space
+> palette, backdrop and Roster specifics below are reef-only. The jungle
+> (`src/lib/scenes/jungle/`) follows them too; §12 has its additions. Deep space
 > (`src/lib/scenes/space/`) and the prehistoric Scene
 > (`src/lib/scenes/prehistoric/`) deliberately do not follow the §1 style;
 > see §9 and §10 for what they do instead, and which §2 rules they change.
@@ -455,3 +456,33 @@ do there:
   sign). The logs are the border the teacher drags and resizes by, never
   thinner than 14px, and nothing is drawn on the board
   (`forest/noteShape.ts`).
+
+## 12. The jungle Scene
+
+The jungle (`src/lib/scenes/jungle/`) is drawn in the savanna's cartoon style:
+§1 and §2 apply as they stand, with the signature eye, the blush and the
+`#2b2b3a` overlay shading. It is the world's rainforests in one place, as the
+savanna is Africa's grasslands (see `jungle/roster.ts`).
+
+- **Palette.** The §1 table plus the savanna's fur tones (`#c98f5c`,
+  `#c99440`, `#7a5a44`) and a few jungle additions: lime `#9bd25a`, dark brown
+  `#5a3f2e`, rust `#d0703a`, jaguar gold `#e8a83c`, silver `#8e9bb0`, slate
+  `#68748a` and charcoal `#3d4050`. Green animals carry a lime or cream belly,
+  or a warm accent, so they still separate from the leaves behind them.
+- **Two levels to live on.** The forest floor is the savanna's ground band
+  (feet on the bottom edge of the viewBox, as there). Across the middle of the
+  backdrop runs a great bough: the climbers walk along it (`clamber`, feet on
+  the bottom edge), and the sloth hangs beneath it (`hang`), so its claws end
+  exactly on the **top** edge of its viewBox. Neither draws a branch: the
+  bough is the backdrop's (`BOUGH` and `BOUGH_UNDERSIDE` in
+  `scenes/motion.ts` say where it is).
+- **Part groups** set `transform-box: fill-box` and their joint inline, as the
+  savanna's do, and use the shared keyframes at the savanna's pace.
+
+Ambient Life is lianas hanging from the canopy (rooted at their top edge, so
+they sway from there), ferns, monstera, heliconia and understory palms on the
+floor (rooted at their bottom edge), mossy rocks, sunbeams with motes drifting
+in them, mist under the bough, streaks running down the far waterfall and a
+flock of parrots in silhouette. Every class in `jungle/scene.css` is prefixed
+`jungle-`, and the backdrop's one gradient is `jungle-backdrop-sky`. Too Loud
+is a tropical downpour: a still tile of rain streaks over a steamy haze.

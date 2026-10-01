@@ -3,6 +3,7 @@
 @import "../lib/scenes/space/creatures.css";
 @import "../lib/scenes/prehistoric/scene.css";
 @import "../lib/scenes/forest/scene.css";
+@import "../lib/scenes/jungle/scene.css";
 
 /* A phone on its side: too short for the start card at full size. */
 @custom-variant short (@media (max-height: 500px));

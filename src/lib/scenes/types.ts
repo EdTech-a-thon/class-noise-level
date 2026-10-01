@@ -6,7 +6,8 @@
 import type { MotionStyle } from "./motion";
 
 /** Which Scene is on screen. See `scenes/index.ts`. */
-export type SceneId = "reef" | "savanna" | "space" | "prehistoric" | "forest";
+export type SceneId =
+  "reef" | "savanna" | "space" | "prehistoric" | "forest" | "jungle";
 
 export const SCENE_IDS: SceneId[] = [
   "savanna",
@@ -14,6 +15,7 @@ export const SCENE_IDS: SceneId[] = [
   "space",
   "prehistoric",
   "forest",
+  "jungle",
 ];
 
 /** What a first visit, and the prerendered page, shows. */
