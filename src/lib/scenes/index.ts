@@ -14,6 +14,10 @@ import {
   type Rect,
 } from "./noteArt";
 import type { DepartureStyle } from "./motion";
+import ArcticAmbient from "./arctic/AmbientLife.svelte";
+import * as arcticArt from "./arctic/artwork";
+import { ARCTIC_NOTE } from "./arctic/note";
+import { ARCTIC_ROSTER } from "./arctic/roster";
 import PrehistoricAmbient from "./prehistoric/AmbientLife.svelte";
 import * as prehistoricArt from "./prehistoric/artwork";
 import { PREHISTORIC_NOTE } from "./prehistoric/note";
@@ -130,5 +134,16 @@ export const SCENES: Record<SceneId, SceneDef> = {
     depthFade: false,
     departure: "run",
     note: PREHISTORIC_NOTE,
+  },
+  arctic: {
+    id: "arctic",
+    roster: ARCTIC_ROSTER,
+    creatureArt: arcticArt.CREATURE_ART,
+    ambientArt: arcticArt.AMBIENT_ART,
+    Ambient: ArcticAmbient,
+    // Open air over the ice, as on the savanna.
+    depthFade: false,
+    departure: "run",
+    note: ARCTIC_NOTE,
   },
 };

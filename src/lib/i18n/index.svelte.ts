@@ -48,6 +48,8 @@ const en = {
     "scene.space.hint": "Satellites, comets and galaxies",
     "scene.prehistoric.name": "Prehistoric",
     "scene.prehistoric.hint": "T. rex, Triceratops and raptors",
+    "scene.arctic.name": "Arctic",
+    "scene.arctic.hint": "Polar bears, seals and narwhals",
     "controls.reset": "Reset",
     "controls.confirmReset": "Confirm reset",
     "controls.resetQuestion": "Empty this scene and start over?",
@@ -218,7 +220,7 @@ const en = {
     "about.photoAlt": "Participants of the 2026 EdTech-a-thon",
     "about.purposeTitle": "What it does",
     "about.purpose":
-      "Put the savanna, the coral reef, deep space or the age of dinosaurs up on the board and press Start. While the class stays under the volume goal, animals come out one at a time. If it gets too loud, they run away. You can change that in Settings so the scene just pauses until it's quiet again. Most animals are common, a few are rare, and the class can look back at every one they've spotted.",
+      "Put the savanna, the coral reef, deep space, the age of dinosaurs or the Arctic up on the board and press Start. While the class stays under the volume goal, animals come out one at a time. If it gets too loud, they run away. You can change that in Settings so the scene just pauses until it's quiet again. Most animals are common, a few are rare, and the class can look back at every one they've spotted.",
     "about.promiseTitle": "No catch",
     "about.promise":
       "It's free. There's no paid version and no ads, and we don't collect personal information about you or your students.",
@@ -245,10 +247,10 @@ const en = {
       "A free classroom noise level monitor that rewards quiet instead of punishing noise.",
     "guide.whatTitle": "What it is",
     "guide.what":
-      "Shy Safari is a classroom noise monitor that runs in a web browser. Put it on the projector or interactive whiteboard and it shows a calm savanna, coral reef, night sky in deep space or Cretaceous floodplain. It listens to how loud the room is through the computer's microphone, and while the class stays under the volume goal, shy animals come out one at a time. It is the opposite of a bouncing noise meter: there is no score, no needle and no red warning light, so nothing makes being loud more interesting than being quiet.",
+      "Shy Safari is a classroom noise monitor that runs in a web browser. Put it on the projector or interactive whiteboard and it shows a calm savanna, coral reef, night sky in deep space, Cretaceous floodplain or Arctic sea ice. It listens to how loud the room is through the computer's microphone, and while the class stays under the volume goal, shy animals come out one at a time. It is the opposite of a bouncing noise meter: there is no score, no needle and no red warning light, so nothing makes being loud more interesting than being quiet.",
     "guide.useTitle": "Using it in class",
     "guide.use.open":
-      "Open shysafari.com on the computer connected to your projector, pick the savanna, the coral reef, deep space or the prehistoric scene, and press Start. The browser asks to use the microphone.",
+      "Open shysafari.com on the computer connected to your projector, pick the savanna, the coral reef, deep space, the prehistoric scene or the Arctic, and press Start. The browser asks to use the microphone.",
     "guide.use.goal":
       "Set the volume goal for the activity: Silent, Independent (quiet whispers) or Partner work (conversation voices), or drag the line on the meter to anywhere in between.",
     "guide.use.rate":
@@ -260,14 +262,14 @@ const en = {
       "Calibration is optional. Five seconds of silence and five seconds of normal talking teach the app what your room and your microphone sound like.",
     "guide.tooLoudTitle": "What happens when it gets too loud",
     "guide.tooLoud":
-      "The scene clouds over, with a dusty haze on the savanna, murky water on the reef, interference in deep space and mist off the river in the prehistoric scene, and no new animals come out. What happens next is your choice:",
+      "The scene clouds over, with a dusty haze on the savanna, murky water on the reef, interference in deep space, mist off the river in the prehistoric scene and a whiteout of blowing snow in the Arctic, and no new animals come out. What happens next is your choice:",
     "guide.tooLoud.flee":
       "Animals run away (the default). The scene freezes and, while the room stays too loud, one animal and then a few more every five seconds run off the edge of the screen. In deep space, they fade out into static instead.",
     "guide.tooLoud.pause":
       "Pause the scene. The animals hold still, nothing is taken away, and progress toward the next animal waits until the room is calm again.",
     "guide.animalsTitle": "The animals",
     "guide.animals":
-      "The savanna has 17 animals, from meerkats and zebras to giraffes, hippos and rhinos, with lions, leopards and elephants as the rare ones. The coral reef has 18, from clownfish and seahorses to sea turtles and octopuses, with hammerhead sharks, manta rays and whale sharks as the rare ones. Deep space has 17 sightings for older students, from satellites, asteroids and astronauts to the space station, comets and Saturn-like planets, with a spiral galaxy, a black hole, a pulsar and a ring nebula as the rare ones. The prehistoric scene has 17 animals from the very end of the age of dinosaurs, drawn with up-to-date science, from small mammals, lizards and feathered raptors to Triceratops and Ankylosaurus, with Tyrannosaurus, Quetzalcoatlus and the giant Alamosaurus as the rare ones. Common animals turn up often and rare ones are a real event that many sessions will not see at all. Each scene keeps its own animals, and the collection remembers every animal the class has spotted.",
+      "The savanna has 17 animals, from meerkats and zebras to giraffes, hippos and rhinos, with lions, leopards and elephants as the rare ones. The coral reef has 18, from clownfish and seahorses to sea turtles and octopuses, with hammerhead sharks, manta rays and whale sharks as the rare ones. Deep space has 17 sightings for older students, from satellites, asteroids and astronauts to the space station, comets and Saturn-like planets, with a spiral galaxy, a black hole, a pulsar and a ring nebula as the rare ones. The prehistoric scene has 17 animals from the very end of the age of dinosaurs, drawn with up-to-date science, from small mammals, lizards and feathered raptors to Triceratops and Ankylosaurus, with Tyrannosaurus, Quetzalcoatlus and the giant Alamosaurus as the rare ones. The Arctic has 17 animals, from lemmings, puffins and arctic foxes to caribou, walruses and belugas, with polar bears, narwhals and bowhead whales as the rare ones. Common animals turn up often and rare ones are a real event that many sessions will not see at all. Each scene keeps its own animals, and the collection remembers every animal the class has spotted.",
     "guide.forTitle": "Who it is for",
     "guide.for":
       "Teachers of any grade who want a calm, visual cue for voice levels during independent work, reading time, tests, centers or group work. The whole class shares one screen, and students need nothing at all.",
@@ -362,6 +364,23 @@ const en = {
     tyrannosaurus: "Tyranno\u00ADsaurus",
     quetzalcoatlus: "Quetzal\u00ADcoatlus",
     alamosaurus: "Alamosaurus",
+    lemming: "Lemming",
+    "arctic-hare": "Arctic hare",
+    ptarmigan: "Ptarmigan",
+    puffin: "Puffin",
+    "arctic-tern": "Arctic tern",
+    "arctic-fox": "Arctic fox",
+    "harp-seal": "Harp seal",
+    eider: "King eider",
+    "snowy-owl": "Snowy owl",
+    caribou: "Caribou",
+    "musk-ox": "Musk ox",
+    "arctic-wolf": "Arctic wolf",
+    walrus: "Walrus",
+    beluga: "Beluga",
+    "polar-bear": "Polar bear",
+    narwhal: "Narwhal",
+    "bowhead-whale": "Bowhead whale",
   },
   // One line about each prehistoric Creature, shown in the collection.
   facts: {
@@ -396,6 +415,41 @@ const en = {
       "A pterosaur with a wingspan of about 10 m, as tall as a giraffe when it stood on all fours.",
     alamosaurus:
       "One of the last sauropods, and at 26 m or more, one of the biggest animals of its time.",
+    // The arctic animals.
+    lemming:
+      "It doesn't hibernate: all winter it lives in tunnels under the snow, where it stays warmer.",
+    "arctic-hare":
+      "It can run at 60 km/h, and sometimes hops along on just its back legs, like a kangaroo.",
+    ptarmigan:
+      "Feathers on its feet work like snowshoes, and in winter it turns white all over except its tail.",
+    puffin:
+      "Its beak is only this bright in summer, and it can carry more than ten small fish in it at once.",
+    "arctic-tern":
+      "Every year it flies from the Arctic to the Antarctic and back, the longest journey of any animal.",
+    "arctic-fox":
+      "Its thick fur keeps it warm at −50 °C, and it curls its bushy tail round itself like a blanket.",
+    "harp-seal":
+      "Pups are born with fluffy white fur, and swap it for a grey, spotted coat a few weeks later.",
+    eider:
+      "Eiders line their nests with soft down from their own chests, some of the warmest feathers there are.",
+    "snowy-owl":
+      "Unlike most owls it hunts by day: in the Arctic summer, the sun never sets.",
+    caribou:
+      "Males and females both grow antlers, and herds travel farther each year than any other land mammal.",
+    "musk-ox":
+      "When danger comes, the herd stands in a ring, horns out, with the calves safe in the middle.",
+    "arctic-wolf":
+      "It lives so far north that some packs have hardly ever met people.",
+    walrus:
+      "It uses its long tusks to haul itself out of the water and onto the ice.",
+    beluga:
+      "Called the canary of the sea for its whistles and chirps. Unlike most whales, it can turn its head.",
+    "polar-bear":
+      "Under its thick white fur its skin is black, to soak up the warmth of the sun.",
+    narwhal:
+      "Its tusk is a tooth that grows through its upper lip, spiralling, up to 3 m long.",
+    "bowhead-whale":
+      "It can break through ice with its huge head, and can live for more than 200 years.",
   },
 } as const;
 
@@ -496,6 +550,8 @@ const es = {
     "scene.space.hint": "Satélites, cometas y galaxias",
     "scene.prehistoric.name": "Prehistoria",
     "scene.prehistoric.hint": "T. rex, Triceratops y raptores",
+    "scene.arctic.name": "Ártico",
+    "scene.arctic.hint": "Osos polares, focas y narvales",
     "controls.reset": "Reiniciar",
     "controls.confirmReset": "Confirmar reinicio",
     "controls.resetQuestion": "¿Vaciar esta escena y empezar de nuevo?",
@@ -670,7 +726,7 @@ const es = {
     "about.photoAlt": "Participantes del EdTech-a-thon 2026",
     "about.purposeTitle": "Qué hace",
     "about.purpose":
-      "Proyecta la sabana, el arrecife de coral, el espacio profundo o la era de los dinosaurios y pulsa Empezar. Mientras la clase no pase del límite de volumen, los animales van saliendo de uno en uno. Si hay demasiado ruido, huyen. Puedes cambiarlo en Ajustes para que la escena solo se pause hasta que vuelva el silencio. La mayoría de los animales son comunes, unos pocos son raros, y la clase puede volver a ver todos los que ha encontrado.",
+      "Proyecta la sabana, el arrecife de coral, el espacio profundo, la era de los dinosaurios o el Ártico y pulsa Empezar. Mientras la clase no pase del límite de volumen, los animales van saliendo de uno en uno. Si hay demasiado ruido, huyen. Puedes cambiarlo en Ajustes para que la escena solo se pause hasta que vuelva el silencio. La mayoría de los animales son comunes, unos pocos son raros, y la clase puede volver a ver todos los que ha encontrado.",
     "about.promiseTitle": "Sin trampa",
     "about.promise":
       "Es gratis. No hay versión de pago ni anuncios, y no recopilamos datos personales tuyos ni de tus alumnos.",
@@ -697,10 +753,10 @@ const es = {
       "Un medidor de ruido gratuito para el aula que premia el silencio en lugar de castigar el ruido.",
     "guide.whatTitle": "Qué es",
     "guide.what":
-      "Shy Safari es un medidor de ruido para el aula que funciona en el navegador. Ponlo en el proyector o en la pizarra digital y muestra una sabana, un arrecife de coral, un cielo del espacio profundo o una llanura del Cretácico tranquilos. Escucha lo fuerte que suena la clase a través del micrófono del ordenador y, mientras la clase se mantiene por debajo del límite de volumen, van apareciendo animales tímidos uno a uno. Es lo contrario de un medidor de ruido que salta: no hay puntuación, ni aguja, ni luz roja de aviso, así que hacer ruido nunca resulta más interesante que estar en silencio.",
+      "Shy Safari es un medidor de ruido para el aula que funciona en el navegador. Ponlo en el proyector o en la pizarra digital y muestra una sabana, un arrecife de coral, un cielo del espacio profundo, una llanura del Cretácico o el hielo del Ártico tranquilos. Escucha lo fuerte que suena la clase a través del micrófono del ordenador y, mientras la clase se mantiene por debajo del límite de volumen, van apareciendo animales tímidos uno a uno. Es lo contrario de un medidor de ruido que salta: no hay puntuación, ni aguja, ni luz roja de aviso, así que hacer ruido nunca resulta más interesante que estar en silencio.",
     "guide.useTitle": "Cómo usarlo en clase",
     "guide.use.open":
-      "Abre shysafari.com en el ordenador conectado al proyector, elige la sabana, el arrecife de coral, el espacio profundo o la prehistoria y pulsa Empezar. El navegador pedirá permiso para usar el micrófono.",
+      "Abre shysafari.com en el ordenador conectado al proyector, elige la sabana, el arrecife de coral, el espacio profundo, la prehistoria o el Ártico y pulsa Empezar. El navegador pedirá permiso para usar el micrófono.",
     "guide.use.goal":
       "Elige el límite de volumen para la actividad: Silencio, Individual (solo susurros) o En parejas (voz de conversación), o arrastra la línea del medidor a cualquier punto intermedio.",
     "guide.use.rate":
@@ -712,14 +768,14 @@ const es = {
       "La calibración es opcional. Cinco segundos de silencio y cinco segundos de conversación normal le enseñan a la aplicación cómo suenan tu aula y tu micrófono.",
     "guide.tooLoudTitle": "Qué pasa cuando hay demasiado ruido",
     "guide.tooLoud":
-      "La escena se nubla, con una neblina de polvo en la sabana, agua turbia en el arrecife, interferencias en el espacio profundo y niebla del río en la prehistoria, y no aparecen animales nuevos. Lo que pasa después lo eliges tú:",
+      "La escena se nubla, con una neblina de polvo en la sabana, agua turbia en el arrecife, interferencias en el espacio profundo, niebla del río en la prehistoria y una ventisca que lo deja todo blanco en el Ártico, y no aparecen animales nuevos. Lo que pasa después lo eliges tú:",
     "guide.tooLoud.flee":
       "Los animales huyen (la opción por defecto). La escena se congela y, mientras siga habiendo demasiado ruido, un animal y luego unos cuantos más cada cinco segundos salen corriendo de la pantalla. En el espacio profundo, en cambio, se desvanecen entre la estática.",
     "guide.tooLoud.pause":
       "Pausar la escena. Los animales se quedan quietos, no se pierde nada y el progreso hacia el siguiente animal espera a que la clase vuelva a estar en calma.",
     "guide.animalsTitle": "Los animales",
     "guide.animals":
-      "La sabana tiene 17 animales, desde suricatas y cebras hasta jirafas, hipopótamos y rinocerontes, con leones, leopardos y elefantes como los más raros. El arrecife de coral tiene 18, desde peces payaso y caballitos de mar hasta tortugas marinas y pulpos, con tiburones martillo, mantarrayas y tiburones ballena como los más raros. El espacio profundo tiene 17 avistamientos pensados para estudiantes mayores, desde satélites, asteroides y astronautas hasta la estación espacial, cometas y planetas como Saturno, con una galaxia espiral, un agujero negro, un púlsar y una nebulosa anular como los más raros. La prehistoria tiene 17 animales del final de la era de los dinosaurios, dibujados según la ciencia actual, desde pequeños mamíferos, lagartos y raptores con plumas hasta Triceratops y Ankylosaurus, con Tyrannosaurus, Quetzalcoatlus y el gigantesco Alamosaurus como los más raros. Los animales comunes aparecen a menudo y los raros son todo un acontecimiento que muchas sesiones no llegan a ver. Cada escena guarda sus propios animales, y la colección recuerda todos los que la clase ha visto.",
+      "La sabana tiene 17 animales, desde suricatas y cebras hasta jirafas, hipopótamos y rinocerontes, con leones, leopardos y elefantes como los más raros. El arrecife de coral tiene 18, desde peces payaso y caballitos de mar hasta tortugas marinas y pulpos, con tiburones martillo, mantarrayas y tiburones ballena como los más raros. El espacio profundo tiene 17 avistamientos pensados para estudiantes mayores, desde satélites, asteroides y astronautas hasta la estación espacial, cometas y planetas como Saturno, con una galaxia espiral, un agujero negro, un púlsar y una nebulosa anular como los más raros. La prehistoria tiene 17 animales del final de la era de los dinosaurios, dibujados según la ciencia actual, desde pequeños mamíferos, lagartos y raptores con plumas hasta Triceratops y Ankylosaurus, con Tyrannosaurus, Quetzalcoatlus y el gigantesco Alamosaurus como los más raros. El Ártico tiene 17 animales, desde lemmings, frailecillos y zorros árticos hasta caribúes, morsas y belugas, con osos polares, narvales y ballenas de Groenlandia como los más raros. Los animales comunes aparecen a menudo y los raros son todo un acontecimiento que muchas sesiones no llegan a ver. Cada escena guarda sus propios animales, y la colección recuerda todos los que la clase ha visto.",
     "guide.forTitle": "Para quién es",
     "guide.for":
       "Para docentes de cualquier etapa que quieren una señal visual y tranquila del nivel de voz durante el trabajo individual, la lectura, los exámenes, los rincones o el trabajo en grupo. Toda la clase comparte una pantalla y el alumnado no necesita nada.",
@@ -844,6 +900,23 @@ const es = {
     tyrannosaurus: "Tyranno\u00ADsaurus",
     quetzalcoatlus: "Quetzal\u00ADcoatlus",
     alamosaurus: "Alamosaurus",
+    lemming: "Lemming",
+    "arctic-hare": "Liebre ártica",
+    ptarmigan: "Perdiz nival",
+    puffin: "Frailecillo",
+    "arctic-tern": "Charrán ártico",
+    "arctic-fox": "Zorro ártico",
+    "harp-seal": "Foca arpa",
+    eider: "Eider real",
+    "snowy-owl": "Búho nival",
+    caribou: "Caribú",
+    "musk-ox": "Buey almizclero",
+    "arctic-wolf": "Lobo ártico",
+    walrus: "Morsa",
+    beluga: "Beluga",
+    "polar-bear": "Oso polar",
+    narwhal: "Narval",
+    "bowhead-whale": "Ballena de Groenlandia",
   },
   facts: {
     didelphodon:
@@ -877,6 +950,40 @@ const es = {
       "Un pterosaurio de unos 10 m de envergadura, tan alto como una jirafa cuando se apoyaba en las cuatro patas.",
     alamosaurus:
       "Uno de los últimos saurópodos y, con 26 m o más, uno de los animales más grandes de su época.",
+    // The arctic animals.
+    lemming:
+      "No hiberna: pasa todo el invierno en túneles bajo la nieve, donde hace menos frío.",
+    "arctic-hare":
+      "Puede correr a 60 km/h y a veces avanza a saltos solo con las patas traseras, como un canguro.",
+    ptarmigan:
+      "Las plumas de sus patas funcionan como raquetas de nieve, y en invierno se vuelve toda blanca menos la cola.",
+    puffin:
+      "Su pico solo tiene estos colores en verano, y puede llevar en él más de diez peces pequeños a la vez.",
+    "arctic-tern":
+      "Cada año vuela del Ártico a la Antártida y vuelta, el viaje más largo de cualquier animal.",
+    "arctic-fox":
+      "Su pelaje espeso lo abriga a −50 °C, y se envuelve con su cola peluda como si fuera una manta.",
+    "harp-seal":
+      "Las crías nacen con un pelo blanco y esponjoso, que cambian por uno gris y moteado unas semanas después.",
+    eider:
+      "Los eideres forran el nido con el plumón de su propio pecho, una de las plumas más calentitas que existen.",
+    "snowy-owl":
+      "A diferencia de casi todos los búhos, caza de día: en el verano ártico el sol nunca se pone.",
+    caribou:
+      "Tanto los machos como las hembras tienen cuernos, y sus manadas recorren cada año más distancia que ningún otro mamífero terrestre.",
+    "musk-ox":
+      "Ante un peligro, la manada forma un círculo con los cuernos hacia fuera y las crías a salvo en el centro.",
+    "arctic-wolf":
+      "Vive tan al norte que algunas manadas casi nunca se han cruzado con personas.",
+    walrus: "Usa sus largos colmillos para salir del agua y subirse al hielo.",
+    beluga:
+      "La llaman el canario del mar por sus silbidos y chirridos. A diferencia de casi todas las ballenas, puede girar la cabeza.",
+    "polar-bear":
+      "Bajo su espeso pelaje blanco tiene la piel negra, para absorber el calor del sol.",
+    narwhal:
+      "Su colmillo es un diente en espiral que le atraviesa el labio superior y mide hasta 3 m.",
+    "bowhead-whale":
+      "Puede romper el hielo con su enorme cabeza y vivir más de 200 años.",
   },
 } satisfies Language;
 
@@ -917,6 +1024,8 @@ const fr = {
     "scene.space.hint": "Satellites, comètes et galaxies",
     "scene.prehistoric.name": "Préhistoire",
     "scene.prehistoric.hint": "T. rex, tricératops et raptors",
+    "scene.arctic.name": "Arctique",
+    "scene.arctic.hint": "Ours polaires, phoques et narvals",
     "controls.reset": "Réinitialiser",
     "controls.confirmReset": "Confirmer la réinitialisation",
     "controls.resetQuestion": "Vider ce décor et tout recommencer ?",
@@ -1091,7 +1200,7 @@ const fr = {
     "about.photoAlt": "Participants de l’EdTech-a-thon 2026",
     "about.purposeTitle": "Ce qu’il fait",
     "about.purpose":
-      "Affichez la savane, le récif de corail, l’espace profond ou l’ère des dinosaures au tableau et appuyez sur Commencer. Tant que la classe reste sous l’objectif de volume, les animaux sortent un par un. S’il y a trop de bruit, ils s’enfuient. Vous pouvez changer ça dans les réglages pour que la scène se mette simplement en pause jusqu’au retour du calme. La plupart des animaux sont communs, quelques-uns sont rares, et la classe peut revoir tous ceux qu’elle a aperçus.",
+      "Affichez la savane, le récif de corail, l’espace profond, l’ère des dinosaures ou l’Arctique au tableau et appuyez sur Commencer. Tant que la classe reste sous l’objectif de volume, les animaux sortent un par un. S’il y a trop de bruit, ils s’enfuient. Vous pouvez changer ça dans les réglages pour que la scène se mette simplement en pause jusqu’au retour du calme. La plupart des animaux sont communs, quelques-uns sont rares, et la classe peut revoir tous ceux qu’elle a aperçus.",
     "about.promiseTitle": "Gratuit, vraiment",
     "about.promise":
       "C’est gratuit. Il n’y a ni version payante ni publicité, et nous ne collectons aucune donnée personnelle sur vous ou vos élèves.",
@@ -1120,10 +1229,10 @@ const fr = {
       "Un sonomètre gratuit pour la classe qui récompense le calme au lieu de punir le bruit.",
     "guide.whatTitle": "Ce que c'est",
     "guide.what":
-      "Shy Safari est un sonomètre pour la classe qui fonctionne dans le navigateur. Affichez-le au vidéoprojecteur ou sur le tableau interactif : il montre une savane, un récif de corail, un ciel de l'espace profond ou une plaine du Crétacé paisibles. Il écoute le niveau sonore de la salle grâce au micro de l'ordinateur et, tant que la classe reste sous l'objectif de volume, des animaux timides sortent un par un. C'est le contraire d'un sonomètre qui s'agite : pas de score, pas d'aiguille, pas de voyant rouge, donc rien ne rend le bruit plus intéressant que le calme.",
+      "Shy Safari est un sonomètre pour la classe qui fonctionne dans le navigateur. Affichez-le au vidéoprojecteur ou sur le tableau interactif : il montre une savane, un récif de corail, un ciel de l'espace profond, une plaine du Crétacé ou une banquise arctique paisibles. Il écoute le niveau sonore de la salle grâce au micro de l'ordinateur et, tant que la classe reste sous l'objectif de volume, des animaux timides sortent un par un. C'est le contraire d'un sonomètre qui s'agite : pas de score, pas d'aiguille, pas de voyant rouge, donc rien ne rend le bruit plus intéressant que le calme.",
     "guide.useTitle": "L'utiliser en classe",
     "guide.use.open":
-      "Ouvrez shysafari.com sur l'ordinateur relié au vidéoprojecteur, choisissez la savane, le récif de corail, l'espace profond ou la préhistoire, puis appuyez sur Commencer. Le navigateur demande l'accès au micro.",
+      "Ouvrez shysafari.com sur l'ordinateur relié au vidéoprojecteur, choisissez la savane, le récif de corail, l'espace profond, la préhistoire ou l'Arctique, puis appuyez sur Commencer. Le navigateur demande l'accès au micro.",
     "guide.use.goal":
       "Réglez l'objectif de volume pour l'activité : Silence, Travail seul (chuchotements) ou En binôme (voix de conversation), ou faites glisser la ligne du sonomètre n'importe où entre les deux.",
     "guide.use.rate":
@@ -1135,14 +1244,14 @@ const fr = {
       "L'étalonnage est facultatif. Cinq secondes de silence et cinq secondes de conversation normale apprennent à l'application comment sonnent votre salle et votre micro.",
     "guide.tooLoudTitle": "Ce qui se passe quand c'est trop bruyant",
     "guide.tooLoud":
-      "La scène se trouble, avec une brume de poussière sur la savane, une eau trouble sur le récif, des interférences dans l'espace profond et de la brume sur la rivière à la préhistoire, et aucun nouvel animal ne sort. La suite dépend de votre choix :",
+      "La scène se trouble, avec une brume de poussière sur la savane, une eau trouble sur le récif, des interférences dans l'espace profond, de la brume sur la rivière à la préhistoire et un blizzard tout blanc dans l'Arctique, et aucun nouvel animal ne sort. La suite dépend de votre choix :",
     "guide.tooLoud.flee":
       "Les animaux s'enfuient (par défaut). La scène se fige et, tant que la salle reste trop bruyante, un animal puis quelques autres toutes les cinq secondes s'enfuient hors de l'écran. Dans l'espace profond, ils se dissolvent plutôt dans les parasites.",
     "guide.tooLoud.pause":
       "Mettre la scène en pause. Les animaux restent immobiles, rien n'est perdu, et la progression vers le prochain animal attend que la classe se calme.",
     "guide.animalsTitle": "Les animaux",
     "guide.animals":
-      "La savane compte 17 animaux, des suricates et des zèbres aux girafes, hippopotames et rhinocéros, avec les lions, les léopards et les éléphants parmi les plus rares. Le récif de corail en compte 18, des poissons-clowns et hippocampes aux tortues marines et pieuvres, avec les requins-marteaux, les raies manta et les requins-baleines parmi les plus rares. L'espace profond compte 17 observations pour les plus grands, des satellites, astéroïdes et astronautes à la station spatiale, aux comètes et aux planètes comme Saturne, avec une galaxie spirale, un trou noir, un pulsar et une nébuleuse annulaire parmi les plus rares. La préhistoire compte 17 animaux de la toute fin de l'ère des dinosaures, dessinés d'après la science actuelle, des petits mammifères, lézards et raptors à plumes aux Triceratops et Ankylosaurus, avec Tyrannosaurus, Quetzalcoatlus et le géant Alamosaurus parmi les plus rares. Les animaux communs arrivent souvent et les plus rares sont un vrai événement que beaucoup de séances ne verront pas. Chaque scène garde ses propres animaux, et la collection se souvient de tous ceux que la classe a aperçus.",
+      "La savane compte 17 animaux, des suricates et des zèbres aux girafes, hippopotames et rhinocéros, avec les lions, les léopards et les éléphants parmi les plus rares. Le récif de corail en compte 18, des poissons-clowns et hippocampes aux tortues marines et pieuvres, avec les requins-marteaux, les raies manta et les requins-baleines parmi les plus rares. L'espace profond compte 17 observations pour les plus grands, des satellites, astéroïdes et astronautes à la station spatiale, aux comètes et aux planètes comme Saturne, avec une galaxie spirale, un trou noir, un pulsar et une nébuleuse annulaire parmi les plus rares. La préhistoire compte 17 animaux de la toute fin de l'ère des dinosaures, dessinés d'après la science actuelle, des petits mammifères, lézards et raptors à plumes aux Triceratops et Ankylosaurus, avec Tyrannosaurus, Quetzalcoatlus et le géant Alamosaurus parmi les plus rares. L'Arctique compte 17 animaux, des lemmings, macareux et renards arctiques aux caribous, morses et bélugas, avec les ours polaires, les narvals et les baleines boréales parmi les plus rares. Les animaux communs arrivent souvent et les plus rares sont un vrai événement que beaucoup de séances ne verront pas. Chaque scène garde ses propres animaux, et la collection se souvient de tous ceux que la classe a aperçus.",
     "guide.forTitle": "Pour qui",
     "guide.for":
       "Pour les enseignants de tous niveaux qui veulent un repère visuel et apaisant du niveau de voix pendant le travail autonome, la lecture, les évaluations, les ateliers ou le travail de groupe. Toute la classe partage un seul écran et les élèves n'ont besoin de rien.",
@@ -1267,6 +1376,23 @@ const fr = {
     tyrannosaurus: "Tyranno\u00ADsaurus",
     quetzalcoatlus: "Quetzal\u00ADcoatlus",
     alamosaurus: "Alamosaurus",
+    lemming: "Lemming",
+    "arctic-hare": "Lièvre arctique",
+    ptarmigan: "Lagopède alpin",
+    puffin: "Macareux moine",
+    "arctic-tern": "Sterne arctique",
+    "arctic-fox": "Renard arctique",
+    "harp-seal": "Phoque du Groenland",
+    eider: "Eider à tête grise",
+    "snowy-owl": "Harfang des neiges",
+    caribou: "Caribou",
+    "musk-ox": "Bœuf musqué",
+    "arctic-wolf": "Loup arctique",
+    walrus: "Morse",
+    beluga: "Béluga",
+    "polar-bear": "Ours polaire",
+    narwhal: "Narval",
+    "bowhead-whale": "Baleine boréale",
   },
   facts: {
     didelphodon:
@@ -1301,6 +1427,41 @@ const fr = {
       "Un ptérosaure d’environ 10 m d’envergure, aussi grand qu’une girafe quand il se tenait sur ses quatre membres.",
     alamosaurus:
       "L’un des derniers sauropodes et, avec 26 m ou plus, l’un des plus grands animaux de son époque.",
+    // The arctic animals.
+    lemming:
+      "Il n’hiberne pas : tout l’hiver, il vit dans des tunnels sous la neige, où il fait moins froid.",
+    "arctic-hare":
+      "Il peut courir à 60 km/h et se déplace parfois en sautant sur ses seules pattes arrière, comme un kangourou.",
+    ptarmigan:
+      "Les plumes de ses pattes font office de raquettes, et en hiver il devient tout blanc, sauf la queue.",
+    puffin:
+      "Son bec n’a ces couleurs qu’en été, et il peut y tenir plus de dix petits poissons à la fois.",
+    "arctic-tern":
+      "Chaque année, elle vole de l’Arctique à l’Antarctique et revient : le plus long voyage de tous les animaux.",
+    "arctic-fox":
+      "Sa fourrure épaisse le garde au chaud à −50 °C, et il s’enroule dans sa queue touffue comme dans une couverture.",
+    "harp-seal":
+      "Les petits naissent avec une fourrure blanche et duveteuse, qu’ils changent quelques semaines plus tard pour un pelage gris tacheté.",
+    eider:
+      "Les eiders garnissent leur nid du duvet de leur propre poitrine, l’une des plumes les plus chaudes qui soient.",
+    "snowy-owl":
+      "Contrairement à la plupart des chouettes, il chasse le jour : en été, dans l’Arctique, le soleil ne se couche jamais.",
+    caribou:
+      "Les mâles comme les femelles portent des bois, et les hardes parcourent chaque année plus de chemin que tout autre mammifère terrestre.",
+    "musk-ox":
+      "Face au danger, le troupeau forme un cercle, cornes vers l’extérieur, avec les petits à l’abri au milieu.",
+    "arctic-wolf":
+      "Il vit si loin au nord que certaines meutes n’ont presque jamais croisé d’humains.",
+    walrus:
+      "Il se sert de ses longues défenses pour se hisser hors de l’eau, sur la glace.",
+    beluga:
+      "On l’appelle le canari des mers pour ses sifflements et ses gazouillis. Contrairement à la plupart des baleines, il peut tourner la tête.",
+    "polar-bear":
+      "Sous son épaisse fourrure blanche, sa peau est noire, pour absorber la chaleur du soleil.",
+    narwhal:
+      "Sa défense est une dent en spirale qui traverse sa lèvre supérieure et mesure jusqu’à 3 m.",
+    "bowhead-whale":
+      "Elle peut briser la glace avec son énorme tête, et vivre plus de 200 ans.",
   },
 } satisfies Language;
 
