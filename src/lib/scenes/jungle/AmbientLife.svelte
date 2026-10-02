@@ -53,7 +53,7 @@
     { x: 37, base: 1, size: 9, art: "rock" },
     { x: 58, base: 1, size: 16, art: "fern" },
     { x: 74, base: 2, size: 20, art: "heliconia" },
-    { x: 97, base: 0, size: 28, art: "palm" },
+    { x: 89, base: 0, size: 28, art: "palm" },
   ]
     .map((piece) => ({
       ...piece,
