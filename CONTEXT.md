@@ -42,7 +42,7 @@ unlocked or gated.
 Scenery that is alive but is not a Creature: swaying grass and drifting
 clouds on the savanna, seaweed and plankton on the reef, twinkling stars and
 drifting dust in deep space, ferns and river mist in the
-prehistoric Scene, falling leaves and sunbeams in the forest, lianas, sunbeams
+prehistoric Scene, falling leaves and drifting motes in the forest, lianas, sunbeams
 and a far waterfall in the jungle, the aurora, falling snow and bobbing
 ice floes in the Arctic. Ambient Life is present from the first moment of
 every Session, is never earned, and is never counted. It exists so an

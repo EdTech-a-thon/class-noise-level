@@ -2,9 +2,9 @@
   /**
    * Scenery that is alive but is not a Creature: oaks, maples, pines and
    * birches round the clearing, ferns stirring, toadstools, a mossy log and
-   * a stump, leaves drifting down, sunbeams slanting through the canopy with
-   * motes turning in them, and a far-off flock crossing the light. Present
-   * from the first second of every Session, never earned, never counted.
+   * a stump, leaves drifting down, motes turning in the sunlit clearing, and
+   * a far-off flock crossing the sky. Present from the first second of
+   * every Session, never earned, never counted.
    *
    * It exists because an unpopulated wood otherwise reads as "this app is
    * broken" rather than "we have not earned anything yet". Everything here is
@@ -69,14 +69,11 @@
     }))
     .sort((a, b) => a.layer - b.layer);
 
-  /** Sunbeams slanting down through gaps in the canopy, drifting slowly. */
-  const shafts = [
-    { x: 20, width: 9, duration: 26, delay: -4 },
-    { x: 46, width: 13, duration: 34, delay: -15 },
-    { x: 70, width: 8, duration: 30, delay: -22 },
-  ];
-
-  /** Motes turning in the light, rising and fading on their own beat. */
+  /**
+   * Motes turning in the sun over the clearing, rising and fading on their
+   * own beat. No sunbeams: the clearing is open to the sky, so there is no
+   * canopy for a beam to come through.
+   */
   const motes = [
     { x: 24, top: 18, width: 16, duration: 38, delay: -6 },
     { x: 50, top: 8, width: 20, duration: 46, delay: -27 },
@@ -109,16 +106,6 @@
   /** In front of the far half of the clearing, behind the near half. */
   const LEAF_LAYER = groundLayer(0.8);
 </script>
-
-{#each shafts as shaft (shaft.x)}
-  <div
-    class="forest-shaft pointer-events-none absolute top-0"
-    style="left:calc(var(--world-left) + {shaft.x} * var(--wu)); width:calc({shaft.width} * var(--wu)); height:88%; animation-duration:{shaft.duration}s; animation-delay:{shaft.delay}s;"
-  >
-    <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-    {@html AMBIENT_ART["light-shaft"]}
-  </div>
-{/each}
 
 <!-- A far-off flock: silhouette only, no eyes, no detail. Clearly not a Creature. -->
 {#each flocks as flock (flock.y)}

@@ -446,9 +446,10 @@ do there:
   gradient is its light, prefixed `forest-backdrop-`. Ground animals walk the
   savanna's band of the screen (`scenes/motion.ts`), so the clearing is open
   from 62% of the way down to the bottom, and the sky over the canopy is
-  kept light for the owl and the woodpecker. Leaves fall, ferns sway,
-  sunbeams lean and motes drift; the far flock is a flat silhouette so it is
-  never mistaken for a Creature.
+  kept light for the owl and the woodpecker. Leaves fall, ferns sway and
+  motes drift; the far flock is a flat silhouette so it is never mistaken for
+  a Creature. There are no sunbeams: the clearing is open to the sky, so there
+  is no canopy for a beam to come through.
 - **Too Loud** is fog rolling in between the trees: banks of pale mist over
   the clearing, thinning up into the canopy (`forest/scene.css`).
 - **The Note** is a trail sign: a plain planed board in a frame of four

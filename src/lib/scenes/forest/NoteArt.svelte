@@ -214,16 +214,27 @@
       fill={INK}
       opacity="0.2"
     />
-    <circle
-      cx={x - size * 0.4}
-      cy={y - size * 1.4}
-      r={size * 0.17}
+    <!-- Spots follow the dome: one wide on the crown, narrower towards the
+         sides, all clear of the edge and the rim. -->
+    <ellipse
+      cx={x + size * 0.05}
+      cy={y - size * 1.5}
+      rx={size * 0.2}
+      ry={size * 0.14}
       fill="#f4f1de"
     />
-    <circle
-      cx={x + size * 0.32}
-      cy={y - size * 1.55}
-      r={size * 0.13}
+    <ellipse
+      cx={x - size * 0.55}
+      cy={y - size * 1.3}
+      rx={size * 0.11}
+      ry={size * 0.15}
+      fill="#f4f1de"
+    />
+    <ellipse
+      cx={x + size * 0.52}
+      cy={y - size * 1.3}
+      rx={size * 0.1}
+      ry={size * 0.13}
       fill="#f4f1de"
     />
   {/each}

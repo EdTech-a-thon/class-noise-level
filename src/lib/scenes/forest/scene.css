@@ -16,19 +16,6 @@
   }
 }
 
-/* A sunbeam leans and brightens a little as the canopy moves. */
-@keyframes forest-shaft {
-  0%,
-  100% {
-    transform: translateX(calc(-2 * var(--wu))) skewX(-4deg);
-    opacity: 0.55;
-  }
-  50% {
-    transform: translateX(calc(2 * var(--wu))) skewX(-8deg);
-    opacity: 1;
-  }
-}
-
 /* Motes rise slowly in the light, and fade before they reach the top. */
 @keyframes forest-motes {
   from {
@@ -86,12 +73,6 @@
 
 /* Inlined artwork takes its size from the element placing it; see
    routes/layout.css. */
-.forest-shaft > svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
 .forest-flock > svg,
 .forest-motes > svg,
 .forest-leaf > svg {
@@ -111,11 +92,6 @@
      It stays subordinate through its muted colours instead. */
   transform-origin: bottom center;
   animation: forest-fern ease-in-out infinite alternate;
-}
-
-.forest-shaft {
-  transform-origin: top center;
-  animation: forest-shaft ease-in-out infinite alternate;
 }
 
 .forest-motes {
@@ -200,7 +176,6 @@ html[data-scene="forest"]:not(:has(.scene-stage)) body {
 
 @media (prefers-reduced-motion: reduce) {
   .forest-fern,
-  .forest-shaft,
   .forest-motes,
   .forest-leaf,
   .forest-flock {
