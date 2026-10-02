@@ -92,28 +92,28 @@
         >
           {t("settings.meter")}
         </h2>
+        <!-- A plain label and switch, unlike the panel's choice buttons: it
+             turns one thing on, rather than picking between options. -->
         <button
-          class="flex shrink-0 items-center gap-2 rounded-full border px-3 py-1 text-sm {settings.showMeter
-            ? 'border-slate-900 bg-slate-900 text-white'
-            : 'border-slate-300 text-slate-700 hover:bg-slate-50'}"
+          class="flex shrink-0 items-center gap-2 text-sm text-slate-600"
           role="switch"
           aria-checked={settings.showMeter}
           title={t("settings.showMeterHint")}
           onclick={() => (settings.showMeter = !settings.showMeter)}
         >
+          {t("settings.showMeter")}
           <span
-            class="relative h-4 w-7 rounded-full transition-colors {settings.showMeter
-              ? 'bg-emerald-400'
+            class="relative h-5 w-9 rounded-full transition-colors {settings.showMeter
+              ? 'bg-slate-900'
               : 'bg-slate-300'}"
             aria-hidden="true"
           >
             <span
-              class="absolute top-0.5 left-0.5 size-3 rounded-full bg-white shadow transition-transform {settings.showMeter
-                ? 'translate-x-3'
+              class="absolute top-0.5 left-0.5 size-4 rounded-full bg-white shadow-sm transition-transform {settings.showMeter
+                ? 'translate-x-4'
                 : ''}"
             ></span>
           </span>
-          {t("settings.showMeter")}
         </button>
       </div>
       <LevelMeter
