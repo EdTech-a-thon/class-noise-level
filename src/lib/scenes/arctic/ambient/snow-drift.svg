@@ -1,7 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 56">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 60">
   <!-- A drift of snow heaped by the wind into a long, low mound, lit from
-       above and shaded on its far side. Rooted on the bottom edge. -->
-  <path d="M0 56 C 24 44, 56 22, 104 18 C 150 14, 192 34, 220 56 Z" fill="#d6e2ee"/>
-  <path d="M150 17 C 182 24, 204 40, 220 56 L160 56 C 172 44, 168 28, 150 17 Z" fill="#8ea8c6" opacity="0.4"/>
-  <path d="M10 50 C 34 38, 64 24, 104 21 C 124 20, 140 21, 154 24 C 124 25, 80 32, 40 50 Z" fill="#ffffff" opacity="0.7"/>
+       above and shaded on its lee side. Both ends feather out flat into the
+       snowfield, and the base curves a little toward the viewer, so the
+       drift sits on the snow rather than being cut off along a line. The
+       shade and highlight run along the drift's own outline. Rooted on the
+       bottom edge. -->
+  <ellipse cx="120" cy="60" rx="84" ry="3.5" fill="#2b2b3a" opacity="0.08"/>
+  <path d="M4 56 C 40 53, 62 20, 108 18 C 160 16, 186 50, 216 56 C 172 60.5, 48 60.5, 4 56 Z" fill="#d6e2ee"/>
+  <path d="M138.9 21.2 C 171.6 29.6, 192.6 51.3, 216 56 C 203.7 57.3, 185.1 58.2, 163.7 58.7 C 165 46, 158 31, 138.9 21.2 Z" fill="#8ea8c6" opacity="0.35"/>
+  <path d="M33.6 46.8 C 55.4 36, 75.8 19.4, 108 18 C 119.4 17.6, 129.6 18.9, 138.9 21.2 C 118 22, 96 23, 76 30 C 60 35, 46 41, 33.6 46.8 Z" fill="#ffffff" opacity="0.7"/>
 </svg>

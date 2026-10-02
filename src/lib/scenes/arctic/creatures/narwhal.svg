@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0.5 237.5 83.5">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0.5 237.5 80">
   <clipPath id="narwhal-tusk">
     <path d="M119.5 51 L 235.5 2 A 1.15 1.15 0 0 1 236.5 4 L 122.5 57 Z"/>
   </clipPath>
   <path d="M119.5 51 L 235.5 2 A 1.15 1.15 0 0 1 236.5 4 L 122.5 57 Z" fill="#f4f1de"/>
   <g clip-path="url(#narwhal-tusk)" fill="#2b2b3a">
     <path d="M147 49 L 151 47 L 141 38.5 L 137 40.5 Z M162 42.5 L 166 40.5 L 156 32 L 152 34 Z M177 35.5 L 181 34 L 170.5 25.5 L 166.5 27 Z M192 29 L 196 27.5 L 185.5 18.5 L 181.5 20.5 Z M207 22.5 L 211 20.5 L 200.5 12 L 196.5 14 Z M222 16 L 226 14 L 215.5 5.5 L 211.5 7.5 Z" opacity="0.32"/>
-    <path d="M120 55 L 236 3 L 237 5 L 123 58 Z" opacity="0.15"/>
+    <path d="M120 55 L 238.5 2 L 239.5 4.5 L 123 58 Z" opacity="0.15"/>
   </g>
   <clipPath id="narwhal-body">
     <path d="M8 84 C 10 60, 34 40, 62 38 C 76 37, 82 41, 88 40 C 92 32, 101 28, 108 28 C 121 28, 129 38, 128 50 C 127.5 57, 124 62, 118 64.5 C 114 66.5, 112 74, 112 84 Z"/>
@@ -14,7 +14,6 @@
   <g clip-path="url(#narwhal-body)">
     <path d="M0 68 C 40 66, 84 63, 104 60 C 114 58.5, 122 56, 130 52 L 130 84 L 0 84 Z" fill="#8fa3bb"/>
     <path d="M0 77 C 40 76, 86 74, 106 69 C 114 67, 120 63, 130 58 L 130 84 L 0 84 Z" fill="#f4f1de"/>
-    <path d="M0 80 C 50 78.5, 90 78.5, 130 79 L 130 84 L 0 84 Z" fill="#2b2b3a" opacity="0.12"/>
     <g fill="#2b2b3a" opacity="0.3">
       <ellipse cx="28" cy="62" rx="3.5" ry="2.5"/>
       <ellipse cx="42" cy="51" rx="4" ry="2.8"/>
@@ -31,7 +30,4 @@
   <circle cx="113" cy="45" r="4.8" fill="#2b2b3a"/>
   <circle cx="111.6" cy="43.6" r="1.4" fill="#ffffff"/>
   <ellipse cx="106" cy="56" rx="5.5" ry="3.2" fill="#ff7a8a" opacity="0.55"/>
-  <path d="M0 80.5 C 40 78.5, 80 79.5, 120 80.5 C 160 81.5, 200 79, 237.5 80.5 L 237.5 84 L 0 84 Z" fill="#24527c"/>
-  <rect x="26" y="81" width="26" height="2" rx="1" fill="#6f9cc6"/>
-  <rect x="88" y="81.5" width="20" height="2" rx="1" fill="#6f9cc6"/>
 </svg>

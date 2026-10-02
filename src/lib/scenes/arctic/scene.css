@@ -81,8 +81,10 @@
 }
 
 .arctic-aurora {
-  left: var(--world-left);
-  width: calc(100 * var(--wu));
+  /* A little wider than the world, so the sway's skew never shows a
+     curtain's slanted end. */
+  left: calc(var(--world-left) - 4 * var(--wu));
+  width: calc(108 * var(--wu));
   transform-origin: 50% 100%;
   will-change: opacity, transform;
   animation: arctic-aurora ease-in-out infinite;

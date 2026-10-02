@@ -504,9 +504,10 @@ adds:
   viewBox (only its top half shows).
 - **Swimmers are drawn from the waterline up.** The eider and the whales
   surface in the open water (`paddle` in `scenes/motion.ts`), so the bottom
-  edge of their viewBox is the waterline: the body is cut off there under a
-  low wavy lip of the water colour (`#24527c`) with a ripple or two
-  (`#6f9cc6`). The floes in Ambient Life use the same convention.
+  edge of their viewBox is the waterline: the body is simply cut off there,
+  with no water of its own drawn in the file. The app sets that edge on the
+  Scene's open water, so the animal sits in the Scene's water, not on a strip
+  of its own. The floes in Ambient Life use the same waterline convention.
 - **Palette.** §1's ink, highlight, cream, pinks, orange, red, yellow and
   green, plus pale grey `#c3ccd6`, blue-grey `#8fa3bb`, slate `#5f6b7d`,
   charcoal `#3a4250`, tans `#e6c79a` and `#b9875a`, browns `#8a6a4f` and
