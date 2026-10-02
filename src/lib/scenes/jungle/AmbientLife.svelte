@@ -150,7 +150,7 @@
 {/each}
 
 <!-- Plants and rocks, rooted in the forest floor. -->
-{#each ground as piece (piece.x)}
+{#each ground as piece (`${piece.x}:${piece.base}`)}
   {#if piece.plant}
     <div
       class="jungle-plant pointer-events-none absolute"

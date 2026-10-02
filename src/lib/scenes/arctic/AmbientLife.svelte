@@ -131,7 +131,7 @@
 {/each}
 
 <!-- Ridges, drifts, boulders and sedge, rooted in the snow. -->
-{#each ground as piece (piece.x)}
+{#each ground as piece (`${piece.x}:${piece.base}`)}
   {#if piece.sedge}
     <div
       class="arctic-sedge pointer-events-none absolute"

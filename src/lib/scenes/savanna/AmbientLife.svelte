@@ -111,7 +111,7 @@
 {/each}
 
 <!-- Grass, trees, bushes and rocks, rooted in the ground. -->
-{#each ground as piece (piece.x)}
+{#each ground as piece (`${piece.x}:${piece.base}`)}
   {#if piece.grass}
     <div
       class="grass pointer-events-none absolute"

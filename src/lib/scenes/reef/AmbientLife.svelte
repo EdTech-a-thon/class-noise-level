@@ -115,7 +115,7 @@
 {/each}
 
 <!-- Coral and seaweed, rooted in the sand. -->
-{#each floor as piece (piece.x)}
+{#each floor as piece (`${piece.x}:${piece.base}`)}
   {#if piece.weed}
     <div
       class="weed pointer-events-none absolute"
