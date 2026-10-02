@@ -2,18 +2,18 @@
   <ellipse cx="88" cy="110" rx="66" ry="5" fill="#2b2b3a" opacity="0.14"/>
   <rect x="50" y="84" width="13" height="26" rx="4" fill="#5a4434"/>
   <rect x="50" y="96" width="13" height="10" fill="#f4f1de"/>
-  <rect x="50" y="104" width="13" height="6" rx="2" fill="#2b2b3a"/>
+  <rect x="50" y="104" width="13" height="6" rx="4" ry="3" fill="#2b2b3a"/>
   <rect x="50" y="84" width="13" height="26" rx="4" fill="#2b2b3a" opacity="0.28"/>
   <rect x="104" y="84" width="13" height="26" rx="4" fill="#5a4434"/>
   <rect x="104" y="96" width="13" height="10" fill="#f4f1de"/>
-  <rect x="104" y="104" width="13" height="6" rx="2" fill="#2b2b3a"/>
+  <rect x="104" y="104" width="13" height="6" rx="4" ry="3" fill="#2b2b3a"/>
   <rect x="104" y="84" width="13" height="26" rx="4" fill="#2b2b3a" opacity="0.28"/>
   <rect x="30" y="84" width="14" height="26" rx="4" fill="#5a4434"/>
   <rect x="30" y="96" width="14" height="9" fill="#f4f1de"/>
-  <rect x="30" y="104" width="14" height="6" rx="2" fill="#2b2b3a"/>
+  <rect x="30" y="104" width="14" height="6" rx="4" ry="3" fill="#2b2b3a"/>
   <rect x="120" y="84" width="14" height="26" rx="4" fill="#5a4434"/>
   <rect x="120" y="96" width="14" height="9" fill="#f4f1de"/>
-  <rect x="120" y="104" width="14" height="6" rx="2" fill="#2b2b3a"/>
+  <rect x="120" y="104" width="14" height="6" rx="4" ry="3" fill="#2b2b3a"/>
   <path d="M22 66 C 22 48, 38 38, 64 36 C 84 34, 98 24, 114 26 C 130 28, 140 42, 142 58 L 144 92 C 142 100, 134 100, 132 94 C 130 101, 120 101, 118 94 C 116 101, 106 101, 104 94 C 102 101, 92 101, 90 94 C 88 101, 78 101, 76 94 C 74 101, 64 101, 62 94 C 60 101, 50 101, 48 94 C 46 101, 36 101, 34 94 C 32 100, 22 100, 20 92 C 17 84, 18 74, 22 66 Z" fill="#5a4434"/>
   <clipPath id="musk-ox-coat"><path d="M22 66 C 22 48, 38 38, 64 36 C 84 34, 98 24, 114 26 C 130 28, 140 42, 142 58 L 144 92 C 142 100, 134 100, 132 94 C 130 101, 120 101, 118 94 C 116 101, 106 101, 104 94 C 102 101, 92 101, 90 94 C 88 101, 78 101, 76 94 C 74 101, 64 101, 62 94 C 60 101, 50 101, 48 94 C 46 101, 36 101, 34 94 C 32 100, 22 100, 20 92 C 17 84, 18 74, 22 66 Z"/></clipPath>
   <g clip-path="url(#musk-ox-coat)">

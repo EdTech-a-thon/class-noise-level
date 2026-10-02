@@ -28,14 +28,15 @@
   }
 }
 
-/* A floe rides the swell: up and down, rocking a touch. */
+/* A floe rides the swell: rising and settling in the water, rocking a
+   touch. The waterline does not move with it (see .arctic-floe-waterline). */
 @keyframes arctic-bob {
   0%,
   100% {
-    transform: translateY(0) rotate(-0.6deg);
+    transform: translateY(calc(-0.1 * var(--wu))) rotate(-0.5deg);
   }
   50% {
-    transform: translateY(calc(0.25 * var(--wu))) rotate(0.6deg);
+    transform: translateY(calc(0.1 * var(--wu))) rotate(0.5deg);
   }
 }
 
@@ -66,12 +67,17 @@
   height: 100%;
 }
 
-.arctic-floe > svg,
+.arctic-floe-ice > svg,
 .arctic-flock > svg,
 .arctic-snowfall > svg {
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* The ice drawn below the waterline has to be there to ride up into view. */
+.arctic-floe-ice > svg {
+  overflow: visible;
 }
 
 .arctic-sedge > svg {
@@ -98,8 +104,27 @@
   animation: arctic-snowfall linear infinite;
 }
 
-.arctic-floe {
+/* The water cuts the floe off along its bottom edge, whatever the ice is
+   doing, and a pale line of swell laps along it. */
+.arctic-floe-waterline {
+  clip-path: inset(-100% -10% 0 -10%);
+}
+
+.arctic-floe::after {
+  content: "";
+  position: absolute;
+  left: -1.5%;
+  right: -1.5%;
+  bottom: calc(-0.04 * var(--wu));
+  height: calc(0.08 * var(--wu));
+  border-radius: 999px;
+  background: #d6ecf8;
+  opacity: 0.45;
+}
+
+.arctic-floe-ice {
   transform-origin: 50% 100%;
+  will-change: transform;
   animation: arctic-bob ease-in-out infinite;
 }
 
@@ -176,7 +201,7 @@ html[data-scene="arctic"]:not(:has(.scene-stage)) body {
 @media (prefers-reduced-motion: reduce) {
   .arctic-aurora,
   .arctic-snowfall,
-  .arctic-floe,
+  .arctic-floe-ice,
   .arctic-sedge,
   .arctic-flock {
     animation: none;

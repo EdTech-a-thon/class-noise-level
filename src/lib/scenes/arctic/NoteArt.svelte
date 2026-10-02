@@ -109,7 +109,7 @@
     />
   {/each}
 
-  <!-- The block of ice, bevelled, with fractures in it. -->
+  <!-- The block of ice, bevelled. -->
   <rect
     x={shape.frame.x}
     y={shape.frame.y}
@@ -123,17 +123,6 @@
     <path d={bevel.left} fill={ICE.snow} opacity="0.16" />
     <path d={bevel.bottom} fill={ICE.edge} opacity="0.3" />
     <path d={bevel.right} fill={ICE.edge} opacity="0.18" />
-    {#each shape.cracks as crack, i (i)}
-      <path
-        d={crack}
-        fill="none"
-        stroke={ICE.snow}
-        stroke-opacity="0.6"
-        stroke-width={shape.crackWidth}
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    {/each}
   </g>
   <!-- A darker edge all the way round, so the frame reads against any sky. -->
   <rect

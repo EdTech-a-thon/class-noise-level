@@ -136,12 +136,9 @@ describe("iceShape", () => {
 
   // The whole point of the plain pane: nothing on the ice crosses the words.
   test.each(SIZES)(
-    "keeps the snow, icicles, cracks and frost off the pane of a %ix%i Note",
+    "keeps the snow, icicles and frost off the pane of a %ix%i Note",
     (width, height) => {
-      const { panel, frame, snow, icicles, cracks, glints } = iceShape(
-        width,
-        height,
-      );
+      const { panel, frame, snow, icicles, glints } = iceShape(width, height);
       const bank = snow.bank;
       for (const corner of [
         { x: bank.x, y: bank.y + bank.height },
@@ -153,15 +150,11 @@ describe("iceShape", () => {
           expect(onPanel(point, panel)).toBe(false);
       for (const point of [
         ...icicles.flatMap((icicle) => pointsOf(iciclePath(icicle))),
-        ...cracks.flatMap(pointsOf),
         ...glints.flatMap((glint) => pointsOf(glintPath(glint))),
       ])
         expect(onPanel(point, panel)).toBe(false);
-      // Every crack and glint is on the frame itself, not out in the sky.
-      for (const point of [
-        ...cracks.flatMap(pointsOf),
-        ...glints.flatMap((glint) => pointsOf(glintPath(glint))),
-      ])
+      // Every glint is on the frame itself, not out in the sky.
+      for (const point of glints.flatMap((glint) => pointsOf(glintPath(glint))))
         expect(within(point, frame, 0.01)).toBe(true);
     },
   );

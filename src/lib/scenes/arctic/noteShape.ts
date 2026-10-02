@@ -39,9 +39,6 @@ export interface IceShape {
   /** Snow lying along the top of the frame: a bank and the lumps on it. */
   snow: { bank: Box; lumps: Circle[] };
   icicles: Icicle[];
-  /** Fracture lines in the ice, on the frame only. */
-  cracks: string[];
-  crackWidth: number;
   /** Frost glints on the frame's corners, as four-pointed stars. */
   glints: { x: number; y: number; size: number }[];
   writing: Rect;
@@ -157,35 +154,6 @@ export function iceShape(width: number, height: number): IceShape {
     };
   });
 
-  // Fracture lines running in from the outline, stopping short of the pane.
-  const across = right - left;
-  const down = bottom - top;
-  const crack = (points: [number, number][]) =>
-    points
-      .map(([x, y], i) => `${i ? "L" : "M"} ${x.toFixed(2)} ${y.toFixed(2)}`)
-      .join(" ");
-  const crackX = left + across * 0.7;
-  const crackY = top + down * 0.38;
-  const cracks = [
-    crack([
-      [crackX, bottom - rim * 0.12],
-      [crackX + rim * 0.22, bottom - rim * 0.4],
-      [crackX + rim * 0.08, bottom - rim * 0.62],
-      [crackX + rim * 0.3, bottom - rim * 0.8],
-    ]),
-    crack([
-      [left + rim * 0.12, crackY],
-      [left + rim * 0.38, crackY + rim * 0.2],
-      [left + rim * 0.56, crackY + rim * 0.08],
-      [left + rim * 0.8, crackY + rim * 0.3],
-    ]),
-    crack([
-      [right - rim * 0.12, top + down * 0.62],
-      [right - rim * 0.4, top + down * 0.62 - rim * 0.18],
-      [right - rim * 0.6, top + down * 0.62 - rim * 0.06],
-    ]),
-  ];
-
   // Frost glints in the frame's corners, clear of the pane.
   const glint = rim * 0.3;
   const glints = [
@@ -209,8 +177,6 @@ export function iceShape(width: number, height: number): IceShape {
     recess: rim * 0.14,
     snow: { bank, lumps },
     icicles,
-    cracks,
-    crackWidth: Math.max(1.5, rim * 0.07),
     glints,
     writing: {
       left: panel.x + margin,

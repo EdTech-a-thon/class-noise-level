@@ -118,10 +118,15 @@
 {#each floes as floe (floe.x)}
   <div
     class="arctic-floe pointer-events-none absolute"
-    style="left:calc(var(--world-left) + {floe.x} * var(--wu)); bottom:{floe.base}%; width:calc({floe.size} * var(--wu)); z-index:{floe.layer}; animation-duration:{floe.bob}s;"
+    style="left:calc(var(--world-left) + {floe.x} * var(--wu)); bottom:{floe.base}%; width:calc({floe.size} * var(--wu)); z-index:{floe.layer};"
   >
-    <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-    {@html AMBIENT_ART[floe.art]}
+    <!-- The waterline stays put; the ice rides up and down behind it. -->
+    <div class="arctic-floe-waterline">
+      <div class="arctic-floe-ice" style="animation-duration:{floe.bob}s;">
+        <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+        {@html AMBIENT_ART[floe.art]}
+      </div>
+    </div>
   </div>
 {/each}
 
