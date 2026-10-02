@@ -33,7 +33,9 @@ That is the whole app. No account, no sign-in, nothing to install.
 
 The teacher sets a **Volume Goal** — Silent, Independent or Partner work, or
 anywhere in between by dragging the line on the meter. While the room stays
-under it, animals arrive.
+under it, animals arrive. To watch the room's level live without opening
+Settings, turn on **Show on screen** beside the Noise Meter: it stays at the
+top of the scene until you turn it off.
 
 Going over the line does not instantly stop anything. Noise over the goal
 fills up a bucket, and the further over, the faster it fills: just over the

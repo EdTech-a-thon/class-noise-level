@@ -86,9 +86,36 @@
     </section>
 
     <section class="mt-6 space-y-3">
-      <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">
-        {t("settings.meter")}
-      </h2>
+      <div class="flex items-center justify-between gap-3">
+        <h2
+          class="text-sm font-semibold tracking-wide text-slate-500 uppercase"
+        >
+          {t("settings.meter")}
+        </h2>
+        <button
+          class="flex shrink-0 items-center gap-2 rounded-full border px-3 py-1 text-sm {settings.showMeter
+            ? 'border-slate-900 bg-slate-900 text-white'
+            : 'border-slate-300 text-slate-700 hover:bg-slate-50'}"
+          role="switch"
+          aria-checked={settings.showMeter}
+          title={t("settings.showMeterHint")}
+          onclick={() => (settings.showMeter = !settings.showMeter)}
+        >
+          <span
+            class="relative h-4 w-7 rounded-full transition-colors {settings.showMeter
+              ? 'bg-emerald-400'
+              : 'bg-slate-300'}"
+            aria-hidden="true"
+          >
+            <span
+              class="absolute top-0.5 left-0.5 size-3 rounded-full bg-white shadow transition-transform {settings.showMeter
+                ? 'translate-x-3'
+                : ''}"
+            ></span>
+          </span>
+          {t("settings.showMeter")}
+        </button>
+      </div>
       <LevelMeter
         sceneId={app.scene.id}
         level={app.monitor.level}

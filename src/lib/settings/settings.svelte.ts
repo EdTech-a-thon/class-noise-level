@@ -52,6 +52,8 @@ interface StoredSettings {
   arrivalRatePreset: ArrivalRatePreset;
   arrivalMinutes: number;
   loudResponse: LoudResponse;
+  /** Keep the Noise Meter up over the Scene, not just in Settings. */
+  showMeter: boolean;
 }
 
 const DEFAULTS: StoredSettings = {
@@ -63,6 +65,7 @@ const DEFAULTS: StoredSettings = {
   arrivalRatePreset: "normal",
   arrivalMinutes: ARRIVAL_RATE_PRESETS.normal.minutes,
   loudResponse: "flee",
+  showMeter: false,
 };
 
 function read(): StoredSettings {
@@ -203,6 +206,15 @@ class Settings {
 
   set loudResponse(value: LoudResponse) {
     this.#stored = { ...this.#stored, loudResponse: value };
+    this.#save();
+  }
+
+  get showMeter() {
+    return this.#stored.showMeter;
+  }
+
+  set showMeter(value: boolean) {
+    this.#stored = { ...this.#stored, showMeter: value };
     this.#save();
   }
 

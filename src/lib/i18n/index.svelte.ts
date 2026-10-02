@@ -124,6 +124,9 @@ const en = {
     "settings.title": "Settings",
     "settings.microphone": "Microphone",
     "settings.meter": "Noise Meter",
+    "settings.showMeter": "Show on screen",
+    "settings.showMeterHint":
+      "Keep the noise meter up over the scene while the class works",
     "start.explainFlee":
       "If it gets too loud, they'll run away! Keep the room calm and they'll come out and stay.",
     "settings.tooLoud": "When it's too loud",
@@ -666,6 +669,9 @@ const es = {
     "settings.title": "Ajustes",
     "settings.microphone": "Micrófono",
     "settings.meter": "Medidor de ruido",
+    "settings.showMeter": "Mostrar en pantalla",
+    "settings.showMeterHint":
+      "Dejar el medidor de ruido sobre la escena mientras la clase trabaja",
     "start.explainFlee":
       "¡Si hay demasiado ruido, se escaparán! Mantengan el aula tranquila y saldrán y se quedarán.",
     "settings.tooLoud": "Cuando hay demasiado ruido",
@@ -1179,6 +1185,9 @@ const fr = {
     "settings.title": "Réglages",
     "settings.microphone": "Micro",
     "settings.meter": "Sonomètre",
+    "settings.showMeter": "Afficher à l’écran",
+    "settings.showMeterHint":
+      "Garder le sonomètre au-dessus de la scène pendant que la classe travaille",
     "start.explainFlee":
       "S’il y a trop de bruit, ils s’enfuient ! Gardez la classe calme et ils sortiront et resteront.",
     "settings.tooLoud": "Quand il y a trop de bruit",

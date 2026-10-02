@@ -10,6 +10,7 @@
   import MicBlocked from "$lib/components/MicBlocked.svelte";
   import NotesLayer from "$lib/components/notes/NotesLayer.svelte";
   import Scene from "$lib/components/Scene.svelte";
+  import ScreenMeter from "$lib/components/ScreenMeter.svelte";
   import SettingsPanel from "$lib/components/SettingsPanel.svelte";
   import Timer from "$lib/components/Timer.svelte";
   import BrandChip from "$lib/components/BrandChip.svelte";
@@ -332,30 +333,41 @@
     {/key}
   {/if}
 
-  {#if app.listening && app.paused}
-    <!-- Stays up when the control bar fades, so a teacher who paused for an
-         announcement can see at a glance that the room isn't being judged,
-         and resume from right here. On a phone it sits below the corner
-         buttons, which leave no room between them. -->
+  {#if app.listening && (app.paused || settings.showMeter)}
+    <!-- Top centre: what the teacher keeps an eye on, which stays up when
+         the control bar fades. The Noise Meter, if the teacher turned it on
+         in Settings; or, once Paused for an announcement, a reminder in its
+         place that the room isn't being judged, to resume from right here.
+         On a phone it sits below the corner buttons, which leave no room
+         between them. -->
     <div
       class="safe-edges pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-center p-4 max-sm:top-12"
     >
-      <button
-        class="paused-pulse pointer-events-auto flex h-11 items-center gap-2 rounded-full bg-white/95 pr-4 pl-3 text-sm font-medium text-slate-800 shadow-lg hover:bg-white"
-        aria-label={t("controls.resume")}
-        onclick={() => app.setPaused(false)}
-      >
-        <svg
-          viewBox="0 0 24 24"
-          class="size-5 text-amber-500"
-          fill="currentColor"
-          aria-hidden="true"
+      {#if !app.paused}
+        <ScreenMeter
+          sceneId={app.scene.id}
+          level={app.monitor.level}
+          goal={settings.volumeGoal}
+          tooLoud={app.monitor.state === "too-loud"}
+        />
+      {:else}
+        <button
+          class="paused-pulse pointer-events-auto flex h-11 items-center gap-2 rounded-full bg-white/95 pr-4 pl-3 text-sm font-medium text-slate-800 shadow-lg hover:bg-white"
+          aria-label={t("controls.resume")}
+          onclick={() => app.setPaused(false)}
         >
-          <rect x="6" y="5" width="4" height="14" rx="1" />
-          <rect x="14" y="5" width="4" height="14" rx="1" />
-        </svg>
-        {t("paused.status")}
-      </button>
+          <svg
+            viewBox="0 0 24 24"
+            class="size-5 text-amber-500"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <rect x="6" y="5" width="4" height="14" rx="1" />
+            <rect x="14" y="5" width="4" height="14" rx="1" />
+          </svg>
+          {t("paused.status")}
+        </button>
+      {/if}
     </div>
   {/if}
 
