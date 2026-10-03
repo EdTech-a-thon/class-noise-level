@@ -1,7 +1,7 @@
 # Shy Safari
 
 A calm scene on the classroom projector — a savanna, a coral reef, deep
-space or the age of dinosaurs — where animals (or, in deep space, sightings
+space, the age of dinosaurs, a woodland clearing, the jungle or the Arctic — where animals (or, in deep space, sightings
 through a telescope) come out the longer the room stays quiet. The animals are shy: if the room is too loud,
 they stay hidden until it is calm again.
 
@@ -17,9 +17,11 @@ minutes of quiet working brings another one. Some of them are rare.
    microphone; audio is measured on the computer and never recorded or sent
    anywhere.
    Pick **Savanna** (zebras, giraffes, lions), **Coral reef** (fish,
-   turtles, sharks), **Deep space** (satellites, comets, galaxies) or
-   **Prehistoric** (T. rex, Triceratops, feathered raptors) first if you
-   like. The last two are drawn to appeal to older students too.
+   turtles, sharks), **Deep space** (satellites, comets, galaxies),
+   **Prehistoric** (T. rex, Triceratops, feathered raptors), **Forest**
+   (squirrels, foxes, deer), **Jungle** (sloths, toucans, jaguars) or
+   **Arctic** (polar bears, seals, narwhals) first if you like. Deep space and
+   the prehistoric scene are drawn to appeal to older students too.
 2. Press **Start**. The class begins earning animals.
 3. Move the mouse to bring up the controls. **Settings** has everything:
    which scene, which microphone, how loud is too loud, and how often animals
@@ -31,7 +33,9 @@ That is the whole app. No account, no sign-in, nothing to install.
 
 The teacher sets a **Volume Goal** — Silent, Independent or Partner work, or
 anywhere in between by dragging the line on the meter. While the room stays
-under it, animals arrive.
+under it, animals arrive. To watch the room's level live without opening
+Settings, turn on **Show on screen** beside the Noise Meter: it stays at the
+top of the scene until you turn it off.
 
 Going over the line does not instantly stop anything. Noise over the goal
 fills up a bucket, and the further over, the faster it fills: just over the
@@ -43,7 +47,7 @@ serve a sentence.
 
 When the room is too loud, the whole scene slowly clouds over — a dusty haze
 on the savanna, murky water on the reef, interference in deep space, mist off the river in the
-prehistoric scene. That is
+prehistoric scene, fog between the trees in the forest, a tropical downpour in the jungle, a whiteout of blowing snow in the Arctic. That is
 the only signal the class sees. The shy animals simply wait to come out:
 nothing already out runs away, nothing gets startled, and progress
 toward the next animal pauses rather than resetting — a loud spell costs
@@ -96,5 +100,5 @@ they can be checked without a microphone or a ten-second wait:
 
 `CONTEXT.md` defines the vocabulary the code uses. `docs/` holds the
 architecture decisions, the implementation plan, and the brief for drawing the
-reef artwork, whose style rules the savanna follows too; deep space and the
-prehistoric scene each have their own section there.
+reef artwork, whose style rules the savanna, the forest, the jungle and the Arctic follow too; deep
+space, the prehistoric scene, the forest, the jungle and the Arctic each have their own section there.

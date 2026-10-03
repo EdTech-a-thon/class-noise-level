@@ -2,11 +2,15 @@
 
 > **Reef Scene.** This brief describes the coral reef artwork, one of the three
 > Scenes in Shy Safari. The savanna (`src/lib/scenes/savanna/`) follows the
-> same style rules and SVG constraints with its own palette and Roster. The
-> palette, backdrop and Roster specifics below are reef-only. Deep space
+> same style rules and SVG constraints with its own palette and Roster, and so
+> does the Arctic (`src/lib/scenes/arctic/`, §13). The
+> palette, backdrop and Roster specifics below are reef-only. The jungle
+> (`src/lib/scenes/jungle/`) follows them too; §12 has its additions. Deep space
 > (`src/lib/scenes/space/`) and the prehistoric Scene
 > (`src/lib/scenes/prehistoric/`) deliberately do not follow the §1 style;
 > see §9 and §10 for what they do instead, and which §2 rules they change.
+> The forest (`src/lib/scenes/forest/`) is drawn as the savanna is; §11 has
+> what is its own.
 
 A standalone task brief. Everything needed to produce the reef artwork is in
 this file; the app code does not need to exist yet. Read `CONTEXT.md` for
@@ -414,3 +418,107 @@ Ambient Life here is ferns (they sway), dawn redwoods, cycads, a fallen log,
 drifting river mist, glints on the water, a far herd of
 hadrosaurs on the other bank and two pterosaurs in the haze. The far animals
 are flat silhouettes in a hazy tone so they never pass for Creatures.
+
+## 11. The forest Scene
+
+A sunlit clearing in a mixed temperate woodland, the kind found across North
+America and Europe: oaks, maples, pines and birches round an open glade with a
+stream and a trail. Its seventeen animals (`forest/roster.ts`) run from a
+chipmunk and a robin to a moose, with a gray wolf, a black bear and a moose as
+the Rare ones. It is drawn in the savanna's style, so §1 and §2 apply as they
+do there:
+
+- **Flat, friendly, the signature eye and the pink cheek** (`#ff7a8a` at
+  0.55), shaded with the same shape again in `#2b2b3a` at 0.15–0.4 and lit
+  with `#ffffff` at 0.12–0.2. Part groups set `transform-box: fill-box` and
+  their joint inline, as the savanna's do (§8), and use the savanna's part
+  classes (`part-tail`, `part-ears`, `part-head`, `part-wings`), which move
+  the same way in both Scenes.
+- **Palette:** the savanna's animal colours (`#7a5a44`, `#c98f5c`,
+  `#a87a34`, `#c99440`, `#8a7470`, `#8e9bb0`, `#68748a`, `#e08a5a`, plus the
+  shared cream, yellow, red, ink and white), with two additions: `#d9733f`
+  for the fox and `#5c4334` for the darkest browns (the moose, the beaver's
+  tail). Animals avoid large areas of green, so they stand out on the grass.
+  The black animals (skunk, bear) lift their black with a white overlay and
+  ring the eye in a lighter tone, so neither reads as a hole.
+- **Scenery** (`forest/ambient/`) is solid, muted and hazier with distance,
+  in sage and leaf greens with a few soft autumn trees. The backdrop's only
+  gradient is its light, prefixed `forest-backdrop-`. Ground animals walk the
+  savanna's band of the screen (`scenes/motion.ts`), so the clearing is open
+  from 62% of the way down to the bottom, and the sky over the canopy is
+  kept light for the owl and the woodpecker. Leaves fall, ferns sway and
+  motes drift; the far flock is a flat silhouette so it is never mistaken for
+  a Creature. There are no sunbeams: the clearing is open to the sky, so there
+  is no canopy for a beam to come through.
+- **Too Loud** is fog rolling in between the trees: banks of pale mist over
+  the clearing, thinning up into the canopy (`forest/scene.css`).
+- **The Note** is a trail sign: a plain planed board in a frame of four
+  rough logs with sawn, ringed ends, moss and two toadstools on the top log
+  and a fallen leaf on the bottom one, standing on a post (two under a long
+  sign). The logs are the border the teacher drags and resizes by, never
+  thinner than 14px, and nothing is drawn on the board
+  (`forest/noteShape.ts`).
+
+## 12. The jungle Scene
+
+The jungle (`src/lib/scenes/jungle/`) is drawn in the savanna's cartoon style:
+§1 and §2 apply as they stand, with the signature eye, the blush and the
+`#2b2b3a` overlay shading. It is the world's rainforests in one place, as the
+savanna is Africa's grasslands (see `jungle/roster.ts`).
+
+- **Palette.** The §1 table plus the savanna's fur tones (`#c98f5c`,
+  `#c99440`, `#7a5a44`) and a few jungle additions: lime `#9bd25a`, dark brown
+  `#5a3f2e`, rust `#d0703a`, jaguar gold `#e8a83c`, silver `#8e9bb0`, slate
+  `#68748a` and charcoal `#3d4050`. Green animals carry a lime or cream belly,
+  or a warm accent, so they still separate from the leaves behind them.
+- **Two levels to live on.** The forest floor is the savanna's ground band
+  (feet on the bottom edge of the viewBox, as there). Across the middle of the
+  backdrop runs a great bough: the climbers walk along it (`clamber`, feet on
+  the bottom edge), and the sloth hangs beneath it (`hang`), so its claws end
+  exactly on the **top** edge of its viewBox. Neither draws a branch: the
+  bough is the backdrop's (`BOUGH` and `BOUGH_UNDERSIDE` in
+  `scenes/motion.ts` say where it is).
+- **Part groups** set `transform-box: fill-box` and their joint inline, as the
+  savanna's do, and use the shared keyframes at the savanna's pace.
+
+Ambient Life is lianas hanging from the canopy (rooted at their top edge, so
+they sway from there), ferns, monstera, heliconia and understory palms on the
+floor (rooted at their bottom edge), mossy rocks, sunbeams with motes drifting
+in them, mist under the bough, streaks running down the far waterfall and a
+flock of parrots in silhouette. Every class in `jungle/scene.css` is prefixed
+`jungle-`, and the backdrop's one gradient is `jungle-backdrop-sky`. Too Loud
+is a tropical downpour: a still tile of rain streaks over a steamy haze.
+
+## 13. The Arctic Scene
+
+The edge of the sea ice at polar twilight: a snowfield running back to a
+lead of open water, icebergs and floes in it, snow-capped mountains on the far
+shore and the aurora overhead (`arctic/roster.ts` has the animals). It is
+drawn in the §1 style, eye, blush and all, and follows §2 as written. What it
+adds:
+
+- **White animals on snow.** Half the Roster is white. The snow is therefore
+  a cool twilight blue (`#d0dcea` far to `#adc2da` near) and the sky dark
+  overhead, so white and cream fur reads against both; the animals shade
+  their far legs and undersides with the `#2b2b3a` overlay, and every ground
+  animal has a contact shadow, an ellipse centred on the bottom edge of its
+  viewBox (only its top half shows).
+- **Swimmers are drawn from the waterline up.** The eider and the whales
+  surface in the open water (`paddle` in `scenes/motion.ts`), so the bottom
+  edge of their viewBox is the waterline: the body is simply cut off there,
+  with no water of its own drawn in the file. The app sets that edge on the
+  Scene's open water, so the animal sits in the Scene's water, not on a strip
+  of its own. The floes in Ambient Life use the same waterline convention.
+- **Palette.** §1's ink, highlight, cream, pinks, orange, red, yellow and
+  green, plus pale grey `#c3ccd6`, blue-grey `#8fa3bb`, slate `#5f6b7d`,
+  charcoal `#3a4250`, tans `#e6c79a` and `#b9875a`, browns `#8a6a4f` and
+  `#5a4434`, walrus `#c48e74` and antler `#cdb38f`.
+- **Ids** follow §2.5: none, or prefixed with the slug (a clip path). The
+  backdrop's and ambient art's are prefixed `arctic-`.
+
+Ambient Life is two aurora curtains that breathe slowly, two sheets of
+falling snow (one behind the animals, one in front), floes bobbing in the
+open water, pressure ridges, drifts, boulders and dry sedge that sways on the
+snowfield, and a far skein of geese in silhouette. Too Loud is a whiteout:
+the Scene pales and wind-blown streaks of snow cross it
+(`arctic/scene.css`).

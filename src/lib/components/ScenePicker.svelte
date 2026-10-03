@@ -9,7 +9,8 @@
 
   import type { App } from "$lib/app.svelte";
   import { t, type UiKey } from "$lib/i18n/index.svelte";
-  import { SCENES, type SceneId } from "$lib/scenes";
+  import type { SceneId } from "$lib/scenes";
+  import SceneMenu from "./SceneMenu.svelte";
 
   let { app, open = $bindable(false) }: { app: App; open?: boolean } = $props();
 
@@ -61,49 +62,8 @@
   </button>
 
   {#if open}
-    <div id="scene-menu" class="absolute right-0 bottom-full z-10 pb-2">
-      <div
-        class="w-64 max-w-[calc(100vw-2rem)] rounded-2xl bg-white/95 p-1.5 shadow-lg"
-      >
-        <ul class="max-h-[50dvh] overflow-y-auto">
-          {#each Object.values(SCENES) as scene (scene.id)}
-            {@const current = scene.id === app.scene.id}
-            <li>
-              <button
-                type="button"
-                class="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm hover:bg-slate-100 {current
-                  ? 'text-slate-900'
-                  : 'text-slate-700'}"
-                aria-current={current}
-                onclick={() => choose(scene.id)}
-              >
-                <span class="min-w-0 flex-1">
-                  <span class="block" class:font-semibold={current}
-                    >{t(`scene.${scene.id}.name` as UiKey)}</span
-                  >
-                  <span class="block text-xs text-slate-500"
-                    >{t(`scene.${scene.id}.hint` as UiKey)}</span
-                  >
-                </span>
-                {#if current}
-                  <svg
-                    viewBox="0 0 24 24"
-                    class="size-4 shrink-0"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="m5 12 5 5 9-10" />
-                  </svg>
-                {/if}
-              </button>
-            </li>
-          {/each}
-        </ul>
-      </div>
+    <div class="absolute right-0 bottom-full z-10 pb-2">
+      <SceneMenu id="scene-menu" chosen={app.scene.id} onchoose={choose} />
     </div>
   {/if}
 </div>

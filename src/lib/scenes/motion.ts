@@ -45,7 +45,18 @@ export type MotionStyle =
   /** Space: turns over slowly on the spot, drifting a little. */
   | "tumble"
   /** Space: a vast object that barely moves, like a planet or a galaxy. */
-  | "loom";
+  | "loom"
+  /** Jungle: walks the great bough, stopping to look about. */
+  | "clamber"
+  /** Jungle: hangs under the bough and creeps along it, barely moving. */
+  | "hang"
+  /** Jungle: short quick hops across the forest floor, long sits between. */
+  | "hop"
+  /**
+   * Arctic: swims along the open water between the ice, surfaced, with long
+   * rests. Drawn from the waterline up, so its feet are the waterline.
+   */
+  | "paddle";
 
 interface Region {
   xMin: number;
@@ -93,6 +104,11 @@ export interface MotionProfile {
    * only the ground their depth is layered against (`creatureLayer`).
    */
   band?: { top: number; bottom: number };
+  /**
+   * Hangs beneath the ground line rather than standing on it, like a sloth
+   * from a branch: the top of its box is on the line, not the bottom.
+   */
+  hangs?: boolean;
 }
 
 /** The sand in backdrop.svg, as fractions of Scene height. */
@@ -103,6 +119,21 @@ export const SAND_BOTTOM = 0.98;
 const PLAIN = { top: 0.62, bottom: 0.97 };
 
 const WATER: Region = { xMin: 0.06, xMax: 0.94, yMin: 0.1, yMax: 0.78 };
+
+/**
+ * The great bough across the jungle backdrop, as fractions of Scene height:
+ * where the feet of everything walking along it rest, far side to near.
+ */
+export const BOUGH = { top: 0.5, bottom: 0.525 };
+
+/** The underside of that bough, which the sloth hooks its claws round. */
+const BOUGH_UNDERSIDE = { top: 0.546, bottom: 0.556 };
+
+/**
+ * The open water between the far shore and the near ice in the arctic
+ * backdrop, as fractions of Scene height: where a swimmer's waterline runs.
+ */
+const OPEN_WATER = { top: 0.54, bottom: 0.598 };
 
 /** Open sky, all the way down to the planet's limb at the bottom. */
 const SKY: Region = { xMin: 0.05, xMax: 0.95, yMin: 0.06, yMax: 0.86 };
@@ -333,6 +364,65 @@ export const MOTION_PROFILES: Record<MotionStyle, MotionProfile> = {
     tilts: false,
     ground: false,
   },
+  clamber: {
+    region: { xMin: 0.04, xMax: 0.96, yMin: 0, yMax: 1 },
+    speed: 0.018,
+    agility: 3,
+    reachX: 0.4,
+    reachY: 0,
+    restChance: 0.65,
+    rest: [2, 7],
+    pulse: 0,
+    flips: true,
+    tilts: false,
+    ground: true,
+    band: BOUGH,
+  },
+  hang: {
+    region: { xMin: 0.04, xMax: 0.96, yMin: 0, yMax: 1 },
+    speed: 0.003,
+    agility: 1,
+    reachX: 0.08,
+    reachY: 0,
+    restChance: 0.8,
+    rest: [8, 20],
+    pulse: 0,
+    flips: true,
+    tilts: false,
+    ground: true,
+    band: BOUGH_UNDERSIDE,
+    hangs: true,
+  },
+  hop: {
+    region: { xMin: 0.04, xMax: 0.96, yMin: 0, yMax: 1 },
+    speed: 0.05,
+    agility: 8,
+    reachX: 0.12,
+    reachY: 0,
+    restChance: 0.9,
+    rest: [1.5, 6],
+    pulse: 0,
+    flips: true,
+    tilts: false,
+    ground: true,
+    band: PLAIN,
+  },
+  paddle: {
+    region: { xMin: 0.04, xMax: 0.96, yMin: 0, yMax: 1 },
+    speed: 0.014,
+    agility: 1.2,
+    reachX: 0.5,
+    reachY: 0,
+    restChance: 0.55,
+    rest: [3, 9],
+    pulse: 0,
+    flips: true,
+    tilts: false,
+    // On the water rather than in it: it keeps to its waterline the way a
+    // walker keeps to the ground.
+    ground: true,
+    band: OPEN_WATER,
+  },
 };
 
 export interface MotionState {
@@ -406,7 +496,8 @@ function bounds(
   const x = xMin <= xMax ? { xMin, xMax } : { xMin: 0.5, xMax: 0.5 };
 
   if (profile.ground) {
-    const y = groundLine(depth, profile.band) - halfH;
+    const line = groundLine(depth, profile.band);
+    const y = profile.hangs ? line + halfH : line - halfH;
     return { ...x, yMin: y, yMax: y };
   }
   const yMin = Math.max(profile.region.yMin, halfH);

@@ -13,21 +13,40 @@ import {
   signShape,
   type Rect,
 } from "./noteArt";
+import ArcticAmbient from "./arctic/AmbientLife.svelte";
+import * as arcticArt from "./arctic/artwork";
+import arcticIcon from "./arctic/icon.svg";
+import { ARCTIC_NOTE } from "./arctic/note";
+import { ARCTIC_ROSTER } from "./arctic/roster";
+import ForestAmbient from "./forest/AmbientLife.svelte";
+import * as forestArt from "./forest/artwork";
+import forestIcon from "./forest/icon.svg";
+import { FOREST_NOTE } from "./forest/note";
+import { FOREST_ROSTER } from "./forest/roster";
+import JungleAmbient from "./jungle/AmbientLife.svelte";
+import * as jungleArt from "./jungle/artwork";
+import jungleIcon from "./jungle/icon.svg";
+import { JUNGLE_NOTE } from "./jungle/note";
+import { JUNGLE_ROSTER } from "./jungle/roster";
 import type { DepartureStyle } from "./motion";
 import PrehistoricAmbient from "./prehistoric/AmbientLife.svelte";
 import * as prehistoricArt from "./prehistoric/artwork";
+import prehistoricIcon from "./prehistoric/icon.svg";
 import { PREHISTORIC_NOTE } from "./prehistoric/note";
 import { PREHISTORIC_ROSTER } from "./prehistoric/roster";
 import ReefAmbient from "./reef/AmbientLife.svelte";
 import * as reefArt from "./reef/artwork";
+import reefIcon from "./reef/icon.svg";
 import ReefNoteArt from "./reef/NoteArt.svelte";
 import { REEF_ROSTER } from "./reef/roster";
 import SavannaAmbient from "./savanna/AmbientLife.svelte";
 import * as savannaArt from "./savanna/artwork";
+import savannaIcon from "./savanna/icon.svg";
 import SavannaNoteArt from "./savanna/NoteArt.svelte";
 import { SAVANNA_ROSTER } from "./savanna/roster";
 import SpaceAmbient from "./space/AmbientLife.svelte";
 import * as spaceArt from "./space/artwork";
+import spaceIcon from "./space/icon.svg";
 import { SPACE_NOTE } from "./space/note";
 import { SPACE_ROSTER } from "./space/roster";
 import type { CreatureDef, SceneId } from "./types";
@@ -54,6 +73,8 @@ export interface NoteLook {
 
 export interface SceneDef {
   id: SceneId;
+  /** The URL of a small tile picturing the Scene, beside its name in menus. */
+  icon: string;
   roster: CreatureDef[];
   creatureArt: Record<string, string>;
   ambientArt: Record<string, string>;
@@ -75,6 +96,7 @@ export interface SceneDef {
 export const SCENES: Record<SceneId, SceneDef> = {
   savanna: {
     id: "savanna",
+    icon: savannaIcon,
     roster: SAVANNA_ROSTER,
     creatureArt: savannaArt.CREATURE_ART,
     ambientArt: savannaArt.AMBIENT_ART,
@@ -93,6 +115,7 @@ export const SCENES: Record<SceneId, SceneDef> = {
   },
   reef: {
     id: "reef",
+    icon: reefIcon,
     roster: REEF_ROSTER,
     creatureArt: reefArt.CREATURE_ART,
     ambientArt: reefArt.AMBIENT_ART,
@@ -111,6 +134,7 @@ export const SCENES: Record<SceneId, SceneDef> = {
   },
   space: {
     id: "space",
+    icon: spaceIcon,
     roster: SPACE_ROSTER,
     creatureArt: spaceArt.CREATURE_ART,
     ambientArt: spaceArt.AMBIENT_ART,
@@ -123,6 +147,7 @@ export const SCENES: Record<SceneId, SceneDef> = {
   },
   prehistoric: {
     id: "prehistoric",
+    icon: prehistoricIcon,
     roster: PREHISTORIC_ROSTER,
     creatureArt: prehistoricArt.CREATURE_ART,
     ambientArt: prehistoricArt.AMBIENT_ART,
@@ -130,5 +155,39 @@ export const SCENES: Record<SceneId, SceneDef> = {
     depthFade: false,
     departure: "run",
     note: PREHISTORIC_NOTE,
+  },
+  forest: {
+    id: "forest",
+    icon: forestIcon,
+    roster: FOREST_ROSTER,
+    creatureArt: forestArt.CREATURE_ART,
+    ambientArt: forestArt.AMBIENT_ART,
+    Ambient: ForestAmbient,
+    depthFade: false,
+    departure: "run",
+    note: FOREST_NOTE,
+  },
+  jungle: {
+    id: "jungle",
+    icon: jungleIcon,
+    roster: JUNGLE_ROSTER,
+    creatureArt: jungleArt.CREATURE_ART,
+    ambientArt: jungleArt.AMBIENT_ART,
+    Ambient: JungleAmbient,
+    depthFade: false,
+    departure: "run",
+    note: JUNGLE_NOTE,
+  },
+  arctic: {
+    id: "arctic",
+    icon: arcticIcon,
+    roster: ARCTIC_ROSTER,
+    creatureArt: arcticArt.CREATURE_ART,
+    ambientArt: arcticArt.AMBIENT_ART,
+    Ambient: ArcticAmbient,
+    // Open air over the ice, as on the savanna.
+    depthFade: false,
+    departure: "run",
+    note: ARCTIC_NOTE,
   },
 };

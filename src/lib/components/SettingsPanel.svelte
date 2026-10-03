@@ -86,9 +86,36 @@
     </section>
 
     <section class="mt-6 space-y-3">
-      <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">
-        {t("settings.meter")}
-      </h2>
+      <div class="flex items-center justify-between gap-3">
+        <h2
+          class="text-sm font-semibold tracking-wide text-slate-500 uppercase"
+        >
+          {t("settings.meter")}
+        </h2>
+        <!-- A plain label and switch, unlike the panel's choice buttons: it
+             turns one thing on, rather than picking between options. -->
+        <button
+          class="flex shrink-0 items-center gap-2 text-sm text-slate-600"
+          role="switch"
+          aria-checked={settings.showMeter}
+          title={t("settings.showMeterHint")}
+          onclick={() => (settings.showMeter = !settings.showMeter)}
+        >
+          {t("settings.showMeter")}
+          <span
+            class="relative h-5 w-9 rounded-full transition-colors {settings.showMeter
+              ? 'bg-slate-900'
+              : 'bg-slate-300'}"
+            aria-hidden="true"
+          >
+            <span
+              class="absolute top-0.5 left-0.5 size-4 rounded-full bg-white shadow-sm transition-transform {settings.showMeter
+                ? 'translate-x-4'
+                : ''}"
+            ></span>
+          </span>
+        </button>
+      </div>
       <LevelMeter
         sceneId={app.scene.id}
         level={app.monitor.level}

@@ -119,7 +119,7 @@
 {/each}
 
 <!-- Ferns, trees, cycads and logs, rooted in the ground. -->
-{#each ground as piece (piece.x)}
+{#each ground as piece (`${piece.x}:${piece.base}`)}
   {#if piece.fern}
     <div
       class="fern pointer-events-none absolute"
