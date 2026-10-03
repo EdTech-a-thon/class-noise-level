@@ -1,8 +1,8 @@
 /**
  * How a Note is drawn in the arctic Scene: a block of blue sea ice standing
  * in the twilight sky, with a smooth pane of packed snow set into it for the
- * words. Snow lies along its top, icicles hang from its foot, and frost
- * glints on its corners; all of that is on the ice frame, never on the pane.
+ * words. Snow lies along its top and icicles hang from its foot; all of that is on
+ * the ice frame, never on the pane.
  * The frame is the Note's border, what the teacher grabs to move and resize
  * it, so it is thick, solid and edged in a darker blue all the way round.
  *
@@ -39,8 +39,6 @@ export interface IceShape {
   /** Snow lying along the top of the frame: a bank and the lumps on it. */
   snow: { bank: Box; lumps: Circle[] };
   icicles: Icicle[];
-  /** Frost glints on the frame's corners, as four-pointed stars. */
-  glints: { x: number; y: number; size: number }[];
   writing: Rect;
 }
 
@@ -154,18 +152,6 @@ export function iceShape(width: number, height: number): IceShape {
     };
   });
 
-  // Frost glints in the frame's corners, clear of the pane.
-  const glint = rim * 0.3;
-  const glints = [
-    { x: left + rim * 0.5, y: bottom - rim * 0.5, size: glint },
-    { x: right - rim * 0.5, y: bottom - rim * 0.5, size: glint * 0.75 },
-    {
-      x: right - rim * 0.5,
-      y: top + rim * 0.55 + rim * 0.5,
-      size: glint * 0.6,
-    },
-  ];
-
   // Room between the frame and the words.
   const margin = Math.max(rim * 0.5, unit * 0.045);
 
@@ -177,7 +163,6 @@ export function iceShape(width: number, height: number): IceShape {
     recess: rim * 0.14,
     snow: { bank, lumps },
     icicles,
-    glints,
     writing: {
       left: panel.x + margin,
       right: panel.x + panel.width - margin,
@@ -200,27 +185,6 @@ export function iciclePath({ x, top, tip, half }: Icicle): string {
     `L ${x + half} ${top}`,
     `C ${x + half} ${shoulder}, ${x + half * 0.3} ${tip - half}, ${x} ${tip}`,
     `C ${x - half * 0.3} ${tip - half}, ${x - half} ${shoulder}, ${x - half} ${top}`,
-    "Z",
-  ].join(" ");
-}
-
-/** A four-pointed frost glint about its centre. */
-export function glintPath({
-  x,
-  y,
-  size,
-}: {
-  x: number;
-  y: number;
-  size: number;
-}): string {
-  const w = size * 0.22;
-  return [
-    `M ${x} ${y - size}`,
-    `Q ${x + w} ${y - w}, ${x + size} ${y}`,
-    `Q ${x + w} ${y + w}, ${x} ${y + size}`,
-    `Q ${x - w} ${y + w}, ${x - size} ${y}`,
-    `Q ${x - w} ${y - w}, ${x} ${y - size}`,
     "Z",
   ].join(" ");
 }

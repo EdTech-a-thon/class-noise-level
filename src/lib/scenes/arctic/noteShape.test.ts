@@ -2,7 +2,6 @@ import { describe, expect, test } from "bun:test";
 import { PEN_COLOURS, type Box, type Rect } from "../noteArt";
 import {
   ARCTIC_DARK_INK,
-  glintPath,
   ICE,
   iceShape,
   iceSurface,
@@ -85,7 +84,7 @@ function contrast(a: string, b: string) {
 
 describe("iceShape", () => {
   test.each(SIZES)("stays inside a %ix%i Note", (width, height) => {
-    const { frame, snow, icicles, glints } = iceShape(width, height);
+    const { frame, snow, icicles } = iceShape(width, height);
     const note: Box = { x: 0, y: 0, width, height, rx: 0 };
     expect(within({ x: frame.x, y: frame.y }, note)).toBe(true);
     expect(
@@ -94,10 +93,9 @@ describe("iceShape", () => {
     for (const lump of snow.lumps)
       for (const point of round(lump.cx, lump.cy, lump.r))
         expect(within(point, note, 0.01)).toBe(true);
-    for (const point of [
-      ...icicles.flatMap((icicle) => pointsOf(iciclePath(icicle))),
-      ...glints.flatMap((glint) => pointsOf(glintPath(glint))),
-    ])
+    for (const point of icicles.flatMap((icicle) =>
+      pointsOf(iciclePath(icicle)),
+    ))
       expect(within(point, note, 0.01)).toBe(true);
   });
 
@@ -136,9 +134,9 @@ describe("iceShape", () => {
 
   // The whole point of the plain pane: nothing on the ice crosses the words.
   test.each(SIZES)(
-    "keeps the snow, icicles and frost off the pane of a %ix%i Note",
+    "keeps the snow and icicles off the pane of a %ix%i Note",
     (width, height) => {
-      const { panel, frame, snow, icicles, glints } = iceShape(width, height);
+      const { panel, snow, icicles } = iceShape(width, height);
       const bank = snow.bank;
       for (const corner of [
         { x: bank.x, y: bank.y + bank.height },
@@ -148,14 +146,10 @@ describe("iceShape", () => {
       for (const lump of snow.lumps)
         for (const point of round(lump.cx, lump.cy, lump.r))
           expect(onPanel(point, panel)).toBe(false);
-      for (const point of [
-        ...icicles.flatMap((icicle) => pointsOf(iciclePath(icicle))),
-        ...glints.flatMap((glint) => pointsOf(glintPath(glint))),
-      ])
+      for (const point of icicles.flatMap((icicle) =>
+        pointsOf(iciclePath(icicle)),
+      ))
         expect(onPanel(point, panel)).toBe(false);
-      // Every glint is on the frame itself, not out in the sky.
-      for (const point of glints.flatMap((glint) => pointsOf(glintPath(glint))))
-        expect(within(point, frame, 0.01)).toBe(true);
     },
   );
 

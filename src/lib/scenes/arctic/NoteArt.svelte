@@ -1,18 +1,13 @@
 <script lang="ts">
   /**
    * A Note in the arctic Scene: a block of blue sea ice with a smooth pane of
-   * packed snow for the teacher's words, snow heaped along its top, icicles
-   * hanging from its foot and frost glinting on its corners. Drawn at the
+   * packed snow for the teacher's words, snow heaped along its top and icicles
+   * hanging from its foot. Drawn at the
    * Note's own size (`arctic/noteShape.ts`), so stretching it never thickens
    * the frame or stretches the icicles.
    */
 
-  import {
-    glintPath,
-    ICE,
-    iceShape,
-    iciclePath,
-  } from "$lib/scenes/arctic/noteShape";
+  import { ICE, iceShape, iciclePath } from "$lib/scenes/arctic/noteShape";
 
   let { width, height }: { width: number; height: number } = $props();
 
@@ -195,8 +190,4 @@
       <circle cx={lump.cx} cy={lump.cy} r={lump.r} />
     {/each}
   </g>
-
-  {#each shape.glints as glint, i (i)}
-    <path d={glintPath(glint)} fill={ICE.snow} opacity="0.9" />
-  {/each}
 </svg>
