@@ -1,3 +1,17 @@
+<script lang="ts" module>
+  // The cards show the art as an image rather than inline: they never animate,
+  // and one URL per animal, kept for the page's life, lets the browser reuse
+  // the image it drew instead of repainting every SVG on each Scene switch.
+  const artUrls: Record<string, string> = {};
+
+  function artUrl(key: string, svg: string) {
+    artUrls[key] ??= URL.createObjectURL(
+      new Blob([svg], { type: "image/svg+xml" }),
+    );
+    return artUrls[key];
+  }
+</script>
+
 <script lang="ts">
   /**
    * Every animal a Scene can bring, by rarity, with how many times each has
@@ -51,14 +65,15 @@
   onclick={(event) => event.target === event.currentTarget && onclose()}
 >
   <div
-    class="flex max-h-full w-full max-w-3xl flex-col rounded-xl bg-white shadow-xl"
+    class="relative flex max-h-full w-full max-w-3xl flex-col rounded-xl bg-white shadow-xl"
     role="dialog"
     aria-modal="true"
     aria-label={tIn(sceneId, "collection.title")}
   >
-    <!-- On a phone the Scene picker drops to its own row, under the title. -->
+    <!-- On a phone the Scene picker drops to its own row, under the title. The
+         close button sits in the corner, clear of both. -->
     <div
-      class="flex flex-wrap items-start gap-x-4 gap-y-3 p-4 pb-3 sm:p-6 sm:pb-4"
+      class="flex flex-wrap items-start gap-x-4 gap-y-3 p-4 pr-12 pb-3 sm:p-6 sm:pr-14 sm:pb-4"
     >
       <div class="mr-auto">
         <h1 class="text-xl font-semibold text-slate-900">
@@ -90,7 +105,7 @@
         {/each}
       </div>
       <button
-        class="-mt-1 -mr-2 grid size-8 place-items-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 sm:-mr-3"
+        class="absolute top-3 right-3 grid size-8 place-items-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 sm:top-4 sm:right-4"
         aria-label={t("common.close")}
         title={t("common.close")}
         onclick={onclose}
@@ -156,11 +171,18 @@
                     : 'border-slate-200'}"
                 >
                   <div
-                    class="art grid h-16 w-full place-items-center"
+                    class="flex h-12 w-full items-center justify-center"
                     class:unseen={count === 0}
                   >
-                    <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-                    {@html scene.creatureArt[def.slug]}
+                    <img
+                      src={artUrl(
+                        `${sceneId}/${def.slug}`,
+                        scene.creatureArt[def.slug],
+                      )}
+                      alt=""
+                      draggable="false"
+                      class="size-full object-contain"
+                    />
                   </div>
                   <!-- Long names break at their soft hyphens (see i18n) to fit the card. -->
                   <span
@@ -183,11 +205,6 @@
 </div>
 
 <style>
-  .art :global(svg) {
-    max-width: 100%;
-    max-height: 100%;
-  }
-
   .unseen {
     filter: brightness(0);
     opacity: 0.2;
