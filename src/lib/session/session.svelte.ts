@@ -22,7 +22,7 @@ import {
   fleeCount,
   type ScareClock,
 } from "./scareClock";
-import { loadReef, saveReef } from "./savedReef";
+import { loadArrived, loadReef, saveArrived, saveReef } from "./savedReef";
 import { sightings } from "./sightings.svelte";
 
 /** One Creature actually in the water, and where it first appears. */
@@ -54,6 +54,11 @@ export class Session {
    * of sight (`depart`), but already gone as far as a refresh is concerned.
    */
   fleeing = $state<number[]>([]);
+  /**
+   * How many Creatures have arrived this Session, in every Scene, for the
+   * arrival counter. Only Reset lowers it: one that Runs Away still came.
+   */
+  arrived = $state(0);
 
   #clock: ArrivalClock;
   #scare: ScareClock = createScareClock();
@@ -84,6 +89,7 @@ export class Session {
     // $effect, and reading state it has just written would re-run it forever.
     const restored = loadReef(this.#sceneId, this.#roster);
     this.creatures = restored;
+    this.arrived = loadArrived();
     this.newestId = null;
     this.fleeing = [];
     this.#nextId = Math.max(0, ...restored.map(({ id }) => id)) + 1;
@@ -126,11 +132,13 @@ export class Session {
   reset(intervalMs: number) {
     this.running = false;
     this.creatures = [];
+    this.arrived = 0;
     this.newestId = null;
     this.fleeing = [];
     this.#clock = createArrivalClock(intervalMs, this.#random);
     this.#scare = createScareClock();
     this.#save();
+    saveArrived(0);
   }
 
   /** Fraction of the way to the next arrival — teacher-facing only. */
@@ -214,7 +222,9 @@ export class Session {
     const instance = this.#place(def);
     this.creatures = [...this.creatures, instance];
     this.newestId = instance.id;
+    this.arrived += 1;
     this.#save();
+    saveArrived(this.arrived);
     sightings.record(this.#sceneId, def.slug);
   }
 
