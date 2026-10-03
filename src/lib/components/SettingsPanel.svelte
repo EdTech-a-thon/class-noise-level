@@ -224,6 +224,16 @@
         />
         {t("settings.minutes")}
       </label>
+      <label class="flex items-center gap-2 text-sm text-slate-600">
+        <input
+          type="checkbox"
+          class="size-4 shrink-0 accent-slate-900"
+          checked={settings.showCounter}
+          onchange={(event) =>
+            (settings.showCounter = event.currentTarget.checked)}
+        />
+        {tIn(app.scene.id, "settings.showCounter")}
+      </label>
     </section>
 
     <section class="mt-6 space-y-3">

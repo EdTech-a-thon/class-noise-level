@@ -54,6 +54,8 @@ interface StoredSettings {
   loudResponse: LoudResponse;
   /** Keep the Noise Meter up over the Scene, not just in Settings. */
   showMeter: boolean;
+  /** Keep a count of the Creatures that have arrived up over the Scene. */
+  showCounter: boolean;
 }
 
 const DEFAULTS: StoredSettings = {
@@ -66,6 +68,7 @@ const DEFAULTS: StoredSettings = {
   arrivalMinutes: ARRIVAL_RATE_PRESETS.normal.minutes,
   loudResponse: "flee",
   showMeter: false,
+  showCounter: false,
 };
 
 function read(): StoredSettings {
@@ -215,6 +218,15 @@ class Settings {
 
   set showMeter(value: boolean) {
     this.#stored = { ...this.#stored, showMeter: value };
+    this.#save();
+  }
+
+  get showCounter() {
+    return this.#stored.showCounter;
+  }
+
+  set showCounter(value: boolean) {
+    this.#stored = { ...this.#stored, showCounter: value };
     this.#save();
   }
 

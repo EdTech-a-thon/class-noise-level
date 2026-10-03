@@ -72,3 +72,29 @@ export function saveReef(sceneId: string, creatures: CreatureInstance[]) {
     // Browsing privately: the reef still fills, it just forgets on refresh.
   }
 }
+
+/**
+ * How many Creatures have arrived this Session, for the arrival counter. One
+ * count for the Class across every Scene, so switching Scene carries it
+ * over; Reset clears it, but one that Runs Away never lowers it.
+ */
+export function loadArrived(): number {
+  if (!browser) return 0;
+  try {
+    const saved = Number(localStorage.getItem(storageKey("arrived")));
+    return Number.isInteger(saved) && saved > 0 ? saved : 0;
+  } catch {
+    return 0;
+  }
+}
+
+export function saveArrived(arrived: number) {
+  if (!browser) return;
+  try {
+    const key = storageKey("arrived");
+    if (arrived === 0) localStorage.removeItem(key);
+    else localStorage.setItem(key, String(arrived));
+  } catch {
+    // Browsing privately: the count still climbs, it just forgets on refresh.
+  }
+}

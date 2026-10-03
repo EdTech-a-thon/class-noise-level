@@ -11,6 +11,7 @@
   import NotesLayer from "$lib/components/notes/NotesLayer.svelte";
   import Scene from "$lib/components/Scene.svelte";
   import ScreenMeter from "$lib/components/ScreenMeter.svelte";
+  import ArrivalCounter from "$lib/components/ArrivalCounter.svelte";
   import SettingsPanel from "$lib/components/SettingsPanel.svelte";
   import Timer from "$lib/components/Timer.svelte";
   import BrandChip from "$lib/components/BrandChip.svelte";
@@ -372,17 +373,24 @@
   {/if}
 
   <!-- Bottom left: help for the teacher, out of the way of the controls
-       above and fading with them. On a phone the control bar spans the
-       bottom edge, so during a Session it sits just above the bar. -->
+       above and fading with them, and the arrival counter, if the teacher
+       turned it on in Settings, which stays up in the corner when they fade.
+       On a phone the control bar spans the bottom edge, so during a Session
+       they sit just above the bar. -->
   <div
-    class="safe-edges pointer-events-none absolute bottom-0 left-0 z-40 p-4 transition-opacity duration-300 {app.listening
+    class="safe-edges pointer-events-none absolute bottom-0 left-0 z-40 flex gap-2 p-4 {app.listening
       ? 'max-sm:bottom-16'
       : ''}"
-    class:opacity-0={!topBarVisible}
-    aria-hidden={!topBarVisible}
-    inert={!topBarVisible}
   >
-    <div class="pointer-events-auto">
+    {#if app.listening && settings.showCounter}
+      <ArrivalCounter sceneId={app.scene.id} count={app.session.arrived} />
+    {/if}
+    <div
+      class="pointer-events-auto transition-opacity duration-300"
+      class:opacity-0={!topBarVisible}
+      aria-hidden={!topBarVisible}
+      inert={!topBarVisible}
+    >
       <button
         class="grid size-11 place-items-center rounded-full bg-white/95 text-slate-700 shadow-lg hover:bg-white"
         aria-label={t("guide.title")}

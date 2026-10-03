@@ -138,6 +138,8 @@ const en = {
     "settings.arrival": "How often animals arrive",
     "settings.aboutEvery": "About one animal every",
     "settings.minutes": "minutes",
+    "settings.showCounter": "Count animals as they arrive",
+    "counter.label": "Animals arrived: {count}",
     "settings.tryIt": "Try it out",
     "settings.summon": "Bring out every animal",
     "settings.savedNote":
@@ -521,6 +523,8 @@ const enScenes = {
     "settings.aboutEvery": "About one sighting every",
     "settings.summon": "Bring in every sighting",
     "rate.hint": "about one sighting every {minutes} minutes",
+    "settings.showCounter": "Count sightings as they come in",
+    "counter.label": "Sightings so far: {count}",
     "meter.paused": "Paused — too much interference",
     "meter.arriving": "Signals are coming in",
     "meter.goal":
@@ -683,6 +687,8 @@ const es = {
     "settings.arrival": "Con qué frecuencia llegan animales",
     "settings.aboutEvery": "Más o menos un animal cada",
     "settings.minutes": "minutos",
+    "settings.showCounter": "Contar los animales a medida que llegan",
+    "counter.label": "Animales que han llegado: {count}",
     "settings.tryIt": "Pruébalo",
     "settings.summon": "Sacar a todos los animales",
     "settings.savedNote":
@@ -863,6 +869,8 @@ const es = {
       "settings.aboutEvery": "Más o menos un avistamiento cada",
       "settings.summon": "Traer todos los avistamientos",
       "rate.hint": "más o menos un avistamiento cada {minutes} minutos",
+      "settings.showCounter": "Contar los avistamientos a medida que llegan",
+      "counter.label": "Avistamientos hasta ahora: {count}",
       "meter.paused": "En pausa — demasiadas interferencias",
       "meter.arriving": "Están llegando señales",
       "meter.goal":
@@ -1199,6 +1207,8 @@ const fr = {
     "settings.arrival": "Fréquence d’arrivée des animaux",
     "settings.aboutEvery": "Environ un animal toutes les",
     "settings.minutes": "minutes",
+    "settings.showCounter": "Compter les animaux à mesure qu’ils arrivent",
+    "counter.label": "Animaux arrivés : {count}",
     "settings.tryIt": "Essayer",
     "settings.summon": "Faire sortir tous les animaux",
     "settings.savedNote":
@@ -1380,6 +1390,9 @@ const fr = {
       "settings.aboutEvery": "Environ une observation toutes les",
       "settings.summon": "Faire apparaître toutes les observations",
       "rate.hint": "environ une observation toutes les {minutes} minutes",
+      "settings.showCounter":
+        "Compter les observations à mesure qu’elles arrivent",
+      "counter.label": "Observations jusqu’ici : {count}",
       "meter.paused": "En pause — trop d’interférences",
       "meter.arriving": "Des signaux arrivent",
       "meter.goal":
